@@ -8,27 +8,47 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+  <a class="skip-link" href="#content">Skip to support</a>
   <header>
     <p class="eyebrow">Couples Alarm</p>
     <h1>Support</h1>
     <p class="meta">Couples Alarm requires an iPhone running iOS 26 or later.</p>
+    <nav aria-label="Support navigation">
+      <a href="../">Help home</a>
+      <a href="../privacy/">Privacy</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
-  <main>
+  <main id="content">
+    <section class="notice" aria-labelledby="alarm-problem">
+      <h2 id="alarm-problem">An alarm did not work as expected</h2>
+      <p>Keep using an alarm you already trust until you have tested Couples Alarm again. Open the app, confirm the saved sound and schedule, then create a near-future test alarm from the phone’s intended bedside position. Delete the test after it fires.</p>
+      <p>If the alarm is missing, uses the wrong sound, fires at the wrong time, or does not fire, contact support with the iPhone model, iOS version, Couples Alarm version, requested sound, scheduled time, and what happened. Do not include partner names or listening results.</p>
+    </section>
+
     <h2>Alarm access is off</h2>
     <p>Open Couples Alarm, find <strong>Alarm access</strong>, and tap <strong>Open Settings</strong>. Enable Alarm access, return to the app, and create the alarm again.</p>
 
-    <h2>No tone was suggested</h2>
-    <p>Run the two-partner calibration again in a quiet room. Use the phone speaker at arm’s length and a low, comfortable volume. Do not use headphones or increase the volume to chase a frequency. If the app still finds no suitable bundled tone, keep using an alarm you already trust.</p>
+    <h2>The alarm is not loud enough</h2>
+    <ol>
+      <li>Open iPhone <strong>Settings → Sounds &amp; Haptics</strong>. Move <strong>Ringtone &amp; Alerts</strong> to the right and turn <strong>Change with Buttons</strong> off.</li>
+      <li>Open <strong>Settings → Sounds &amp; Haptics → Volume Limit</strong> and turn <strong>Limit Maximum Volume</strong> off.</li>
+      <li>In Couples Alarm, open <strong>Settings → Alarm not loud enough?</strong> and run the 30-second real alarm test.</li>
+    </ol>
+    <p>These changes also affect other calls, alerts, and speaker audio. If the real test is still not loud enough, do not rely on Couples Alarm as your only alarm.</p>
 
-    <h2>An alarm is missing or uses the wrong tone</h2>
-    <p>Open Couples Alarm so it can reconcile its saved list with AlarmKit. Confirm the tone shown in the app, then create a near-future alarm and listen from the phone’s intended bedside position. Delete that alarm after the check. Do not rely on an unverified alarm.</p>
+    <h2>No tone was suggested</h2>
+    <p>Retake both listening turns only if a result seemed wrong. Use the iPhone speaker in a quiet room, disconnect headphones, and follow the volume instructions shown in the app. If no bundled tone supports the selected waking order, Couples Alarm will not guess or swap the partners. Keep using an alarm you already trust for that schedule.</p>
+
+    <h2>Reminder notifications are off</h2>
+    <p>Free-month reminders are optional. Open iPhone <strong>Settings → Notifications → Couples Alarm</strong> to change them. Turning reminders off does not turn off alarms scheduled through AlarmKit.</p>
 
     <h2>Remove saved information</h2>
-    <p>Delete individual alarms from the alarm list. To remove both profiles, their listening observations, the confirmed tone, and every saved alarm, open <strong>Settings</strong>, choose <strong>Retake listening test</strong>, and confirm.</p>
+    <p>Delete an individual alarm from the alarm list. To remove both profiles, listening results, the confirmed sound, and every alarm from this iPhone, open <strong>Settings → Erase All Data</strong> and confirm. <strong>Retake listening test</strong> keeps alarms saved but pauses them until both partners confirm a new sound.</p>
 
-    <div class="contact">
+    <div class="contact" id="contact">
       <h2>Contact support</h2>
-      <p>Open <strong>Settings → Contact Support</strong> in Couples Alarm, or email <a href="mailto:couplesalarm.support@gmail.com?subject=Couples%20Alarm%20support">couplesalarm.support@gmail.com</a>. Include the iPhone model, iOS version, Couples Alarm version, requested tone, and what happened. Do not include partner names, listening observations, or other sensitive information.</p>
+      <p>Open <strong>Settings → Feedback &amp; Support</strong> in Couples Alarm, or email <a href="mailto:couplesalarm.support@gmail.com?subject=Couples%20Alarm%20feedback%20and%20support">couplesalarm.support@gmail.com</a>. The in-app message includes the app and iOS versions for you to review before sending. Do not include partner names, listening results, or other sensitive information.</p>
     </div>
   </main>
   <footer>

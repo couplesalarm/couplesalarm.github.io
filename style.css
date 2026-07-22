@@ -67,6 +67,39 @@ a {
   color: var(--accent);
 }
 
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -5rem;
+  z-index: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--text);
+  color: var(--background);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+nav a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
 .eyebrow {
   margin: 0 0 0.5rem;
   color: var(--accent);
@@ -86,4 +119,36 @@ a {
   border: 1px solid var(--border);
   border-radius: 0.9rem;
   background: rgb(255 255 255 / 3%);
+}
+
+.notice {
+  padding: 0.25rem 1.25rem 1rem;
+  border: 1px solid #d89a48;
+  border-radius: 0.9rem;
+  background: rgb(216 154 72 / 8%);
+}
+
+.notice h2 {
+  margin-top: 1rem;
+}
+
+.link-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.link-card {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: rgb(255 255 255 / 3%);
+  text-decoration: none;
+}
+
+.link-card span {
+  color: var(--muted);
 }
