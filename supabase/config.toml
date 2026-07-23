@@ -1,0 +1,4 @@
+project_id = "xqdqgsbkapvlskcldmpe"
+
+[functions.submit-couples-alarm-feedback]
+verify_jwt = false
