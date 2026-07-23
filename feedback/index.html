@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Share private feedback about the Couples Alarm TestFlight beta.">
+  <title>Couples Alarm Beta Feedback</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2378ddff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to feedback form</a>
+  <header>
+    <p class="eyebrow">Couples Alarm beta</p>
+    <h1>Tell us how it went</h1>
+    <p class="meta">About two minutes · no account required</p>
+    <nav aria-label="Feedback navigation">
+      <a href="../">Help home</a>
+      <a href="../support/">Support</a>
+      <a href="../privacy/">Privacy</a>
+    </nav>
+  </header>
+  <main id="content">
+    <p class="lede">Your candid feedback will help make Couples Alarm clearer and more reliable before release.</p>
+
+    <section class="notice" aria-labelledby="beta-safety">
+      <h2 id="beta-safety">Keep a trusted backup alarm</h2>
+      <p>Do not rely on the beta as your only alarm for anything important. For a crash or screenshot, use <strong>Send Beta Feedback</strong> in TestFlight.</p>
+    </section>
+
+    <form id="feedback-form" class="feedback-form">
+      <fieldset>
+        <legend>What you tested</legend>
+
+        <label class="question">
+          <span class="question-title">TestFlight build number <span class="optional">(optional)</span></span>
+          <input type="text" name="build" inputmode="numeric" maxlength="20" placeholder="For example, 55">
+        </label>
+
+        <div class="question">
+          <span class="question-title">Which parts did you try? <span class="optional">(choose any)</span></span>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="tested" value="Welcome and setup"><span>Welcome and setup</span></label>
+            <label class="choice"><input type="checkbox" name="tested" value="Listening test and result"><span>Listening test and result</span></label>
+            <label class="choice"><input type="checkbox" name="tested" value="Creating or editing an alarm"><span>Creating or editing an alarm</span></label>
+            <label class="choice"><input type="checkbox" name="tested" value="Waiting for an alarm to go off"><span>Waiting for an alarm to go off</span></label>
+            <label class="choice"><input type="checkbox" name="tested" value="Purchase or restore"><span>Purchase or restore</span></label>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Your experience</legend>
+
+        <div class="question">
+          <span class="question-title">Were the two roles—waking first and staying asleep—clear?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="roles" value="Yes, completely" required><span>Yes, completely</span></label>
+            <label class="choice"><input type="radio" name="roles" value="Mostly"><span>Mostly</span></label>
+            <label class="choice"><input type="radio" name="roles" value="No"><span>No</span></label>
+            <label class="choice"><input type="radio" name="roles" value="I did not reach this step"><span>I did not reach this step</span></label>
+          </div>
+        </div>
+
+        <div class="question">
+          <span class="question-title">Did the app keep the person you selected as the one waking first?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="wakingRole" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="wakingRole" value="No"><span>No</span></label>
+            <label class="choice"><input type="radio" name="wakingRole" value="I am not sure"><span>I’m not sure</span></label>
+            <label class="choice"><input type="radio" name="wakingRole" value="I did not reach this step"><span>I did not reach this step</span></label>
+          </div>
+        </div>
+
+        <div class="question">
+          <span class="question-title">Was the listening-test result easy to understand?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="resultClarity" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="resultClarity" value="Partly"><span>Partly</span></label>
+            <label class="choice"><input type="radio" name="resultClarity" value="No"><span>No</span></label>
+            <label class="choice"><input type="radio" name="resultClarity" value="I did not reach this step"><span>I did not reach this step</span></label>
+          </div>
+        </div>
+
+        <div class="question">
+          <span class="question-title">If you waited for an alarm, what happened?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="alarm" value="It went off as expected" required><span>It went off as expected</span></label>
+            <label class="choice"><input type="radio" name="alarm" value="I had a problem"><span>I had a problem</span></label>
+            <label class="choice"><input type="radio" name="alarm" value="I did not test an alarm"><span>I did not test an alarm</span></label>
+          </div>
+        </div>
+
+        <div class="question">
+          <span class="question-title">How confident would you feel using Couples Alarm after this test?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="confidence" value="1 — Not confident" required><span>1 — Not confident</span></label>
+            <label class="choice"><input type="radio" name="confidence" value="2"><span>2</span></label>
+            <label class="choice"><input type="radio" name="confidence" value="3"><span>3</span></label>
+            <label class="choice"><input type="radio" name="confidence" value="4"><span>4</span></label>
+            <label class="choice"><input type="radio" name="confidence" value="5 — Very confident"><span>5 — Very confident</span></label>
+            <label class="choice"><input type="radio" name="confidence" value="Not sure yet"><span>Not sure yet</span></label>
+          </div>
+        </div>
+
+        <label class="question">
+          <span class="question-title">What, if anything, felt unclear? <span class="optional">(optional)</span></span>
+          <textarea name="unclear" rows="4" maxlength="700" placeholder="Tell us what happened without including names, schedules, frequencies, or listening results."></textarea>
+        </label>
+
+        <label class="question">
+          <span class="question-title">What is the one thing we should improve? <span class="optional">(optional)</span></span>
+          <textarea name="improvement" rows="4" maxlength="700" placeholder="A short, honest answer is perfect."></textarea>
+        </label>
+      </fieldset>
+
+      <div class="contact feedback-privacy">
+        <h2>Before you send</h2>
+        <p>Do not include partner names, alarm schedules, frequencies, listening observations, health information, or diagnoses.</p>
+        <p>Your answers stay in this browser until they open in your email app. Nothing is sent until you review the message and tap <strong>Send</strong>.</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">Review and send feedback</button>
+        <button type="button" class="button-secondary" id="copy-feedback">Copy answers instead</button>
+      </div>
+      <p class="form-status" id="form-status" aria-live="polite"></p>
+    </form>
+  </main>
+  <footer>
+    Need help instead? Visit <a href="../support/">Couples Alarm Support</a>.
+  </footer>
+  <script type="module" src="feedback.js"></script>
+</body>
+</html>
