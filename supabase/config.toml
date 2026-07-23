@@ -1,4 +1,8 @@
 project_id = "xqdqgsbkapvlskcldmpe"
 
+[auth]
+site_url = "https://couplesalarm.github.io/"
+additional_redirect_urls = ["https://couplesalarm.github.io/admin/"]
+
 [functions.submit-couples-alarm-feedback]
 verify_jwt = false

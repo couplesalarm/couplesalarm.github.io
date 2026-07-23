@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      name="description"
+      content="Private Couples Alarm beta feedback dashboard."
+    />
+    <title>Feedback Dashboard · Couples Alarm</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2378ddff'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body class="admin-body">
+    <a class="skip-link" href="#content">Skip to dashboard</a>
+
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">Couples Alarm · private</p>
+        <h1>Beta signal room</h1>
+        <p class="meta">
+          Every submitted response, without clickstream analytics.
+        </p>
+      </div>
+      <button id="sign-out" class="quiet-button" type="button" hidden>
+        Sign out
+      </button>
+    </header>
+
+    <main id="content" class="admin-main">
+      <section
+        id="login-panel"
+        class="login-panel"
+        aria-labelledby="login-title"
+      >
+        <p class="panel-number" aria-hidden="true">01</p>
+        <div>
+          <p class="eyebrow">Admin access</p>
+          <h2 id="login-title">Open the response dashboard</h2>
+          <p>
+            We’ll send a one-time sign-in link to the Couples Alarm support
+            inbox. Only that verified address can read responses.
+          </p>
+          <button id="send-link" type="button">Email my sign-in link</button>
+          <p id="login-status" class="form-status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section id="dashboard" hidden>
+        <div class="dashboard-intro">
+          <div>
+            <p class="eyebrow">Live response view</p>
+            <h2>What testers are telling us</h2>
+          </div>
+          <p id="updated-at" class="meta"></p>
+        </div>
+
+        <section class="metric-grid" aria-label="Feedback summary">
+          <article class="metric-card">
+            <span class="metric-label">Responses</span>
+            <strong id="metric-total">0</strong>
+            <span class="metric-note">All recorded submissions</span>
+          </article>
+          <article class="metric-card warning">
+            <span class="metric-label">Alarm problems</span>
+            <strong id="metric-alarm-problems">0</strong>
+            <span class="metric-note">Reported after waiting for an alarm</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Average confidence</span>
+            <strong id="metric-confidence">—</strong>
+            <span class="metric-note">Out of 5, excluding “not sure”</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Roles clear</span>
+            <strong id="metric-roles">—</strong>
+            <span class="metric-note">“Yes, completely” responses</span>
+          </article>
+        </section>
+
+        <section class="filter-bar" aria-label="Response filters">
+          <label>
+            <span>Search responses</span>
+            <input
+              id="search"
+              type="search"
+              placeholder="Search comments or answers"
+            />
+          </label>
+          <label>
+            <span>Build</span>
+            <select id="build-filter">
+              <option value="">All builds</option>
+            </select>
+          </label>
+          <button id="refresh" class="quiet-button" type="button">
+            Refresh
+          </button>
+        </section>
+
+        <div class="response-heading">
+          <h2>Responses</h2>
+          <p id="response-count" class="meta"></p>
+        </div>
+        <div id="responses" class="response-list" aria-live="polite"></div>
+        <p id="dashboard-status" class="form-status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <footer class="admin-footer">
+      Private owner view · <a href="../feedback/">Open feedback form</a> ·
+      <a href="../privacy/">Privacy</a>
+    </footer>
+
+    <template id="response-template">
+      <article class="response-card">
+        <div class="response-card-header">
+          <div>
+            <p class="response-date"></p>
+            <p class="response-context meta"></p>
+          </div>
+          <span class="confidence-badge"></span>
+        </div>
+        <dl class="answer-grid">
+          <div>
+            <dt>Tested</dt>
+            <dd data-field="tested"></dd>
+          </div>
+          <div>
+            <dt>Roles clear</dt>
+            <dd data-field="roles"></dd>
+          </div>
+          <div>
+            <dt>Waking role kept</dt>
+            <dd data-field="waking_role"></dd>
+          </div>
+          <div>
+            <dt>Result clarity</dt>
+            <dd data-field="result_clarity"></dd>
+          </div>
+          <div>
+            <dt>Alarm result</dt>
+            <dd data-field="alarm"></dd>
+          </div>
+        </dl>
+        <div class="comment-grid">
+          <div>
+            <h3>What felt unclear</h3>
+            <p data-field="unclear"></p>
+          </div>
+          <div>
+            <h3>One thing to improve</h3>
+            <p data-field="improvement"></p>
+          </div>
+        </div>
+        <p class="response-reference meta"></p>
+      </article>
+    </template>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>
