@@ -281,9 +281,9 @@ button {
   cursor: pointer;
 }
 
-.button-secondary {
-  background: transparent;
-  color: var(--text);
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .form-status {

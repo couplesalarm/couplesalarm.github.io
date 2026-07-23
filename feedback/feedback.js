@@ -1,37 +1,23 @@
-const supportEmail = "couplesalarm.support@gmail.com";
+const feedbackEndpoint =
+  "https://zlpnxsgaplmucenxbcfh.supabase.co/functions/v1/submit-couples-alarm-feedback";
 
-export function formatFeedback(feedback) {
-  const tested = feedback.tested.length ? feedback.tested.join(", ") : "Not specified";
-  const body = [
-    "Couples Alarm beta feedback",
-    "",
-    `TestFlight build: ${feedback.build || "Not provided"}`,
-    `Parts tested: ${tested}`,
-    "",
-    `Roles were clear: ${feedback.roles}`,
-    `Selected waking role was preserved: ${feedback.wakingRole}`,
-    `Listening-test result was understandable: ${feedback.resultClarity}`,
-    `Alarm test: ${feedback.alarm}`,
-    `Confidence after testing: ${feedback.confidence}`,
-    "",
-    "What felt unclear:",
-    feedback.unclear || "No response",
-    "",
-    "One thing to improve:",
-    feedback.improvement || "No response",
-    "",
-    "Please do not add names, schedules, frequencies, listening observations, health information, or diagnoses.",
-  ].join("\n");
-
+export function buildSubmission(feedback) {
   return {
-    subject: `Couples Alarm beta feedback${feedback.build ? ` — build ${feedback.build}` : ""}`,
-    body,
+    build: feedback.build.trim(),
+    tested: feedback.tested,
+    roles: feedback.roles,
+    wakingRole: feedback.wakingRole,
+    resultClarity: feedback.resultClarity,
+    alarm: feedback.alarm,
+    confidence: feedback.confidence,
+    unclear: feedback.unclear.trim(),
+    improvement: feedback.improvement.trim(),
   };
 }
 
 if (typeof document !== "undefined") {
   const form = document.querySelector("#feedback-form");
-  const copyButton = document.querySelector("#copy-feedback");
+  const submitButton = form.querySelector('button[type="submit"]');
   const status = document.querySelector("#form-status");
 
   function readFeedback() {
@@ -49,24 +35,33 @@ if (typeof document !== "undefined") {
     };
   }
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!form.reportValidity()) return;
 
-    const feedback = formatFeedback(readFeedback());
-    status.textContent = "Opening your email app. Review the message, then tap Send.";
-    window.location.href = `mailto:${supportEmail}?subject=${encodeURIComponent(feedback.subject)}&body=${encodeURIComponent(feedback.body)}`;
-  });
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting…";
+    status.textContent = "Recording your feedback…";
 
-  copyButton.addEventListener("click", async () => {
-    if (!form.reportValidity()) return;
-
-    const feedback = formatFeedback(readFeedback());
     try {
-      await navigator.clipboard.writeText(`${feedback.subject}\n\n${feedback.body}`);
-      status.textContent = "Answers copied. Paste them into an email to couplesalarm.support@gmail.com.";
+      const response = await fetch(feedbackEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(buildSubmission(readFeedback())),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok || typeof result.reference !== "string") {
+        throw new Error("Feedback was not recorded");
+      }
+
+      form.reset();
+      status.textContent = `Thank you — your feedback was recorded. Reference: ${result.reference}`;
     } catch {
-      status.textContent = "Copy was unavailable. Use Review and send feedback instead.";
+      status.textContent =
+        "We couldn’t record your feedback. Please try again, or email couplesalarm.support@gmail.com.";
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Submit feedback";
     }
   });
 }
