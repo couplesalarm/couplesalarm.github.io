@@ -75,4 +75,10 @@ test("uses app context from the URL fragment instead of asking for a build", () 
     iosVersion: "",
     entryPoint: "",
   });
+  assert.deepEqual(readAppContext("#build=56&entryPoint=question_mark"), {
+    appVersion: "",
+    build: "",
+    iosVersion: "",
+    entryPoint: "",
+  });
 });

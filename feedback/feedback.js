@@ -15,7 +15,14 @@ export function readAppContext(fragment) {
   const appVersion = String(parameters.get("appVersion") || "").trim();
   const build = String(parameters.get("build") || "").trim();
   const iosVersion = String(parameters.get("iosVersion") || "").trim();
-  if (appVersion.length > 20 || build.length > 20 || iosVersion.length > 20) {
+  if (
+    !appVersion ||
+    !build ||
+    !iosVersion ||
+    appVersion.length > 20 ||
+    build.length > 20 ||
+    iosVersion.length > 20
+  ) {
     return emptyAppContext;
   }
 
