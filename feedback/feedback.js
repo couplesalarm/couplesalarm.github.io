@@ -1,5 +1,5 @@
 const feedbackEndpoint =
-  "https://zlpnxsgaplmucenxbcfh.supabase.co/functions/v1/submit-couples-alarm-feedback";
+  "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/submit-couples-alarm-feedback";
 
 export function buildSubmission(feedback) {
   return {
