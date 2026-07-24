@@ -508,6 +508,7 @@
 @media (max-width: 650px) {
   .landing-header {
     align-items: flex-start;
+    flex-direction: column;
     gap: 1rem;
   }
 
@@ -516,12 +517,8 @@
   }
 
   .landing-header nav {
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 0 1rem;
-  }
-
-  .landing-header nav a:nth-child(-n + 2) {
-    display: none;
   }
 
   .hero h1 {
