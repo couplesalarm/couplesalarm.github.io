@@ -48,18 +48,21 @@ test("summarizes and filters feedback responses", () => {
 });
 
 test("loads every response page", async () => {
-  const calls = [];
-  const firstPage = Array.from({ length: 500 }, (_, index) => ({ id: index }));
-  const finalPage = [{ id: 500 }];
-  const fetchImpl = async (_url, options) => {
-    calls.push(options.headers.Range);
+  const expected = Array.from({ length: 501 }, (_, index) => ({ id: index }));
+  const fetchImpl = async (url, options) => {
+    assert.match(url, /list-couples-alarm-feedback$/);
+    assert.equal(options.method, "POST");
+    assert.deepEqual(JSON.parse(options.body), { passcode: "test-passcode" });
     return {
       ok: true,
-      json: async () => (calls.length === 1 ? firstPage : finalPage),
+      json: async () => ({ responses: expected }),
     };
   };
 
-  const responses = await fetchAllFeedback("token", fetchImpl);
+  const responses = await fetchAllFeedback("test-passcode", fetchImpl);
   assert.equal(responses.length, 501);
-  assert.deepEqual(calls, ["0-499", "500-999"]);
+});
+
+test("does not persist the admin passcode or use email auth", () => {
+  assert.doesNotMatch(source, /sessionStorage|localStorage|auth\/v1\/otp/);
 });

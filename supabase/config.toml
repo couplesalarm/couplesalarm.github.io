@@ -6,3 +6,6 @@ additional_redirect_urls = ["https://couplesalarm.github.io/admin/"]
 
 [functions.submit-couples-alarm-feedback]
 verify_jwt = false
+
+[functions.list-couples-alarm-feedback]
+verify_jwt = false

@@ -40,16 +40,25 @@
         aria-labelledby="login-title"
       >
         <p class="panel-number" aria-hidden="true">01</p>
-        <div>
+        <form id="login-form">
           <p class="eyebrow">Admin access</p>
           <h2 id="login-title">Open the response dashboard</h2>
-          <p>
-            We’ll send a one-time sign-in link to the Couples Alarm support
-            inbox. Only that verified address can read responses.
-          </p>
-          <button id="send-link" type="button">Email my sign-in link</button>
+          <p>Enter the admin passcode to read beta feedback.</p>
+          <label>
+            <span>Passcode</span>
+            <input
+              id="passcode"
+              type="password"
+              inputmode="numeric"
+              autocomplete="current-password"
+              pattern="[0-9]{4}"
+              maxlength="4"
+              required
+            />
+          </label>
+          <button type="submit">Open dashboard</button>
           <p id="login-status" class="form-status" aria-live="polite"></p>
-        </div>
+        </form>
       </section>
 
       <section id="dashboard" hidden>

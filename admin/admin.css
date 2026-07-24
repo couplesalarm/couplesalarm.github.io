@@ -138,6 +138,7 @@
 }
 
 input[type="search"],
+input[type="password"],
 select {
   width: 100%;
   min-height: 48px;
@@ -150,6 +151,7 @@ select {
 }
 
 input[type="search"]:focus-visible,
+input[type="password"]:focus-visible,
 select:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;

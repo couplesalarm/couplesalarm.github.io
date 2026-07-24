@@ -1,7 +1,5 @@
-const projectUrl = "https://xqdqgsbkapvlskcldmpe.supabase.co";
-const publishableKey = "sb_publishable_aHZQlUwb3hUVeyYyVi5wGg_IryIbCVH";
-const adminEmail = "couplesalarm.support@gmail.com";
-const pageSize = 500;
+const feedbackEndpoint =
+  "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/list-couples-alarm-feedback";
 
 export function summarizeResponses(responses) {
   const confidenceScores = responses
@@ -52,37 +50,29 @@ export function filterResponses(responses, query, build) {
   });
 }
 
-export async function fetchAllFeedback(accessToken, fetchImpl = fetch) {
-  const responses = [];
-  for (let offset = 0; ; offset += pageSize) {
-    const endpoint = new URL(
-      `${projectUrl}/rest/v1/couples_alarm_beta_feedback`,
-    );
-    endpoint.searchParams.set(
-      "select",
-      "id,created_at,build,app_version,ios_version,entry_point,tested,roles,waking_role,result_clarity,alarm,confidence,unclear,improvement,source",
-    );
-    endpoint.searchParams.set("order", "created_at.desc");
-
-    const result = await fetchImpl(endpoint, {
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${accessToken}`,
-        Range: `${offset}-${offset + pageSize - 1}`,
-        "Range-Unit": "items",
-      },
-    });
-    if (!result.ok) throw new Error("Responses could not be loaded");
-    const page = await result.json();
-    responses.push(...page);
-    if (page.length < pageSize) return responses;
+export async function fetchAllFeedback(passcode, fetchImpl = fetch) {
+  const result = await fetchImpl(feedbackEndpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ passcode }),
+  });
+  if (!result.ok) {
+    const error = new Error("Responses could not be loaded");
+    error.status = result.status;
+    throw error;
   }
+  const body = await result.json();
+  if (!Array.isArray(body.responses)) {
+    throw new Error("Responses could not be loaded");
+  }
+  return body.responses;
 }
 
 if (typeof document !== "undefined") {
   const loginPanel = document.querySelector("#login-panel");
+  const loginForm = document.querySelector("#login-form");
+  const passcodeInput = document.querySelector("#passcode");
   const dashboard = document.querySelector("#dashboard");
-  const sendLinkButton = document.querySelector("#send-link");
   const signOutButton = document.querySelector("#sign-out");
   const refreshButton = document.querySelector("#refresh");
   const searchInput = document.querySelector("#search");
@@ -92,26 +82,7 @@ if (typeof document !== "undefined") {
   const responseList = document.querySelector("#responses");
   const responseTemplate = document.querySelector("#response-template");
   let responses = [];
-
-  function storeTokenFromFragment() {
-    const fragment = new URLSearchParams(window.location.hash.slice(1));
-    const token = fragment.get("access_token");
-    if (!token) return;
-    sessionStorage.setItem("feedback-admin-token", token);
-    history.replaceState(null, "", window.location.pathname);
-  }
-
-  async function authorizedEmail(token) {
-    const response = await fetch(`${projectUrl}/auth/v1/user`, {
-      headers: {
-        apikey: publishableKey,
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!response.ok) return false;
-    const user = await response.json();
-    return user.email?.toLocaleLowerCase() === adminEmail;
-  }
+  let adminPasscode = "";
 
   function renderMetrics() {
     const summary = summarizeResponses(responses);
@@ -209,21 +180,12 @@ if (typeof document !== "undefined") {
   }
 
   async function loadDashboard() {
-    const token = sessionStorage.getItem("feedback-admin-token");
-    if (!token || !(await authorizedEmail(token))) {
-      sessionStorage.removeItem("feedback-admin-token");
-      loginPanel.hidden = false;
-      dashboard.hidden = true;
-      signOutButton.hidden = true;
-      return;
-    }
-
-    loginPanel.hidden = true;
-    dashboard.hidden = false;
-    signOutButton.hidden = false;
     dashboardStatus.textContent = "Loading responses…";
     try {
-      responses = await fetchAllFeedback(token);
+      responses = await fetchAllFeedback(adminPasscode);
+      loginPanel.hidden = true;
+      dashboard.hidden = false;
+      signOutButton.hidden = false;
       renderMetrics();
       renderBuildOptions();
       renderResponses();
@@ -232,47 +194,42 @@ if (typeof document !== "undefined") {
           timeStyle: "short",
         }).format(new Date())}`;
       dashboardStatus.textContent = "";
-    } catch {
+      loginStatus.textContent = "";
+      passcodeInput.value = "";
+    } catch (error) {
+      if (error.status === 401) {
+        adminPasscode = "";
+        loginPanel.hidden = false;
+        dashboard.hidden = true;
+        signOutButton.hidden = true;
+        loginStatus.textContent = "That passcode was not accepted.";
+        passcodeInput.select();
+        return;
+      }
       dashboardStatus.textContent =
-        "Responses could not be loaded. Sign in again and retry.";
+        "Responses could not be loaded. Please try again.";
     }
   }
 
-  sendLinkButton.addEventListener("click", async () => {
-    sendLinkButton.disabled = true;
-    loginStatus.textContent = "Sending a one-time link…";
-    try {
-      const redirectTo = new URL("./", window.location.href);
-      redirectTo.hash = "";
-      const endpoint = new URL(`${projectUrl}/auth/v1/otp`);
-      endpoint.searchParams.set("redirect_to", redirectTo.href);
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          apikey: publishableKey,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: adminEmail, create_user: true }),
-      });
-      if (!response.ok) throw new Error("Sign-in link could not be sent");
-      loginStatus.textContent =
-        "Check the Couples Alarm support inbox for your sign-in link.";
-    } catch {
-      loginStatus.textContent =
-        "The sign-in link could not be sent. Please try again.";
-    } finally {
-      sendLinkButton.disabled = false;
-    }
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!loginForm.reportValidity()) return;
+    adminPasscode = passcodeInput.value;
+    loginStatus.textContent = "Opening dashboard…";
+    await loadDashboard();
   });
 
   signOutButton.addEventListener("click", () => {
-    sessionStorage.removeItem("feedback-admin-token");
-    location.reload();
+    adminPasscode = "";
+    responses = [];
+    loginPanel.hidden = false;
+    dashboard.hidden = true;
+    signOutButton.hidden = true;
+    passcodeInput.focus();
   });
   refreshButton.addEventListener("click", loadDashboard);
   searchInput.addEventListener("input", renderResponses);
   buildFilter.addEventListener("change", renderResponses);
 
-  storeTokenFromFragment();
-  loadDashboard();
+  passcodeInput.focus();
 }
