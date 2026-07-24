@@ -1,4 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { sendFeedbackNotification } from "./email.ts";
 
 const allowedOrigin = "https://couplesalarm.github.io";
 const allowedTested = new Set([
@@ -191,6 +192,17 @@ Deno.serve(async (request: Request) => {
       },
     );
     if (!databaseResponse.ok) throw new Error("Database insert failed");
+
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    if (resendApiKey) {
+      try {
+        await sendFeedbackNotification(submission.id, resendApiKey);
+      } catch {
+        console.error("Feedback was recorded, but its email notification failed");
+      }
+    } else {
+      console.error("Feedback was recorded, but RESEND_API_KEY is not configured");
+    }
 
     return json(201, { ok: true, reference: submission.id });
   } catch (error) {
