@@ -52,6 +52,10 @@
   padding: clamp(1rem, 4vw, 3rem) 0;
 }
 
+.login-panel[hidden] {
+  display: none;
+}
+
 .panel-number {
   margin: 0;
   color: var(--admin-orange);
