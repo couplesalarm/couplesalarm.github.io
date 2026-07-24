@@ -1,37 +1,3 @@
-.landing {
-  --ink: #f7f6ff;
-  --soft-ink: #b7b9d6;
-  --night: #050611;
-  --cyan: #23d2fa;
-  --violet: #8763ff;
-  --pink: #ff2ac3;
-  min-width: 20rem;
-  background:
-    radial-gradient(circle at 82% 6%, rgb(32 207 250 / 14%), transparent 28rem),
-    radial-gradient(circle at 18% 25%, rgb(255 42 195 / 9%), transparent 32rem),
-    var(--night);
-  color: var(--ink);
-  font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
-}
-
-.landing::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-image: linear-gradient(rgb(255 255 255 / 2%) 1px, transparent 1px);
-  background-size: 100% 4rem;
-  content: "";
-  mask-image: linear-gradient(to bottom, black, transparent 80%);
-  pointer-events: none;
-}
-
-.landing-header,
-.landing-main,
-.landing-footer {
-  width: min(74rem, calc(100% - 2rem));
-  margin-inline: auto;
-}
-
 .landing-header {
   display: flex;
   align-items: center;
@@ -66,14 +32,6 @@
 
 .landing-footer nav a:hover {
   color: var(--ink);
-}
-
-.landing-main {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  box-shadow: none;
 }
 
 .hero {

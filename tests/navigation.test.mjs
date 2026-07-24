@@ -34,3 +34,22 @@ test("uses one primary menu across every public page", async () => {
   const expected = ["Product", "Install", "Support", "Beta feedback", "Privacy"];
   for (const menu of menus) assert.deepEqual(menu, expected);
 });
+
+test("uses one footer menu across every public page", async () => {
+  const menus = await Promise.all(
+    pages.map(async (page) => {
+      const html = await readFile(new URL(page, import.meta.url), "utf8");
+      const nav = html.match(
+        /<nav aria-label="Footer navigation">([\s\S]*?)<\/nav>/,
+      )?.[1];
+
+      assert.ok(nav, `${page} has a footer navigation menu`);
+      return [...nav.matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map((match) =>
+        match[1].trim(),
+      );
+    }),
+  );
+
+  const expected = ["Install", "Beta feedback", "Support", "Privacy", "Contact"];
+  for (const menu of menus) assert.deepEqual(menu, expected);
+});

@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Privacy policy for the Couples Alarm iPhone app and beta feedback website.">
+  <meta name="theme-color" content="#050611">
   <link rel="canonical" href="https://couplesalarm.github.io/privacy/">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Couples Alarm Privacy Policy</title>
-  <link rel="stylesheet" href="../style.css?v=20260724-3">
+  <link rel="stylesheet" href="../style.css?v=20260724-4">
 </head>
-<body class="site-page">
+<body class="site-page privacy-page">
   <a class="skip-link" href="#content">Skip to privacy policy</a>
   <header class="page-header site-header">
     <a class="page-brand" href="../">
@@ -24,53 +25,90 @@
       <a aria-current="page" href="./">Privacy</a>
     </nav>
     <div class="page-title">
-      <p class="eyebrow">Privacy</p>
+      <p class="eyebrow">Privacy policy</p>
       <h1>Privacy Policy</h1>
-      <p class="meta">Effective July 23, 2026</p>
+      <p class="meta">Effective July 23, 2026 · Covers the Couples Alarm app and beta feedback website</p>
     </div>
   </header>
   <main id="content">
-    <p class="lede">The Couples Alarm app does not automatically collect or transmit personal data to the developer or third parties. The app has no account, backend, analytics, advertising, or third-party SDK. The separate beta feedback website records answers only when you choose to submit its form.</p>
+    <section class="privacy-highlights" aria-label="Privacy highlights">
+      <p><strong>No account</strong><span>The app does not create or maintain an account.</span></p>
+      <p><strong>Local by default</strong><span>Partner profiles, listening results, and alarms stay on this iPhone.</span></p>
+      <p><strong>No tracking</strong><span>No analytics, advertising, or third-party SDK.</span></p>
+    </section>
 
-    <h2>Information stored on your iPhone</h2>
-    <p>The app stores the following information only on the iPhone where it is entered:</p>
-    <ul>
-      <li>Two partner names</li>
-      <li>Two listening observations for each partner</li>
-      <li>The alarm sound both partners confirm</li>
-      <li>Saved alarm schedules and settings</li>
-      <li>The free-month start and end dates</li>
-    </ul>
-    <p>This information is used only to suggest an alarm sound, show the saved setup, manage the free-access period, and schedule alarms through Apple’s AlarmKit. It is not used for advertising, tracking, or a medical assessment.</p>
+    <p class="lede">The Couples Alarm app does not automatically collect or transmit personal data. The only server-side information is beta feedback you choose to submit through the separate feedback form.</p>
 
-    <h2>Sharing</h2>
-    <p>Couples Alarm does not share this app-local information. Alarm schedules are also represented in AlarmKit so iOS can deliver and manage the alarms.</p>
+    <div class="policy-layout">
+      <nav class="policy-index" aria-label="Privacy policy sections">
+        <p class="eyebrow">On this page</p>
+        <a href="#on-your-iphone">On your iPhone</a>
+        <a href="#sharing">Sharing</a>
+        <a href="#support-email">Support email</a>
+        <a href="#beta-feedback">Beta feedback</a>
+        <a href="#removing-information">Removing information</a>
+        <a href="#permissions">Permissions</a>
+      </nav>
 
-    <h2>Support email</h2>
-    <p>If you choose <strong>Feedback &amp; Support</strong>, Couples Alarm opens an email composer addressed to Couples Alarm Support. No profile, alarm, listening, or attachment data is added. The app and iOS versions are visibly prefilled in the editable message. The message is sent only if you choose <strong>Send</strong>.</p>
-    <p>Your email provider and the support inbox provider process the message according to their policies. Your email address and the information you choose to include may be retained as needed to respond and maintain support history; they are not used for advertising or tracking. Reply to the support conversation to request deletion.</p>
+      <div class="policy-sections">
+        <section id="on-your-iphone">
+          <h2>Information stored on your iPhone</h2>
+          <p>The app stores the following information only on the iPhone where it is entered:</p>
+          <ul>
+            <li>Two partner names</li>
+            <li>Two listening observations for each partner</li>
+            <li>The alarm sound both partners confirm</li>
+            <li>Saved alarm schedules and settings</li>
+            <li>The free-month start and end dates</li>
+          </ul>
+          <p>This information is used only to suggest an alarm sound, show the saved setup, manage the free-access period, and schedule alarms through Apple’s AlarmKit. It is not used for advertising, tracking, or a medical assessment.</p>
+        </section>
 
-    <h2>Beta feedback website</h2>
-    <p>If you choose to submit the beta feedback form, your selected answers, optional comments, app version and build, iOS version, form entry point, submission time, and a random reference number are sent to Supabase and stored on behalf of Couples Alarm. When the form is opened from the app, it fills in the app context shown on the form; a direct website visit can provide only the optional build number. The developer can view these responses to improve the beta. The form does not ask for your name or email address, create an account, use analytics, or use the answers for advertising or tracking.</p>
-    <p>After Supabase stores a response, Resend emails the developer only its random reference number and a link to the private feedback dashboard; feedback answers are not included in that email. Resend processes the notification delivery under its <a href="https://resend.com/legal/privacy-policy">Privacy Policy</a>.</p>
-    <p>Do not include partner names, alarm schedules, frequencies, listening observations, health information, or diagnoses. Supabase may process technical request information needed to operate and secure the service under its <a href="https://supabase.com/privacy">Privacy Policy</a>. Email support with your reference number to request deletion of a feedback response.</p>
+        <section id="sharing">
+          <h2>Sharing</h2>
+          <p>Couples Alarm does not share this app-local information. Alarm schedules are represented in AlarmKit so iOS can deliver and manage the alarms.</p>
+        </section>
 
-    <h2>Removing information</h2>
-    <p>Delete an alarm from the alarm list to remove it. To remove both profiles, their listening results, the confirmed sound, and every alarm, open <strong>Settings</strong>, choose <strong>Erase All Data</strong>, and confirm. <strong>Retake listening test</strong> keeps alarms saved but pauses them until both partners confirm a new sound. Deleting the app removes that setup data. The free-month dates remain only in the device Keychain so reinstalling the app does not restart the free month; they are not transmitted.</p>
+        <section id="support-email">
+          <h2>Support email</h2>
+          <p>If you choose <strong>Feedback &amp; Support</strong>, Couples Alarm opens an email composer addressed to Couples Alarm Support. No profile, alarm, listening, or attachment data is added. The app and iOS versions are visibly prefilled in the editable message. The message is sent only if you choose <strong>Send</strong>.</p>
+          <p>Your email provider and the support inbox provider process the message according to their policies. Your email address and the information you choose to include may be retained as needed to respond and maintain support history; they are not used for advertising or tracking. Reply to the support conversation to request deletion.</p>
+        </section>
 
-    <h2>Permissions</h2>
-    <p>Couples Alarm requests Alarm access only when needed to schedule alarms. After setup, it may also request notification access for optional free-month reminders. Reminder notifications contain no names, schedules, or listening results. You can change either permission in iPhone Settings; turning reminders off does not turn off alarms scheduled through AlarmKit.</p>
+        <section id="beta-feedback">
+          <h2>Beta feedback website</h2>
+          <p>If you submit the beta feedback form, your selected answers, optional comments, app version and build, iOS version, form entry point, submission time, and a random reference number are sent to Supabase and stored on behalf of Couples Alarm. When the form is opened from the app, it fills in the app context shown on the form; a direct website visit can provide only the optional build number. The form does not ask for your name or email address, create an account, use analytics, or use the answers for advertising or tracking.</p>
+          <p>After Supabase stores a response, Resend emails the developer only its random reference number and a link to the private feedback dashboard; feedback answers are not included in that email. Resend processes the notification delivery under its <a href="https://resend.com/legal/privacy-policy">Privacy Policy</a>.</p>
+          <p>Do not include partner names, alarm schedules, frequencies, listening observations, health information, or diagnoses. Supabase may process technical request information needed to operate and secure the service under its <a href="https://supabase.com/privacy">Privacy Policy</a>. Email support with your reference number to request deletion of a feedback response.</p>
+        </section>
 
-    <div class="contact">
-      <h2>Questions</h2>
-      <p>Visit <a href="../support/">Couples Alarm Support</a> or email <a href="mailto:couplesalarm.support@gmail.com">couplesalarm.support@gmail.com</a>. Do not include partner names, listening observations, or other sensitive information.</p>
+        <section id="removing-information">
+          <h2>Removing information</h2>
+          <p>Delete an alarm from the alarm list to remove it. To remove both profiles, their listening results, the confirmed sound, and every alarm, open <strong>Settings</strong>, choose <strong>Erase All Data</strong>, and confirm. <strong>Retake listening test</strong> keeps alarms saved but pauses them until both partners confirm a new sound. Deleting the app removes that setup data. The free-month dates remain only in the device Keychain so reinstalling the app does not restart the free month; they are not transmitted.</p>
+        </section>
+
+        <section id="permissions">
+          <h2>Permissions</h2>
+          <p>Couples Alarm requests Alarm access only when needed to schedule alarms. After setup, it may also request notification access for optional free-month reminders. Reminder notifications contain no names, schedules, or listening results. You can change either permission in iPhone Settings; turning reminders off does not turn off alarms scheduled through AlarmKit.</p>
+        </section>
+
+        <section class="contact" id="privacy-questions">
+          <h2>Questions</h2>
+          <p>Visit <a href="../support/">Couples Alarm Support</a> or email <a href="mailto:couplesalarm.support@gmail.com">couplesalarm.support@gmail.com</a>. Do not include partner names, listening observations, or other sensitive information.</p>
+        </section>
+      </div>
     </div>
   </main>
   <footer class="page-footer">
-    <span>Effective July 23, 2026</span>
+    <div>
+      <strong>Couples Alarm</strong>
+      <span>Created by Brian Markowitz</span>
+    </div>
     <nav aria-label="Footer navigation">
-      <a href="../">Product</a>
+      <a href="../download/">Install</a>
+      <a href="../feedback/">Beta feedback</a>
       <a href="../support/">Support</a>
+      <a href="./">Privacy</a>
       <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
     </nav>
   </footer>
