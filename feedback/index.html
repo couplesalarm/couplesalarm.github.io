@@ -3,22 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Share private feedback about the Couples Alarm TestFlight beta.">
+  <link rel="canonical" href="https://couplesalarm.github.io/feedback/">
   <title>Couples Alarm Beta Feedback</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2378ddff'/%3E%3C/svg%3E">
+  <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <link rel="stylesheet" href="../style.css">
 </head>
-<body>
+<body class="site-page">
   <a class="skip-link" href="#content">Skip to feedback form</a>
-  <header>
-    <p class="eyebrow">Couples Alarm beta</p>
-    <h1>Tell us how it went</h1>
-    <p class="meta">About two minutes · no account required · answers are recorded securely</p>
-    <nav aria-label="Feedback navigation">
-      <a href="../">Help home</a>
+  <header class="page-header">
+    <a class="page-brand" href="../">
+      <img src="../assets/app-icon.png" alt="" width="40" height="40">
+      <span>Couples Alarm</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="../">Product</a>
+      <a href="../download/">Install</a>
       <a href="../support/">Support</a>
+      <a aria-current="page" href="./">Beta feedback</a>
       <a href="../privacy/">Privacy</a>
     </nav>
+    <div class="page-title">
+      <p class="eyebrow">Couples Alarm beta</p>
+      <h1>Tell us how it went</h1>
+      <p class="meta">About two minutes · no account required · answers are recorded securely</p>
+    </div>
   </header>
   <main id="content">
     <p class="lede">Your candid feedback will help make Couples Alarm clearer and more reliable before release.</p>
@@ -127,8 +137,12 @@
       <p class="form-status" id="form-status" aria-live="polite"></p>
     </form>
   </main>
-  <footer>
-    Need help instead? Visit <a href="../support/">Couples Alarm Support</a>.
+  <footer class="page-footer">
+    <span>Need help instead?</span>
+    <nav aria-label="Footer navigation">
+      <a href="../support/">Couples Alarm Support</a>
+      <a href="../privacy/">Privacy</a>
+    </nav>
   </footer>
   <script type="module" src="feedback.js"></script>
 </body>
