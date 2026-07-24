@@ -1,53 +1,176 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Install Couples Alarm and use a frequency shared by your partner.">
-  <title>Install Couples Alarm</title>
+  <meta name="description" content="Couples Alarm helps partners test and confirm an alarm tone together before scheduling it on iPhone. Now in private beta.">
+  <meta name="theme-color" content="#070817">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Couples Alarm — An alarm made for two">
+  <meta property="og:description" content="Find a tone together, confirm it from your bedside, and schedule it with native AlarmKit.">
+  <meta property="og:url" content="https://couplesalarm.github.io/download/">
+  <link rel="canonical" href="https://couplesalarm.github.io/download/">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>Couples Alarm — An alarm made for two</title>
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="download.css">
 </head>
-<body>
-  <a class="skip-link" href="#content">Skip to install instructions</a>
-  <header>
-    <p class="eyebrow">Couples Alarm</p>
-    <h1>Install Couples Alarm</h1>
-    <p class="meta">Requires an iPhone running iOS 26 or later.</p>
-    <nav aria-label="Install navigation">
-      <a href="../">Help home</a>
+<body class="landing">
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="landing-header">
+    <a class="brand" href="../" aria-label="Couples Alarm home">
+      <span class="brand-mark" aria-hidden="true">
+        <span></span>
+      </span>
+      <span>Couples Alarm</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#how-it-works">How it works</a>
+      <a href="#beta">Private beta</a>
       <a href="../support/">Support</a>
       <a href="../privacy/">Privacy</a>
     </nav>
   </header>
-  <main id="content">
-    <section class="notice" aria-labelledby="beta-status">
-      <h2 id="beta-status">Currently in limited TestFlight beta</h2>
-      <p>Couples Alarm is not publicly downloadable from the App Store yet. During beta, you need a Couples Alarm TestFlight invitation before you can install it.</p>
+
+  <main class="landing-main" id="content" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="status"><span aria-hidden="true"></span> Private beta for iPhone</p>
+        <h1 id="hero-title">An alarm made <br>for <em>two.</em></h1>
+        <p class="hero-lede">Couples Alarm helps partners test whether one person hears a tone the other does not—then confirm it together before scheduling an alarm.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#beta">See beta access</a>
+          <a class="button secondary" href="#how-it-works">How it works</a>
+        </div>
+        <p class="requirement">Requires an iPhone running iOS 26 or later.</p>
+      </div>
+
+      <div class="product-visual" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-top">
+              <span class="mini-mark"></span>
+              <span>Couples Alarm</span>
+            </div>
+            <div class="alarm-glow">
+              <p>Next alarm</p>
+              <strong>6:40</strong>
+              <span>AM</span>
+              <svg viewBox="0 0 360 80" role="presentation">
+                <defs>
+                  <linearGradient id="wave" x1="0" x2="1">
+                    <stop offset="0" stop-color="#ff2ac3"/>
+                    <stop offset=".52" stop-color="#7b58ff"/>
+                    <stop offset="1" stop-color="#20cffa"/>
+                  </linearGradient>
+                </defs>
+                <path d="M2 42 C34 42 34 20 66 20 S98 62 130 62 162 28 194 28 226 54 258 54 290 36 322 36 338 42 358 42" fill="none" stroke="url(#wave)" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="sample-alarm">
+              <span class="alarm-icon"></span>
+              <div>
+                <strong>Wake Alex</strong>
+                <small>Weekdays</small>
+              </div>
+              <span class="toggle"></span>
+            </div>
+            <p class="confirmed">Confirmed by both partners</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <div class="link-grid">
-      <a class="link-card" href="https://apps.apple.com/app/testflight/id899247664">
-        <strong>Install TestFlight</strong>
-        <span>Then open the Couples Alarm invitation sent to your Apple Account.</span>
-      </a>
-      <a class="link-card" href="https://apps.apple.com/app/id6792771975">
-        <strong>Open Couples Alarm in the App Store</strong>
-        <span>This permanent App Store link will allow installation after public release.</span>
-      </a>
-    </div>
+    <section class="trust-strip" aria-label="Product privacy highlights">
+      <p><strong>No account</strong><span>Nothing to create or maintain</span></p>
+      <p><strong>No microphone</strong><span>You tap when you hear the sound</span></p>
+      <p><strong>No analytics</strong><span>Responses and alarms stay on your iPhone</span></p>
+    </section>
 
-    <h2>Use the frequency your partner sent</h2>
-    <ol>
-      <li>Open Couples Alarm and finish the welcome pages.</li>
-      <li>Enter the person waking first and the partner staying asleep.</li>
-      <li>Tap <strong>I Have a Shared Frequency</strong>.</li>
-      <li>Enter the frequency from the message, preview the sounds, and test the selected sound together.</li>
-      <li>Complete the real bedside alarm check on this iPhone before relying on it.</li>
-    </ol>
-    <p>A shared frequency avoids repeating the listening sweep. It does not guarantee the sound will work from a different iPhone or bedside position.</p>
+    <section class="story-section" id="how-it-works" aria-labelledby="how-title">
+      <div class="section-heading">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">Built around one honest condition.</h2>
+        <p>This only works if the person who needs to wake up can hear a sound their partner cannot. Couples Alarm checks that fit before either person is asked to rely on it.</p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <span class="step-number">01</span>
+          <h3>Choose who wakes first</h3>
+          <p>Set the roles for this schedule. Couples Alarm never silently swaps them.</p>
+        </li>
+        <li>
+          <span class="step-number">02</span>
+          <h3>Listen separately</h3>
+          <p>Each partner completes two short listening turns using the iPhone speaker.</p>
+        </li>
+        <li>
+          <span class="step-number">03</span>
+          <h3>Confirm together</h3>
+          <p>Test the suggested tone from the intended bedside position before setup completes.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-title">
+      <div class="principle-visual" aria-hidden="true">
+        <div class="sound-band sound-band-one"></div>
+        <div class="sound-band sound-band-two"></div>
+        <div class="sound-band sound-band-three"></div>
+        <span>one shared result</span>
+      </div>
+      <div>
+        <p class="eyebrow">Designed not to guess</p>
+        <h2 id="principles-title">If the fit is not there, the app stops.</h2>
+        <p>People, rooms, phones, and volume settings vary. If Couples Alarm cannot find a suitable bundled tone for the chosen schedule, it tells you to keep using an alarm you already trust.</p>
+        <p>Couples Alarm is an alarm utility. Its guided listening process is not a hearing test or medical assessment.</p>
+      </div>
+    </section>
+
+    <section class="beta-section" id="beta" aria-labelledby="beta-title">
+      <div class="beta-copy">
+        <p class="eyebrow">Private beta</p>
+        <h2 id="beta-title">Testing thoughtfully before launch.</h2>
+        <p>Couples Alarm is not publicly downloadable from the App Store yet. Beta access requires a direct TestFlight invitation.</p>
+        <p>The current beta is focused on the complete two-partner setup, bedside confirmation, sound character, and everyday alarm management—not on making medical or guaranteed wakefulness claims.</p>
+        <a class="text-link" href="mailto:couplesalarm.support@gmail.com?subject=Couples%20Alarm%20beta%20interest">Ask about beta access <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="beta-actions">
+        <a class="access-card" href="https://apps.apple.com/app/testflight/id899247664">
+          <span class="access-icon">TF</span>
+          <span>
+            <strong>Install TestFlight</strong>
+            <small>You will still need a Couples Alarm invitation.</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        <a class="access-card" href="../privacy/">
+          <span class="access-icon privacy" aria-hidden="true">✓</span>
+          <span>
+            <strong>Read the privacy policy</strong>
+            <small>See what stays on your iPhone and what optional beta feedback stores.</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
   </main>
-  <footer>
-    <a href="../support/">Support</a>
+
+  <footer class="landing-footer">
+    <div>
+      <strong>Couples Alarm</strong>
+      <span>Created by Brian Markowitz</span>
+    </div>
+    <nav aria-label="Footer navigation">
+      <a href="../support/">Support</a>
+      <a href="../privacy/">Privacy</a>
+      <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
+    </nav>
   </footer>
 </body>
 </html>
