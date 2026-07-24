@@ -14,6 +14,11 @@ test("uses one primary menu across every public page", async () => {
   const menus = await Promise.all(
     pages.map(async (page) => {
       const html = await readFile(new URL(page, import.meta.url), "utf8");
+      assert.match(
+        html,
+        /<header class="[^"]*\bsite-header\b[^"]*">/,
+        `${page} uses the shared site header`,
+      );
       const nav = html.match(
         /<nav aria-label="Primary navigation">([\s\S]*?)<\/nav>/,
       )?.[1];
