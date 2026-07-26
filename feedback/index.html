@@ -28,7 +28,7 @@
     <div class="page-title">
       <p class="eyebrow">Couples Alarm beta</p>
       <h1>Tell us how it went</h1>
-      <p class="meta">About two minutes · no account required · please do not include sensitive details</p>
+      <p class="meta">About three minutes · no account required · please do not include sensitive details</p>
     </div>
   </header>
   <main id="content">
@@ -66,64 +66,83 @@
         <legend>Your experience</legend>
 
         <div class="question">
-          <span class="question-title">Were the two roles—waking first and staying asleep—clear?</span>
+          <span class="question-title">Overall, was the Couples Alarm experience clear?</span>
           <div class="choice-grid">
-            <label class="choice"><input type="radio" name="roles" value="Yes, completely" required><span>Yes, completely</span></label>
-            <label class="choice"><input type="radio" name="roles" value="Mostly"><span>Mostly</span></label>
-            <label class="choice"><input type="radio" name="roles" value="No"><span>No</span></label>
-            <label class="choice"><input type="radio" name="roles" value="I did not reach this step"><span>I did not reach this step</span></label>
+            <label class="choice"><input type="radio" name="experienceClarity" value="Yes, completely" required><span>Yes, completely</span></label>
+            <label class="choice"><input type="radio" name="experienceClarity" value="Mostly"><span>Mostly</span></label>
+            <label class="choice"><input type="radio" name="experienceClarity" value="No"><span>No</span></label>
           </div>
         </div>
 
         <div class="question">
-          <span class="question-title">Did the app keep the person you selected as the one waking first?</span>
+          <span class="question-title">Did a scheduled alarm go off when you expected it to?</span>
           <div class="choice-grid">
-            <label class="choice"><input type="radio" name="wakingRole" value="Yes" required><span>Yes</span></label>
-            <label class="choice"><input type="radio" name="wakingRole" value="No"><span>No</span></label>
-            <label class="choice"><input type="radio" name="wakingRole" value="I am not sure"><span>I’m not sure</span></label>
-            <label class="choice"><input type="radio" name="wakingRole" value="I did not reach this step"><span>I did not reach this step</span></label>
+            <label class="choice"><input type="radio" name="alarm" value="Yes, it went off when expected" required><span>Yes, it went off when expected</span></label>
+            <label class="choice"><input type="radio" name="alarm" value="No, it was early, late, or did not go off"><span>No, it was early, late, or did not go off</span></label>
+            <label class="choice"><input type="radio" name="alarm" value="I did not test a scheduled alarm"><span>I did not test a scheduled alarm</span></label>
           </div>
         </div>
 
         <div class="question">
-          <span class="question-title">Was the listening-test result easy to understand?</span>
+          <span class="question-title">Was the alarm loud enough to wake you up?</span>
           <div class="choice-grid">
-            <label class="choice"><input type="radio" name="resultClarity" value="Yes" required><span>Yes</span></label>
-            <label class="choice"><input type="radio" name="resultClarity" value="Partly"><span>Partly</span></label>
-            <label class="choice"><input type="radio" name="resultClarity" value="No"><span>No</span></label>
-            <label class="choice"><input type="radio" name="resultClarity" value="I did not reach this step"><span>I did not reach this step</span></label>
+            <label class="choice"><input type="radio" name="alarmLoudEnough" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="alarmLoudEnough" value="No"><span>No</span></label>
+            <label class="choice"><input type="radio" name="alarmLoudEnough" value="I am not sure yet"><span>I’m not sure yet</span></label>
+            <label class="choice"><input type="radio" name="alarmLoudEnough" value="I did not test a real alarm"><span>I did not test a real alarm</span></label>
           </div>
         </div>
 
         <div class="question">
-          <span class="question-title">If you waited for an alarm, what happened?</span>
+          <span class="question-title">How annoying was the alarm sound?</span>
           <div class="choice-grid">
-            <label class="choice"><input type="radio" name="alarm" value="It went off as expected" required><span>It went off as expected</span></label>
-            <label class="choice"><input type="radio" name="alarm" value="I had a problem"><span>I had a problem</span></label>
-            <label class="choice"><input type="radio" name="alarm" value="I did not test an alarm"><span>I did not test an alarm</span></label>
+            <label class="choice"><input type="radio" name="soundAnnoyance" value="Not at all" required><span>Not at all</span></label>
+            <label class="choice"><input type="radio" name="soundAnnoyance" value="A little"><span>A little</span></label>
+            <label class="choice"><input type="radio" name="soundAnnoyance" value="Moderately"><span>Moderately</span></label>
+            <label class="choice"><input type="radio" name="soundAnnoyance" value="Very"><span>Very</span></label>
+            <label class="choice"><input type="radio" name="soundAnnoyance" value="I did not hear the alarm sound"><span>I did not hear the alarm sound</span></label>
           </div>
         </div>
 
         <div class="question">
-          <span class="question-title">How confident would you feel using Couples Alarm after this test?</span>
+          <span class="question-title">Was the sound so annoying that you would not use it as an alarm?</span>
           <div class="choice-grid">
-            <label class="choice"><input type="radio" name="confidence" value="1 — Not confident" required><span>1 — Not confident</span></label>
-            <label class="choice"><input type="radio" name="confidence" value="2"><span>2</span></label>
-            <label class="choice"><input type="radio" name="confidence" value="3"><span>3</span></label>
-            <label class="choice"><input type="radio" name="confidence" value="4"><span>4</span></label>
-            <label class="choice"><input type="radio" name="confidence" value="5 — Very confident"><span>5 — Very confident</span></label>
-            <label class="choice"><input type="radio" name="confidence" value="Not sure yet"><span>Not sure yet</span></label>
+            <label class="choice"><input type="radio" name="soundDealbreaker" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="soundDealbreaker" value="No"><span>No</span></label>
+            <label class="choice"><input type="radio" name="soundDealbreaker" value="I am not sure yet"><span>I’m not sure yet</span></label>
+            <label class="choice"><input type="radio" name="soundDealbreaker" value="I did not hear the alarm sound"><span>I did not hear the alarm sound</span></label>
+          </div>
+        </div>
+
+        <div class="question">
+          <span class="question-title">Overall, how would you rate Couples Alarm from 1 to 10?</span>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="rating" value="1" required><span>1 — Unusable</span></label>
+            <label class="choice"><input type="radio" name="rating" value="2"><span>2</span></label>
+            <label class="choice"><input type="radio" name="rating" value="3"><span>3</span></label>
+            <label class="choice"><input type="radio" name="rating" value="4"><span>4</span></label>
+            <label class="choice"><input type="radio" name="rating" value="5"><span>5</span></label>
+            <label class="choice"><input type="radio" name="rating" value="6"><span>6</span></label>
+            <label class="choice"><input type="radio" name="rating" value="7"><span>7</span></label>
+            <label class="choice"><input type="radio" name="rating" value="8"><span>8</span></label>
+            <label class="choice"><input type="radio" name="rating" value="9"><span>9</span></label>
+            <label class="choice"><input type="radio" name="rating" value="10"><span>10 — Great</span></label>
           </div>
         </div>
 
         <label class="question">
-          <span class="question-title">What, if anything, felt unclear? <span class="optional">(optional)</span></span>
-          <textarea name="unclear" rows="4" maxlength="700" placeholder="Tell us what happened without including names, schedules, frequencies, or listening results."></textarea>
+          <span class="question-title">Was there anything you did not understand? <span class="optional">(optional)</span></span>
+          <textarea name="unclear" rows="4" maxlength="700" placeholder="Tell us what was confusing without including names, schedules, frequencies, or listening results."></textarea>
         </label>
 
         <label class="question">
-          <span class="question-title">What is the one thing we should improve? <span class="optional">(optional)</span></span>
-          <textarea name="improvement" rows="4" maxlength="700" placeholder="A short, honest answer is perfect."></textarea>
+          <span class="question-title">Was there anything you expected to see or do that was missing? <span class="optional">(optional)</span></span>
+          <textarea name="expectedMissing" rows="4" maxlength="700" placeholder="Tell us what you expected."></textarea>
+        </label>
+
+        <label class="question">
+          <span class="question-title">Do you have any additional comments? <span class="optional">(optional)</span></span>
+          <textarea name="additionalComments" rows="4" maxlength="700" placeholder="A short, honest answer is perfect."></textarea>
         </label>
       </fieldset>
 

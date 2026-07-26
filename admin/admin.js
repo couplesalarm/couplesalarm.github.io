@@ -2,28 +2,25 @@ const feedbackEndpoint =
   "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/list-couples-alarm-feedback";
 
 export function summarizeResponses(responses) {
-  const confidenceScores = responses
-    .map((response) => Number.parseInt(response.confidence, 10))
-    .filter((score) => score >= 1 && score <= 5);
-  const rolesReached = responses.filter(
-    (response) => response.roles !== "I did not reach this step",
-  );
-  const completelyClear = rolesReached.filter(
-    (response) => response.roles === "Yes, completely",
-  ).length;
+  const ratings = responses
+    .map((response) => Number(response.rating))
+    .filter(
+      (rating) => Number.isInteger(rating) && rating >= 1 && rating <= 10,
+    );
 
   return {
     total: responses.length,
     alarmProblems: responses.filter(
-      (response) => response.alarm === "I had a problem",
+      (response) =>
+        response.alarm === "I had a problem" ||
+        response.alarm === "No, it was early, late, or did not go off",
     ).length,
-    averageConfidence: confidenceScores.length
-      ? confidenceScores.reduce((sum, score) => sum + score, 0) /
-        confidenceScores.length
+    averageRating: ratings.length
+      ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length
       : null,
-    rolesClearPercent: rolesReached.length
-      ? (completelyClear / rolesReached.length) * 100
-      : null,
+    soundDealbreakers: responses.filter(
+      (response) => response.sound_dealbreaker === "Yes",
+    ).length,
   };
 }
 
@@ -40,10 +37,17 @@ export function filterResponses(responses, query, build) {
       response.roles,
       response.waking_role,
       response.result_clarity,
+      response.experience_clarity,
       response.alarm,
+      response.alarm_loud_enough,
+      response.sound_annoyance,
+      response.sound_dealbreaker,
       response.confidence,
+      response.rating,
       response.unclear,
       response.improvement,
+      response.expected_missing,
+      response.additional_comments,
     ]
       .filter(Boolean)
       .some((value) => String(value).toLocaleLowerCase().includes(needle));
@@ -90,14 +94,11 @@ if (typeof document !== "undefined") {
     document.querySelector("#metric-alarm-problems").textContent = String(
       summary.alarmProblems,
     );
-    document.querySelector("#metric-confidence").textContent =
-      summary.averageConfidence === null
-        ? "—"
-        : summary.averageConfidence.toFixed(1);
-    document.querySelector("#metric-roles").textContent =
-      summary.rolesClearPercent === null
-        ? "—"
-        : `${Math.round(summary.rolesClearPercent)}%`;
+    document.querySelector("#metric-rating").textContent =
+      summary.averageRating === null ? "—" : summary.averageRating.toFixed(1);
+    document.querySelector("#metric-dealbreakers").textContent = String(
+      summary.soundDealbreakers,
+    );
   }
 
   function renderBuildOptions() {
@@ -153,7 +154,7 @@ if (typeof document !== "undefined") {
         .filter(Boolean)
         .join(" · ");
       card.querySelector(".confidence-badge").textContent =
-        response.confidence?.match(/^[1-5]/)?.[0] || "—";
+        response.rating || response.confidence?.match(/^[1-5]/)?.[0] || "—";
       card.querySelector('[data-field="tested"]').textContent = text(
         response.tested?.join(", "),
         "No parts selected",
@@ -162,16 +163,33 @@ if (typeof document !== "undefined") {
         "roles",
         "waking_role",
         "result_clarity",
+        "experience_clarity",
         "alarm",
+        "alarm_loud_enough",
+        "sound_annoyance",
+        "sound_dealbreaker",
+        "rating",
+        "confidence",
+      ]) {
+        const answer = card.querySelector(`[data-field="${field}"]`);
+        if (response[field] === null || response[field] === undefined) {
+          answer.closest("div").hidden = true;
+        } else {
+          answer.textContent = text(response[field]);
+        }
+      }
+      for (const field of [
         "unclear",
         "improvement",
+        "expected_missing",
+        "additional_comments",
       ]) {
-        card.querySelector(`[data-field="${field}"]`).textContent = text(
-          response[field],
-          field === "unclear" || field === "improvement"
-            ? "No comment"
-            : "Not answered",
-        );
+        const answer = card.querySelector(`[data-field="${field}"]`);
+        if (!response[field]) {
+          answer.closest("div").hidden = true;
+        } else {
+          answer.textContent = response[field];
+        }
       }
       card.querySelector(".response-reference").textContent =
         `Reference ${response.id}`;

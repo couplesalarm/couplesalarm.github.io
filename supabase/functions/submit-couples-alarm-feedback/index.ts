@@ -32,6 +32,11 @@ const allowedAlarms = new Set([
   "I had a problem",
   "I did not test an alarm",
 ]);
+const allowedCurrentAlarms = new Set([
+  "Yes, it went off when expected",
+  "No, it was early, late, or did not go off",
+  "I did not test a scheduled alarm",
+]);
 const allowedConfidence = new Set([
   "1 — Not confident",
   "2",
@@ -39,6 +44,26 @@ const allowedConfidence = new Set([
   "4",
   "5 — Very confident",
   "Not sure yet",
+]);
+const allowedExperienceClarity = new Set(["Yes, completely", "Mostly", "No"]);
+const allowedAlarmLoudEnough = new Set([
+  "Yes",
+  "No",
+  "I am not sure yet",
+  "I did not test a real alarm",
+]);
+const allowedSoundAnnoyance = new Set([
+  "Not at all",
+  "A little",
+  "Moderately",
+  "Very",
+  "I did not hear the alarm sound",
+]);
+const allowedSoundDealbreaker = new Set([
+  "Yes",
+  "No",
+  "I am not sure yet",
+  "I did not hear the alarm sound",
 ]);
 const allowedEntryPoints = new Set(["question_mark"]);
 
@@ -81,6 +106,13 @@ function optionalText(value: unknown, maxLength: number, field: string) {
   return trimmed;
 }
 
+function requiredRating(value: unknown) {
+  if (!Number.isInteger(value) || Number(value) < 1 || Number(value) > 10) {
+    throw new Error("Invalid rating");
+  }
+  return Number(value);
+}
+
 function parseSubmission(input: unknown) {
   if (!input || typeof input !== "object" || Array.isArray(input)) {
     throw new Error("Invalid request body");
@@ -112,33 +144,78 @@ function parseSubmission(input: unknown) {
     throw new Error("Invalid app context");
   }
 
-  return {
+  const context = {
     id: crypto.randomUUID(),
     build,
     app_version: appVersion,
     ios_version: iosVersion,
     entry_point: entryPoint,
     tested,
-    roles: requiredChoice(value.roles, allowedRoles, "roles"),
-    waking_role: requiredChoice(
-      value.wakingRole,
-      allowedWakingRoles,
-      "wakingRole",
+  };
+
+  // Keep accepting the previous form while cached copies age out.
+  if (value.experienceClarity === undefined) {
+    return {
+      ...context,
+      roles: requiredChoice(value.roles, allowedRoles, "roles"),
+      waking_role: requiredChoice(
+        value.wakingRole,
+        allowedWakingRoles,
+        "wakingRole",
+      ),
+      result_clarity: requiredChoice(
+        value.resultClarity,
+        allowedResultClarity,
+        "resultClarity",
+      ),
+      alarm: requiredChoice(value.alarm, allowedAlarms, "alarm"),
+      confidence: requiredChoice(
+        value.confidence,
+        allowedConfidence,
+        "confidence",
+      ),
+      unclear: optionalText(value.unclear, 700, "unclear"),
+      improvement: optionalText(value.improvement, 700, "improvement"),
+      source: "feedback_page_v2",
+    };
+  }
+
+  return {
+    ...context,
+    experience_clarity: requiredChoice(
+      value.experienceClarity,
+      allowedExperienceClarity,
+      "experienceClarity",
     ),
-    result_clarity: requiredChoice(
-      value.resultClarity,
-      allowedResultClarity,
-      "resultClarity",
+    alarm: requiredChoice(value.alarm, allowedCurrentAlarms, "alarm"),
+    alarm_loud_enough: requiredChoice(
+      value.alarmLoudEnough,
+      allowedAlarmLoudEnough,
+      "alarmLoudEnough",
     ),
-    alarm: requiredChoice(value.alarm, allowedAlarms, "alarm"),
-    confidence: requiredChoice(
-      value.confidence,
-      allowedConfidence,
-      "confidence",
+    sound_annoyance: requiredChoice(
+      value.soundAnnoyance,
+      allowedSoundAnnoyance,
+      "soundAnnoyance",
     ),
+    sound_dealbreaker: requiredChoice(
+      value.soundDealbreaker,
+      allowedSoundDealbreaker,
+      "soundDealbreaker",
+    ),
+    rating: requiredRating(value.rating),
     unclear: optionalText(value.unclear, 700, "unclear"),
-    improvement: optionalText(value.improvement, 700, "improvement"),
-    source: "feedback_page_v2",
+    expected_missing: optionalText(
+      value.expectedMissing,
+      700,
+      "expectedMissing",
+    ),
+    additional_comments: optionalText(
+      value.additionalComments,
+      700,
+      "additionalComments",
+    ),
+    source: "feedback_page_v3",
   };
 }
 
@@ -198,10 +275,14 @@ Deno.serve(async (request: Request) => {
       try {
         await sendFeedbackNotification(submission.id, resendApiKey);
       } catch {
-        console.error("Feedback was recorded, but its email notification failed");
+        console.error(
+          "Feedback was recorded, but its email notification failed",
+        );
       }
     } else {
-      console.error("Feedback was recorded, but RESEND_API_KEY is not configured");
+      console.error(
+        "Feedback was recorded, but RESEND_API_KEY is not configured",
+      );
     }
 
     return json(201, { ok: true, reference: submission.id });

@@ -41,13 +41,15 @@ export function buildSubmission(feedback, appContext = emptyAppContext) {
     iosVersion: appContext.iosVersion,
     entryPoint: appContext.entryPoint,
     tested: feedback.tested,
-    roles: feedback.roles,
-    wakingRole: feedback.wakingRole,
-    resultClarity: feedback.resultClarity,
+    experienceClarity: feedback.experienceClarity,
     alarm: feedback.alarm,
-    confidence: feedback.confidence,
+    alarmLoudEnough: feedback.alarmLoudEnough,
+    soundAnnoyance: feedback.soundAnnoyance,
+    soundDealbreaker: feedback.soundDealbreaker,
+    rating: Number(feedback.rating),
     unclear: feedback.unclear.trim(),
-    improvement: feedback.improvement.trim(),
+    expectedMissing: feedback.expectedMissing.trim(),
+    additionalComments: feedback.additionalComments.trim(),
   };
 }
 
@@ -73,13 +75,15 @@ if (typeof document !== "undefined") {
     return {
       build: String(data.get("build") || "").trim(),
       tested: data.getAll("tested").map(String),
-      roles: String(data.get("roles") || ""),
-      wakingRole: String(data.get("wakingRole") || ""),
-      resultClarity: String(data.get("resultClarity") || ""),
+      experienceClarity: String(data.get("experienceClarity") || ""),
       alarm: String(data.get("alarm") || ""),
-      confidence: String(data.get("confidence") || ""),
+      alarmLoudEnough: String(data.get("alarmLoudEnough") || ""),
+      soundAnnoyance: String(data.get("soundAnnoyance") || ""),
+      soundDealbreaker: String(data.get("soundDealbreaker") || ""),
+      rating: String(data.get("rating") || ""),
       unclear: String(data.get("unclear") || "").trim(),
-      improvement: String(data.get("improvement") || "").trim(),
+      expectedMissing: String(data.get("expectedMissing") || "").trim(),
+      additionalComments: String(data.get("additionalComments") || "").trim(),
     };
   }
 
