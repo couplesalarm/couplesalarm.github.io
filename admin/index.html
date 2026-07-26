@@ -79,14 +79,16 @@
             <span class="metric-note">Reported after waiting for an alarm</span>
           </article>
           <article class="metric-card">
-            <span class="metric-label">Average confidence</span>
-            <strong id="metric-confidence">—</strong>
-            <span class="metric-note">Out of 5, excluding “not sure”</span>
+            <span class="metric-label">Average rating</span>
+            <strong id="metric-rating">—</strong>
+            <span class="metric-note">Out of 10 on the current form</span>
           </article>
-          <article class="metric-card">
-            <span class="metric-label">Roles clear</span>
-            <strong id="metric-roles">—</strong>
-            <span class="metric-note">“Yes, completely” responses</span>
+          <article class="metric-card warning">
+            <span class="metric-label">Sound deal-breakers</span>
+            <strong id="metric-dealbreakers">0</strong>
+            <span class="metric-note"
+              >Would not use this sound as an alarm</span
+            >
           </article>
         </section>
 
@@ -151,18 +153,50 @@
             <dd data-field="result_clarity"></dd>
           </div>
           <div>
-            <dt>Alarm result</dt>
+            <dt>Experience clear</dt>
+            <dd data-field="experience_clarity"></dd>
+          </div>
+          <div>
+            <dt>Alarm timing</dt>
             <dd data-field="alarm"></dd>
+          </div>
+          <div>
+            <dt>Loud enough</dt>
+            <dd data-field="alarm_loud_enough"></dd>
+          </div>
+          <div>
+            <dt>Sound annoyance</dt>
+            <dd data-field="sound_annoyance"></dd>
+          </div>
+          <div>
+            <dt>Too annoying to use</dt>
+            <dd data-field="sound_dealbreaker"></dd>
+          </div>
+          <div>
+            <dt>Rating out of 10</dt>
+            <dd data-field="rating"></dd>
+          </div>
+          <div>
+            <dt>Previous confidence</dt>
+            <dd data-field="confidence"></dd>
           </div>
         </dl>
         <div class="comment-grid">
           <div>
-            <h3>What felt unclear</h3>
+            <h3>Did not understand</h3>
             <p data-field="unclear"></p>
           </div>
           <div>
-            <h3>One thing to improve</h3>
+            <h3>Previous improvement comment</h3>
             <p data-field="improvement"></p>
+          </div>
+          <div>
+            <h3>Expected but missing</h3>
+            <p data-field="expected_missing"></p>
+          </div>
+          <div>
+            <h3>Additional comments</h3>
+            <p data-field="additional_comments"></p>
           </div>
         </div>
         <p class="response-reference meta"></p>

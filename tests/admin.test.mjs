@@ -14,19 +14,21 @@ test("summarizes and filters feedback responses", () => {
   const responses = [
     {
       build: "56",
-      roles: "Yes, completely",
-      alarm: "I had a problem",
-      confidence: "2",
+      experience_clarity: "Yes, completely",
+      alarm: "No, it was early, late, or did not go off",
+      rating: 4,
       unclear: "The last step",
-      improvement: "",
+      expected_missing: "",
+      sound_dealbreaker: "No",
     },
     {
       build: "57",
-      roles: "Mostly",
-      alarm: "It went off as expected",
-      confidence: "4",
+      experience_clarity: "Mostly",
+      alarm: "Yes, it went off when expected",
+      rating: 8,
       unclear: "",
-      improvement: "Larger button",
+      expected_missing: "Larger button",
+      sound_dealbreaker: "Yes",
     },
     {
       build: "57",
@@ -41,8 +43,8 @@ test("summarizes and filters feedback responses", () => {
   assert.deepEqual(summarizeResponses(responses), {
     total: 3,
     alarmProblems: 1,
-    averageConfidence: 3,
-    rolesClearPercent: 50,
+    averageRating: 6,
+    soundDealbreakers: 1,
   });
   assert.deepEqual(filterResponses(responses, "larger", "57"), [responses[1]]);
 });

@@ -14,13 +14,15 @@ test("builds the stored feedback payload and trims freeform answers", () => {
   const submission = buildSubmission({
     build: " 55 ",
     tested: ["Welcome and setup", "Waiting for an alarm to go off"],
-    roles: "Mostly",
-    wakingRole: "Yes",
-    resultClarity: "Partly",
-    alarm: "I had a problem",
-    confidence: "3",
+    experienceClarity: "Mostly",
+    alarm: "No, it was early, late, or did not go off",
+    alarmLoudEnough: "No",
+    soundAnnoyance: "Very",
+    soundDealbreaker: "Yes",
+    rating: "3",
     unclear: "  The final confirmation was unclear. ",
-    improvement: " Make the next step more obvious.  ",
+    expectedMissing: " A clearer next step.  ",
+    additionalComments: " I would try it again. ",
   });
 
   assert.deepEqual(submission, {
@@ -29,13 +31,15 @@ test("builds the stored feedback payload and trims freeform answers", () => {
     iosVersion: "",
     entryPoint: "",
     tested: ["Welcome and setup", "Waiting for an alarm to go off"],
-    roles: "Mostly",
-    wakingRole: "Yes",
-    resultClarity: "Partly",
-    alarm: "I had a problem",
-    confidence: "3",
+    experienceClarity: "Mostly",
+    alarm: "No, it was early, late, or did not go off",
+    alarmLoudEnough: "No",
+    soundAnnoyance: "Very",
+    soundDealbreaker: "Yes",
+    rating: 3,
     unclear: "The final confirmation was unclear.",
-    improvement: "Make the next step more obvious.",
+    expectedMissing: "A clearer next step.",
+    additionalComments: "I would try it again.",
   });
   assert.equal("email" in submission, false);
 });
@@ -48,13 +52,15 @@ test("uses app context from the URL fragment instead of asking for a build", () 
     {
       build: "",
       tested: [],
-      roles: "Yes, completely",
-      wakingRole: "Yes",
-      resultClarity: "Yes",
-      alarm: "I did not test an alarm",
-      confidence: "Not sure yet",
+      experienceClarity: "Yes, completely",
+      alarm: "I did not test a scheduled alarm",
+      alarmLoudEnough: "I did not test a real alarm",
+      soundAnnoyance: "I did not hear the alarm sound",
+      soundDealbreaker: "I did not hear the alarm sound",
+      rating: "8",
       unclear: "",
-      improvement: "",
+      expectedMissing: "",
+      additionalComments: "",
     },
     context,
   );
@@ -81,4 +87,26 @@ test("uses app context from the URL fragment instead of asking for a build", () 
     iosVersion: "",
     entryPoint: "",
   });
+});
+
+test("asks each requested beta question once", async () => {
+  const html = await readFile(
+    new URL("../feedback/index.html", import.meta.url),
+    "utf8",
+  );
+  const normalizedHtml = html.replace(/\s+/g, " ");
+  const questions = [
+    "Was the alarm loud enough to wake you up?",
+    "How annoying was the alarm sound?",
+    "Was the sound so annoying that you would not use it as an alarm?",
+    "Overall, was the Couples Alarm experience clear?",
+    "Was there anything you did not understand?",
+    "Was there anything you expected to see or do that was missing?",
+    "Do you have any additional comments?",
+    "Overall, how would you rate Couples Alarm from 1 to 10?",
+  ];
+
+  for (const question of questions) {
+    assert.equal(normalizedHtml.split(question).length - 1, 1, question);
+  }
 });

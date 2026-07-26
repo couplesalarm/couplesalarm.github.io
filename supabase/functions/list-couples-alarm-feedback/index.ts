@@ -1,7 +1,7 @@
 const allowedOrigin = "https://couplesalarm.github.io";
 const pageSize = 500;
 const select =
-  "id,created_at,build,app_version,ios_version,entry_point,tested,roles,waking_role,result_clarity,alarm,confidence,unclear,improvement,source";
+  "id,created_at,build,app_version,ios_version,entry_point,tested,roles,waking_role,result_clarity,experience_clarity,alarm,alarm_loud_enough,sound_annoyance,sound_dealbreaker,confidence,rating,unclear,improvement,expected_missing,additional_comments,source";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": allowedOrigin,
