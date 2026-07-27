@@ -4,6 +4,7 @@ import test from "node:test";
 
 const pages = [
   "../index.html",
+  "../beta/index.html",
   "../download/index.html",
   "../support/index.html",
   "../feedback/index.html",
