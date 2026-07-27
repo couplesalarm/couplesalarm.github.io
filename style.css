@@ -397,6 +397,46 @@ nav a[aria-current="page"] {
   font-size: 0.9rem;
 }
 
+.beta-video-layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 21rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 7vw, 6rem);
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  background: #000;
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 35%);
+}
+
+.video-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.beta-video-copy h2 {
+  max-width: 18ch;
+  margin-top: 1rem;
+}
+
+.beta-video-copy p:not(.eyebrow),
+.stacked-actions small {
+  color: var(--muted);
+}
+
+.stacked-actions small {
+  max-width: 18rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
 .link-grid,
 .feedback-form,
 .choice-grid {
@@ -769,6 +809,7 @@ button:disabled {
 
   .page-footer,
   .install-callout,
+  .beta-video-layout,
   .support-contact {
     display: grid;
     grid-template-columns: 1fr;
