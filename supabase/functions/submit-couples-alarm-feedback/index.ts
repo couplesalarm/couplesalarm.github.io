@@ -1,7 +1,10 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { sendFeedbackNotification } from "./email.ts";
 
-const allowedOrigin = "https://couplesalarm.github.io";
+const allowedOrigins = new Set([
+  "https://couplesalarm.com",
+  "https://couplesalarm.github.io",
+]);
 const allowedTested = new Set([
   "Welcome and setup",
   "Listening test and result",
@@ -67,19 +70,25 @@ const allowedSoundDealbreaker = new Set([
 ]);
 const allowedEntryPoints = new Set(["question_mark"]);
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": allowedOrigin,
-  "Access-Control-Allow-Headers": "content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Max-Age": "86400",
-  Vary: "Origin",
-};
+function corsHeaders(origin: string) {
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Headers": "content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Max-Age": "86400",
+    Vary: "Origin",
+  };
+}
 
-function json(status: number, body: Record<string, unknown>) {
+function json(
+  status: number,
+  body: Record<string, unknown>,
+  origin: string,
+) {
   return new Response(JSON.stringify(body), {
     status,
     headers: {
-      ...corsHeaders,
+      ...corsHeaders(origin),
       "Content-Type": "application/json; charset=utf-8",
     },
   });
@@ -219,16 +228,24 @@ function parseSubmission(input: unknown) {
   };
 }
 
-Deno.serve(async (request: Request) => {
+export async function handleRequest(request: Request) {
   const origin = request.headers.get("origin");
-  if (origin !== allowedOrigin) {
-    return json(403, { ok: false, error: "Origin not allowed" });
+  if (!origin || !allowedOrigins.has(origin)) {
+    return new Response(
+      JSON.stringify({ ok: false, error: "Origin not allowed" }),
+      {
+        status: 403,
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+      },
+    );
   }
+  const respond = (status: number, body: Record<string, unknown>) =>
+    json(status, body, origin);
   if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders });
+    return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
   if (request.method !== "POST") {
-    return json(405, { ok: false, error: "Method not allowed" });
+    return respond(405, { ok: false, error: "Method not allowed" });
   }
   if (
     !request.headers
@@ -236,7 +253,7 @@ Deno.serve(async (request: Request) => {
       ?.toLowerCase()
       .startsWith("application/json")
   ) {
-    return json(415, {
+    return respond(415, {
       ok: false,
       error: "Content-Type must be application/json",
     });
@@ -245,7 +262,7 @@ Deno.serve(async (request: Request) => {
   try {
     const rawBody = await request.text();
     if (new TextEncoder().encode(rawBody).length > 16_384) {
-      return json(413, { ok: false, error: "Request is too large" });
+      return respond(413, { ok: false, error: "Request is too large" });
     }
     const submission = parseSubmission(JSON.parse(rawBody));
 
@@ -285,7 +302,7 @@ Deno.serve(async (request: Request) => {
       );
     }
 
-    return json(201, { ok: true, reference: submission.id });
+    return respond(201, { ok: true, reference: submission.id });
   } catch (error) {
     if (
       error instanceof SyntaxError ||
@@ -293,9 +310,16 @@ Deno.serve(async (request: Request) => {
       (error instanceof Error && error.message.endsWith("is too long")) ||
       (error instanceof Error && error.message.startsWith("Duplicate"))
     ) {
-      return json(400, { ok: false, error: error.message });
+      return respond(400, { ok: false, error: error.message });
     }
     // ponytail: Invite-only beta skips CAPTCHA; add bot protection only if spam appears.
-    return json(500, { ok: false, error: "Feedback could not be recorded" });
+    return respond(500, {
+      ok: false,
+      error: "Feedback could not be recorded",
+    });
   }
-});
+}
+
+if (typeof Deno !== "undefined") {
+  Deno.serve(handleRequest);
+}

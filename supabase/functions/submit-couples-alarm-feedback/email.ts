@@ -17,7 +17,7 @@ export async function sendFeedbackNotification(
       subject: "New Couples Alarm beta feedback",
       text:
         `New beta feedback was submitted.\n\nReference: ${reference}\n\n` +
-        "Review it: https://couplesalarm.github.io/admin/",
+        "Review it: https://couplesalarm.com/admin/",
     }),
   });
   if (!response.ok) throw new Error("Feedback email failed");

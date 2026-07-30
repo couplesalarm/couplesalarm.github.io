@@ -2,7 +2,35 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { handleRequest } from "../supabase/functions/list-couples-alarm-feedback/index.ts";
 
-const origin = "https://couplesalarm.github.io";
+const origin = "https://couplesalarm.com";
+
+test("allows both website origins and rejects others", async () => {
+  for (const allowedOrigin of [
+    "https://couplesalarm.com",
+    "https://couplesalarm.github.io",
+  ]) {
+    const response = await handleRequest(
+      new Request("https://example.test", {
+        method: "OPTIONS",
+        headers: { Origin: allowedOrigin },
+      }),
+    );
+    assert.equal(response.status, 204);
+    assert.equal(
+      response.headers.get("Access-Control-Allow-Origin"),
+      allowedOrigin,
+    );
+  }
+
+  const rejected = await handleRequest(
+    new Request("https://example.test", {
+      method: "OPTIONS",
+      headers: { Origin: "https://example.com" },
+    }),
+  );
+  assert.equal(rejected.status, 403);
+  assert.equal(rejected.headers.get("Access-Control-Allow-Origin"), null);
+});
 
 test("rejects the wrong passcode without reading feedback", async () => {
   let fetched = false;
