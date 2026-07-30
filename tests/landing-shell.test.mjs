@@ -35,8 +35,9 @@ test("keeps the social video and angled app showcase on the landing page", () =>
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
   assert.match(html, /For couples with different wake-up times/);
-  assert.match(html, /You may hear the same alarm differently/);
-  assert.match(html, /Find and confirm a tone together before bedtime/);
+  assert.match(html, /Take a quick listening test together/);
+  assert.match(html, /looks for a tone the person waking up hears/);
+  assert.match(html, /If there’s a fit, that becomes the alarm/);
   assert.match(html, /<button class="store-state" type="button" disabled/);
   assert.match(html, />Coming Soon<\/button>/);
   assert.doesNotMatch(
