@@ -253,16 +253,6 @@ h1 span {
   border-color: rgb(255 121 87 / 13%);
 }
 
-.product-preview figcaption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #708087;
-  font: 700 0.62rem/1.2 "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
 .product-preview video {
   display: block;
   width: 100%;
@@ -275,14 +265,6 @@ h1 span {
     0 2.8rem 5rem rgb(0 0 0 / 55%),
     0 0 0 0.35rem rgb(255 255 255 / 2.5%);
   object-fit: cover;
-}
-
-.product-preview figcaption {
-  margin-top: 0.65rem;
-  justify-content: center;
-  letter-spacing: 0.04em;
-  text-align: center;
-  text-transform: none;
 }
 
 .app-showcase {
@@ -511,11 +493,6 @@ h1 span {
       0 0 0 0.25rem rgb(255 255 255 / 2.5%);
   }
 
-  .product-preview figcaption {
-    margin-top: 0.4rem;
-    font-size: 0.48rem;
-  }
-
   .app-showcase {
     height: min(34vh, 18.5rem);
     min-height: 0;
@@ -670,10 +647,6 @@ h1 span {
 
   .product-preview {
     width: min(100%, 8.5rem);
-  }
-
-  .product-preview figcaption {
-    display: none;
   }
 
   .product-preview video {
