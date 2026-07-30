@@ -42,7 +42,7 @@
         </div>
 
         <figure class="product-preview">
-          <video id="product-preview" controls preload="metadata" poster="assets/couples-alarm-preview-poster.jpg?v=20260730-social-launch" aria-label="Play the Couples Alarm story">
+          <video id="product-preview" preload="metadata" poster="assets/couples-alarm-preview-poster.jpg?v=20260730-social-launch" aria-label="Play the Couples Alarm story">
             <source src="assets/couples-alarm-preview.mp4?v=20260730-social-launch" type="video/mp4">
             Your browser does not support embedded video.
           </video>
@@ -64,14 +64,18 @@
   <script>
     const video = document.querySelector("#product-preview");
     const playButton = document.querySelector(".video-play-button");
-    const syncPlayButton = () => {
-      playButton.hidden = !video.paused;
+    const showPosterState = () => {
+      video.controls = false;
+      playButton.hidden = false;
     };
 
-    playButton.onclick = () => video.play().catch(syncPlayButton);
-    video.onplay = syncPlayButton;
-    video.onpause = syncPlayButton;
-    video.onended = syncPlayButton;
+    playButton.onclick = () => video.play().catch(showPosterState);
+    video.onplaying = () => {
+      video.controls = true;
+      playButton.hidden = true;
+    };
+    video.onended = showPosterState;
+    showPosterState();
   </script>
 </body>
 </html>
