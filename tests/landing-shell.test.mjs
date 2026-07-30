@@ -21,6 +21,8 @@ test("keeps the social video and angled app showcase on the landing page", () =>
     /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/,
   );
   assert.match(html, /28-second Couples Alarm social launch video/);
+  assert.match(html, /<video id="product-preview" controls/);
+  assert.doesNotMatch(html, /playsinline/);
   assert.match(html, /Different ears\.<br><span>One alarm\.<\/span>/);
   assert.match(html, /assets\/dashboard\.png\?v=20260730/);
   assert.match(html, /Local by design/);
