@@ -17,17 +17,13 @@ test("keeps beta routes out of public navigation", async () => {
     const footer = html.match(
       /<nav aria-label="Footer navigation">([\s\S]*?)<\/nav>/,
     )?.[1];
-
     assert.ok(primary, `${page} has primary navigation`);
+    const labels = [...primary.matchAll(/<a\b[^>]*>([^<]+)<\/a>/g)].map(
+      ([, label]) => label,
+    );
+    assert.deepEqual(labels, ["Support", "Privacy"]);
     assert.doesNotMatch(primary, /beta|testflight|install/i);
-    if (page === "../index.html") {
-      assert.equal(footer, undefined, `${page} avoids duplicate navigation`);
-    } else {
-      assert.ok(footer, `${page} has footer navigation`);
-      assert.doesNotMatch(footer, /beta|testflight|install/i);
-    }
-    assert.match(primary, /Support/);
-    assert.match(primary, /Privacy/);
+    assert.equal(footer, undefined, `${page} avoids duplicate navigation`);
   }
 });
 

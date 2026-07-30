@@ -29,6 +29,6 @@ test("keeps the social video and angled app showcase on the landing page", () =>
   assert.match(html, /Each partner checks tones before you compare the results/);
   assert.doesNotMatch(
     html,
-    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|proof-list|Footer navigation|play-preview/,
+    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|proof-list|Footer navigation|play-preview/,
   );
 });
