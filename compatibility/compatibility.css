@@ -488,6 +488,21 @@ h1 em {
   min-height: 4.4rem;
 }
 
+.stop-tone-action {
+  min-width: 15rem;
+  min-height: 3rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid rgb(82 219 226 / 48%);
+  border-radius: 999px;
+  background: rgb(82 219 226 / 9%);
+  color: #dffcff;
+}
+
+.stop-tone-action:hover {
+  border-color: var(--aqua);
+  background: rgb(82 219 226 / 15%);
+}
+
 .start-tone {
   position: absolute;
   inset: 0;
@@ -909,8 +924,15 @@ h1 em {
   }
 
   .text-action {
-    min-height: 38px;
+    min-height: 44px;
     font-size: 0.75rem;
+  }
+
+  .stop-tone-action {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.65rem 1rem;
+    font-size: 0.82rem;
   }
 
   .start-tone {
