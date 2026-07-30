@@ -42,6 +42,16 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /notHeardButton\.disabled = true/);
   assert.match(script, /if \(sweepPlaying\) return/);
   assert.match(script, /data-stop-tone/);
+  assert.match(script, /const activeVoices = new Set\(\)/);
+  assert.match(script, /const animationFrames = new Set\(\)/);
+  assert.match(script, /voice\.gain\.gain\.setValueAtTime\(0, now\)/);
+  assert.match(script, /activeVoices\.forEach\(stopVoice\)/);
+  assert.match(script, /if \(run !== toneRun\) return/);
+  assert.match(
+    script,
+    /startToneButton\.hidden = true;\s*startToneButton\.disabled = true;[\s\S]*await audioContext\.resume\(\)/,
+  );
+  assert.match(script, /window\.addEventListener\("pagehide", closeAudio\)/);
   assert.match(script, /showResult\(\)/);
   assert.doesNotMatch(script, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/);
 });
@@ -64,4 +74,8 @@ test("keeps test controls accessible on mobile", () => {
   );
   assert.match(css, /\.primary-action\s*\{[\s\S]*min-height:\s*3\.25rem/);
   assert.match(css, /\.site-header nav a\s*\{[\s\S]*min-width:\s*48px/);
+  assert.match(
+    css,
+    /\.stop-tone-action\s*\{[\s\S]*width:\s*100%[\s\S]*min-height:\s*48px/,
+  );
 });

@@ -16,10 +16,10 @@
   let turn = 0;
   let responses = [undefined, undefined];
   let audioContext;
-  let oscillator;
-  let gain;
+  const activeVoices = new Set();
+  const animationFrames = new Set();
+  let toneRun = 0;
   let sweepStartedAt = 0;
-  let animationFrame;
   let sweepPlaying = false;
 
   const isIPhone = /iPhone|iPod/i.test(navigator.userAgent);
@@ -114,24 +114,42 @@
     errorMessage.hidden = false;
   };
 
+  const stopVoice = (voice) => {
+    const now = voice.context.currentTime;
+    try {
+      voice.gain.gain.cancelScheduledValues(now);
+      voice.gain.gain.setValueAtTime(0, now);
+    } catch {
+      // Disconnecting the graph below is the final silence fallback.
+    }
+
+    try {
+      voice.oscillator.stop(now);
+    } catch {
+      // The oscillator may already have reached its scheduled stop time.
+    }
+
+    try {
+      voice.oscillator.disconnect();
+    } catch {
+      // The oscillator may already be disconnected.
+    }
+
+    try {
+      voice.gain.disconnect();
+    } catch {
+      // The gain may already be disconnected.
+    }
+
+    activeVoices.delete(voice);
+  };
+
   const stopTone = () => {
+    toneRun += 1;
     sweepPlaying = false;
-    window.cancelAnimationFrame(animationFrame);
-
-    if (oscillator) {
-      try {
-        oscillator.stop();
-      } catch {
-        // The oscillator may already have reached its scheduled stop time.
-      }
-      oscillator.disconnect();
-      oscillator = undefined;
-    }
-
-    if (gain) {
-      gain.disconnect();
-      gain = undefined;
-    }
+    animationFrames.forEach((frame) => window.cancelAnimationFrame(frame));
+    animationFrames.clear();
+    activeVoices.forEach(stopVoice);
   };
 
   const drawVisualizer = (progress = 0.08, playing = false) => {
@@ -213,6 +231,7 @@
     const notHeardButton = document.querySelector("[data-not-heard]");
     const stopToneButton = document.querySelector("[data-stop-tone]");
     startToneButton.hidden = false;
+    startToneButton.disabled = false;
     heardButton.disabled = true;
     notHeardButton.hidden = false;
     notHeardButton.disabled = true;
@@ -222,7 +241,16 @@
 
   const startTone = async () => {
     stopTone();
+    const run = toneRun;
     errorMessage.hidden = true;
+    const startToneButton = document.querySelector("[data-start-tone]");
+    const heardButton = document.querySelector("[data-heard]");
+    const notHeardButton = document.querySelector("[data-not-heard]");
+    const stopToneButton = document.querySelector("[data-stop-tone]");
+    startToneButton.hidden = true;
+    startToneButton.disabled = true;
+    setText("[data-audio-status]", "Starting…");
+    setText("[data-audio-detail]", "Preparing the tone.");
 
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -231,9 +259,12 @@
       }
       audioContext ||= new AudioContextClass();
       await audioContext.resume();
+      if (run !== toneRun) return;
 
-      oscillator = audioContext.createOscillator();
-      gain = audioContext.createGain();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      const voice = { context: audioContext, oscillator, gain };
+      activeVoices.add(voice);
       oscillator.type = "sine";
 
       const now = audioContext.currentTime;
@@ -253,11 +284,6 @@
       sweepStartedAt = performance.now();
       sweepPlaying = true;
 
-      const startToneButton = document.querySelector("[data-start-tone]");
-      const heardButton = document.querySelector("[data-heard]");
-      const notHeardButton = document.querySelector("[data-not-heard]");
-      const stopToneButton = document.querySelector("[data-stop-tone]");
-      startToneButton.hidden = true;
       heardButton.disabled = false;
       notHeardButton.hidden = true;
       notHeardButton.disabled = true;
@@ -267,6 +293,7 @@
       setText("[data-audio-detail]", "The tone is sweeping down.");
 
       const animate = () => {
+        if (run !== toneRun) return;
         const progress = Math.min(
           1,
           (performance.now() - sweepStartedAt) / sweepDuration,
@@ -274,7 +301,7 @@
         drawVisualizer(reduceMotion.matches ? 0.45 : progress, true);
 
         if (progress < 1 && sweepPlaying) {
-          animationFrame = window.requestAnimationFrame(animate);
+          scheduleFrame();
           return;
         }
 
@@ -289,10 +316,20 @@
         drawVisualizer(1, false);
       };
 
-      animationFrame = window.requestAnimationFrame(animate);
+      const scheduleFrame = () => {
+        const frame = window.requestAnimationFrame(() => {
+          animationFrames.delete(frame);
+          animate();
+        });
+        animationFrames.add(frame);
+      };
+
+      scheduleFrame();
     } catch {
+      if (run !== toneRun) return;
       stopTone();
       document.querySelector("[data-start-tone]").hidden = false;
+      document.querySelector("[data-start-tone]").disabled = false;
       document
         .querySelector("[data-start-tone]")
         .focus({ preventScroll: true });
@@ -420,7 +457,7 @@
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden || !sweepPlaying) return;
+    if (!document.hidden) return;
     stopTone();
     document.querySelector("[data-start-tone]").hidden = false;
     document.querySelector("[data-heard]").disabled = true;
@@ -432,7 +469,17 @@
     drawVisualizer();
   });
 
-  window.addEventListener("beforeunload", stopTone);
+  const closeAudio = () => {
+    stopTone();
+    const context = audioContext;
+    audioContext = undefined;
+    if (context && context.state !== "closed") {
+      context.close().catch(() => {});
+    }
+  };
+
+  window.addEventListener("pagehide", closeAudio);
+  window.addEventListener("beforeunload", closeAudio);
 
   updateDeviceCopy();
   updateRoles();
