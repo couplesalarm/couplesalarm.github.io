@@ -18,7 +18,7 @@ const script = await readFile(
 test("uses anonymous two-partner language throughout the preview", () => {
   assert.match(html, /Partner One/);
   assert.match(html, /Partner Two/);
-  assert.match(html, /Your audio and responses aren’t recorded or saved/);
+  assert.match(html, /Nothing is saved/);
   assert.doesNotMatch(html, /<input|enter your name|Alex|Jordan/i);
   assert.doesNotMatch(script, /localStorage|sessionStorage|document\.cookie/);
 });
@@ -26,10 +26,9 @@ test("uses anonymous two-partner language throughout the preview", () => {
 test("keeps the preview device-aware and honest about its limits", () => {
   assert.match(script, /iPhone\|iPod/);
   assert.match(script, /Built-in speakers/);
-  assert.match(html, /Stop if the sound feels uncomfortable/);
-  assert.match(html, /compatibility preview, not a hearing test/i);
-  assert.match(html, /Results can vary by device and room/);
-  assert.match(html, /confirms any match with a real bedside alarm/);
+  assert.match(html, /Stop if uncomfortable/);
+  assert.match(html, /Preview only—not a hearing test/);
+  assert.match(html, /Confirm any match with a real bedside alarm/);
 });
 
 test("runs both listening turns locally with Web Audio", () => {
@@ -43,7 +42,9 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /if \(sweepPlaying\) return/);
   assert.match(script, /data-stop-tone/);
   assert.match(script, /const activeVoices = new Set\(\)/);
-  assert.match(script, /const animationFrames = new Set\(\)/);
+  assert.match(script, /let sweepTimer/);
+  assert.match(script, /window\.setTimeout/);
+  assert.match(script, /window\.clearTimeout/);
   assert.match(script, /voice\.gain\.gain\.setValueAtTime\(0, now\)/);
   assert.match(script, /activeVoices\.forEach\(stopVoice\)/);
   assert.match(script, /if \(run !== toneRun\) return/);
@@ -53,7 +54,15 @@ test("runs both listening turns locally with Web Audio", () => {
   );
   assert.match(script, /window\.addEventListener\("pagehide", closeAudio\)/);
   assert.match(script, /showResult\(\)/);
+  assert.doesNotMatch(script, /requestAnimationFrame|drawVisualizer/);
+  assert.doesNotMatch(html, /tone-visualizer|data-audio-detail/);
   assert.doesNotMatch(script, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/);
+});
+
+test("keeps every step concise", () => {
+  assert.match(html, /Can one of you hear what the other/);
+  assert.match(html, /About 1 minute · Nothing is saved/);
+  assert.doesNotMatch(html, /ready-art|readiness-list|listen-safety/);
 });
 
 test("keeps test controls accessible on mobile", () => {
@@ -73,11 +82,15 @@ test("keeps test controls accessible on mobile", () => {
     css,
     /@media \(max-width: 760px\) and \(max-height: 700px\)[\s\S]*overflow-y:\s*auto/,
   );
-  assert.match(css, /\.primary-action\s*\{[\s\S]*min-height:\s*3\.25rem/);
+  assert.match(css, /button\s*\{[\s\S]*touch-action:\s*manipulation/);
   assert.match(css, /\.site-header nav a\s*\{[\s\S]*min-width:\s*48px/);
   assert.match(
     css,
-    /\.stop-tone-action\s*\{[\s\S]*width:\s*100%[\s\S]*min-height:\s*48px/,
+    /\.listening-action\s*\{[\s\S]*min-height:\s*7rem/,
+  );
+  assert.match(
+    css,
+    /\.listening-stage > \.text-action\s*\{[\s\S]*min-height:\s*4rem/,
   );
   assert.match(
     css,

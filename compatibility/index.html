@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#06111a">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Compatibility preview — Couples Alarm</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260730-3">
+  <link rel="stylesheet" href="compatibility.css?v=20260730-4">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the compatibility preview</a>
@@ -35,84 +35,49 @@
 
       <section class="screen ready-screen" data-screen="ready" aria-labelledby="ready-title">
         <div class="ready-heading">
-          <p class="eyebrow">Compatibility preview</p>
-          <h1 id="ready-title">Let’s see if Couples Alarm <span>fits you.</span></h1>
-          <p><span data-device-intro>You’ll each listen once on this device.</span> We’re looking for a tone one of you hears and the other doesn’t.</p>
+          <h1 id="ready-title">Can one of you hear what the other <span>can’t?</span></h1>
+          <p data-device-intro>Take turns listening on this device.</p>
         </div>
 
-        <div class="role role-waking">
-          <span>Waking up</span>
+        <div class="role-picker">
+          <span>Needs to wake up</span>
           <strong data-waking-partner>Partner One</strong>
-          <button type="button" data-swap-roles>Swap roles</button>
-        </div>
-
-        <figure class="ready-art">
-          <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="Two partners and their dog trying the Couples Alarm compatibility preview together">
-        </figure>
-
-        <div class="role role-sleeping">
-          <span>Staying asleep</span>
-          <strong data-sleeping-partner>Partner Two</strong>
-          <button type="button" data-swap-roles>Swap roles</button>
-        </div>
-
-        <div class="readiness-list" aria-label="Before you start">
-          <div>
-            <strong>Quiet room</strong>
-            <span>Turn off TV and loud noise.</span>
-          </div>
-          <div>
-            <strong data-speaker-title>Device speaker</strong>
-            <span data-speaker-copy>No headphones or external speakers.</span>
-          </div>
-          <div>
-            <strong>Comfortable volume</strong>
-            <span>Stop if the sound feels uncomfortable.</span>
-          </div>
+          <button type="button" data-swap-roles>Switch partner</button>
         </div>
 
         <div class="ready-actions">
           <button class="primary-action" type="button" data-start-preview>
             <img src="../assets/play-fill.svg" alt="">
-            <span>Start with <b data-starting-partner>Partner One</b></span>
+            <span>Start test</span>
           </button>
-          <p>About 2 minutes · Your audio and responses aren’t recorded or saved.</p>
+          <p>About 1 minute · Nothing is saved.</p>
         </div>
 
-        <p class="preview-limit">Compatibility preview only. The app repeats the test on the iPhone used for the alarm and confirms any match with a real bedside alarm.</p>
+        <p class="preview-limit">Quiet room · Phone speaker · Comfortable volume</p>
       </section>
 
       <section class="screen listen-screen" data-screen="listen" aria-labelledby="listen-title" hidden>
         <div class="listen-copy">
-          <p class="eyebrow">Compatibility preview</p>
-          <h1 id="listen-title"><span data-listening-partner>Partner One</span>,<br><em>tap when you hear it.</em></h1>
-          <p>Listen from a comfortable distance. The tone starts high and sweeps down.</p>
-          <div class="listen-safety">
-            <strong data-speaker-title>Device speaker only</strong>
-            <span data-speaker-copy>No headphones or external speakers.</span>
-            <strong>Stop if uncomfortable</strong>
-            <span>You can end the sound at any time.</span>
-          </div>
+          <h1 id="listen-title"><span data-listening-partner>Partner One</span>: <em>tap when you hear it.</em></h1>
+          <p><strong data-speaker-title>Device speaker</strong> · Comfortable volume · Stop if uncomfortable.</p>
         </div>
 
         <div class="listening-stage">
-          <canvas id="tone-visualizer" width="960" height="480" aria-hidden="true"></canvas>
           <div class="listening-status" aria-live="polite">
-            <strong data-audio-status>Ready to listen</strong>
-            <span data-audio-detail>Tap Start when Partner One is ready.</span>
+            <strong data-audio-status>Ready</strong>
           </div>
-          <button class="primary-action listening-action" type="button" data-heard disabled>
-            I hear it — stop
+          <button class="primary-action listening-action" type="button" data-heard hidden disabled>
+            I hear it
           </button>
-          <button class="text-action" type="button" data-not-heard disabled>I didn’t hear it</button>
-          <button class="text-action stop-tone-action" type="button" data-stop-tone hidden>Stop without answering</button>
+          <button class="text-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
+          <button class="text-action" type="button" data-stop-tone hidden>Stop</button>
           <button class="start-tone" type="button" data-start-tone>
             <img src="../assets/play-fill.svg" alt="">
-            <span>Start the tone</span>
+            <span>Play sound</span>
           </button>
         </div>
 
-        <p class="preview-limit">This is a compatibility preview, not a hearing test. Results can vary by device and room.</p>
+        <p class="preview-limit">Preview only—not a hearing test.</p>
       </section>
 
       <section class="screen handoff-screen" data-screen="handoff" aria-labelledby="handoff-title" hidden>
@@ -120,9 +85,8 @@
           <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="">
         </figure>
         <div>
-          <p class="eyebrow">One turn complete</p>
-          <h1 id="handoff-title">Now hand the device to <span data-next-partner>Partner Two.</span></h1>
-          <p>Keep the same device, room, position, and volume so the two turns are comparable.</p>
+          <h1 id="handoff-title">Pass the device to <span data-next-partner>Partner Two.</span></h1>
+          <p>Keep the same volume.</p>
           <button class="primary-action" type="button" data-next-turn>
             <img src="../assets/play-fill.svg" alt="">
             <span><b data-next-partner>Partner Two</b> is ready</span>
@@ -145,7 +109,7 @@
             <strong data-result-partner-two>Completed</strong>
           </div>
         </div>
-        <p class="result-limit" data-result-limit>The app repeats the test on the iPhone used for the alarm and confirms any match with a real bedside alarm.</p>
+        <p class="result-limit" data-result-limit>Confirm any match with a real bedside alarm.</p>
         <div class="result-actions">
           <a class="primary-action" href="../">Back to Couples Alarm</a>
           <button class="text-action" type="button" data-restart>Try again</button>
@@ -156,6 +120,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260730-3"></script>
+  <script src="compatibility.js?v=20260730-4"></script>
 </body>
 </html>
