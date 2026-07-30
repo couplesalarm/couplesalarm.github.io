@@ -26,12 +26,18 @@ test("keeps the social video and compatibility preview on the landing page", () 
   assert.doesNotMatch(html, /playsinline/);
   assert.match(html, /class="video-play-button"/);
   assert.match(html, /aria-label="Play the Couples Alarm video"/);
+  assert.match(html, /const playVideo = \(\) => \{/);
   assert.match(html, /video\.play\(\)\.catch\(showPosterState\)/);
+  assert.match(html, /playButton\.onclick = playVideo/);
+  assert.match(html, /video\.onclick = \(\) => \{/);
+  assert.match(html, /if \(video\.paused\) playVideo\(\)/);
   assert.match(html, /video\.onplaying = \(\) => \{/);
   assert.match(html, /video\.controls = true/);
   assert.match(html, /video\.onended = showPosterState/);
   assert.doesNotMatch(html, /video\.onpause/);
   assert.match(css, /\.video-play-button\[hidden\]\s*\{[\s\S]*display:\s*none/);
+  assert.match(css, /\.product-preview video\s*\{[\s\S]*cursor:\s*pointer/);
+  assert.match(css, /\.video-play-button:not\(\[hidden\]\)\s*\{[\s\S]*animation:\s*invite-play/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Find a tone one of you hears and the other doesn’t/);
   assert.match(html, /class="compatibility-card" href="compatibility\/"/);

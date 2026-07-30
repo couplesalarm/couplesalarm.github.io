@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — Wake up. Let them sleep.</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-compatibility">
+  <link rel="stylesheet" href="landing.css?v=20260730-video-affordance-2">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -89,13 +89,17 @@
     };
 
     const isMobile = window.matchMedia("(max-width: 720px)");
-    playButton.onclick = () => {
+    const playVideo = () => {
       if (isMobile.matches && typeof video.webkitEnterFullscreen === "function") {
         video.webkitEnterFullscreen();
       } else if (isMobile.matches && video.requestFullscreen) {
         video.requestFullscreen().catch(() => {});
       }
       video.play().catch(showPosterState);
+    };
+    playButton.onclick = playVideo;
+    video.onclick = () => {
+      if (video.paused) playVideo();
     };
     video.onplaying = () => {
       video.controls = true;
