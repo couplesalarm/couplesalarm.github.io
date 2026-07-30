@@ -150,20 +150,8 @@ main {
 }
 
 .hero-copy {
-  position: relative;
   align-self: center;
   padding-right: clamp(0rem, 2vw, 2rem);
-}
-
-.hero-copy::after {
-  display: block;
-  width: min(21rem, 82%);
-  height: 0.65rem;
-  margin-top: clamp(1.2rem, 3vh, 2rem);
-  background:
-    linear-gradient(var(--line), var(--line)) center / 100% 1px no-repeat,
-    repeating-linear-gradient(90deg, transparent 0 1.45rem, rgb(244 241 233 / 24%) 1.45rem 1.5rem);
-  content: "";
 }
 
 .eyebrow {
@@ -432,10 +420,6 @@ h1 span {
     padding-right: 0;
   }
 
-  .hero-copy::after {
-    display: none;
-  }
-
   .eyebrow {
     margin-bottom: 0.65rem;
     font-size: 0.57rem;
@@ -541,10 +525,6 @@ h1 span {
     font-size: 0.95rem;
   }
 
-  .hero-copy::after {
-    margin-top: 1rem;
-  }
-
   .product-preview {
     width: min(100%, 14rem);
   }
@@ -592,7 +572,6 @@ h1 span {
     align-self: center;
   }
 
-  .hero-copy::after,
   .store-state {
     display: none;
   }
