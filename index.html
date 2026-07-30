@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — Wake up. Let them sleep.</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-video-affordance-2">
+  <link rel="stylesheet" href="landing.css?v=20260730-landscape-1">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -52,7 +52,7 @@
 
         <a class="compatibility-card" href="compatibility/" aria-label="Start the two-minute Couples Alarm compatibility test">
           <picture class="compatibility-poster" aria-hidden="true">
-            <source media="(min-width: 721px)" srcset="assets/compatibility-card-poster.png?v=20260730">
+            <source media="(min-width: 721px), (orientation: landscape) and (max-height: 520px)" srcset="assets/compatibility-card-poster.png?v=20260730">
             <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
           </picture>
           <picture class="compatibility-art">
@@ -73,7 +73,6 @@
             <span>Start the 2-minute test</span>
             <img src="assets/play-fill.svg" alt="">
           </span>
-          <span class="compatibility-note">No names required</span>
         </a>
       </section>
     </main>
@@ -88,7 +87,9 @@
       playButton.hidden = false;
     };
 
-    const isMobile = window.matchMedia("(max-width: 720px)");
+    const isMobile = window.matchMedia(
+      "(max-width: 720px), (orientation: landscape) and (max-width: 960px) and (max-height: 520px)",
+    );
     const playVideo = () => {
       if (isMobile.matches && typeof video.webkitEnterFullscreen === "function") {
         video.webkitEnterFullscreen();

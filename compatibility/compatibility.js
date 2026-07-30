@@ -102,6 +102,7 @@
       if (!screen.hidden) visibleScreen = screen;
     });
     errorMessage.hidden = true;
+    window.scrollTo(0, 0);
     const heading = visibleScreen?.querySelector("h1");
     if (heading) {
       heading.tabIndex = -1;

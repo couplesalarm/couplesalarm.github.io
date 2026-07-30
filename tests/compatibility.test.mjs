@@ -61,6 +61,7 @@ test("keeps test controls accessible on mobile", () => {
   assert.match(html, /aria-current="step"/);
   assert.match(html, /role="alert"/);
   assert.match(script, /heading\.focus\(\{ preventScroll: true \}\)/);
+  assert.match(script, /window\.scrollTo\(0, 0\)/);
   assert.match(script, /heardButton\.focus\(\{ preventScroll: true \}\)/);
   assert.match(script, /notHeardButton\.focus\(\{ preventScroll: true \}\)/);
   assert.match(
@@ -77,5 +78,9 @@ test("keeps test controls accessible on mobile", () => {
   assert.match(
     css,
     /\.stop-tone-action\s*\{[\s\S]*width:\s*100%[\s\S]*min-height:\s*48px/,
+  );
+  assert.match(
+    css,
+    /@media \(max-height: 520px\) and \(min-width: 761px\)[\s\S]*height:\s*auto[\s\S]*min-height:\s*32rem/,
   );
 });

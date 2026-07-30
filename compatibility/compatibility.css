@@ -1039,6 +1039,7 @@ h1 em {
   }
 
   .test-shell {
+    height: auto;
     min-height: 32rem;
   }
 }
