@@ -29,6 +29,7 @@ html {
 }
 
 body {
+  isolation: isolate;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 46%, rgb(31 93 119 / 15%), transparent 32rem),
@@ -48,6 +49,19 @@ body::before {
   background-size: 4rem 4rem;
   content: "";
   mask-image: radial-gradient(circle at 50% 50%, black, transparent 76%);
+  pointer-events: none;
+}
+
+body::after {
+  position: fixed;
+  inset: -12%;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 16% 78%, rgb(236 35 188 / 13%), transparent 28%),
+    radial-gradient(ellipse at 83% 66%, rgb(82 219 226 / 14%), transparent 30%),
+    radial-gradient(ellipse at 52% 18%, rgb(255 121 92 / 8%), transparent 22%);
+  content: "";
+  filter: blur(2rem);
   pointer-events: none;
 }
 
@@ -163,7 +177,14 @@ main {
   right: 8%;
   left: 8%;
   height: 2px;
-  background: #34434d;
+  background: linear-gradient(
+    90deg,
+    rgb(82 219 226 / 72%),
+    rgb(82 219 226 / 18%) 28%,
+    #34434d 54%,
+    rgb(236 35 188 / 24%)
+  );
+  box-shadow: 0 0 1rem rgb(82 219 226 / 12%);
   content: "";
 }
 
@@ -204,6 +225,10 @@ main {
 
 .progress-step.is-current b {
   background: var(--night);
+  box-shadow:
+    0 0 0 0.28rem var(--night),
+    0 0 0 0.12rem rgb(82 219 226 / 20%),
+    0 0 1.4rem rgb(82 219 226 / 60%);
 }
 
 .screen {
@@ -257,6 +282,7 @@ h1 em {
 
 .ready-heading h1 {
   font-size: clamp(2.35rem, 4vw, 3.75rem);
+  text-shadow: 0 1rem 4rem rgb(82 219 226 / 10%);
 }
 
 .ready-heading > p:last-child {
@@ -274,12 +300,14 @@ h1 em {
   margin: 0;
   align-self: center;
   overflow: hidden;
-  border: 1px solid rgb(82 219 226 / 18%);
+  border: 1px solid rgb(82 219 226 / 32%);
   border-radius: 1.35rem;
   background: #020912;
   box-shadow:
-    inset 0 0 4rem rgb(30 109 137 / 10%),
-    0 1rem 3rem rgb(0 0 0 / 30%);
+    inset 0 0 4rem rgb(30 109 137 / 12%),
+    0 1rem 3rem rgb(0 0 0 / 38%),
+    -1rem 0 3rem rgb(236 35 188 / 7%),
+    1rem 0 3rem rgb(82 219 226 / 10%);
 }
 
 .ready-scene::after {
@@ -315,7 +343,10 @@ h1 em {
   border: 1px solid rgb(244 241 233 / 18%);
   border-radius: 1rem;
   background: rgb(3 10 17 / 72%);
-  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 30%);
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 8%),
+    0 0.8rem 2rem rgb(0 0 0 / 34%),
+    0 0 1.5rem rgb(82 219 226 / 8%);
   backdrop-filter: blur(12px);
   text-align: left;
 }
@@ -370,6 +401,8 @@ h1 em {
   background: linear-gradient(96deg, var(--magenta), #9d3cec 35%, #5e70ef 63%, #31bfe9);
   box-shadow:
     0 0.9rem 2rem rgb(0 0 0 / 35%),
+    -0.6rem 0.5rem 2.4rem rgb(236 35 188 / 15%),
+    0.6rem 0.5rem 2.4rem rgb(49 191 233 / 15%),
     inset 0 1px rgb(255 255 255 / 18%);
   color: #fff;
   cursor: pointer;
@@ -381,6 +414,7 @@ h1 em {
   font-weight: 760;
   text-align: center;
   text-decoration: none;
+  text-shadow: 0 1px 1rem rgb(1 8 14 / 45%);
 }
 
 .primary-action img {
@@ -434,8 +468,13 @@ h1 em {
   overflow: hidden;
   border: 1px solid rgb(82 219 226 / 18%);
   border-radius: 1.5rem;
-  background: rgb(3 10 17 / 54%);
-  box-shadow: inset 0 0 4rem rgb(30 109 137 / 8%);
+  background:
+    radial-gradient(circle at 67% 38%, rgb(82 219 226 / 10%), transparent 30%),
+    radial-gradient(circle at 35% 65%, rgb(236 35 188 / 7%), transparent 32%),
+    rgb(3 10 17 / 62%);
+  box-shadow:
+    inset 0 0 4rem rgb(30 109 137 / 10%),
+    0 1rem 3rem rgb(0 0 0 / 22%);
   grid-template-rows: minmax(8rem, 1fr) auto auto auto;
   justify-items: center;
   gap: 0.75rem;
