@@ -248,6 +248,44 @@ h1 span {
   object-fit: cover;
 }
 
+.video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  width: 4.5rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid rgb(244 241 233 / 70%);
+  border-radius: 50%;
+  background: rgb(3 8 12 / 78%);
+  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 45%);
+  cursor: pointer;
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.video-play-button:hover {
+  border-color: var(--paper);
+  background: rgb(3 8 12 / 90%);
+}
+
+.video-play-button:focus-visible {
+  outline: 3px solid var(--aqua);
+  outline-offset: 4px;
+}
+
+.video-play-button[hidden] {
+  display: none;
+}
+
+.video-play-button img {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.18rem;
+}
+
 .app-showcase {
   position: relative;
   display: grid;
@@ -425,6 +463,15 @@ h1 span {
     box-shadow:
       0 1.5rem 3rem rgb(0 0 0 / 50%),
       0 0 0 0.25rem rgb(255 255 255 / 2.5%);
+  }
+
+  .video-play-button {
+    width: 3.4rem;
+  }
+
+  .video-play-button img {
+    width: 1.55rem;
+    height: 1.55rem;
   }
 
   .app-showcase {

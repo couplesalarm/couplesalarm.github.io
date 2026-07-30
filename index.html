@@ -13,7 +13,7 @@
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — Different ears. One alarm.</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-5">
+  <link rel="stylesheet" href="landing.css?v=20260730-6">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -46,6 +46,9 @@
             <source src="assets/couples-alarm-preview.mp4?v=20260730-social-launch" type="video/mp4">
             Your browser does not support embedded video.
           </video>
+          <button class="video-play-button" type="button" aria-label="Play the Couples Alarm video" aria-controls="product-preview">
+            <img src="assets/play-fill.svg" alt="">
+          </button>
         </figure>
 
         <figure class="app-showcase">
@@ -57,5 +60,18 @@
     </main>
 
   </div>
+
+  <script>
+    const video = document.querySelector("#product-preview");
+    const playButton = document.querySelector(".video-play-button");
+    const syncPlayButton = () => {
+      playButton.hidden = !video.paused;
+    };
+
+    playButton.onclick = () => video.play().catch(syncPlayButton);
+    video.onplay = syncPlayButton;
+    video.onpause = syncPlayButton;
+    video.onended = syncPlayButton;
+  </script>
 </body>
 </html>
