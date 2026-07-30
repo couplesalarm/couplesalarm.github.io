@@ -20,15 +20,18 @@ test("keeps the social video and angled app showcase on the landing page", () =>
     html,
     /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/,
   );
-  assert.match(html, /28-second Couples Alarm social launch video/);
+  assert.match(html, /Play the Couples Alarm story/);
   assert.match(html, /<video id="product-preview" controls/);
   assert.doesNotMatch(html, /playsinline/);
   assert.match(html, /Different ears\.<br><span>One alarm\.<\/span>/);
   assert.match(html, /assets\/dashboard\.png\?v=20260730/);
-  assert.match(html, /Test separately/);
-  assert.match(html, /Each partner checks tones before you compare the results/);
+  assert.match(html, /For couples with different wake-up times/);
+  assert.match(html, /You may hear the same alarm differently/);
+  assert.match(html, /Find and confirm a tone together before bedtime/);
+  assert.match(html, /Try it tonight/);
+  assert.match(html, /Confirm the tone together before morning/);
   assert.doesNotMatch(
     html,
-    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|proof-list|Footer navigation|play-preview/,
+    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|App Store approval pending|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|Test separately|compare the results|proof-list|Footer navigation|play-preview/,
   );
 });

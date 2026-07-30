@@ -91,7 +91,7 @@ video:focus-visible {
 .site-header {
   display: grid;
   min-height: 4.9rem;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 2rem;
   border-bottom: 1px solid var(--line);
@@ -111,25 +111,6 @@ video:focus-visible {
 .brand img {
   border-radius: 0.78rem;
   box-shadow: 0 0 1.8rem rgb(87 217 223 / 17%);
-}
-
-.review-state {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  margin: 0;
-  color: #87969c;
-  font: 700 0.68rem/1 "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.review-state span {
-  width: 0.42rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--signal);
-  box-shadow: 0 0 0.8rem var(--signal);
 }
 
 .site-header nav {
@@ -356,10 +337,6 @@ h1 span {
 
   .site-header {
     grid-template-columns: 1fr auto;
-  }
-
-  .review-state {
-    display: none;
   }
 
   .hero {
@@ -689,10 +666,6 @@ h1 span {
     animation-delay: 150ms;
   }
 
-  .review-state span {
-    animation: pulse 2.8s ease-in-out infinite;
-  }
-
   .site-header nav a {
     transition: color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
   }
@@ -702,12 +675,5 @@ h1 span {
   from {
     opacity: 0;
     transform: translateY(0.7rem);
-  }
-}
-
-@keyframes pulse {
-  50% {
-    box-shadow: 0 0 1.25rem var(--signal);
-    opacity: 0.72;
   }
 }
