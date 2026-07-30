@@ -17,6 +17,6 @@ test("emails the owner a private feedback-dashboard link", async () => {
     subject: "New Couples Alarm beta feedback",
     text:
       "New beta feedback was submitted.\n\nReference: feedback-reference\n\n" +
-      "Review it: https://couplesalarm.github.io/admin/",
+      "Review it: https://couplesalarm.com/admin/",
   });
 });
