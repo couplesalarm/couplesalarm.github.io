@@ -3,183 +3,105 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Couples Alarm is an alarm made for two. Choose who needs to wake first, take two short listening turns each, and test a suggested tone together before scheduling.">
-  <meta name="theme-color" content="#071019">
+  <meta name="description" content="Couples Alarm helps two people find and confirm an alarm tone together before scheduling it on an iPhone.">
+  <meta name="theme-color" content="#071018">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Couples Alarm — An alarm made for two">
-  <meta property="og:description" content="Find and confirm an alarm tone together, then schedule it on your iPhone.">
+  <meta property="og:description" content="Listen separately, test the fit together, then schedule the alarm on your iPhone.">
   <meta property="og:url" content="https://couplesalarm.com/">
   <meta property="og:image" content="https://couplesalarm.com/assets/couples-alarm-preview-poster.jpg">
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — An alarm made for two</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-1">
+  <link rel="stylesheet" href="landing.css?v=20260730-2">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
 
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="Couples Alarm home">
-      <img src="assets/app-icon.png" alt="" width="44" height="44">
-      <span>Couples Alarm</span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <a href="#how-it-works">How it works</a>
-      <a href="#preview">Preview</a>
-      <a href="support/">Support</a>
-      <a href="privacy/">Privacy</a>
-    </nav>
-  </header>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Couples Alarm home">
+        <img src="assets/app-icon.png" alt="" width="42" height="42">
+        <span>Couples Alarm</span>
+      </a>
 
-  <main id="content" tabindex="-1">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span aria-hidden="true"></span> Coming soon for iPhone</p>
-        <h1 id="hero-title">One alarm.<br><em>Two different ears.</em></h1>
-        <p class="hero-lede">Choose who needs to wake first, take two short listening turns each, and test a suggested tone together before scheduling.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#preview">Watch the 22-second preview</a>
-          <span class="button button-pending" aria-disabled="true">App Store approval pending</span>
+      <p class="review-state"><span aria-hidden="true"></span> App Store approval pending</p>
+
+      <nav aria-label="Primary navigation">
+        <a href="support/">Support</a>
+        <a href="privacy/">Privacy</a>
+      </nav>
+    </header>
+
+    <main id="content" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Built for different wake-up times</p>
+          <h1 id="hero-title">An alarm<br><span>made for two.</span></h1>
+          <p class="hero-lede">Listen separately. If one person can hear a tone the other cannot, test it together at the bedside—then schedule it.</p>
+
+          <div class="hero-actions">
+            <button class="button" id="play-preview" type="button">
+              Watch the real app
+              <span>22 sec</span>
+            </button>
+            <span class="store-state" aria-disabled="true">Coming soon for iPhone</span>
+          </div>
+
+          <p class="honest-condition"><strong>No guesswork.</strong> If the fit is not there, the app says so.</p>
         </div>
-        <p class="requirement">Requires an iPhone running iOS 26 or later.</p>
-      </div>
 
-      <div class="hero-stage" aria-label="Couples Alarm product preview">
-        <span class="orbit orbit-one" aria-hidden="true"></span>
-        <span class="orbit orbit-two" aria-hidden="true"></span>
-        <figure class="phone">
-          <img src="assets/dashboard.png?v=20260730" alt="Couples Alarm showing a saved morning alarm">
-        </figure>
-        <p class="stage-note stage-note-top"><strong>Local by design</strong><span>Profiles and alarms stay on this iPhone.</span></p>
-        <p class="stage-note stage-note-bottom"><strong>Made for real mornings</strong><span>One-time and weekly alarms with AlarmKit.</span></p>
-      </div>
-    </section>
-
-    <section class="proof-strip" aria-label="Product highlights">
-      <p><strong>No account</strong><span>Nothing to create or maintain</span></p>
-      <p><strong>No microphone</strong><span>You tap when you hear the sound</span></p>
-      <p><strong>No subscription</strong><span>$9.99 one-time unlock after the free month</span></p>
-    </section>
-
-    <section class="preview-section" id="preview" aria-labelledby="preview-title">
-      <div class="preview-heading">
-        <p class="section-label">See it together</p>
-        <h2 id="preview-title">From two listening turns to one shared answer.</h2>
-        <p>This is the real product journey—not a concept animation. See how Couples Alarm moves from partner setup to a confirmed tone and a saved schedule.</p>
-      </div>
-
-      <div class="film-layout">
-        <div class="film-frame">
-          <video controls playsinline preload="metadata" poster="assets/couples-alarm-preview-poster.jpg">
+        <figure class="product-preview">
+          <div class="preview-heading">
+            <span>Real product preview</span>
+            <span aria-hidden="true">00:22</span>
+          </div>
+          <video id="product-preview" controls playsinline preload="metadata" poster="assets/couples-alarm-preview-poster.jpg" aria-label="Play the 22-second Couples Alarm product preview">
             <source src="assets/couples-alarm-preview.mp4" type="video/mp4">
             Your browser does not support embedded video.
           </video>
-        </div>
-        <aside class="film-notes" aria-label="Preview details">
-          <p><span>00:22</span> Product preview</p>
-          <p><span>04</span> Simple steps</p>
-          <p><span>100%</span> Real app interface</p>
+          <figcaption>Actual app interface · iPhone · iOS 26+</figcaption>
+        </figure>
+
+        <aside class="fit-check" aria-labelledby="fit-check-title">
+          <div>
+            <p class="panel-label">The fit check</p>
+            <h2 id="fit-check-title">Four steps.<br>One shared answer.</h2>
+          </div>
+          <ol>
+            <li><span>01</span><strong>Choose who wakes</strong></li>
+            <li><span>02</span><strong>Listen separately</strong></li>
+            <li><span>03</span><strong>Test it together</strong></li>
+            <li><span>04</span><strong>Schedule the alarm</strong></li>
+          </ol>
+          <p class="fit-note">No account. No microphone. Responses and alarms stay on this iPhone.</p>
         </aside>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section class="steps-section" id="how-it-works" aria-labelledby="steps-title">
-      <div class="section-intro">
-        <p class="section-label">How it works</p>
-        <h2 id="steps-title">Find a tone together.</h2>
-        <p>Couples Alarm checks the fit before either person is asked to rely on it.</p>
-      </div>
+    <footer class="site-footer">
+      <ul class="proof-list" aria-label="Product highlights">
+        <li><span aria-hidden="true"></span>No account</li>
+        <li><span aria-hidden="true"></span>No microphone</li>
+        <li><span aria-hidden="true"></span>No subscription</li>
+        <li><span aria-hidden="true"></span>$9.99 once after the free month</li>
+      </ul>
 
-      <ol class="steps">
-        <li>
-          <span class="step-number">01</span>
-          <h3>Choose who wakes first</h3>
-          <p>Name the waking partner and the partner who wants to keep sleeping.</p>
-        </li>
-        <li>
-          <span class="step-number">02</span>
-          <h3>Listen separately</h3>
-          <p>Each person takes two short listening turns using the iPhone speaker.</p>
-        </li>
-        <li>
-          <span class="step-number">03</span>
-          <h3>Test it together</h3>
-          <p>Preview the suggestion side by side and confirm the result before continuing.</p>
-        </li>
-        <li>
-          <span class="step-number">04</span>
-          <h3>Make the schedule yours</h3>
-          <p>Create a one-time or weekly alarm with repeat days, a label, and snooze.</p>
-        </li>
-      </ol>
-    </section>
+      <nav aria-label="Footer navigation">
+        <a href="./">Product</a>
+        <a href="support/">Support</a>
+        <a href="privacy/">Privacy</a>
+        <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
+      </nav>
+    </footer>
+  </div>
 
-    <section class="honesty-section" aria-labelledby="honesty-title">
-      <div>
-        <p class="section-label">Designed not to guess</p>
-        <h2 id="honesty-title">If the fit is not there, the app stops.</h2>
-      </div>
-      <div class="honesty-copy">
-        <p>This only works if the person who needs to wake up can hear a sound their partner cannot. If Couples Alarm cannot find a suitable tone for that schedule, it says so instead of silently swapping partners or making a promise it cannot keep.</p>
-        <p>Couples Alarm is an alarm utility. Its guided listening process is not a hearing test or medical assessment, and every selected tone should be tested from the intended bedside position.</p>
-      </div>
-    </section>
-
-    <section class="privacy-section" aria-labelledby="privacy-title">
-      <div class="section-intro">
-        <p class="section-label">Quiet about your data, too</p>
-        <h2 id="privacy-title">Built for two people.<br>Not an audience.</h2>
-      </div>
-      <div class="privacy-grid">
-        <article>
-          <span aria-hidden="true">01</span>
-          <h3>On-device profiles</h3>
-          <p>Partner names and listening responses stay on the iPhone where they were entered.</p>
-        </article>
-        <article>
-          <span aria-hidden="true">02</span>
-          <h3>No tracking layer</h3>
-          <p>No Couples Alarm account, in-app analytics, advertising, or third-party SDK.</p>
-        </article>
-        <article>
-          <span aria-hidden="true">03</span>
-          <h3>Native alarm delivery</h3>
-          <p>Confirmed alarms are scheduled through Apple’s AlarmKit on supported iPhones.</p>
-        </article>
-      </div>
-      <a class="text-link" href="privacy/">Read the full privacy policy <span aria-hidden="true">→</span></a>
-    </section>
-
-    <section class="release-section" aria-labelledby="release-title">
-      <div>
-        <p class="section-label">App Store approval pending</p>
-        <h2 id="release-title">The page is ready.<br>The download is next.</h2>
-      </div>
-      <div class="release-copy">
-        <p>Couples Alarm has been submitted to Apple with manual release enabled. When it is approved, this page’s primary button will link directly to the App Store.</p>
-        <span class="store-placeholder" aria-disabled="true">
-          <img src="assets/app-icon.png" alt="" width="52" height="52">
-          <span><small>Coming soon to the</small><strong>App Store</strong></span>
-        </span>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div>
-      <a class="brand" href="./">
-        <img src="assets/app-icon.png" alt="" width="40" height="40">
-        <span>Couples Alarm</span>
-      </a>
-      <p>An alarm made for two.</p>
-    </div>
-    <nav aria-label="Footer navigation">
-      <a href="./">Product</a>
-      <a href="support/">Support</a>
-      <a href="privacy/">Privacy</a>
-      <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
-    </nav>
-    <p class="copyright">© 2026 Brian Markowitz</p>
-  </footer>
+  <script>
+    const preview = document.querySelector("#product-preview");
+    document.querySelector("#play-preview").addEventListener("click", () => {
+      preview.focus({ preventScroll: true });
+      void preview.play();
+    });
+  </script>
 </body>
 </html>
