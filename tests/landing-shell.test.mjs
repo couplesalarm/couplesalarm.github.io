@@ -33,6 +33,8 @@ test("keeps the social video and angled app showcase on the landing page", () =>
   assert.match(html, /For couples with different wake-up times/);
   assert.match(html, /You may hear the same alarm differently/);
   assert.match(html, /Find and confirm a tone together before bedtime/);
+  assert.match(html, /<button class="store-state" type="button" disabled/);
+  assert.match(html, />Coming Soon<\/button>/);
   assert.doesNotMatch(
     html,
     /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|App Store approval pending|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|Test separately|compare the results|proof-list|Footer navigation|play-preview|Try it tonight|Confirm the tone together before morning/,
