@@ -15,7 +15,7 @@ test("keeps the landing page in one viewport", () => {
   );
 });
 
-test("keeps the social video and angled app showcase on the landing page", () => {
+test("keeps the social video and compatibility preview on the landing page", () => {
   assert.match(
     html,
     /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/,
@@ -33,15 +33,39 @@ test("keeps the social video and angled app showcase on the landing page", () =>
   assert.doesNotMatch(html, /video\.onpause/);
   assert.match(css, /\.video-play-button\[hidden\]\s*\{[\s\S]*display:\s*none/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
+  assert.match(html, /Find a tone one of you hears and the other doesn’t/);
+  assert.match(html, /class="compatibility-card" href="compatibility\/"/);
+  assert.match(html, /assets\/compatibility-card-poster\.png\?v=20260730/);
+  assert.match(html, /assets\/compatibility-test-couple\.png\?v=20260730/);
+  assert.match(html, /media="\(min-width: 721px\)"/);
+  assert.match(html, /media="\(max-width: 720px\)"/);
+  assert.match(css, /aspect-ratio:\s*554 \/ 820/);
+  assert.match(html, /Could this[\s\S]*work for you two\?/);
+  assert.match(html, /Start the 2-minute test/);
+  assert.match(html, /No names required/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
-  assert.match(html, /For couples with different wake-up times/);
-  assert.match(html, /Take a quick listening test together/);
-  assert.match(html, /looks for a tone the person waking up hears/);
-  assert.match(html, /If there’s a fit, that becomes the alarm/);
   assert.match(html, /<button class="store-state" type="button" disabled/);
   assert.match(html, />Coming Soon<\/button>/);
+  assert.match(html, /video\.webkitEnterFullscreen/);
+  assert.match(html, /video\.requestFullscreen/);
   assert.doesNotMatch(
     html,
-    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|App Store approval pending|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|Test separately|compare the results|proof-list|Footer navigation|play-preview|Try it tonight|Confirm the tone together before morning/,
+    /Four steps|class="fit-check"|Watch the social video|No guesswork|Social launch film|Couples Alarm launch film|iOS 26\+|App Store approval pending|Local by design|Profiles and alarms stay|Made for real mornings|One-time and weekly alarms|No account|No microphone|No subscription|\$9\.99 once|Test separately|compare the results|proof-list|Footer navigation|play-preview|Try it tonight|Confirm the tone together before morning|For couples with different wake-up times|Take a quick listening test together/,
+  );
+});
+
+test("keeps the primary mobile actions reachable in one viewport", () => {
+  assert.match(css, /@media \(max-width: 720px\)/);
+  assert.match(
+    css,
+    /\.hero\s*\{[\s\S]*grid-template-rows:\s*auto minmax\(0, 1fr\)/,
+  );
+  assert.match(
+    css,
+    /\.site-header nav a\s*\{[\s\S]*min-height:\s*44px/,
+  );
+  assert.match(
+    css,
+    /\.compatibility-cta\s*\{[\s\S]*min-height:\s*3\.4rem/,
   );
 });
