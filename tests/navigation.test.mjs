@@ -19,9 +19,13 @@ test("keeps beta routes out of public navigation", async () => {
     )?.[1];
 
     assert.ok(primary, `${page} has primary navigation`);
-    assert.ok(footer, `${page} has footer navigation`);
     assert.doesNotMatch(primary, /beta|testflight|install/i);
-    assert.doesNotMatch(footer, /beta|testflight|install/i);
+    if (page === "../index.html") {
+      assert.equal(footer, undefined, `${page} avoids duplicate navigation`);
+    } else {
+      assert.ok(footer, `${page} has footer navigation`);
+      assert.doesNotMatch(footer, /beta|testflight|install/i);
+    }
     assert.match(primary, /Support/);
     assert.match(primary, /Privacy/);
   }

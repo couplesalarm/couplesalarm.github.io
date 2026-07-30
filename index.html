@@ -6,14 +6,14 @@
   <meta name="description" content="Couples Alarm helps two people find and confirm an alarm tone together before scheduling it on an iPhone.">
   <meta name="theme-color" content="#071018">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Couples Alarm — An alarm made for two">
+  <meta property="og:title" content="Couples Alarm — Different ears. One alarm.">
   <meta property="og:description" content="Listen separately, test the fit together, then schedule the alarm on your iPhone.">
   <meta property="og:url" content="https://couplesalarm.com/">
   <meta property="og:image" content="https://couplesalarm.com/assets/couples-alarm-preview-poster.jpg?v=20260730-social-launch">
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
-  <title>Couples Alarm — An alarm made for two</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-3">
+  <title>Couples Alarm — Different ears. One alarm.</title>
+  <link rel="stylesheet" href="landing.css?v=20260730-4">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -37,25 +37,13 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow">Built for different wake-up times</p>
-          <h1 id="hero-title">An alarm<br><span>made for two.</span></h1>
+          <h1 id="hero-title">Different ears.<br><span>One alarm.</span></h1>
           <p class="hero-lede">Listen separately. If one person can hear a tone the other cannot, test it together at the bedside—then schedule it.</p>
 
-          <div class="hero-actions">
-            <button class="button" id="play-preview" type="button">
-              Watch the social video
-              <span>28 sec</span>
-            </button>
-            <span class="store-state" aria-disabled="true">Coming soon for iPhone</span>
-          </div>
-
-          <p class="honest-condition"><strong>No guesswork.</strong> If the fit is not there, the app says so.</p>
+          <p class="store-state">Coming soon for iPhone</p>
         </div>
 
         <figure class="product-preview">
-          <div class="preview-heading">
-            <span>Social launch film</span>
-            <span aria-hidden="true">00:28</span>
-          </div>
           <video id="product-preview" controls playsinline preload="metadata" poster="assets/couples-alarm-preview-poster.jpg?v=20260730-social-launch" aria-label="Play the 28-second Couples Alarm social launch video">
             <source src="assets/couples-alarm-preview.mp4?v=20260730-social-launch" type="video/mp4">
             Your browser does not support embedded video.
@@ -79,29 +67,6 @@
       </section>
     </main>
 
-    <footer class="site-footer">
-      <ul class="proof-list" aria-label="Product highlights">
-        <li><span aria-hidden="true"></span>No account</li>
-        <li><span aria-hidden="true"></span>No microphone</li>
-        <li><span aria-hidden="true"></span>No subscription</li>
-        <li><span aria-hidden="true"></span>$9.99 once after the free month</li>
-      </ul>
-
-      <nav aria-label="Footer navigation">
-        <a href="./">Product</a>
-        <a href="support/">Support</a>
-        <a href="privacy/">Privacy</a>
-        <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
-      </nav>
-    </footer>
   </div>
-
-  <script>
-    const preview = document.querySelector("#product-preview");
-    document.querySelector("#play-preview").addEventListener("click", () => {
-      preview.focus({ preventScroll: true });
-      void preview.play();
-    });
-  </script>
 </body>
 </html>
