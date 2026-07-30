@@ -4,6 +4,7 @@ import test from "node:test";
 
 const publicPages = [
   "../index.html",
+  "../compatibility/index.html",
   "../support/index.html",
   "../privacy/index.html",
 ];

@@ -3,17 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Take a quick listening test together. Couples Alarm looks for a tone the person waking up hears and their partner doesn’t.">
+  <meta name="description" content="Find a tone one of you hears and the other doesn’t. Try the two-minute Couples Alarm compatibility preview.">
   <meta name="theme-color" content="#071018">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Couples Alarm — Wake up. Let them sleep.">
-  <meta property="og:description" content="Take a quick listening test together. Couples Alarm looks for a tone the person waking up hears and their partner doesn’t.">
+  <meta property="og:description" content="Find a tone one of you hears and the other doesn’t. Try the two-minute Couples Alarm compatibility preview.">
   <meta property="og:url" content="https://couplesalarm.com/">
   <meta property="og:image" content="https://couplesalarm.com/assets/couples-alarm-preview-poster.jpg?v=20260730-social-launch">
   <link rel="canonical" href="https://couplesalarm.com/">
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — Wake up. Let them sleep.</title>
-  <link rel="stylesheet" href="landing.css?v=20260730-9">
+  <link rel="stylesheet" href="landing.css?v=20260730-video-affordance-2">
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
@@ -34,9 +34,8 @@
     <main id="content" tabindex="-1">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <p class="eyebrow">For couples with different wake-up times</p>
           <h1 id="hero-title">Wake up.<br><span>Let them sleep.</span></h1>
-          <p class="hero-lede">Take a quick listening test together. Couples Alarm looks for a tone the person waking up hears and their partner doesn’t. If there’s a fit, that becomes the alarm.</p>
+          <p class="hero-lede">Find a tone one of you hears and the other doesn’t.</p>
 
           <button class="store-state" type="button" disabled aria-label="Couples Alarm is coming soon to the App Store">Coming Soon</button>
         </div>
@@ -51,11 +50,31 @@
           </button>
         </figure>
 
-        <figure class="app-showcase">
-          <div class="showcase-phone">
-            <img src="assets/setup-together.png?v=20260730" alt="A couple setting up Couples Alarm together">
-          </div>
-        </figure>
+        <a class="compatibility-card" href="compatibility/" aria-label="Start the two-minute Couples Alarm compatibility test">
+          <picture class="compatibility-poster" aria-hidden="true">
+            <source media="(min-width: 721px)" srcset="assets/compatibility-card-poster.png?v=20260730">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+          </picture>
+          <picture class="compatibility-art">
+            <source media="(max-width: 720px)" srcset="assets/compatibility-test-couple.png?v=20260730">
+            <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="A couple trying the Couples Alarm compatibility test together on a laptop">
+          </picture>
+          <span class="compatibility-heading">
+            <span class="compatibility-eyebrow" aria-hidden="true"><i></i>Try it now<i></i></span>
+            <strong>Could this<br><em>work for you two?</em></strong>
+          </span>
+          <span class="card-phone" aria-hidden="true">
+            <picture>
+              <source media="(max-width: 720px)" srcset="assets/setup-together.png?v=20260730">
+              <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+            </picture>
+          </span>
+          <span class="compatibility-cta">
+            <span>Start the 2-minute test</span>
+            <img src="assets/play-fill.svg" alt="">
+          </span>
+          <span class="compatibility-note">No names required</span>
+        </a>
       </section>
     </main>
 
@@ -69,7 +88,19 @@
       playButton.hidden = false;
     };
 
-    playButton.onclick = () => video.play().catch(showPosterState);
+    const isMobile = window.matchMedia("(max-width: 720px)");
+    const playVideo = () => {
+      if (isMobile.matches && typeof video.webkitEnterFullscreen === "function") {
+        video.webkitEnterFullscreen();
+      } else if (isMobile.matches && video.requestFullscreen) {
+        video.requestFullscreen().catch(() => {});
+      }
+      video.play().catch(showPosterState);
+    };
+    playButton.onclick = playVideo;
+    video.onclick = () => {
+      if (video.paused) playVideo();
+    };
     video.onplaying = () => {
       video.controls = true;
       playButton.hidden = true;
