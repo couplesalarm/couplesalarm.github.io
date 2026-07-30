@@ -40,7 +40,7 @@ test("keeps the invitation-only beta routes available", async () => {
   }
 });
 
-test("homepage is ready for the App Store link without claiming approval", async () => {
+test("homepage describes availability without exposing the review process", async () => {
   const html = await readFile(
     new URL("../index.html", import.meta.url),
     "utf8",
@@ -48,6 +48,17 @@ test("homepage is ready for the App Store link without claiming approval", async
 
   assert.match(html, /https:\/\/couplesalarm\.com\//);
   assert.match(html, /assets\/couples-alarm-preview\.mp4/);
-  assert.match(html, /App Store approval pending/);
+  assert.match(html, /Coming soon on iPhone/);
+  assert.doesNotMatch(html, /App Store approval pending/);
   assert.doesNotMatch(html, /TestFlight|Private beta/);
+});
+
+test("keeps public-facing summaries in customer language", async () => {
+  for (const page of publicPages) {
+    const html = await readFile(new URL(page, import.meta.url), "utf8");
+    assert.doesNotMatch(
+      html,
+      /AlarmKit|third-party SDK|server-side information|emails the developer/,
+    );
+  }
 });
