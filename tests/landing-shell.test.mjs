@@ -23,6 +23,11 @@ test("keeps the social video and angled app showcase on the landing page", () =>
   assert.match(html, /Play the Couples Alarm story/);
   assert.match(html, /<video id="product-preview" controls/);
   assert.doesNotMatch(html, /playsinline/);
+  assert.match(html, /class="video-play-button"/);
+  assert.match(html, /aria-label="Play the Couples Alarm video"/);
+  assert.match(html, /video\.play\(\)\.catch\(syncPlayButton\)/);
+  assert.match(html, /video\.onpause = syncPlayButton/);
+  assert.match(css, /\.video-play-button\[hidden\]\s*\{[\s\S]*display:\s*none/);
   assert.match(html, /Different ears\.<br><span>One alarm\.<\/span>/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
   assert.match(html, /For couples with different wake-up times/);
