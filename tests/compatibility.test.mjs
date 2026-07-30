@@ -55,14 +55,24 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /window\.addEventListener\("pagehide", closeAudio\)/);
   assert.match(script, /showResult\(\)/);
   assert.doesNotMatch(script, /requestAnimationFrame|drawVisualizer/);
-  assert.doesNotMatch(html, /tone-visualizer|data-audio-detail/);
+  assert.doesNotMatch(html, /data-audio-detail/);
   assert.doesNotMatch(script, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/);
 });
 
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
   assert.match(html, /About 1 minute · Nothing is saved/);
-  assert.doesNotMatch(html, /ready-art|readiness-list|listen-safety/);
+  assert.doesNotMatch(html, /readiness-list|listen-safety/);
+});
+
+test("restores the visual story without restoring the busy audio loop", () => {
+  assert.match(html, /class="ready-scene"/);
+  assert.match(html, /class="tone-visualizer"/);
+  assert.match(
+    css,
+    /\.tone-visualizer\s*\{[\s\S]*pointer-events:\s*none/,
+  );
+  assert.doesNotMatch(script, /requestAnimationFrame|drawVisualizer/);
 });
 
 test("keeps test controls accessible on mobile", () => {

@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#06111a">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Compatibility preview — Couples Alarm</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260730-4">
+  <link rel="stylesheet" href="compatibility.css?v=20260730-5">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the compatibility preview</a>
@@ -39,11 +39,14 @@
           <p data-device-intro>Take turns listening on this device.</p>
         </div>
 
-        <div class="role-picker">
-          <span>Needs to wake up</span>
-          <strong data-waking-partner>Partner One</strong>
-          <button type="button" data-swap-roles>Switch partner</button>
-        </div>
+        <figure class="ready-scene">
+          <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="Two partners and their dog trying Couples Alarm together">
+          <div class="role-picker">
+            <span>Needs to wake up</span>
+            <strong data-waking-partner>Partner One</strong>
+            <button type="button" data-swap-roles>Switch partner</button>
+          </div>
+        </figure>
 
         <div class="ready-actions">
           <button class="primary-action" type="button" data-start-preview>
@@ -63,6 +66,33 @@
         </div>
 
         <div class="listening-stage">
+          <svg class="tone-visualizer" viewBox="0 0 960 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="tone-spectrum" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#52dbe2"/>
+                <stop offset=".5" stop-color="#9b7de7"/>
+                <stop offset="1" stop-color="#ff795c"/>
+              </linearGradient>
+              <filter id="tone-glow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <path id="tone-wave-path" d="M70 260 C95 260 95 205 120 260 S145 315 170 260 S195 170 220 260 S245 350 270 260 S295 135 320 260 S345 385 370 260 S395 160 420 260 S445 360 470 260 S495 125 520 260 S545 395 570 260 S595 170 620 260 S645 350 670 260 S695 195 720 260 S745 325 770 260 S795 225 820 260 S845 295 870 260"/>
+            </defs>
+            <path class="tone-orbit tone-orbit-echo" d="M90 98 C330 0 650 28 870 292"/>
+            <path class="tone-orbit" d="M90 72 C330 -25 650 2 870 266"/>
+            <use class="tone-wave-glow" href="#tone-wave-path"/>
+            <use class="tone-wave" href="#tone-wave-path"/>
+            <use class="tone-wave-flow" href="#tone-wave-path"/>
+            <g class="tone-pulse">
+              <circle class="tone-ring" cx="650" cy="104" r="34"/>
+              <circle class="tone-ring tone-ring-inner" cx="650" cy="104" r="19"/>
+              <circle class="tone-core" cx="650" cy="104" r="8"/>
+            </g>
+          </svg>
           <div class="listening-status" aria-live="polite">
             <strong data-audio-status>Ready</strong>
           </div>
