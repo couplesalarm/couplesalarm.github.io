@@ -15,7 +15,7 @@ test("keeps the landing page in one viewport", () => {
   );
 });
 
-test("keeps the social launch video and honest fit check on the landing page", () => {
+test("keeps the social video and angled app showcase on the landing page", () => {
   assert.match(
     html,
     /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/,
@@ -23,5 +23,8 @@ test("keeps the social launch video and honest fit check on the landing page", (
   assert.match(html, /Watch the social video/);
   assert.match(html, /28-second Couples Alarm social launch video/);
   assert.match(html, /If the fit is not there, the app says so/);
-  assert.equal((html.match(/<li><span>0[1-4]<\/span>/g) || []).length, 4);
+  assert.match(html, /assets\/dashboard\.png\?v=20260730/);
+  assert.match(html, /Local by design/);
+  assert.match(html, /Made for real mornings/);
+  assert.doesNotMatch(html, /Four steps|class="fit-check"/);
 });
