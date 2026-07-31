@@ -152,6 +152,8 @@
 
   const runSweepProgress = () => {
     resetSweepProgress();
+    // Keeps the CSS sweep animations locked to the same clock as the audio.
+    listeningStage.style.setProperty("--sweep-duration", `${sweepDuration}ms`);
     listeningStage.classList.add("is-sweeping");
     sweepProgress.style.transitionDuration = `${sweepDuration}ms`;
     sweepProgress.style.transform = "scaleX(1)";
