@@ -20,6 +20,37 @@
   let sweepStartedAt = 0;
   let sweepPlaying = false;
   let sweepTimer;
+  let readoutTimer;
+
+  // Mirrors the app's live "Current frequency" readout during a listening
+  // trial. A slow interval is enough for a number and keeps the script free of
+  // the per-frame loop the visualiser deliberately does without.
+  const frequencyAt = (progress) =>
+    startFrequency * Math.pow(endFrequency / startFrequency, progress);
+
+  const kilohertzText = (hz) => (Math.round(hz / 100) / 10).toFixed(1);
+
+  const setReadout = (hz) => {
+    setText("[data-frequency-readout]", kilohertzText(hz));
+  };
+
+  const stopReadout = () => {
+    window.clearInterval(readoutTimer);
+    readoutTimer = undefined;
+  };
+
+  const startReadout = () => {
+    stopReadout();
+    const tick = () => {
+      const progress = Math.min(
+        1,
+        (performance.now() - sweepStartedAt) / sweepDuration,
+      );
+      setReadout(frequencyAt(progress));
+    };
+    tick();
+    readoutTimer = window.setInterval(tick, 80);
+  };
 
   const isIPhone = /iPhone|iPod/i.test(navigator.userAgent);
   const isIPad =
@@ -164,6 +195,7 @@
     sweepPlaying = false;
     window.clearTimeout(sweepTimer);
     sweepTimer = undefined;
+    stopReadout();
     activeVoices.forEach(stopVoice);
   };
 
@@ -185,6 +217,7 @@
     stopToneButton.hidden = true;
     listeningStage.classList.add("is-idle");
     resetSweepProgress();
+    setReadout(startFrequency);
   };
 
   const startTone = async () => {
@@ -240,6 +273,7 @@
       setText("[data-audio-status]", "Playing");
       listeningStage.classList.remove("is-idle");
       runSweepProgress();
+      startReadout();
 
       sweepTimer = window.setTimeout(() => {
         if (run !== toneRun) return;
@@ -251,6 +285,7 @@
         stopToneButton.hidden = true;
         notHeardButton.focus({ preventScroll: true });
         setText("[data-audio-status]", "Finished");
+        setReadout(endFrequency);
       }, sweepDuration);
     } catch {
       if (run !== toneRun) return;
@@ -350,9 +385,7 @@
       1,
       (performance.now() - sweepStartedAt) / sweepDuration,
     );
-    const heardFrequency =
-      startFrequency * Math.pow(endFrequency / startFrequency, progress);
-    finishTurn(heardFrequency);
+    finishTurn(frequencyAt(progress));
   });
 
   document.querySelector("[data-not-heard]").addEventListener("click", () => {
