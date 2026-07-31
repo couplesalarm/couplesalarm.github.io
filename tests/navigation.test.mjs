@@ -49,8 +49,7 @@ test("homepage describes availability without exposing the review process", asyn
 
   assert.match(html, /https:\/\/couplesalarm\.com\//);
   assert.match(html, /assets\/couples-alarm-preview\.mp4/);
-  assert.match(html, /<button class="store-state" type="button" disabled/);
-  assert.match(html, />Coming Soon<\/button>/);
+  assert.match(html, /<p class="store-state">Coming soon to the App Store<\/p>/);
   assert.doesNotMatch(html, /Coming soon on iPhone/);
   assert.doesNotMatch(html, /App Store approval pending/);
   assert.doesNotMatch(html, /TestFlight|Private beta/);
