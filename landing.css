@@ -321,6 +321,66 @@ h1 span {
   display: none;
 }
 
+/* On desktop the primary sound check stays a tall destination card while the
+   video becomes a compact watch panel. The different silhouettes make their
+   different jobs clear before someone reads either label. */
+@media (min-width: 901px) {
+  .product-preview {
+    padding: 0.7rem;
+    border: 1px solid rgb(244 241 233 / 13%);
+    border-radius: 1.35rem;
+    background: rgb(4 13 20 / 78%);
+    box-shadow: 0 1.5rem 3.2rem rgb(0 0 0 / 34%);
+    grid-template-columns: minmax(5rem, 0.75fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(0.7rem, 1.2vw, 1rem);
+  }
+
+  .product-preview video {
+    width: 100%;
+    height: clamp(9.5rem, 13vw, 12rem);
+    aspect-ratio: auto;
+    border-radius: 0.85rem;
+    box-shadow: 0 0.9rem 2rem rgb(0 0 0 / 42%);
+  }
+
+  .video-play-button {
+    left: 23%;
+    width: clamp(3.5rem, 4vw, 4.25rem);
+  }
+
+  .video-play-button img {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .video-badge,
+  .video-play-button[hidden] ~ .video-badge {
+    position: static;
+    display: grid;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    gap: 0.45rem;
+    text-align: left;
+    backdrop-filter: none;
+  }
+
+  .video-kicker {
+    color: var(--aqua);
+    font-size: 0.68rem;
+    font-weight: 760;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .video-badge strong {
+    color: var(--ink);
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    line-height: 1.25;
+  }
+}
+
 /* Below 720px the still is only ~83px wide — a caption there covers the
    artwork and the play control instead of labelling them. */
 @media (max-width: 720px), (orientation: landscape) and (max-height: 520px) {

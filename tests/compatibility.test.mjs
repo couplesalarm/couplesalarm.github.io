@@ -90,7 +90,7 @@ test("quotes the same duration as the landing page", async () => {
     new URL("../index.html", import.meta.url),
     "utf8",
   );
-  assert.match(landing, /2-minute test/);
+  assert.match(landing, /2-minute sound check/);
   assert.match(html, /About 2 minutes/);
   assert.doesNotMatch(html, /About 1 minute/);
 });
