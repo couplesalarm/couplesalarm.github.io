@@ -78,8 +78,13 @@ test("keeps the social video and compatibility preview on the landing page", () 
   // the destination match.
   assert.match(html, /Can one of you hear[\s\S]*what the other can’t\?/);
   assert.doesNotMatch(html, /work for you two/);
-  assert.match(html, /Start the 2-minute test/);
-  assert.match(html, /class="video-badge"/);
+  assert.match(html, /Compare what each of you hears/);
+  assert.match(html, /2-minute sound check/);
+  assert.doesNotMatch(html, /Start the (?:2|two)-minute test/);
+  assert.match(html, /28-second video/);
+  assert.match(html, /See how Couples Alarm works/);
+  assert.match(css, /@media \(min-width: 901px\)/);
+  assert.match(css, /grid-template-columns:\s*minmax\(5rem, 0\.75fr\) minmax\(0, 1fr\)/);
   assert.match(css, /animation:\s*invite-play[^;]*infinite/);
   assert.doesNotMatch(html, /No names required/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
