@@ -155,12 +155,20 @@ main {
   height: 100%;
   min-height: 0;
   padding: 2.5rem 0 5rem;
+  /* The trailer column was the runt at 0.55fr — a 272px still beside a 459px
+     card. Giving it more of the row closes the size gap between the two
+     media objects without crowding the headline. */
+  /* The trailer column was the runt at 0.55fr — a 272px still beside a 459px
+     card. The third track is sized to sit just above the card's own width so
+     right-aligning it leaves only a few pixels of slack rather than a lopsided
+     gap. (`auto` here collapses the card, whose width resolves against the
+     track it is sizing.) */
   grid-template-columns:
-    minmax(25rem, 0.92fr)
-    minmax(15.75rem, 0.55fr)
-    minmax(31.5rem, 1.12fr);
+    minmax(20rem, 0.95fr)
+    minmax(16rem, 0.65fr)
+    minmax(26rem, 0.91fr);
   align-items: center;
-  column-gap: clamp(2.25rem, 3vw, 3.5rem);
+  column-gap: clamp(2rem, 2.6vw, 3rem);
 }
 
 .hero-copy {
@@ -225,11 +233,10 @@ h1 span {
   position: relative;
   z-index: 3;
   display: grid;
-  width: calc(100% + 0.2rem);
+  width: 100%;
   max-height: 100%;
   margin: 0;
   align-content: center;
-  transform: translate(-0.45rem, -0.45rem);
 }
 
 .product-preview video {
@@ -325,8 +332,8 @@ h1 span {
 .compatibility-card {
   position: relative;
   display: block;
-  width: calc(100% - 0.7rem);
-  width: min(calc(100% - 0.7rem), calc(59.96svh - 5.07rem));
+  width: 100%;
+  width: min(100%, calc(59.96svh - 5.07rem));
   max-width: none;
   height: auto;
   aspect-ratio: 554 / 820;
@@ -343,7 +350,10 @@ h1 span {
     0 2.8rem 5rem rgb(0 0 0 / 47%);
   color: var(--ink);
   isolation: isolate;
-  justify-self: center;
+  /* Its width comes from viewport height, so centring left a ragged ~44px of
+     dead column on the right and the card stopped short of the right margin
+     the header nav already sits on. */
+  justify-self: end;
   text-decoration: none;
 }
 
@@ -470,7 +480,9 @@ h1 span {
 
 .card-phone {
   position: absolute;
-  right: -0.6rem;
+  /* Kept inside the card: hanging it past the edge read as a clipped mistake
+     once the card sat flush against the page's right margin. */
+  right: 0.75rem;
   bottom: 8.4rem;
   z-index: 2;
   display: block;
@@ -614,8 +626,10 @@ h1 span {
     font-size: clamp(3.35rem, 5.6vw, 4rem);
   }
 
+  /* Left over from the baked poster, when this text was not actually rendered
+     at this width. At 4vw it ran to three lines and swamped the card. */
   .compatibility-heading strong {
-    font-size: clamp(2rem, 4vw, 2.65rem);
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
   }
 
   .compatibility-cta {
@@ -1081,8 +1095,43 @@ h1 span {
     display: none;
   }
 
+  /* This branch used to render the baked poster, so the live heading and CTA
+     had never been sized for a card this small — the button wrapped onto two
+     lines and pushed itself past the bottom of the card. */
+  .compatibility-heading {
+    top: 0.7rem;
+    right: 0.6rem;
+    left: 0.6rem;
+  }
+
+  .compatibility-eyebrow {
+    gap: 0.4rem;
+    font-size: 0.5rem;
+  }
+
+  .compatibility-eyebrow i {
+    width: 0.9rem;
+  }
+
   .compatibility-heading strong {
-    font-size: clamp(1.05rem, 2.6vw, 1.35rem);
+    margin-top: 0.4rem;
+    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  }
+
+  .compatibility-cta {
+    right: 0.6rem;
+    bottom: 0.7rem;
+    left: 0.6rem;
+    min-height: 2.5rem;
+    padding: 0.45rem 0.7rem;
+    border-radius: 0.8rem;
+    gap: 0.4rem;
+    font-size: 0.76rem;
+  }
+
+  .compatibility-cta img {
+    width: 1rem;
+    height: 1rem;
   }
 
   .card-phone {
