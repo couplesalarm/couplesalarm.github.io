@@ -72,13 +72,16 @@ h3 {
   line-height: 1.2;
 }
 
+/* Was clamp(3.6rem, 8vw, 6.5rem), which rendered at ~102px on a 1280px window
+   — roughly two and a half times the body measure and far heavier than the
+   landing page's own display size. These are reading pages, not billboards. */
 h1 {
-  max-width: 13ch;
+  max-width: 16ch;
   margin: 0 0 0.5rem;
-  font-size: clamp(3.6rem, 8vw, 6.5rem);
+  font-size: clamp(2.35rem, 4.4vw, 3.6rem);
   font-weight: 600;
-  letter-spacing: -0.06em;
-  line-height: 0.96;
+  letter-spacing: -0.05em;
+  line-height: 1;
 }
 
 h2 {
@@ -207,7 +210,9 @@ nav a[aria-current="page"] {
   grid-column: 1 / -1;
   width: 100%;
   margin-top: 1.35rem;
-  padding: clamp(4rem, 9vw, 7rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+  /* Halved: the old top padding alone pushed the first heading ~112px down a
+     page whose whole job is answering a question quickly. */
+  padding: clamp(1.9rem, 4vw, 3.2rem) 0 clamp(1.6rem, 3.2vw, 2.5rem);
   border-top: 1px solid rgb(255 255 255 / 9%);
 }
 

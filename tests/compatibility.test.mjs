@@ -110,6 +110,17 @@ test("ties the sweep animation to the audio clock", () => {
   assert.match(css, /\.tone-head\s*\{[\s\S]*offset-path:\s*path\(/);
 });
 
+test("shows the live frequency readout the app shows", () => {
+  assert.match(html, /data-frequency-readout/);
+  assert.match(html, /kHz/);
+  assert.match(script, /const frequencyAt = \(progress\) =>/);
+  assert.match(script, /window\.setInterval\(tick/);
+  assert.match(script, /window\.clearInterval\(readoutTimer\)/);
+  // Decorative to assistive tech: it changes many times a second and the
+  // status line already carries the state.
+  assert.match(html, /<p class="tone-readout" aria-hidden="true">/);
+});
+
 test("keeps the sweep cues under reduced motion", () => {
   const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
   assert.match(reduced, /\.tone-emit,/);

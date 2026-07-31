@@ -41,16 +41,23 @@ test("keeps the social video and compatibility preview on the landing page", () 
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Find a tone one of you hears and the other doesn’t/);
   assert.match(html, /class="compatibility-card" href="compatibility\/"/);
-  assert.match(html, /assets\/compatibility-card-poster\.png\?v=20260730/);
   assert.match(html, /assets\/compatibility-test-couple\.png\?v=20260730/);
+  // The card headline and CTA are live text at every width. The old baked
+  // poster froze both into a PNG above 720px.
+  assert.doesNotMatch(html, /compatibility-card-poster/);
+  assert.doesNotMatch(css, /\.compatibility-poster/);
   assert.match(
-    html,
-    /media="\(min-width: 721px\), \(orientation: landscape\) and \(max-height: 520px\)"/,
+    css,
+    /\.compatibility-art,\s*\.compatibility-heading,\s*\.card-phone,\s*\.compatibility-cta\s*\{\s*display: block/,
   );
-  assert.match(html, /media="\(max-width: 720px\)"/);
   assert.match(css, /aspect-ratio:\s*554 \/ 820/);
-  assert.match(html, /Could this[\s\S]*work for you two\?/);
+  // The card asks the same question the page it opens asks, so the promise and
+  // the destination match.
+  assert.match(html, /Can one of you hear[\s\S]*what the other can’t\?/);
+  assert.doesNotMatch(html, /work for you two/);
   assert.match(html, /Start the 2-minute test/);
+  assert.match(html, /class="video-badge"/);
+  assert.match(css, /animation:\s*invite-play[^;]*infinite/);
   assert.doesNotMatch(html, /No names required/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
   assert.match(html, /<button class="store-state" type="button" disabled/);

@@ -273,6 +273,39 @@ h1 span {
   margin-left: 0.16rem;
 }
 
+/* Names the still as a video. The play glyph alone reads as decoration to
+   plenty of people, and nothing else on the page says an intro exists. */
+.video-badge {
+  position: absolute;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  left: 0.7rem;
+  z-index: 2;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid rgb(244 241 233 / 16%);
+  border-radius: 0.7rem;
+  background: rgb(2 7 12 / 72%);
+  color: rgb(244 241 233 / 92%);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+}
+
+.video-play-button[hidden] ~ .video-badge {
+  display: none;
+}
+
+/* Below 720px the still is only ~83px wide — a caption there covers the
+   artwork and the play control instead of labelling them. */
+@media (max-width: 720px), (orientation: landscape) and (max-height: 520px) {
+  .video-badge {
+    display: none;
+  }
+}
+
 .compatibility-card {
   position: relative;
   display: block;
@@ -323,38 +356,39 @@ h1 span {
     0 3rem 5.5rem rgb(0 0 0 / 54%);
 }
 
-.compatibility-poster {
+.compatibility-art {
   position: absolute;
   inset: 0;
+  z-index: 0;
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.compatibility-poster img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.compatibility-poster::after {
+/* Bottom scrim so the live CTA stays legible over the illustration. */
+.compatibility-art::after {
   position: absolute;
-  right: 1px;
-  bottom: 1px;
-  left: 1px;
-  height: 8%;
-  background: linear-gradient(180deg, transparent, #07131c 30%, #06111a);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  height: 46%;
+  background: linear-gradient(180deg, transparent, rgb(6 17 26 / 92%) 62%, #06111a);
   content: "";
   pointer-events: none;
 }
 
-.compatibility-art {
+/* Top scrim for the heading. */
+.compatibility-art::before {
   position: absolute;
-  inset: 0;
-  z-index: -2;
-  display: block;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+  height: 42%;
+  background: linear-gradient(180deg, rgb(4 12 19 / 88%), transparent);
+  content: "";
+  pointer-events: none;
 }
 
 .compatibility-art img {
@@ -398,12 +432,13 @@ h1 span {
 
 .compatibility-heading strong {
   display: block;
-  margin-top: 1.15rem;
-  font-size: clamp(2.35rem, 3.4vw, 3.25rem);
+  margin-top: 0.9rem;
+  font-size: clamp(1.5rem, 2.05vw, 2.05rem);
   font-style: normal;
   font-weight: 760;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  text-wrap: balance;
 }
 
 .compatibility-heading em {
@@ -419,12 +454,12 @@ h1 span {
 
 .card-phone {
   position: absolute;
-  right: 0;
-  bottom: 10.1rem;
+  right: -0.6rem;
+  bottom: 8.4rem;
   z-index: 2;
   display: block;
-  width: 9.4rem;
-  height: 15.3rem;
+  width: 7.4rem;
+  height: 12rem;
   padding: 0.24rem;
   border: 1px solid #40535e;
   border-radius: 1.7rem;
@@ -480,11 +515,14 @@ h1 span {
   height: 2.05rem;
 }
 
+/* The card used to be a single baked PNG above 720px, which put the headline
+   and the call to action into pixels — unselectable, untranslatable, and
+   frozen until the art was regenerated. Everything is live text now. */
 .compatibility-art,
 .compatibility-heading,
 .card-phone,
 .compatibility-cta {
-  display: none;
+  display: block;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -514,8 +552,11 @@ h1 span {
     transition: color 150ms ease;
   }
 
+  /* Runs for as long as the poster is up: the pulse is the only thing marking
+     this still as a playable video, so stopping it after two beats loses
+     anyone who looked away. The long tail keeps it a heartbeat, not a strobe. */
   .video-play-button:not([hidden]) {
-    animation: invite-play 1.2s ease-in-out 300ms 2;
+    animation: invite-play 3.4s ease-in-out 300ms infinite;
   }
 }
 
@@ -527,13 +568,18 @@ h1 span {
 }
 
 @keyframes invite-play {
-  50% {
+  18% {
     box-shadow:
       0 0 0 0.38rem rgb(255 121 92 / 34%),
       0 0 0 0.7rem rgb(82 219 226 / 16%),
       0 0 3rem rgb(82 219 226 / 58%),
       0 0.9rem 2.1rem rgb(0 0 0 / 54%);
     transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  36%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -714,10 +760,6 @@ h1 span {
         rgb(3 11 18 / 18%) 72%,
         rgb(3 11 18 / 92%) 100%
       );
-  }
-
-  .compatibility-poster {
-    display: none;
   }
 
   .compatibility-art {
@@ -1023,14 +1065,11 @@ h1 span {
     display: none;
   }
 
-  .compatibility-poster {
-    display: block;
+  .compatibility-heading strong {
+    font-size: clamp(1.05rem, 2.6vw, 1.35rem);
   }
 
-  .compatibility-art,
-  .compatibility-heading,
-  .card-phone,
-  .compatibility-cta {
+  .card-phone {
     display: none;
   }
 }
