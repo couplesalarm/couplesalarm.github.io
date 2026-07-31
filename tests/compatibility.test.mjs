@@ -76,9 +76,12 @@ test("makes the timed response one clear stop action without removing the safety
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
   assert.match(html, /About 2 minutes · Nothing is saved/);
-  assert.match(html, /You found a promising match/);
-  assert.match(script, /title = "You found a promising match\."/);
-  assert.doesNotMatch(`${html}\n${script}`, /This may work/);
+  assert.match(html, /This tone should wake Partner One—not Partner Two/);
+  assert.match(
+    script,
+    /This tone should wake \$\{partnerLabels\[wakingPartner\]\}—not \$\{partnerLabels\[sleepingPartner\]\}/,
+  );
+  assert.doesNotMatch(`${html}\n${script}`, /This may work|promising match/i);
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
 });
 
@@ -183,6 +186,10 @@ test("keeps test controls accessible on mobile", () => {
   assert.match(
     css,
     /\.listening-action\s*\{[\s\S]*min-height:\s*6\.5rem/,
+  );
+  assert.match(
+    css,
+    /\.ready-actions \[data-start-preview\]\s*\{[\s\S]*min-height:\s*5\.75rem/,
   );
   assert.match(
     css,
