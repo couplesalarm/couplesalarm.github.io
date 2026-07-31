@@ -5,14 +5,37 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../landing.css", import.meta.url), "utf8");
 
+// Scope a rule body so these assertions cannot be satisfied by a match
+// hundreds of lines away, which is how the old `[\s\S]*` versions passed
+// after the properties they were guarding had already changed.
+// A blank line before the selector anchors this to the whole selector list,
+// so asking for `body` cannot return the `html, body` rule above it.
+const ruleBody = (selector) => {
+  const at = css.indexOf(`\n\n${selector} {`);
+  assert.notEqual(at, -1, `expected a ${selector} rule`);
+  return css.slice(at, css.indexOf("}", at));
+};
+
 test("keeps the landing page in one viewport", () => {
   assert.match(html, /class="site-shell"/);
-  assert.match(css, /\.site-shell\s*\{[\s\S]*height:\s*100svh/);
-  assert.match(css, /body\s*\{[\s\S]*overflow:\s*hidden/);
+  assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
   assert.doesNotMatch(
     html,
     /preview-section|steps-section|honesty-section|privacy-section|release-section/,
   );
+});
+
+test("never traps content the viewport cannot fit", () => {
+  // One screen is the look, not a cage. `overflow: hidden` on the body left
+  // the compatibility CTA ~310px past the fold at 200% text size with no
+  // scroll available, so the page's only working action was unreachable.
+  const body = ruleBody("body");
+  assert.doesNotMatch(body, /overflow:\s*hidden/);
+  assert.match(body, /overflow-y:\s*auto/);
+  assert.doesNotMatch(ruleBody(".site-shell"), /(?<!min-)height:\s*100svh;/);
+  // html clipped too, so the body's scroll had nowhere to go.
+  assert.doesNotMatch(ruleBody("html"), /overflow:\s*hidden/);
+  assert.doesNotMatch(ruleBody("html,\nbody"), /(?<!min-)height:\s*100%/);
 });
 
 test("keeps the social video and compatibility preview on the landing page", () => {
@@ -60,8 +83,11 @@ test("keeps the social video and compatibility preview on the landing page", () 
   assert.match(css, /animation:\s*invite-play[^;]*infinite/);
   assert.doesNotMatch(html, /No names required/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
-  assert.match(html, /<button class="store-state" type="button" disabled/);
-  assert.match(html, />Coming Soon<\/button>/);
+  // Availability is a status line, not a dead control, and there is still no
+  // live store link to click before the app is approved.
+  assert.match(html, /<p class="store-state">Coming soon to the App Store<\/p>/);
+  assert.doesNotMatch(html, /apps\.apple\.com|itunes\.apple\.com/);
+  assert.doesNotMatch(html, /class="store-state"[^>]*disabled/);
   assert.match(html, /video\.webkitEnterFullscreen/);
   assert.match(html, /video\.requestFullscreen/);
   assert.doesNotMatch(
