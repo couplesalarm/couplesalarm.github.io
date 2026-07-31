@@ -297,6 +297,10 @@ h1 em {
   height: 100%;
   min-height: 12rem;
   max-height: 24rem;
+  /* Keep the 3:2 illustration close to its own shape so the couple and the
+     laptop stay in frame instead of being cropped to a thin letterbox. */
+  aspect-ratio: 16 / 9;
+  max-width: calc((100vh - 24rem) * 16 / 9);
   margin: 0;
   align-self: center;
   overflow: hidden;
@@ -475,7 +479,7 @@ h1 em {
   box-shadow:
     inset 0 0 4rem rgb(30 109 137 / 10%),
     0 1rem 3rem rgb(0 0 0 / 22%);
-  grid-template-rows: minmax(8rem, 1fr) auto auto auto;
+  grid-template-rows: minmax(8rem, 1fr) auto auto auto auto;
   justify-items: center;
   gap: 0.75rem;
 }
@@ -560,11 +564,41 @@ h1 em {
   }
 }
 
+.sweep-track {
+  width: min(38rem, 100%);
+  height: 0.4rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(244 241 233 / 10%);
+  opacity: 0;
+}
+
+.listening-stage.is-sweeping .sweep-track {
+  opacity: 1;
+}
+
+.sweep-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #52dbe2, #9b7de7 52%, #ff795c);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform linear;
+}
+
 .listening-status {
   display: grid;
   justify-items: center;
   gap: 0.1rem;
   text-align: center;
+}
+
+/* While the start overlay is up, its own label is the only call to action —
+   the status line underneath would otherwise ghost through the scrim. */
+.listening-stage.is-idle .listening-status {
+  opacity: 0;
 }
 
 .listening-status strong {

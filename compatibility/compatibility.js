@@ -3,6 +3,8 @@
   const screens = [...document.querySelectorAll("[data-screen]")];
   const progressSteps = [...document.querySelectorAll(".progress-step")];
   const errorMessage = document.querySelector("[data-error-message]");
+  const listeningStage = document.querySelector(".listening-stage");
+  const sweepProgress = document.querySelector("[data-sweep-progress]");
 
   const startFrequency = 17500;
   const endFrequency = 8500;
@@ -23,29 +25,31 @@
   const isIPad =
     /iPad/i.test(navigator.userAgent) ||
     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-  const isPhone = window.matchMedia("(max-width: 720px)").matches;
+  const phoneQuery = window.matchMedia("(max-width: 720px)");
 
-  const deviceCopy = isIPhone
-    ? {
-        intro: "Take turns listening on this iPhone.",
-        title: "iPhone speaker",
-      }
-    : isIPad
+  const currentDeviceCopy = () =>
+    isIPhone
       ? {
-          intro: "Take turns listening on this iPad.",
-          title: "iPad speaker",
+          intro: "Take turns listening on this iPhone.",
+          title: "iPhone speaker",
         }
-      : isPhone
+      : isIPad
         ? {
-            intro: "Take turns listening on this phone.",
-            title: "Phone speaker",
+            intro: "Take turns listening on this iPad.",
+            title: "iPad speaker",
           }
-        : {
-            intro: "Take turns listening on this device.",
-            title: "Built-in speakers",
-          };
+        : phoneQuery.matches
+          ? {
+              intro: "Take turns listening on this phone.",
+              title: "Phone speaker",
+            }
+          : {
+              intro: "Take turns listening on this device.",
+              title: "Built-in speakers",
+            };
 
   const updateDeviceCopy = () => {
+    const deviceCopy = currentDeviceCopy();
     document.querySelectorAll("[data-device-intro]").forEach((element) => {
       element.textContent = deviceCopy.intro;
     });
@@ -53,6 +57,8 @@
       element.textContent = deviceCopy.title;
     });
   };
+
+  phoneQuery.addEventListener("change", updateDeviceCopy);
 
   const setText = (selector, value) => {
     document.querySelectorAll(selector).forEach((element) => {
@@ -134,6 +140,23 @@
     activeVoices.delete(voice);
   };
 
+  // The sweep bar is driven by a single CSS transition rather than a per-frame
+  // loop, so it still reads as progress without an animation callback.
+  const resetSweepProgress = () => {
+    listeningStage.classList.remove("is-sweeping");
+    sweepProgress.style.transitionDuration = "0ms";
+    sweepProgress.style.transform = "scaleX(0)";
+    void sweepProgress.offsetWidth;
+    sweepProgress.style.transitionDuration = "";
+  };
+
+  const runSweepProgress = () => {
+    resetSweepProgress();
+    listeningStage.classList.add("is-sweeping");
+    sweepProgress.style.transitionDuration = `${sweepDuration}ms`;
+    sweepProgress.style.transform = "scaleX(1)";
+  };
+
   const stopTone = () => {
     toneRun += 1;
     sweepPlaying = false;
@@ -158,6 +181,8 @@
     notHeardButton.hidden = true;
     notHeardButton.disabled = true;
     stopToneButton.hidden = true;
+    listeningStage.classList.add("is-idle");
+    resetSweepProgress();
   };
 
   const startTone = async () => {
@@ -211,6 +236,8 @@
       stopToneButton.hidden = false;
       heardButton.focus({ preventScroll: true });
       setText("[data-audio-status]", "Playing");
+      listeningStage.classList.remove("is-idle");
+      runSweepProgress();
 
       sweepTimer = window.setTimeout(() => {
         if (run !== toneRun) return;
@@ -231,6 +258,8 @@
       document
         .querySelector("[data-start-tone]")
         .focus({ preventScroll: true });
+      listeningStage.classList.add("is-idle");
+      resetSweepProgress();
       showError(
         "This browser could not play the preview tone. Check that audio is allowed, then try again.",
       );
@@ -271,7 +300,7 @@
       summary = `${partnerLabels[wakingPartner]} heard the sound sooner. Confirm it in the app.`;
     } else if (reverseMatch) {
       title = "Try switching roles.";
-      summary = `${partnerLabels[sleepingPartner]} heard the sound sooner.`;
+      summary = `${partnerLabels[sleepingPartner]} heard the sound sooner. Switch who wakes up and run it again.`;
     } else if (responses.every((response) => response === null)) {
       title = "No clear match.";
       summary = "Neither partner heard the sound.";
@@ -354,13 +383,18 @@
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) return;
     stopTone();
+    // Re-enable as well as re-show: leaving the button disabled here stranded
+    // the turn for anyone who backgrounded the page mid-sweep.
     document.querySelector("[data-start-tone]").hidden = false;
+    document.querySelector("[data-start-tone]").disabled = false;
     document.querySelector("[data-heard]").hidden = true;
     document.querySelector("[data-heard]").disabled = true;
     document.querySelector("[data-not-heard]").hidden = true;
     document.querySelector("[data-not-heard]").disabled = true;
     document.querySelector("[data-stop-tone]").hidden = true;
     setText("[data-audio-status]", "Paused");
+    listeningStage.classList.add("is-idle");
+    resetSweepProgress();
   });
 
   const closeAudio = () => {
@@ -378,4 +412,5 @@
   updateDeviceCopy();
   updateRoles();
   setProgress(0);
+  listeningStage.classList.add("is-idle");
 })();
