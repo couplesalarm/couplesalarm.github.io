@@ -1316,24 +1316,23 @@ h1 em {
   }
 }
 
-@media (max-height: 640px) and (min-width: 761px) {
-  body {
-    overflow: auto;
-  }
-
-  .test-shell {
-    height: auto;
-    min-height: 32rem;
+/* Wide screens use one composed panel instead of stretching each step to the
+   full viewport height. The illustration stays the visual anchor while the
+   copy and action remain a compact, readable decision column. */
+@media (min-width: 761px) {
+  .progress {
+    width: min(75rem, 100%);
+    margin-inline: auto;
   }
 
   .ready-screen {
-    width: 100%;
-    padding-block: 0.25rem;
-    grid-template-columns: minmax(18rem, 0.72fr) minmax(28rem, 1.28fr);
+    width: min(68rem, 100%);
+    grid-template-columns: minmax(20rem, 0.8fr) minmax(28rem, 1.2fr);
     grid-template-rows: auto auto auto;
+    align-content: center;
     align-items: center;
     justify-items: stretch;
-    gap: 0.5rem 1.25rem;
+    gap: 0.6rem 2.5rem;
     text-align: left;
   }
 
@@ -1342,24 +1341,22 @@ h1 em {
     grid-row: 1;
   }
 
-  .ready-heading h1 {
-    font-size: clamp(2rem, 4.5vw, 3.15rem);
-  }
-
   .ready-heading > p:last-child {
     margin-inline: 0;
   }
 
   .ready-scene {
-    height: 17rem;
-    min-height: 17rem;
-    max-height: 17rem;
-    align-self: start;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-width: none;
+    max-height: none;
     grid-column: 2;
     grid-row: 1 / span 3;
   }
 
   .ready-actions {
+    width: 100%;
     grid-column: 1;
     grid-row: 2;
   }
@@ -1371,21 +1368,202 @@ h1 em {
   }
 
   .listen-screen {
-    gap: 0.75rem 1.5rem;
+    width: min(68rem, 100%);
+    max-height: min(38rem, 100%);
+    margin-inline: auto;
+    align-self: center;
+    grid-template-columns: minmax(18rem, 0.46fr) minmax(30rem, 1fr);
+    gap: 1rem 2.25rem;
+  }
+
+  .listen-copy h1 {
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+  }
+}
+
+@media (max-height: 640px) and (min-width: 761px) {
+  body {
+    overflow: auto;
+  }
+
+  .test-shell {
+    width: calc(100% - 1.5rem);
+    height: 100svh;
+    min-height: 22rem;
+  }
+
+  .site-header {
+    min-height: 3rem;
+  }
+
+  .brand {
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .brand img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.6rem;
+  }
+
+  .site-header nav {
+    gap: 0.35rem;
+  }
+
+  .site-header nav a {
+    padding-inline: 0.3rem;
+    font-size: 0.72rem;
+  }
+
+  main {
+    padding: 0.25rem 0 0.35rem;
+  }
+
+  .progress {
+    min-height: 2.15rem;
+    margin-inline: 0;
+  }
+
+  .progress::before {
+    top: 0.92rem;
+  }
+
+  .progress-step {
+    gap: 0.12rem;
+    font-size: 0.64rem;
+  }
+
+  .progress-step b {
+    width: 0.72rem;
+  }
+
+  .ready-screen {
+    width: 100%;
+    padding-block: 0;
+    grid-template-columns: minmax(16rem, 0.76fr) minmax(22rem, 1.24fr);
+    grid-template-rows: auto auto auto;
+    align-items: center;
+    justify-items: stretch;
+    gap: 0.3rem 1rem;
+    text-align: left;
+  }
+
+  .ready-heading {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .ready-heading h1 {
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+  }
+
+  .ready-heading > p:last-child {
+    margin-top: 0.25rem;
+    margin-inline: 0;
+    font-size: 0.75rem;
+  }
+
+  .ready-scene {
+    width: 100%;
+    height: min(14rem, 100%);
+    min-height: 0;
+    max-width: none;
+    max-height: 14rem;
+    align-self: center;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+  }
+
+  .role-picker {
+    right: 0.55rem;
+    bottom: 0.55rem;
+    left: 0.55rem;
+    min-height: 3.35rem;
+    padding: 0.35rem 0.5rem;
+    gap: 0.45rem;
+    border-radius: 0.75rem;
+  }
+
+  .role-picker > span {
+    font-size: 0.58rem;
+  }
+
+  .role-picker strong {
+    font-size: 1.05rem;
+  }
+
+  .role-picker button {
+    padding-inline: 0.35rem;
+    font-size: 0.75rem;
+  }
+
+  .ready-actions {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .ready-actions [data-start-preview] {
+    min-height: 4.35rem;
+    padding: 0.65rem 1rem;
+    border-radius: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .ready-actions [data-start-preview] img {
+    width: 1.55rem;
+    height: 1.55rem;
+  }
+
+  .ready-actions p {
+    font-size: 0.68rem;
+  }
+
+  .ready-screen > .preview-limit {
+    grid-column: 1;
+    grid-row: 3;
+    font-size: 0.66rem;
+    text-align: left;
+  }
+
+  .listen-screen {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    align-self: stretch;
+    grid-template-columns: minmax(15rem, 0.5fr) minmax(24rem, 1fr);
+    gap: 0.45rem 1rem;
+  }
+
+  .listen-copy h1 {
+    margin-top: 0;
+    font-size: clamp(1.8rem, 4vw, 2.25rem);
+  }
+
+  .listen-copy > p:not(.eyebrow) {
+    margin-top: 0.45rem;
+    font-size: 0.74rem;
+    line-height: 1.35;
   }
 
   .listening-stage {
-    padding: 0.65rem;
+    padding: 0.55rem;
     grid-template-rows: minmax(5rem, 1fr) auto auto auto;
-    gap: 0.4rem;
+    gap: 0.3rem;
+    border-radius: 1rem;
   }
 
   .tone-visualizer {
-    max-height: 7rem;
+    max-height: 6rem;
   }
 
   .listening-action {
-    min-height: 5rem;
+    min-height: 4.6rem;
+    border-radius: 1.15rem;
+  }
+
+  .listening-action-main {
+    font-size: 1.65rem;
   }
 
   /* Too little height here for a second line — the big label carries it. */
@@ -1394,6 +1572,85 @@ h1 em {
   }
 
   .listening-stage > .text-action {
+    min-height: 3rem;
+  }
+
+  .start-tone {
+    font-size: 1.2rem;
+    gap: 0.4rem;
+  }
+
+  .start-tone img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .listen-screen > .preview-limit {
+    font-size: 0.64rem;
+    text-align: left;
+  }
+
+  .handoff-screen {
+    width: min(52rem, 100%);
+    grid-template-columns: minmax(14rem, 0.8fr) minmax(18rem, 1fr);
+    gap: 1rem;
+  }
+
+  .handoff-screen figure {
+    height: min(15rem, 100%);
+  }
+
+  .handoff-screen h1 {
+    margin-top: 0.35rem;
+    font-size: clamp(1.8rem, 4vw, 2.3rem);
+  }
+
+  .handoff-screen > div > p:not(.eyebrow) {
+    margin: 0.45rem 0 0.7rem;
+    font-size: 0.72rem;
+  }
+
+  .handoff-screen .primary-action {
     min-height: 3.5rem;
+  }
+
+  .result-screen {
+    width: min(48rem, 100%);
+    gap: 0.35rem;
+  }
+
+  .result-glow {
+    top: 0;
+    width: min(32rem, 72vw);
+    aspect-ratio: 1.8;
+  }
+
+  .result-screen h1 {
+    max-width: 24ch;
+    font-size: clamp(1.8rem, 4vw, 2.35rem);
+  }
+
+  .result-summary {
+    font-size: 0.78rem;
+  }
+
+  .result-partners {
+    margin-top: 0.2rem;
+  }
+
+  .result-partners div {
+    padding: 0.45rem;
+  }
+
+  .result-limit {
+    font-size: 0.68rem;
+  }
+
+  .result-actions {
+    width: min(26rem, 100%);
+  }
+
+  .result-actions .primary-action {
+    min-height: 3.2rem;
   }
 }

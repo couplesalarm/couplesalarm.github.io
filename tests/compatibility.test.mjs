@@ -197,8 +197,24 @@ test("keeps test controls accessible on mobile", () => {
   );
   assert.match(
     css,
-    /@media \(max-height: 640px\) and \(min-width: 761px\)[\s\S]*height:\s*auto[\s\S]*min-height:\s*32rem/,
+    /@media \(max-height: 640px\) and \(min-width: 761px\)[\s\S]*height:\s*100svh[\s\S]*min-height:\s*22rem/,
+  );
+  assert.doesNotMatch(css, /min-height:\s*32rem/);
+  assert.match(
+    css,
+    /@media \(max-height: 640px\) and \(min-width: 761px\)[\s\S]*\.ready-scene\s*\{[\s\S]*max-width:\s*none/,
   );
   assert.match(css, /\.progress-step\s*\{[\s\S]*font-size:\s*0\.7rem/);
   assert.match(css, /\.listen-copy > p:not\(\.eyebrow\)\s*\{[\s\S]*font-size:\s*0\.82rem/);
+});
+
+test("keeps desktop test steps composed instead of stretching edge to edge", () => {
+  const desktop = css.slice(
+    css.indexOf("@media (min-width: 761px)"),
+    css.indexOf("@media (max-height: 640px) and (min-width: 761px)"),
+  );
+  assert.match(desktop, /\.ready-screen\s*\{[\s\S]*width:\s*min\(68rem, 100%\)/);
+  assert.match(desktop, /\.ready-scene\s*\{[\s\S]*max-width:\s*none/);
+  assert.match(desktop, /\.listen-screen\s*\{[\s\S]*width:\s*min\(68rem, 100%\)/);
+  assert.match(desktop, /max-height:\s*min\(38rem, 100%\)/);
 });
