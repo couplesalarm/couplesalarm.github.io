@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#06111a">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Compatibility preview — Couples Alarm</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260730-7">
+  <link rel="stylesheet" href="compatibility.css?v=20260730-10">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the compatibility preview</a>
@@ -66,7 +66,7 @@
         </div>
 
         <div class="listening-stage">
-          <svg class="tone-visualizer" viewBox="0 0 960 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+          <svg class="tone-visualizer" viewBox="0 0 960 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
             <defs>
               <linearGradient id="tone-spectrum" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0" stop-color="#52dbe2"/>
@@ -80,27 +80,48 @@
                   <feMergeNode in="SourceGraphic"/>
                 </feMerge>
               </filter>
-              <path id="tone-wave-path" d="M70 260 C95 260 95 205 120 260 S145 315 170 260 S195 170 220 260 S245 350 270 260 S295 135 320 260 S345 385 370 260 S395 160 420 260 S445 360 470 260 S495 125 520 260 S545 395 570 260 S595 170 620 260 S645 350 670 260 S695 195 720 260 S745 325 770 260 S795 225 820 260 S845 295 870 260"/>
+              <clipPath id="tone-field">
+                <rect x="40" y="96" width="880" height="204" rx="18"/>
+              </clipPath>
+              <linearGradient id="tone-beam" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#f4f1e9" stop-opacity=".5"/>
+                <stop offset="1" stop-color="#f4f1e9" stop-opacity="0"/>
+              </linearGradient>
+              <!-- One cycle is ~50 units wide here; stretching the group widens
+                   every wavelength at once, which is what a falling pitch does. -->
+              <path id="tone-wave-path" d="M0 214 q12.5 -78 25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0"/>
             </defs>
-            <path class="tone-orbit tone-orbit-echo" d="M90 98 C330 0 650 28 870 292"/>
-            <path class="tone-orbit" d="M90 72 C330 -25 650 2 870 266"/>
-            <use class="tone-wave-glow" href="#tone-wave-path"/>
-            <use class="tone-wave" href="#tone-wave-path"/>
-            <use class="tone-wave-flow" href="#tone-wave-path"/>
-            <g class="tone-pulse">
-              <circle class="tone-ring" cx="650" cy="104" r="34"/>
-              <circle class="tone-ring tone-ring-inner" cx="650" cy="104" r="19"/>
-              <circle class="tone-core" cx="650" cy="104" r="8"/>
+
+            <path class="tone-descent-guide" d="M92 62 C332 54 626 112 876 188"/>
+
+            <g clip-path="url(#tone-field)">
+              <g class="tone-wave-group">
+                <use class="tone-wave-glow" href="#tone-wave-path"/>
+                <use class="tone-wave" href="#tone-wave-path"/>
+              </g>
+            </g>
+
+            <g class="tone-head">
+              <rect class="tone-beam" x="-1.5" y="18" width="3" height="104" rx="1.5"/>
+              <circle class="tone-emit" cx="0" cy="0" r="18"/>
+              <circle class="tone-emit tone-emit-late" cx="0" cy="0" r="18"/>
+              <circle class="tone-head-halo" cx="0" cy="0" r="21"/>
+              <circle class="tone-head-core" cx="0" cy="0" r="8"/>
             </g>
           </svg>
-          <div class="sweep-track" aria-hidden="true">
-            <span class="sweep-fill" data-sweep-progress></span>
+          <div class="sweep-scale" aria-hidden="true">
+            <span class="sweep-cap">High</span>
+            <span class="sweep-track">
+              <span class="sweep-fill" data-sweep-progress></span>
+            </span>
+            <span class="sweep-cap">Low</span>
           </div>
           <div class="listening-status" aria-live="polite">
             <strong data-audio-status>Ready</strong>
           </div>
           <button class="primary-action listening-action" type="button" data-heard hidden disabled>
-            I hear it
+            <span class="listening-action-main">I hear it</span>
+            <span class="listening-action-sub">Tap the moment the sound appears</span>
           </button>
           <button class="text-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
           <button class="text-action" type="button" data-stop-tone hidden>Stop</button>
@@ -153,6 +174,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260730-5"></script>
+  <script src="compatibility.js?v=20260730-6"></script>
 </body>
 </html>

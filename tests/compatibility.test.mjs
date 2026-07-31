@@ -94,6 +94,28 @@ test("re-evaluates device copy when the viewport changes", () => {
   assert.match(script, /phoneQuery\.matches/);
 });
 
+test("ties the sweep animation to the audio clock", () => {
+  // The wave stretch and the travelling head both run off --sweep-duration,
+  // which the script sets from sweepDuration, so they cannot drift apart.
+  assert.match(script, /setProperty\("--sweep-duration", `\$\{sweepDuration\}ms`\)/);
+  assert.match(
+    css,
+    /\.listening-stage\.is-sweeping \.tone-wave-group\s*\{[\s\S]*animation: tone-stretch var\(--sweep-duration/,
+  );
+  assert.match(
+    css,
+    /\.listening-stage\.is-sweeping \.tone-head\s*\{[\s\S]*animation: tone-travel var\(--sweep-duration/,
+  );
+  assert.match(css, /@keyframes tone-stretch\s*\{[\s\S]*scaleX\(/);
+  assert.match(css, /\.tone-head\s*\{[\s\S]*offset-path:\s*path\(/);
+});
+
+test("keeps the sweep cues under reduced motion", () => {
+  const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
+  assert.match(reduced, /\.tone-emit,/);
+  assert.doesNotMatch(reduced, /tone-wave-group|tone-head\s*\{/);
+});
+
 test("shows sweep progress without a per-frame loop", () => {
   assert.match(html, /data-sweep-progress/);
   assert.match(script, /transitionDuration = `\$\{sweepDuration\}ms`/);

@@ -487,94 +487,153 @@ h1 em {
 .tone-visualizer {
   display: block;
   width: 100%;
-  height: 100%;
-  min-height: 10rem;
+  height: auto;
+  max-height: 100%;
+  /* Matching the viewBox keeps the wave spanning the full stage width instead
+     of letterboxing itself into a narrow strip. */
+  aspect-ratio: 960 / 300;
+  align-self: center;
   overflow: visible;
   pointer-events: none;
 }
 
-.tone-orbit,
+.tone-descent-guide,
 .tone-wave,
-.tone-wave-flow,
 .tone-wave-glow,
-.tone-ring {
+.tone-emit,
+.tone-head-halo {
   fill: none;
   stroke: url("#tone-spectrum");
   stroke-linecap: round;
 }
 
-.tone-orbit {
-  stroke-width: 3;
-  filter: url("#tone-glow");
-  opacity: 0.82;
-}
-
-.tone-orbit-echo {
+.tone-descent-guide {
+  stroke: rgb(244 241 233 / 14%);
+  stroke-dasharray: 2 14;
   stroke-width: 2;
-  opacity: 0.2;
 }
 
 .tone-wave {
   stroke-width: 4;
   filter: url("#tone-glow");
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .tone-wave-glow {
-  stroke-width: 14;
+  stroke-width: 15;
   filter: url("#tone-glow");
-  opacity: 0.14;
+  opacity: 0.13;
 }
 
-.tone-wave-flow {
-  stroke: #f4f1e9;
-  stroke-width: 3;
-  stroke-dasharray: 16 88;
-  opacity: 0.72;
-  animation: tone-flow 4s linear infinite;
+/* The whole wave group is stretched horizontally across the sweep, so every
+   wavelength widens together — the visual analogue of the pitch dropping. */
+.tone-wave-group {
+  transform: scaleX(1) translateY(0);
+  transform-box: view-box;
+  transform-origin: 40px 214px;
 }
 
-.tone-ring {
+.tone-beam {
+  fill: url("#tone-beam");
+}
+
+.listening-stage.is-sweeping .tone-wave-group {
+  animation: tone-stretch var(--sweep-duration, 12000ms) linear forwards;
+}
+
+@keyframes tone-stretch {
+  to {
+    transform: scaleX(3.15) translateY(34px);
+  }
+}
+
+/* The head rides the same descent curve the dotted guide traces. */
+.tone-head {
+  offset-path: path("M92 62 C332 54 626 112 876 188");
+  offset-distance: 0%;
+  offset-rotate: 0deg;
+  opacity: 0;
+}
+
+.listening-stage.is-sweeping .tone-head {
+  animation: tone-travel var(--sweep-duration, 12000ms) linear forwards;
+}
+
+@keyframes tone-travel {
+  from {
+    offset-distance: 0%;
+    opacity: 1;
+  }
+
+  to {
+    offset-distance: 100%;
+    opacity: 1;
+  }
+}
+
+.tone-head-core {
+  fill: #f4f1e9;
+  filter: url("#tone-glow");
+}
+
+.tone-head-halo {
   stroke-width: 3;
   filter: url("#tone-glow");
+  opacity: 0.9;
+}
+
+.tone-emit {
+  stroke-width: 2.5;
+  opacity: 0;
   transform-box: fill-box;
   transform-origin: center;
-  animation: tone-pulse 2.4s ease-in-out infinite;
 }
 
-.tone-ring-inner {
-  animation-delay: -1.2s;
+.listening-stage.is-sweeping .tone-emit {
+  animation: tone-emit 1.9s ease-out infinite;
 }
 
-.tone-core {
-  fill: var(--aqua);
-  filter: url("#tone-glow");
+.listening-stage.is-sweeping .tone-emit-late {
+  animation-delay: -0.95s;
 }
 
-@keyframes tone-flow {
+@keyframes tone-emit {
+  from {
+    opacity: 0.55;
+    transform: scale(0.55);
+  }
+
   to {
-    stroke-dashoffset: -312;
+    opacity: 0;
+    transform: scale(2.9);
   }
 }
 
-@keyframes tone-pulse {
-  50% {
-    opacity: 0.3;
-    transform: scale(1.22);
-  }
+.sweep-scale {
+  display: grid;
+  width: min(38rem, 100%);
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  opacity: 0;
+}
+
+.listening-stage.is-sweeping .sweep-scale {
+  opacity: 1;
+}
+
+.sweep-cap {
+  color: #7d8b92;
+  font: 760 0.62rem/1 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .sweep-track {
-  width: min(38rem, 100%);
   height: 0.4rem;
   overflow: hidden;
   border-radius: 999px;
   background: rgb(244 241 233 / 10%);
-  opacity: 0;
-}
-
-.listening-stage.is-sweeping .sweep-track {
-  opacity: 1;
 }
 
 .sweep-fill {
@@ -607,8 +666,53 @@ h1 em {
 }
 
 .listening-action {
-  min-height: 8rem;
+  position: relative;
+  min-height: 11rem;
+  border-width: 2px;
+  border-radius: 1.6rem;
+  grid-template-columns: 1fr;
+  gap: 0.3rem;
   font-size: 1.5rem;
+}
+
+.listening-action-main {
+  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.listening-action-sub {
+  color: rgb(255 255 255 / 82%);
+  font-size: clamp(0.82rem, 1.15vw, 0.98rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+/* A slow halo on the live button so the stage reads as waiting for a tap. */
+.listening-action::after {
+  position: absolute;
+  border-radius: inherit;
+  content: "";
+  inset: -0.35rem;
+  pointer-events: none;
+}
+
+.listening-stage.is-sweeping .listening-action::after {
+  animation: listening-invite 2.1s ease-out infinite;
+  box-shadow: 0 0 0 0 rgb(244 241 233 / 34%);
+}
+
+@keyframes listening-invite {
+  to {
+    box-shadow: 0 0 0 1.15rem rgb(244 241 233 / 0%);
+  }
+}
+
+.listening-action:active {
+  filter: brightness(1.12);
+  transform: scale(0.988);
 }
 
 .listening-stage > .text-action {
@@ -802,9 +906,15 @@ h1 em {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tone-wave-flow,
-  .tone-ring {
+  /* Drop the decorative loops but keep the two sweep-linked animations: they
+     are the only cue for how much of the 12 seconds is left. */
+  .listening-stage.is-sweeping .tone-emit,
+  .listening-stage.is-sweeping .listening-action::after {
     animation: none;
+  }
+
+  .tone-emit {
+    opacity: 0.25;
   }
 }
 
@@ -988,11 +1098,15 @@ h1 em {
   .listening-stage {
     padding: 0.85rem;
     border-radius: 1rem;
-    gap: 0.75rem;
+    /* The visualizer is width-bound here, so a 1fr first row would leave a tall
+       band of empty card above it. Size to content and centre the cluster. */
+    grid-template-rows: auto auto auto auto auto;
+    align-content: center;
+    gap: 1.1rem;
   }
 
   .tone-visualizer {
-    min-height: 8rem;
+    max-height: 11rem;
   }
 
   .listening-status strong {
@@ -1002,6 +1116,14 @@ h1 em {
   .listening-action {
     min-height: 7rem;
     font-size: 1.35rem;
+  }
+
+  .listening-action-main {
+    font-size: clamp(1.8rem, 8.5vw, 2.3rem);
+  }
+
+  .listening-action-sub {
+    font-size: 0.78rem;
   }
 
   .listening-stage > .text-action {
@@ -1164,12 +1286,16 @@ h1 em {
   }
 
   .tone-visualizer {
-    min-height: 5rem;
-    max-height: 8rem;
+    max-height: 7rem;
   }
 
   .listening-action {
     min-height: 5rem;
+  }
+
+  /* Too little height here for a second line — the big label carries it. */
+  .listening-action-sub {
+    display: none;
   }
 
   .listening-stage > .text-action {
