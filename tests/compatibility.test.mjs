@@ -76,6 +76,9 @@ test("makes the timed response one clear stop action without removing the safety
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
   assert.match(html, /About 2 minutes · Nothing is saved/);
+  assert.match(html, /You found a promising match/);
+  assert.match(script, /title = "You found a promising match\."/);
+  assert.doesNotMatch(`${html}\n${script}`, /This may work/);
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
 });
 
