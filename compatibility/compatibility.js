@@ -10,8 +10,8 @@
   const endFrequency = 8500;
   const sweepDuration = 12000;
 
-  let wakingPartner = 0;
-  let listeningOrder = [0, 1];
+  const wakingPartner = 0;
+  const listeningOrder = [0, 1];
   let turn = 0;
   let responses = [undefined, undefined];
   let audioContext;
@@ -95,18 +95,6 @@
     document.querySelectorAll(selector).forEach((element) => {
       element.textContent = value;
     });
-  };
-
-  const updateRoles = () => {
-    const sleepingPartner = wakingPartner === 0 ? 1 : 0;
-    listeningOrder = [wakingPartner, sleepingPartner];
-    setText("[data-waking-partner]", partnerLabels[wakingPartner]);
-    setText("[data-sleeping-partner]", partnerLabels[sleepingPartner]);
-
-    const firstProgress = document.querySelector('[data-progress="partner-one"]');
-    const secondProgress = document.querySelector('[data-progress="partner-two"]');
-    firstProgress.lastChild.textContent = partnerLabels[listeningOrder[0]];
-    secondProgress.lastChild.textContent = partnerLabels[listeningOrder[1]];
   };
 
   const setProgress = (currentIndex) => {
@@ -362,13 +350,6 @@
     showScreen("result");
   };
 
-  document.querySelectorAll("[data-swap-roles]").forEach((button) => {
-    button.addEventListener("click", () => {
-      wakingPartner = wakingPartner === 0 ? 1 : 0;
-      updateRoles();
-    });
-  });
-
   document.querySelector("[data-start-preview]").addEventListener("click", () => {
     turn = 0;
     responses = [undefined, undefined];
@@ -411,7 +392,6 @@
     turn = 0;
     responses = [undefined, undefined];
     setProgress(0);
-    updateRoles();
     showScreen("ready");
   });
 
@@ -445,7 +425,6 @@
   window.addEventListener("beforeunload", closeAudio);
 
   updateDeviceCopy();
-  updateRoles();
   setProgress(0);
   listeningStage.classList.add("is-idle");
 })();
