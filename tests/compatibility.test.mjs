@@ -61,8 +61,44 @@ test("runs both listening turns locally with Web Audio", () => {
 
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
-  assert.match(html, /About 1 minute · Nothing is saved/);
+  assert.match(html, /About 2 minutes · Nothing is saved/);
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
+});
+
+test("quotes the same duration as the landing page", async () => {
+  const landing = await readFile(
+    new URL("../index.html", import.meta.url),
+    "utf8",
+  );
+  assert.match(landing, /2-minute test/);
+  assert.match(html, /About 2 minutes/);
+  assert.doesNotMatch(html, /About 1 minute/);
+});
+
+test("warns against headphones wherever the tone can be played", () => {
+  assert.match(html, /Quiet room · <span data-speaker-title>[^<]*<\/span>, no headphones/);
+  assert.match(html, /only — no headphones/);
+});
+
+test("recovers the turn after the page is backgrounded", () => {
+  // Re-showing the start button without re-enabling it stranded the turn.
+  assert.match(
+    script,
+    /visibilitychange[\s\S]*\[data-start-tone\]"\)\.hidden = false;\s*[\s\S]{0,160}?\[data-start-tone\]"\)\.disabled = false;/,
+  );
+});
+
+test("re-evaluates device copy when the viewport changes", () => {
+  assert.match(script, /const phoneQuery = window\.matchMedia\("\(max-width: 720px\)"\)/);
+  assert.match(script, /phoneQuery\.addEventListener\("change", updateDeviceCopy\)/);
+  assert.match(script, /phoneQuery\.matches/);
+});
+
+test("shows sweep progress without a per-frame loop", () => {
+  assert.match(html, /data-sweep-progress/);
+  assert.match(script, /transitionDuration = `\$\{sweepDuration\}ms`/);
+  assert.match(css, /\.sweep-fill\s*\{[\s\S]*transition:\s*transform linear/);
+  assert.doesNotMatch(script, /requestAnimationFrame/);
 });
 
 test("restores the visual story without restoring the busy audio loop", () => {

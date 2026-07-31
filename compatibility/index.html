@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#06111a">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Compatibility preview — Couples Alarm</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260730-6">
+  <link rel="stylesheet" href="compatibility.css?v=20260730-7">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the compatibility preview</a>
@@ -53,16 +53,16 @@
             <img src="../assets/play-fill.svg" alt="">
             <span>Start test</span>
           </button>
-          <p>About 1 minute · Nothing is saved.</p>
+          <p>About 2 minutes · Nothing is saved.</p>
         </div>
 
-        <p class="preview-limit">Quiet room · Phone speaker · Comfortable volume</p>
+        <p class="preview-limit">Quiet room · <span data-speaker-title>Device speaker</span>, no headphones · Comfortable volume</p>
       </section>
 
       <section class="screen listen-screen" data-screen="listen" aria-labelledby="listen-title" hidden>
         <div class="listen-copy">
           <h1 id="listen-title"><span data-listening-partner>Partner One</span>: <em>tap when you hear it.</em></h1>
-          <p><strong data-speaker-title>Device speaker</strong> · Comfortable volume · Stop if uncomfortable.</p>
+          <p><strong data-speaker-title>Device speaker</strong> only — no headphones · Comfortable volume · Stop if uncomfortable.</p>
         </div>
 
         <div class="listening-stage">
@@ -93,6 +93,9 @@
               <circle class="tone-core" cx="650" cy="104" r="8"/>
             </g>
           </svg>
+          <div class="sweep-track" aria-hidden="true">
+            <span class="sweep-fill" data-sweep-progress></span>
+          </div>
           <div class="listening-status" aria-live="polite">
             <strong data-audio-status>Ready</strong>
           </div>
@@ -115,7 +118,7 @@
           <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="">
         </figure>
         <div>
-          <h1 id="handoff-title">Pass the device to <span data-next-partner>Partner Two.</span></h1>
+          <h1 id="handoff-title">Pass the device to <span data-next-partner>Partner Two</span>.</h1>
           <p>Keep the same volume.</p>
           <button class="primary-action" type="button" data-next-turn>
             <img src="../assets/play-fill.svg" alt="">
@@ -127,7 +130,7 @@
       <section class="screen result-screen" data-screen="result" aria-labelledby="result-title" hidden>
         <div class="result-glow" aria-hidden="true"></div>
         <p class="eyebrow">Your preview result</p>
-        <h1 id="result-title" data-result-title>There may be a promising match.</h1>
+        <h1 id="result-title" data-result-title>This may work.</h1>
         <p class="result-summary" data-result-summary></p>
         <div class="result-partners" aria-label="Partner responses">
           <div>
@@ -150,6 +153,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260730-4"></script>
+  <script src="compatibility.js?v=20260730-5"></script>
 </body>
 </html>
