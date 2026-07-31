@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#06111a">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Compatibility preview — Couples Alarm</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260730-11">
+  <link rel="stylesheet" href="compatibility.css?v=20260731-action-1">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the compatibility preview</a>
@@ -121,11 +121,12 @@
             <strong data-audio-status>Ready</strong>
           </div>
           <button class="primary-action listening-action" type="button" data-heard hidden disabled>
-            <span class="listening-action-main">I hear it</span>
-            <span class="listening-action-sub">Tap the moment the sound appears</span>
+            <span class="listening-action-kicker">When you hear it</span>
+            <span class="listening-action-main">Stop — I hear it</span>
+            <span class="listening-action-sub">Records this exact moment</span>
           </button>
           <button class="text-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
-          <button class="text-action" type="button" data-stop-tone hidden>Stop</button>
+          <button class="text-action stop-tone-action" type="button" data-stop-tone hidden aria-label="End sound without answering and retry this turn">End sound &amp; retry</button>
           <button class="start-tone" type="button" data-start-tone>
             <img src="../assets/play-fill.svg" alt="">
             <span>Play sound</span>

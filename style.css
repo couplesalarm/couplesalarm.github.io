@@ -339,8 +339,11 @@ nav a[aria-current="page"] {
 
 .primary-link {
   border-color: transparent;
-  background: linear-gradient(100deg, #cc2ed8, #7457f4 55%, #1cbce8);
-  box-shadow: 0 0.9rem 2.2rem rgb(66 71 234 / 22%);
+  background: linear-gradient(96deg, #ff7458 0%, #ff8a64 28%, #73c5c2 68%, #45d5df 100%);
+  box-shadow:
+    0 0.9rem 2.2rem rgb(0 0 0 / 28%),
+    0 0 1.6rem rgb(82 219 226 / 16%);
+  color: #06111a;
 }
 
 .button-link:hover {
