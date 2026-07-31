@@ -73,6 +73,14 @@ test("makes the timed response one clear stop action without removing the safety
   );
 });
 
+test("starts the tone as an explicit listening action", () => {
+  assert.match(html, /aria-label="Start listening to the tone"/);
+  assert.match(html, />Start listening</);
+  assert.match(html, /The tone begins immediately/);
+  assert.doesNotMatch(html, /Play sound/);
+  assert.match(css, /\.start-tone-control\s*\{[\s\S]*linear-gradient\(105deg, var\(--signal\)/);
+});
+
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
   assert.match(html, /About 2 minutes · Nothing is saved/);
