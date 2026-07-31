@@ -18,7 +18,6 @@ const script = await readFile(
 test("uses anonymous two-partner language throughout the preview", () => {
   assert.match(html, /Partner One/);
   assert.match(html, /Partner Two/);
-  assert.match(html, /Nothing is saved/);
   assert.doesNotMatch(html, /<input|enter your name|Alex|Jordan/i);
   assert.doesNotMatch(script, /localStorage|sessionStorage|document\.cookie/);
 });
@@ -83,7 +82,10 @@ test("starts the tone as an explicit listening action", () => {
 
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
-  assert.match(html, /About 2 minutes · Nothing is saved/);
+  assert.doesNotMatch(
+    html,
+    /About 2 minutes|Nothing is saved|Needs to wake up|Switch partner/,
+  );
   assert.match(html, /This tone should wake Partner One—not Partner Two/);
   assert.match(
     script,
@@ -93,19 +95,9 @@ test("keeps every step concise", () => {
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
 });
 
-test("quotes the same duration as the landing page", async () => {
-  const landing = await readFile(
-    new URL("../index.html", import.meta.url),
-    "utf8",
-  );
-  assert.match(landing, /2-minute sound check/);
-  assert.match(html, /About 2 minutes/);
-  assert.doesNotMatch(html, /About 1 minute/);
-});
-
 test("warns against headphones wherever the tone can be played", () => {
-  assert.match(html, /Quiet room · <span data-speaker-title>[^<]*<\/span>, no headphones/);
   assert.match(html, /only — no headphones/);
+  assert.doesNotMatch(html, /Quiet room · <span data-speaker-title>/);
 });
 
 test("recovers the turn after the page is backgrounded", () => {
@@ -197,7 +189,7 @@ test("keeps test controls accessible on mobile", () => {
   );
   assert.match(
     css,
-    /\.ready-actions \[data-start-preview\]\s*\{[\s\S]*min-height:\s*5\.75rem/,
+    /\.ready-actions \[data-start-preview\]\s*\{[\s\S]*min-height:\s*6\.5rem/,
   );
   assert.match(
     css,
