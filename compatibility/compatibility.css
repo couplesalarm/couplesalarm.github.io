@@ -30,7 +30,8 @@ html {
 
 body {
   isolation: isolate;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background:
     radial-gradient(circle at 50% 46%, rgb(31 93 119 / 15%), transparent 32rem),
     radial-gradient(circle at 82% 22%, rgb(82 219 226 / 6%), transparent 24rem),
@@ -402,13 +403,13 @@ h1 em {
   padding: 0.82rem 1.3rem;
   border: 1px solid rgb(255 255 255 / 42%);
   border-radius: 1.25rem;
-  background: linear-gradient(96deg, var(--magenta), #9d3cec 35%, #5e70ef 63%, #31bfe9);
+  background: linear-gradient(96deg, #ff7458 0%, #ff8a64 28%, #73c5c2 68%, #45d5df 100%);
   box-shadow:
     0 0.9rem 2rem rgb(0 0 0 / 35%),
-    -0.6rem 0.5rem 2.4rem rgb(236 35 188 / 15%),
-    0.6rem 0.5rem 2.4rem rgb(49 191 233 / 15%),
+    -0.6rem 0.5rem 2.4rem rgb(255 121 92 / 15%),
+    0.6rem 0.5rem 2.4rem rgb(82 219 226 / 15%),
     inset 0 1px rgb(255 255 255 / 18%);
-  color: #fff;
+  color: var(--night);
   cursor: pointer;
   grid-template-columns: auto 1fr auto;
   align-items: center;
@@ -418,7 +419,7 @@ h1 em {
   font-weight: 760;
   text-align: center;
   text-decoration: none;
-  text-shadow: 0 1px 1rem rgb(1 8 14 / 45%);
+  text-shadow: none;
 }
 
 .primary-action img {
@@ -680,23 +681,37 @@ h1 em {
 
 .listening-action {
   position: relative;
-  min-height: 11rem;
+  min-height: 9rem;
   border-width: 2px;
-  border-radius: 1.6rem;
+  border-radius: 2rem;
+  background:
+    linear-gradient(115deg, rgb(255 255 255 / 18%), transparent 28% 72%, rgb(255 255 255 / 12%)),
+    linear-gradient(96deg, #ff7458 0%, #ff8a64 28%, #73c5c2 68%, #45d5df 100%);
+  box-shadow:
+    0 1.1rem 2.6rem rgb(0 0 0 / 38%),
+    -0.8rem 0.7rem 2.8rem rgb(255 121 92 / 20%),
+    0.8rem 0.7rem 2.8rem rgb(82 219 226 / 20%),
+    inset 0 1px rgb(255 255 255 / 28%);
   grid-template-columns: 1fr;
-  gap: 0.3rem;
+  gap: 0.4rem;
   font-size: 1.5rem;
 }
 
+.listening-action-kicker {
+  font: 800 0.68rem/1 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
 .listening-action-main {
-  font-size: clamp(2rem, 3.4vw, 2.9rem);
+  font-size: clamp(2rem, 3.6vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
 }
 
 .listening-action-sub {
-  color: rgb(255 255 255 / 82%);
+  color: rgb(6 17 26 / 76%);
   font-size: clamp(0.82rem, 1.15vw, 0.98rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -737,6 +752,19 @@ h1 em {
   background: rgb(82 219 226 / 9%);
   color: #dffcff;
   font-size: 1rem;
+}
+
+.listening-stage > .stop-tone-action {
+  width: auto;
+  min-height: 44px;
+  padding: 0.45rem 0.9rem;
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.86rem;
+  text-decoration: underline;
+  text-decoration-color: rgb(170 183 189 / 45%);
+  text-underline-offset: 0.22rem;
 }
 
 .start-tone {
@@ -916,6 +944,20 @@ h1 em {
       filter 150ms ease,
       transform 150ms ease;
   }
+
+  .listening-stage.is-sweeping .listening-action {
+    animation: response-glow 2.4s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes response-glow {
+  to {
+    box-shadow:
+      0 1.1rem 2.8rem rgb(0 0 0 / 42%),
+      -0.9rem 0.8rem 3.2rem rgb(255 121 92 / 30%),
+      0.9rem 0.8rem 3.2rem rgb(82 219 226 / 30%),
+      inset 0 1px rgb(255 255 255 / 32%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -941,6 +983,12 @@ h1 em {
     border-color: var(--aqua);
     background: rgb(82 219 226 / 15%);
   }
+
+  .listening-stage > .stop-tone-action:hover {
+    border-color: transparent;
+    background: transparent;
+    color: var(--ink);
+  }
 }
 
 .primary-action:active,
@@ -958,7 +1006,8 @@ h1 em {
 
 @media (max-width: 760px) {
   body {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .test-shell {
@@ -987,7 +1036,7 @@ h1 em {
   .site-header nav a {
     min-width: 48px;
     padding-inline: 0.3rem;
-    font-size: 0.71rem;
+    font-size: 0.78rem;
   }
 
   main {
@@ -1007,7 +1056,7 @@ h1 em {
 
   .progress-step {
     gap: 0.18rem;
-    font-size: 0.61rem;
+    font-size: 0.7rem;
   }
 
   .progress-step b {
@@ -1021,7 +1070,7 @@ h1 em {
   }
 
   .eyebrow {
-    font-size: 0.53rem;
+    font-size: 0.65rem;
   }
 
   .ready-heading h1 {
@@ -1050,7 +1099,7 @@ h1 em {
   }
 
   .role-picker > span {
-    font-size: 0.5rem;
+    font-size: 0.62rem;
   }
 
   .role-picker strong {
@@ -1060,7 +1109,7 @@ h1 em {
   .role-picker button {
     min-height: 44px;
     padding-inline: 0.35rem;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
   }
 
   .primary-action {
@@ -1081,7 +1130,7 @@ h1 em {
 
   .ready-actions p,
   .preview-limit {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     line-height: 1.3;
   }
 
@@ -1104,8 +1153,8 @@ h1 em {
   .listen-copy > p:not(.eyebrow) {
     max-width: none;
     margin: 0.25rem 0 0;
-    font-size: 0.7rem;
-    line-height: 1.25;
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   .listening-stage {
@@ -1127,8 +1176,13 @@ h1 em {
   }
 
   .listening-action {
-    min-height: 7rem;
+    min-height: 6.5rem;
+    border-radius: 1.4rem;
     font-size: 1.35rem;
+  }
+
+  .listening-action-kicker {
+    font-size: 0.62rem;
   }
 
   .listening-action-main {
@@ -1142,6 +1196,11 @@ h1 em {
   .listening-stage > .text-action {
     min-height: 4rem;
     font-size: 1rem;
+  }
+
+  .listening-stage > .stop-tone-action {
+    min-height: 44px;
+    font-size: 0.88rem;
   }
 
   .start-tone {
@@ -1179,7 +1238,7 @@ h1 em {
   }
 
   .result-summary {
-    font-size: 0.82rem;
+    font-size: 0.9rem;
   }
 
   .result-partners div {
@@ -1187,15 +1246,15 @@ h1 em {
   }
 
   .result-partners span {
-    font-size: 0.58rem;
+    font-size: 0.68rem;
   }
 
   .result-partners strong {
-    font-size: 0.78rem;
+    font-size: 0.86rem;
   }
 
   .result-limit {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
   }
 
   .result-actions .primary-action {
@@ -1234,7 +1293,7 @@ h1 em {
   }
 }
 
-@media (max-height: 520px) and (min-width: 761px) {
+@media (max-height: 640px) and (min-width: 761px) {
   body {
     overflow: auto;
   }

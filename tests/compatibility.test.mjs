@@ -59,6 +59,20 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.doesNotMatch(script, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/);
 });
 
+test("makes the timed response one clear stop action without removing the safety retry", () => {
+  assert.match(html, /Stop — I hear it/);
+  assert.match(html, /End sound &amp; retry/);
+  assert.doesNotMatch(html, />Stop<\/button>/);
+  assert.match(
+    script,
+    /\[data-heard\]"\)\.addEventListener\("click",[\s\S]*finishTurn\(frequencyAt\(progress\)\)/,
+  );
+  assert.match(
+    script,
+    /\[data-stop-tone\]"\)\.addEventListener\("click",[\s\S]*stopTone\(\);\s*prepareTurn\(\)/,
+  );
+});
+
 test("keeps every step concise", () => {
   assert.match(html, /Can one of you hear what the other/);
   assert.match(html, /About 2 minutes · Nothing is saved/);
@@ -165,7 +179,7 @@ test("keeps test controls accessible on mobile", () => {
   assert.match(css, /\.site-header nav a\s*\{[\s\S]*min-width:\s*48px/);
   assert.match(
     css,
-    /\.listening-action\s*\{[\s\S]*min-height:\s*7rem/,
+    /\.listening-action\s*\{[\s\S]*min-height:\s*6\.5rem/,
   );
   assert.match(
     css,
@@ -173,6 +187,8 @@ test("keeps test controls accessible on mobile", () => {
   );
   assert.match(
     css,
-    /@media \(max-height: 520px\) and \(min-width: 761px\)[\s\S]*height:\s*auto[\s\S]*min-height:\s*32rem/,
+    /@media \(max-height: 640px\) and \(min-width: 761px\)[\s\S]*height:\s*auto[\s\S]*min-height:\s*32rem/,
   );
+  assert.match(css, /\.progress-step\s*\{[\s\S]*font-size:\s*0\.7rem/);
+  assert.match(css, /\.listen-copy > p:not\(\.eyebrow\)\s*\{[\s\S]*font-size:\s*0\.82rem/);
 });
