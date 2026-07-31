@@ -333,7 +333,7 @@
     let summary;
 
     if (requestedMatch) {
-      title = "You found a promising match.";
+      title = `This tone should wake ${partnerLabels[wakingPartner]}—not ${partnerLabels[sleepingPartner]}.`;
       summary = `${partnerLabels[wakingPartner]} heard the sound sooner. Confirm it in the app.`;
     } else if (reverseMatch) {
       title = "Try switching roles.";
