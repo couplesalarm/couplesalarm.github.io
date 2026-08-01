@@ -10,6 +10,10 @@
   const endFrequency = 8500;
   const sweepDuration = 12000;
 
+  if (navigator.audioSession) {
+    navigator.audioSession.type = "playback";
+  }
+
   const wakingPartner = 0;
   const listeningOrder = [0, 1];
   let turn = 0;

@@ -32,6 +32,7 @@ test("keeps the preview device-aware and honest about its limits", () => {
 
 test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /window\.AudioContext \|\| window\.webkitAudioContext/);
+  assert.match(script, /navigator\.audioSession\.type = "playback"/);
   assert.match(script, /const startFrequency = 17500/);
   assert.match(script, /const endFrequency = 8500/);
   assert.match(script, /const sweepDuration = 12000/);
