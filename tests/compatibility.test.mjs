@@ -39,7 +39,6 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /responses\[listeningOrder\[turn\]\]/);
   assert.match(script, /notHeardButton\.disabled = true/);
   assert.match(script, /if \(sweepPlaying\) return/);
-  assert.match(script, /data-stop-tone/);
   assert.match(script, /const activeVoices = new Set\(\)/);
   assert.match(script, /let sweepTimer/);
   assert.match(script, /window\.setTimeout/);
@@ -58,17 +57,12 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.doesNotMatch(script, /\bfetch\s*\(|XMLHttpRequest|sendBeacon/);
 });
 
-test("makes the timed response one clear stop action without removing the safety retry", () => {
+test("keeps one clear timed response action", () => {
   assert.match(html, /Stop — I hear it/);
-  assert.match(html, /End sound &amp; retry/);
-  assert.doesNotMatch(html, />Stop<\/button>/);
+  assert.doesNotMatch(`${html}\n${script}`, /End sound|data-stop-tone|stop-tone-action/);
   assert.match(
     script,
     /\[data-heard\]"\)\.addEventListener\("click",[\s\S]*finishTurn\(frequencyAt\(progress\)\)/,
-  );
-  assert.match(
-    script,
-    /\[data-stop-tone\]"\)\.addEventListener\("click",[\s\S]*stopTone\(\);\s*prepareTurn\(\)/,
   );
 });
 
@@ -172,10 +166,7 @@ test("keeps test controls accessible on mobile", () => {
   assert.match(script, /window\.scrollTo\(0, 0\)/);
   assert.match(script, /heardButton\.focus\(\{ preventScroll: true \}\)/);
   assert.match(script, /notHeardButton\.focus\(\{ preventScroll: true \}\)/);
-  assert.match(
-    script,
-    /querySelector\("\[data-start-tone\]"\)\.focus\(\{ preventScroll: true \}\)/,
-  );
+  assert.match(script, /startToneButton\.focus\(\{ preventScroll: true \}\)/);
   assert.match(css, /@media \(max-width: 760px\)/);
   assert.match(
     css,
