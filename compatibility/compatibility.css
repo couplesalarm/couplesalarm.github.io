@@ -444,7 +444,7 @@ h1 em {
   box-shadow:
     inset 0 0 4rem rgb(30 109 137 / 10%),
     0 1rem 3rem rgb(0 0 0 / 22%);
-  grid-template-rows: minmax(8rem, 1fr) auto auto auto auto auto;
+  grid-template-rows: minmax(8rem, 1fr) auto auto auto auto;
   justify-items: center;
   gap: 0.75rem;
 }
@@ -716,19 +716,6 @@ h1 em {
   background: rgb(82 219 226 / 9%);
   color: #dffcff;
   font-size: 1rem;
-}
-
-.listening-stage > .stop-tone-action {
-  width: auto;
-  min-height: 44px;
-  padding: 0.45rem 0.9rem;
-  border-color: transparent;
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.86rem;
-  text-decoration: underline;
-  text-decoration-color: rgb(170 183 189 / 45%);
-  text-underline-offset: 0.22rem;
 }
 
 .start-tone {
@@ -1006,12 +993,6 @@ h1 em {
     background: rgb(82 219 226 / 15%);
   }
 
-  .listening-stage > .stop-tone-action:hover {
-    border-color: transparent;
-    background: transparent;
-    color: var(--ink);
-  }
-
   .start-tone:hover .start-tone-control {
     filter: brightness(1.08);
     transform: translateY(-0.12rem);
@@ -1180,7 +1161,7 @@ h1 em {
     border-radius: 1rem;
     /* The visualizer is width-bound here, so a 1fr first row would leave a tall
        band of empty card above it. Size to content and centre the cluster. */
-    grid-template-rows: auto auto auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     align-content: center;
     gap: 1.1rem;
   }
@@ -1214,11 +1195,6 @@ h1 em {
   .listening-stage > .text-action {
     min-height: 4rem;
     font-size: 1rem;
-  }
-
-  .listening-stage > .stop-tone-action {
-    min-height: 44px;
-    font-size: 0.88rem;
   }
 
   .start-tone-control {

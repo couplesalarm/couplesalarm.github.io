@@ -195,14 +195,12 @@
     const startToneButton = document.querySelector("[data-start-tone]");
     const heardButton = document.querySelector("[data-heard]");
     const notHeardButton = document.querySelector("[data-not-heard]");
-    const stopToneButton = document.querySelector("[data-stop-tone]");
     startToneButton.hidden = false;
     startToneButton.disabled = false;
     heardButton.hidden = true;
     heardButton.disabled = true;
     notHeardButton.hidden = true;
     notHeardButton.disabled = true;
-    stopToneButton.hidden = true;
     listeningStage.classList.add("is-idle");
     resetSweepProgress();
     setReadout(startFrequency);
@@ -215,7 +213,6 @@
     const startToneButton = document.querySelector("[data-start-tone]");
     const heardButton = document.querySelector("[data-heard]");
     const notHeardButton = document.querySelector("[data-not-heard]");
-    const stopToneButton = document.querySelector("[data-stop-tone]");
     startToneButton.hidden = true;
     startToneButton.disabled = true;
     setText("[data-audio-status]", "Starting…");
@@ -256,7 +253,6 @@
       heardButton.disabled = false;
       notHeardButton.hidden = true;
       notHeardButton.disabled = true;
-      stopToneButton.hidden = false;
       heardButton.focus({ preventScroll: true });
       setText("[data-audio-status]", "Playing");
       listeningStage.classList.remove("is-idle");
@@ -270,7 +266,6 @@
         heardButton.disabled = true;
         notHeardButton.hidden = false;
         notHeardButton.disabled = false;
-        stopToneButton.hidden = true;
         notHeardButton.focus({ preventScroll: true });
         setText("[data-audio-status]", "Finished");
         setReadout(endFrequency);
@@ -278,11 +273,9 @@
     } catch {
       if (run !== toneRun) return;
       stopTone();
-      document.querySelector("[data-start-tone]").hidden = false;
-      document.querySelector("[data-start-tone]").disabled = false;
-      document
-        .querySelector("[data-start-tone]")
-        .focus({ preventScroll: true });
+      startToneButton.hidden = false;
+      startToneButton.disabled = false;
+      startToneButton.focus({ preventScroll: true });
       listeningStage.classList.add("is-idle");
       resetSweepProgress();
       showError(
@@ -374,13 +367,6 @@
     finishTurn(null);
   });
 
-  document.querySelector("[data-stop-tone]").addEventListener("click", () => {
-    stopTone();
-    prepareTurn();
-    setText("[data-audio-status]", "Stopped");
-    document.querySelector("[data-start-tone]").focus({ preventScroll: true });
-  });
-
   document.querySelector("[data-next-turn]").addEventListener("click", () => {
     turn = 1;
     prepareTurn();
@@ -406,7 +392,6 @@
     document.querySelector("[data-heard]").disabled = true;
     document.querySelector("[data-not-heard]").hidden = true;
     document.querySelector("[data-not-heard]").disabled = true;
-    document.querySelector("[data-stop-tone]").hidden = true;
     setText("[data-audio-status]", "Paused");
     listeningStage.classList.add("is-idle");
     resetSweepProgress();
