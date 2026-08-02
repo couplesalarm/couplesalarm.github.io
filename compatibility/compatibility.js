@@ -321,8 +321,8 @@
       title = `This tone should wake ${partnerLabels[wakingPartner]}—not ${partnerLabels[sleepingPartner]}.`;
       summary = `${partnerLabels[wakingPartner]} heard the sound sooner. Confirm it in the app.`;
     } else if (reverseMatch) {
-      title = "Try switching roles.";
-      summary = `${partnerLabels[sleepingPartner]} heard the sound sooner. Switch who wakes up and run it again.`;
+      title = `This tone should wake ${partnerLabels[sleepingPartner]}—not ${partnerLabels[wakingPartner]}.`;
+      summary = `${partnerLabels[sleepingPartner]} heard the sound sooner. Confirm it in the app.`;
     } else if (responses.every((response) => response === null)) {
       title = "No clear match.";
       summary = "Neither partner heard the sound.";

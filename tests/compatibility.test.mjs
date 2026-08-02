@@ -86,6 +86,11 @@ test("keeps every step concise", () => {
     script,
     /This tone should wake \$\{partnerLabels\[wakingPartner\]\}—not \$\{partnerLabels\[sleepingPartner\]\}/,
   );
+  assert.match(
+    script,
+    /This tone should wake \$\{partnerLabels\[sleepingPartner\]\}—not \$\{partnerLabels\[wakingPartner\]\}/,
+  );
+  assert.doesNotMatch(script, /Try switching roles|Switch who wakes up/);
   assert.doesNotMatch(`${html}\n${script}`, /This may work|promising match/i);
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
 });
