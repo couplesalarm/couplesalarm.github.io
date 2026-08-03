@@ -155,25 +155,22 @@ main {
   height: 100%;
   min-height: 0;
   padding: 2.5rem 0 5rem;
-  /* The trailer column was the runt at 0.55fr — a 272px still beside a 459px
-     card. Giving it more of the row closes the size gap between the two
-     media objects without crowding the headline. */
-  /* The trailer column was the runt at 0.55fr — a 272px still beside a 459px
-     card. The third track is sized to sit just above the card's own width so
-     right-aligning it leaves only a few pixels of slack rather than a lopsided
-     gap. (`auto` here collapses the card, whose width resolves against the
-     track it is sizing.) */
   grid-template-columns:
-    minmax(20rem, 0.95fr)
-    minmax(16rem, 0.65fr)
-    minmax(26rem, 0.91fr);
+    minmax(25rem, 1fr)
+    minmax(18rem, 0.72fr);
+  grid-template-areas:
+    "copy preview"
+    "card preview";
+  grid-template-rows: auto auto;
+  align-content: center;
   align-items: center;
   column-gap: clamp(2rem, 2.6vw, 3rem);
+  row-gap: 2rem;
 }
 
 .hero-copy {
-  align-self: center;
-  transform: translateY(0.3125rem);
+  grid-area: copy;
+  align-self: end;
 }
 
 h1,
@@ -237,6 +234,8 @@ h1 span {
   max-height: 100%;
   margin: 0;
   align-content: center;
+  grid-area: preview;
+  justify-self: end;
 }
 
 .product-preview video {
@@ -321,49 +320,36 @@ h1 span {
   display: none;
 }
 
-/* On desktop the primary sound check stays a tall destination card while the
-   video becomes a compact watch panel. The different silhouettes make their
-   different jobs clear before someone reads either label. */
 @media (min-width: 901px) {
   .product-preview {
-    padding: 0.7rem;
-    border: 1px solid rgb(244 241 233 / 13%);
-    border-radius: 1.35rem;
-    background: rgb(4 13 20 / 78%);
-    box-shadow: 0 1.5rem 3.2rem rgb(0 0 0 / 34%);
-    grid-template-columns: minmax(5rem, 0.75fr) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(0.7rem, 1.2vw, 1rem);
+    width: min(100%, clamp(18rem, 27vw, 24rem), 39.375svh);
   }
 
   .product-preview video {
     width: 100%;
-    height: clamp(9.5rem, 13vw, 12rem);
-    aspect-ratio: auto;
-    border-radius: 0.85rem;
-    box-shadow: 0 0.9rem 2rem rgb(0 0 0 / 42%);
+    height: auto;
+    aspect-ratio: 9 / 16;
+    border-radius: 1.55rem;
+    box-shadow:
+      0 2.4rem 5rem rgb(0 0 0 / 58%),
+      0 0 0 0.42rem rgb(255 255 255 / 3%);
   }
 
   .video-play-button {
-    left: 23%;
-    width: clamp(3.5rem, 4vw, 4.25rem);
+    left: 50%;
+    width: clamp(4.5rem, 5vw, 5.2rem);
   }
 
   .video-play-button img {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2.15rem;
+    height: 2.15rem;
   }
 
-  .video-badge,
-  .video-play-button[hidden] ~ .video-badge {
-    position: static;
+  .video-badge {
     display: grid;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    gap: 0.45rem;
+    padding: 0.7rem 0.8rem;
+    gap: 0.24rem;
     text-align: left;
-    backdrop-filter: none;
   }
 
   .video-kicker {
@@ -376,7 +362,7 @@ h1 span {
 
   .video-badge strong {
     color: var(--ink);
-    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    font-size: clamp(0.9rem, 1.05vw, 1.02rem);
     line-height: 1.25;
   }
 }
@@ -613,6 +599,66 @@ h1 span {
   display: block;
 }
 
+@media (min-width: 901px) {
+  .compatibility-card {
+    display: grid;
+    width: 100%;
+    min-height: 0;
+    padding: 1.4rem;
+    border: 1px solid rgb(82 219 226 / 26%);
+    border-radius: 1.25rem;
+    aspect-ratio: auto;
+    background:
+      radial-gradient(circle at 90% 0%, rgb(82 219 226 / 12%), transparent 16rem),
+      linear-gradient(145deg, rgb(10 25 35 / 95%), rgb(5 14 21 / 98%));
+    box-shadow:
+      0 1.6rem 3.4rem rgb(0 0 0 / 34%),
+      inset 0 1px rgb(255 255 255 / 4%);
+    grid-area: card;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 1.3rem;
+    justify-self: stretch;
+  }
+
+  .compatibility-card::after,
+  .compatibility-art,
+  .card-phone {
+    display: none;
+  }
+
+  .compatibility-heading {
+    position: static;
+    text-align: left;
+  }
+
+  .compatibility-eyebrow {
+    justify-content: flex-start;
+    gap: 0.55rem;
+    font-size: 0.68rem;
+  }
+
+  .compatibility-eyebrow i {
+    width: 1.15rem;
+  }
+
+  .compatibility-heading strong {
+    max-width: 19ch;
+    margin-top: 0.65rem;
+    font-size: clamp(1.35rem, 1.85vw, 1.75rem);
+    line-height: 1.08;
+  }
+
+  .compatibility-cta {
+    position: static;
+    min-width: 11.5rem;
+    min-height: 4.4rem;
+    padding: 0.85rem 1rem 0.85rem 1.3rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .hero-copy,
   .product-preview,
@@ -678,7 +724,7 @@ h1 span {
 
   .hero {
     padding: 2rem 0 3.5rem;
-    grid-template-columns: minmax(20rem, 0.9fr) minmax(13rem, 0.5fr) minmax(27rem, 1fr);
+    grid-template-columns: minmax(23rem, 1fr) minmax(17rem, 0.68fr);
     column-gap: 1.8rem;
   }
 
@@ -693,8 +739,7 @@ h1 span {
   }
 
   .compatibility-cta {
-    right: 1.3rem;
-    left: 1.3rem;
+    min-width: 10.5rem;
     min-height: 4.6rem;
     padding-inline: 1.15rem;
   }
@@ -987,7 +1032,7 @@ h1 span {
   }
 }
 
-@media (max-height: 620px) and (min-width: 721px) {
+@media (max-height: 620px) and (min-width: 721px) and (max-width: 900px) {
   .site-header {
     min-height: 3.5rem;
   }
@@ -1140,15 +1185,21 @@ h1 span {
   }
 
   .compatibility-card {
+    display: block;
     width: auto;
     max-width: 100%;
     height: 100%;
     min-height: 0;
+    padding: 0;
     aspect-ratio: 554 / 820;
     grid-area: card;
     border: 0;
     border-radius: 1.15rem;
     justify-self: center;
+  }
+
+  .compatibility-art {
+    display: block;
   }
 
   .compatibility-card::after {
@@ -1162,9 +1213,11 @@ h1 span {
     top: 0.7rem;
     right: 0.6rem;
     left: 0.6rem;
+    text-align: center;
   }
 
   .compatibility-eyebrow {
+    justify-content: center;
     gap: 0.4rem;
     font-size: 0.5rem;
   }
@@ -1179,6 +1232,7 @@ h1 span {
   }
 
   .compatibility-cta {
+    position: absolute;
     right: 0.6rem;
     bottom: 0.7rem;
     left: 0.6rem;
