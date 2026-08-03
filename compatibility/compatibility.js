@@ -65,21 +65,21 @@
   const currentDeviceCopy = () =>
     isIPhone
       ? {
-          intro: "Take turns listening on this iPhone.",
+          intro: "Take the test together on this iPhone.",
           title: "iPhone speaker",
         }
       : isIPad
         ? {
-            intro: "Take turns listening on this iPad.",
+            intro: "Take the test together on this iPad.",
             title: "iPad speaker",
           }
         : phoneQuery.matches
           ? {
-              intro: "Take turns listening on this phone.",
+              intro: "Take the test together on this phone.",
               title: "Phone speaker",
             }
           : {
-              intro: "Take turns listening on this device.",
+              intro: "Take the test together on this device.",
               title: "Built-in speakers",
             };
 

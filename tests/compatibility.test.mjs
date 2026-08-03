@@ -26,7 +26,7 @@ test("keeps the preview device-aware and honest about its limits", () => {
   assert.match(script, /iPhone\|iPod/);
   assert.match(script, /Built-in speakers/);
   assert.match(html, /Stop if uncomfortable/);
-  assert.match(html, /Preview only—not a hearing test/);
+  assert.match(html, /This is not a hearing test/);
   assert.match(html, /Confirm any match with a real bedside alarm/);
 });
 
@@ -76,7 +76,11 @@ test("starts the tone as an explicit listening action", () => {
 });
 
 test("keeps every step concise", () => {
-  assert.match(html, /Can one of you hear what the other/);
+  assert.match(html, /See if Couples Alarm could/);
+  assert.match(html, /work for you/);
+  assert.match(html, /Take the test together on this device/);
+  assert.match(html, /Start the test/);
+  assert.doesNotMatch(html, /sound check|Can one of you hear|Compare what each of you hears/);
   assert.doesNotMatch(
     html,
     /About 2 minutes|Nothing is saved|Needs to wake up|Switch partner/,
@@ -112,6 +116,8 @@ test("re-evaluates device copy when the viewport changes", () => {
   assert.match(script, /const phoneQuery = window\.matchMedia\("\(max-width: 720px\)"\)/);
   assert.match(script, /phoneQuery\.addEventListener\("change", updateDeviceCopy\)/);
   assert.match(script, /phoneQuery\.matches/);
+  assert.match(script, /Take the test together on this iPhone/);
+  assert.match(script, /Take the test together on this phone/);
 });
 
 test("ties the sweep animation to the audio clock", () => {

@@ -38,7 +38,7 @@ test("never traps content the viewport cannot fit", () => {
   assert.doesNotMatch(ruleBody("html,\nbody"), /(?<!min-)height:\s*100%/);
 });
 
-test("keeps the social video and compatibility preview on the landing page", () => {
+test("keeps the social video and test invitation on the landing page", () => {
   assert.match(
     html,
     /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/,
@@ -62,7 +62,10 @@ test("keeps the social video and compatibility preview on the landing page", () 
   assert.match(css, /\.product-preview video\s*\{[\s\S]*cursor:\s*pointer/);
   assert.match(css, /\.video-play-button:not\(\[hidden\]\)\s*\{[\s\S]*animation:\s*invite-play/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
-  assert.match(html, /Find a tone one of you hears and the other doesn’t/);
+  assert.match(
+    html,
+    /An alarm designed to wake one partner while the other keeps sleeping/,
+  );
   assert.match(html, /class="compatibility-card" href="compatibility\/"/);
   assert.match(html, /assets\/compatibility-test-couple\.png\?v=20260730/);
   // The card headline and CTA are live text at every width. The old baked
@@ -74,17 +77,22 @@ test("keeps the social video and compatibility preview on the landing page", () 
     /\.compatibility-art,\s*\.compatibility-heading,\s*\.card-phone,\s*\.compatibility-cta\s*\{\s*display: block/,
   );
   assert.match(css, /aspect-ratio:\s*554 \/ 820/);
-  // The card asks the same question the page it opens asks, so the promise and
-  // the destination match.
-  assert.match(html, /Can one of you hear[\s\S]*what the other can’t\?/);
-  assert.doesNotMatch(html, /work for you two/);
-  assert.match(html, /Compare what each of you hears/);
-  assert.match(html, /2-minute sound check/);
-  assert.doesNotMatch(html, /Start the (?:2|two)-minute test/);
+  assert.match(html, /See if Couples Alarm could work for you/);
+  assert.match(html, /Try it together/);
+  assert.match(html, /Take the test/);
+  assert.doesNotMatch(
+    html,
+    /sound check|Can one of you hear|Compare what each of you hears/,
+  );
   assert.match(html, /28-second video/);
   assert.match(html, /See how Couples Alarm works/);
   assert.match(css, /@media \(min-width: 901px\)/);
-  assert.match(css, /grid-template-columns:\s*minmax\(5rem, 0\.75fr\) minmax\(0, 1fr\)/);
+  assert.match(
+    css,
+    /width:\s*min\(100%, clamp\(18rem, 27vw, 24rem\), 39\.375svh\)/,
+  );
+  assert.match(css, /aspect-ratio:\s*9 \/ 16/);
+  assert.doesNotMatch(css, /height:\s*clamp\(9\.5rem, 13vw, 12rem\)/);
   assert.match(css, /animation:\s*invite-play[^;]*infinite/);
   assert.doesNotMatch(html, /No names required/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
