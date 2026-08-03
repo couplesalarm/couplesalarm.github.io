@@ -1,18 +1,17 @@
 :root {
   color-scheme: dark;
-  --night: #06111a;
-  --night-deep: #02070c;
+  --night: #071018;
+  --night-deep: #03080c;
   --ink: #f4f1e9;
-  --muted: #aebbc0;
-  --line: rgb(244 241 233 / 12%);
-  --aqua: #52dbe2;
-  --signal: #ff795c;
-  --blue: #3276d8;
+  --muted: #9aa8ad;
+  --line: rgb(244 241 233 / 13%);
+  --aqua: #57d9df;
+  --signal: #ff7957;
+  --paper: #f4f1e9;
+  --paper-ink: #10212a;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html,
 body {
@@ -30,16 +29,12 @@ body {
   min-height: 100vh;
   min-height: 100svh;
   margin: 0;
-  /* Was `hidden`, which clipped with nothing to scroll to: at 200% text size
-     the compatibility CTA sat ~310px past the fold and could not be reached
-     at all. The page still fits one screen at normal sizes — it just no
-     longer traps anyone who needs larger type. */
   overflow-x: hidden;
   overflow-y: auto;
   background:
-    radial-gradient(circle at 55% 54%, rgb(38 105 125 / 13%), transparent 34rem),
-    radial-gradient(circle at 93% 22%, rgb(82 219 226 / 5%), transparent 27rem),
-    linear-gradient(145deg, var(--night-deep), var(--night) 58%, #07131c);
+    radial-gradient(circle at 54% 48%, rgb(87 217 223 / 9%), transparent 31rem),
+    radial-gradient(circle at 88% 10%, rgb(255 121 87 / 6%), transparent 25rem),
+    linear-gradient(145deg, var(--night-deep), var(--night) 55%, #09151c);
   color: var(--ink);
   font: 16px/1.55 "Avenir Next", Avenir, "Century Gothic", sans-serif;
 }
@@ -49,17 +44,15 @@ body::before {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(rgb(255 255 255 / 1.6%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 1.6%) 1px, transparent 1px);
+    linear-gradient(rgb(255 255 255 / 2%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 2%) 1px, transparent 1px);
   background-size: 4rem 4rem;
   content: "";
-  mask-image: radial-gradient(circle at 58% 50%, black, transparent 74%);
+  mask-image: radial-gradient(circle at 55% 48%, black, transparent 72%);
   pointer-events: none;
 }
 
-a {
-  color: inherit;
-}
+a { color: inherit; }
 
 a:focus-visible,
 button:focus-visible,
@@ -74,32 +67,26 @@ video:focus-visible {
   left: 1rem;
   z-index: 20;
   padding: 0.7rem 1rem;
-  border-radius: 0.55rem;
-  background: var(--ink);
-  color: var(--night);
+  border-radius: 0.45rem;
+  background: var(--paper);
+  color: var(--paper-ink);
 }
 
-.skip-link:focus {
-  top: 1rem;
-}
+.skip-link:focus { top: 1rem; }
 
 .site-shell {
   display: grid;
-  width: min(90rem, calc(100% - 5.625rem));
-  height: auto;
+  width: min(90rem, calc(100% - 2.5rem));
   min-height: 100vh;
   min-height: 100svh;
   margin-inline: auto;
-  /* Without an explicit column the implicit one sized to .hero's min-content
-     (1233px against a 1190px shell) and the header stretched with it, pushing
-     the nav 43px past the right edge while the brand kept its gutter. */
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
 }
 
 .site-header {
   display: grid;
-  min-height: clamp(4.9rem, 11.25vh, 7.5rem);
+  min-height: 4.9rem;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 2rem;
@@ -111,23 +98,23 @@ video:focus-visible {
   width: max-content;
   min-height: 44px;
   align-items: center;
-  gap: 0.8rem;
-  font-size: 1.04rem;
+  gap: 0.72rem;
+  font-size: 0.95rem;
   font-weight: 750;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;
   text-decoration: none;
 }
 
 .brand img {
-  border-radius: 0.82rem;
-  box-shadow: 0 0 1.8rem rgb(82 219 226 / 19%);
+  border-radius: 0.78rem;
+  box-shadow: 0 0 1.8rem rgb(87 217 223 / 17%);
 }
 
 .site-header nav {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1.8rem;
+  gap: 1.5rem;
 }
 
 .site-header nav a {
@@ -136,119 +123,116 @@ video:focus-visible {
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  color: #c0c9cc;
-  font-size: 0.94rem;
-  font-weight: 550;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
   text-decoration: none;
 }
 
-.site-header nav a:hover {
-  color: var(--ink);
-}
+.site-header nav a:hover { color: var(--ink); }
 
-main {
-  min-height: 0;
-}
+main { min-height: 0; }
 
 .hero {
   display: grid;
-  height: 100%;
   min-height: 0;
-  padding: 2.5rem 0 5rem;
-  grid-template-columns:
-    minmax(25rem, 1fr)
-    minmax(18rem, 0.72fr);
-  grid-template-areas:
-    "copy preview"
-    "card preview";
-  grid-template-rows: auto auto;
-  align-content: center;
+  padding: clamp(1.6rem, 4vh, 3.5rem) 0;
+  grid-template-columns: minmax(23rem, 1.12fr) minmax(14rem, 0.62fr) minmax(16rem, 0.7fr);
+  grid-template-areas: "copy preview showcase";
   align-items: center;
-  column-gap: clamp(2rem, 2.6vw, 3rem);
-  row-gap: 2rem;
+  gap: clamp(2rem, 5vw, 5rem);
 }
 
 .hero-copy {
   grid-area: copy;
-  align-self: end;
+  padding-right: clamp(0rem, 2vw, 2rem);
 }
 
-h1,
-h2 {
-  margin: 0;
-  font-family: "Avenir Next", Avenir, "Century Gothic", sans-serif;
+.eyebrow {
+  margin: 0 0 1.1rem;
+  color: var(--aqua);
+  font: 750 0.68rem/1.2 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
 
 h1 {
-  max-width: 11ch;
-  font-size: clamp(3.8rem, 4.65vw, 4.35rem);
-  font-weight: 760;
+  max-width: 12ch;
+  margin: 0;
+  font: 720 clamp(3.7rem, 5vw, 5rem) / 0.88 "Avenir Next", Avenir, "Century Gothic", sans-serif;
   letter-spacing: -0.065em;
-  line-height: 1.07;
 }
 
 h1 span {
   color: var(--signal);
-  font-weight: 570;
+  font-weight: 520;
 }
 
 .hero-lede {
-  max-width: 31rem;
-  margin: 3.125rem 0 0;
-  color: #bcc6c9;
-  font-size: clamp(1rem, 1.42vw, 1.2rem);
-  line-height: 1.52;
+  max-width: 37rem;
+  margin: clamp(1.25rem, 2.5vh, 1.8rem) 0 0;
+  color: #bdc7ca;
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
+  line-height: 1.58;
 }
 
-/* A status line, not a control. As a disabled button this looked like the
-   download action, invited a click, and did nothing — and only the aria-label
-   ever mentioned the App Store. */
-.store-state {
+.test-link {
   display: inline-flex;
-  min-height: 3.2rem;
-  margin: 2.4rem 0 0;
+  min-height: 44px;
+  margin: clamp(1.25rem, 2.8vh, 2rem) 0 0;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.35rem;
-  border: 1px solid rgb(82 219 226 / 30%);
+  justify-content: center;
+  padding: 0.68rem 1.35rem;
+  border: 1px solid rgb(255 255 255 / 18%);
   border-radius: 999px;
-  background: rgb(82 219 226 / 8%);
-  color: #cfeef1;
-  font: 700 0.92rem/1 "Avenir Next", Avenir, "Century Gothic", sans-serif;
+  background: #0066cc;
+  box-shadow: inset 0 1px rgb(255 255 255 / 18%);
+  color: #fff;
+  font: 700 0.86rem/1 "Avenir Next", Avenir, "Century Gothic", sans-serif;
+  text-decoration: none;
 }
 
-.store-state::before {
-  width: 0.5rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--aqua);
-  box-shadow: 0 0 0.7rem rgb(82 219 226 / 70%);
-  content: "";
+.store-state {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 650;
 }
 
 .product-preview {
   position: relative;
-  z-index: 3;
   display: grid;
-  width: 100%;
+  width: min(100%, 18.5rem);
   max-height: 100%;
-  margin: 0;
+  margin: 0 auto;
   align-content: center;
   grid-area: preview;
-  justify-self: end;
+}
+
+.product-preview::before,
+.product-preview::after {
+  position: absolute;
+  z-index: -1;
+  border: 1px solid rgb(87 217 223 / 15%);
+  border-radius: 50%;
+  content: "";
+}
+
+.product-preview::before { inset: 17% -18%; }
+.product-preview::after {
+  inset: 25% -6%;
+  border-color: rgb(255 121 87 / 13%);
 }
 
 .product-preview video {
   display: block;
   width: 100%;
-  max-height: 100%;
-  aspect-ratio: 61 / 100;
-  border: 1px solid #34454f;
-  border-radius: 1.25rem;
+  max-height: min(62vh, 36rem);
+  aspect-ratio: 9 / 16;
+  border: 1px solid #33424a;
+  border-radius: 1.35rem;
   background: #000;
-  box-shadow:
-    0 2.2rem 4.5rem rgb(0 0 0 / 54%),
-    0 0 0 0.34rem rgb(255 255 255 / 2.6%);
+  box-shadow: 0 2.8rem 5rem rgb(0 0 0 / 55%), 0 0 0 0.35rem rgb(255 255 255 / 2.5%);
   cursor: pointer;
   object-fit: cover;
 }
@@ -259,996 +243,163 @@ h1 span {
   left: 50%;
   z-index: 2;
   display: grid;
-  width: 5.2rem;
+  width: 4.5rem;
   aspect-ratio: 1;
   padding: 0;
-  border: 2px solid rgb(244 241 233 / 92%);
+  border: 1px solid rgb(244 241 233 / 70%);
   border-radius: 50%;
-  background: rgb(2 7 12 / 88%);
-  box-shadow:
-    0 0 0 0.22rem rgb(255 121 92 / 32%),
-    0 0 0 0.42rem rgb(82 219 226 / 18%),
-    0 0 2.2rem rgb(82 219 226 / 46%),
-    0 0.9rem 2.1rem rgb(0 0 0 / 54%);
+  background: rgb(3 8 12 / 78%);
+  box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 45%);
   cursor: pointer;
   place-items: center;
   transform: translate(-50%, -50%);
 }
 
 .video-play-button:hover {
-  border-color: var(--ink);
-  background: rgb(10 23 32 / 96%);
-  box-shadow:
-    0 0 0 0.28rem rgb(255 121 92 / 46%),
-    0 0 0 0.52rem rgb(82 219 226 / 28%),
-    0 0 2.8rem rgb(82 219 226 / 58%),
-    0 1rem 2.3rem rgb(0 0 0 / 58%);
+  border-color: var(--paper);
+  background: rgb(3 8 12 / 90%);
 }
 
-.video-play-button[hidden] {
-  display: none;
-}
-
+.video-play-button[hidden] { display: none; }
 .video-play-button img {
-  width: 2.15rem;
-  height: 2.15rem;
-  margin-left: 0.16rem;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 0.18rem;
 }
 
-/* Names the still as a video. The play glyph alone reads as decoration to
-   plenty of people, and nothing else on the page says an intro exists. */
-.video-badge {
-  position: absolute;
-  right: 0.7rem;
-  bottom: 0.7rem;
-  left: 0.7rem;
-  z-index: 2;
-  padding: 0.42rem 0.5rem;
-  border: 1px solid rgb(244 241 233 / 16%);
-  border-radius: 0.7rem;
-  background: rgb(2 7 12 / 72%);
-  color: rgb(244 241 233 / 92%);
-  font-size: 0.72rem;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  pointer-events: none;
-}
-
-.video-play-button[hidden] ~ .video-badge {
-  display: none;
-}
-
-@media (min-width: 901px) {
-  .product-preview {
-    width: min(100%, clamp(18rem, 27vw, 24rem), 39.375svh);
-  }
-
-  .product-preview video {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 9 / 16;
-    border-radius: 1.55rem;
-    box-shadow:
-      0 2.4rem 5rem rgb(0 0 0 / 58%),
-      0 0 0 0.42rem rgb(255 255 255 / 3%);
-  }
-
-  .video-play-button {
-    left: 50%;
-    width: clamp(4.5rem, 5vw, 5.2rem);
-  }
-
-  .video-play-button img {
-    width: 2.15rem;
-    height: 2.15rem;
-  }
-
-  .video-badge {
-    display: grid;
-    padding: 0.7rem 0.8rem;
-    gap: 0.24rem;
-    text-align: left;
-  }
-
-  .video-kicker {
-    color: var(--aqua);
-    font-size: 0.68rem;
-    font-weight: 760;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .video-badge strong {
-    color: var(--ink);
-    font-size: clamp(0.9rem, 1.05vw, 1.02rem);
-    line-height: 1.25;
-  }
-}
-
-/* Below 720px the still is only ~83px wide — a caption there covers the
-   artwork and the play control instead of labelling them. */
-@media (max-width: 720px), (orientation: landscape) and (max-height: 520px) {
-  .video-badge {
-    display: none;
-  }
-}
-
-.compatibility-card {
+.app-showcase {
   position: relative;
-  display: block;
-  width: 100%;
-  width: min(100%, calc(59.96svh - 5.07rem));
-  max-width: none;
-  height: auto;
-  aspect-ratio: 554 / 820;
-  min-height: 31rem;
-  overflow: hidden;
-  border: 0;
-  border-radius: 1.45rem;
-  background:
-    linear-gradient(var(--night), var(--night)) padding-box,
-    linear-gradient(105deg, #ff856a 0%, #ff9b63 38%, #56dbe2 78%, #45d2df 100%) border-box;
-  box-shadow:
-    -0.9rem 0 2.8rem rgb(255 121 92 / 25%),
-    0.9rem 0 2.8rem rgb(82 219 226 / 27%),
-    0 2.8rem 5rem rgb(0 0 0 / 47%);
-  color: var(--ink);
-  isolation: isolate;
-  /* Its width comes from viewport height, so centring left a ragged ~44px of
-     dead column on the right and the card stopped short of the right margin
-     the header nav already sits on. */
-  justify-self: end;
-  text-decoration: none;
-}
-
-.compatibility-card::after {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  display: none;
-  background:
-    linear-gradient(
-      180deg,
-      rgb(3 11 18 / 98%) 0%,
-      rgb(3 11 18 / 80%) 19%,
-      rgb(3 11 18 / 4%) 48%,
-      rgb(3 11 18 / 12%) 70%,
-      rgb(3 11 18 / 88%) 100%
-    );
-  content: "";
-  pointer-events: none;
-}
-
-.compatibility-card:hover {
-  box-shadow:
-    -1rem 0 3.1rem rgb(255 121 92 / 32%),
-    1rem 0 3.1rem rgb(82 219 226 / 34%),
-    0 3rem 5.5rem rgb(0 0 0 / 54%);
-}
-
-.compatibility-art {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Bottom scrim so the live CTA stays legible over the illustration. */
-.compatibility-art::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
-  height: 46%;
-  background: linear-gradient(180deg, transparent, rgb(6 17 26 / 92%) 62%, #06111a);
-  content: "";
-  pointer-events: none;
-}
-
-/* Top scrim for the heading. */
-.compatibility-art::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  height: 42%;
-  background: linear-gradient(180deg, rgb(4 12 19 / 88%), transparent);
-  content: "";
-  pointer-events: none;
-}
-
-.compatibility-art img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 100%;
-}
-
-.compatibility-heading {
-  position: absolute;
-  top: clamp(2rem, 4.2vh, 2.8rem);
-  right: 1.6rem;
-  left: 1.6rem;
-  z-index: 2;
-  display: block;
-  text-align: center;
-}
-
-.compatibility-eyebrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  color: var(--signal);
-  font: 760 0.8rem/1 "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.17em;
-  text-transform: uppercase;
-}
-
-.compatibility-eyebrow i {
-  width: 1.8rem;
-  height: 1px;
-  background: currentColor;
-}
-
-.compatibility-eyebrow i:last-child {
-  color: var(--aqua);
-}
-
-.compatibility-heading strong {
-  display: block;
-  margin-top: 0.9rem;
-  font-size: clamp(1.5rem, 2.05vw, 2.05rem);
-  font-style: normal;
-  font-weight: 760;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
-  text-wrap: balance;
-}
-
-.compatibility-heading em {
-  color: var(--signal);
-  font-style: normal;
-  font-weight: 640;
-}
-
-.compatibility-heading em::after {
-  color: var(--aqua);
-  content: "";
-}
-
-.card-phone {
-  position: absolute;
-  /* Kept inside the card: hanging it past the edge read as a clipped mistake
-     once the card sat flush against the page's right margin. */
-  right: 0.75rem;
-  bottom: 8.4rem;
-  z-index: 2;
-  display: block;
-  width: 7.4rem;
-  height: 12rem;
-  padding: 0.24rem;
-  border: 1px solid #40535e;
-  border-radius: 1.7rem;
-  background: #02070c;
-  box-shadow:
-    0 1.7rem 3rem rgb(0 0 0 / 65%),
-    0 0 0 0.28rem rgb(255 255 255 / 3%);
-  transform: rotate(5deg);
-}
-
-.card-phone img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 1.42rem;
-  object-fit: cover;
-  object-position: top;
-}
-
-.card-phone picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.compatibility-cta {
-  position: absolute;
-  right: 2rem;
-  bottom: 3.7rem;
-  left: 2rem;
-  z-index: 3;
   display: grid;
-  min-height: 5.15rem;
-  padding: 0.9rem 1.5rem;
-  border: 1px solid rgb(255 255 255 / 55%);
-  border-radius: 1.15rem;
-  background: linear-gradient(96deg, #ff7458 0%, #ff8a64 27%, #73c5c2 68%, #45d5df 100%);
-  box-shadow:
-    0 0.9rem 2rem rgb(0 0 0 / 36%),
-    0 0 1.4rem rgb(255 121 92 / 20%);
-  color: #fff;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 1rem;
-  font-size: clamp(1.05rem, 1.65vw, 1.28rem);
-  font-weight: 760;
-  letter-spacing: -0.02em;
-  text-align: center;
+  width: 100%;
+  height: min(62vh, 36rem);
+  min-height: 24rem;
+  margin: 0;
+  grid-area: showcase;
+  place-items: center;
+  isolation: isolate;
 }
 
-.compatibility-cta img {
-  width: 2.05rem;
-  height: 2.05rem;
+.app-showcase::before,
+.app-showcase::after {
+  position: absolute;
+  z-index: -1;
+  width: min(28rem, 135%);
+  aspect-ratio: 1;
+  border: 1px solid rgb(87 217 223 / 18%);
+  border-radius: 50%;
+  content: "";
 }
 
-/* The card used to be a single baked PNG above 720px, which put the headline
-   and the call to action into pixels — unselectable, untranslatable, and
-   frozen until the art was regenerated. Everything is live text now. */
-.compatibility-art,
-.compatibility-heading,
-.card-phone,
-.compatibility-cta {
+.app-showcase::after {
+  width: min(22rem, 108%);
+  border-color: rgb(255 121 87 / 13%);
+}
+
+.showcase-phone {
+  position: relative;
+  z-index: 2;
+  width: min(14rem, 72%);
+  margin: 0;
+  padding: 0.35rem;
+  border: 1px solid #34424a;
+  border-radius: 2.25rem;
+  background: #020609;
+  box-shadow: 0 2.8rem 5rem rgb(0 0 0 / 58%), 0 0 0 0.35rem rgb(255 255 255 / 3%);
+  transform: rotate(2.5deg);
+}
+
+.showcase-phone img {
   display: block;
+  width: 100%;
+  border-radius: 1.9rem;
 }
 
-@media (min-width: 901px) {
-  .compatibility-card {
-    display: grid;
-    width: 100%;
-    min-height: 0;
-    padding: 1.4rem;
-    border: 1px solid rgb(82 219 226 / 26%);
-    border-radius: 1.25rem;
-    aspect-ratio: auto;
-    background:
-      radial-gradient(circle at 90% 0%, rgb(82 219 226 / 12%), transparent 16rem),
-      linear-gradient(145deg, rgb(10 25 35 / 95%), rgb(5 14 21 / 98%));
-    box-shadow:
-      0 1.6rem 3.4rem rgb(0 0 0 / 34%),
-      inset 0 1px rgb(255 255 255 / 4%);
-    grid-area: card;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 1.3rem;
-    justify-self: stretch;
-  }
-
-  .compatibility-card::after,
-  .compatibility-art,
-  .card-phone {
-    display: none;
-  }
-
-  .compatibility-heading {
-    position: static;
-    text-align: left;
-  }
-
-  .compatibility-eyebrow {
-    justify-content: flex-start;
-    gap: 0.55rem;
-    font-size: 0.68rem;
-  }
-
-  .compatibility-eyebrow i {
-    width: 1.15rem;
-  }
-
-  .compatibility-heading strong {
-    max-width: 19ch;
-    margin-top: 0.65rem;
-    font-size: clamp(1.35rem, 1.85vw, 1.75rem);
-    line-height: 1.08;
-  }
-
-  .compatibility-cta {
-    position: static;
-    min-width: 11.5rem;
-    min-height: 4.4rem;
-    padding: 0.85rem 1rem 0.85rem 1.3rem;
-    border-radius: 1rem;
-    font-size: 1rem;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-copy,
-  .product-preview,
-  .compatibility-card {
-    animation: reveal 560ms ease both;
-  }
-
-  .product-preview {
-    animation-delay: 80ms;
-  }
-
-  .compatibility-card {
-    animation-delay: 150ms;
-    transition:
-      border-color 160ms ease,
-      box-shadow 160ms ease,
-      transform 160ms ease;
-  }
-
-  .compatibility-card:hover {
-    transform: translateY(-0.2rem);
-  }
-
-  .site-header nav a {
-    transition: color 150ms ease;
-  }
-
-  /* Runs for as long as the poster is up: the pulse is the only thing marking
-     this still as a playable video, so stopping it after two beats loses
-     anyone who looked away. The long tail keeps it a heartbeat, not a strobe. */
-  .video-play-button:not([hidden]) {
-    animation: invite-play 3.4s ease-in-out 300ms infinite;
-  }
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(0.7rem);
-  }
-}
-
-@keyframes invite-play {
-  18% {
-    box-shadow:
-      0 0 0 0.38rem rgb(255 121 92 / 34%),
-      0 0 0 0.7rem rgb(82 219 226 / 16%),
-      0 0 3rem rgb(82 219 226 / 58%),
-      0 0.9rem 2.1rem rgb(0 0 0 / 54%);
-    transform: translate(-50%, -50%) scale(1.06);
-  }
-
-  36%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@media (max-width: 1120px) {
-  .site-shell {
-    width: min(100% - 3rem, 70rem);
-  }
-
+@media (max-width: 980px) {
+  .site-shell { width: min(100% - 2rem, 56rem); }
   .hero {
-    padding: 2rem 0 3.5rem;
-    grid-template-columns: minmax(23rem, 1fr) minmax(17rem, 0.68fr);
-    column-gap: 1.8rem;
+    grid-template-columns: minmax(19rem, 1fr) minmax(12rem, 0.55fr);
+    grid-template-areas: "copy preview" "showcase preview";
+    gap: 1.3rem 2.4rem;
   }
-
-  h1 {
-    font-size: clamp(3.35rem, 5.6vw, 4rem);
-  }
-
-  /* Left over from the baked poster, when this text was not actually rendered
-     at this width. At 4vw it ran to three lines and swamped the card. */
-  .compatibility-heading strong {
-    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
-  }
-
-  .compatibility-cta {
-    min-width: 10.5rem;
-    min-height: 4.6rem;
-    padding-inline: 1.15rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .site-shell {
-    width: min(100% - 2rem, 52rem);
-  }
-
-  .hero {
-    padding: 1.5rem 0 2rem;
-    grid-template-columns: minmax(18rem, 0.82fr) minmax(22rem, 1fr);
-    grid-template-areas:
-      "copy card"
-      "preview card";
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 1.2rem 2rem;
-  }
-
-  .hero-copy {
-    grid-area: copy;
-    align-self: end;
-    transform: none;
-  }
-
-  h1 {
-    font-size: clamp(3rem, 7vw, 3.8rem);
-  }
-
-  .hero-lede {
-    margin-top: 1rem;
-    font-size: 0.98rem;
-  }
-
-  .store-state {
-    min-height: 2.7rem;
-    margin-top: 1rem;
-  }
-
-  .product-preview {
-    width: min(10rem, 45%);
-    grid-area: preview;
-    justify-self: center;
-    transform: none;
-  }
-
-  .compatibility-card {
-    min-height: 0;
-    grid-area: card;
-  }
+  .hero-copy { align-self: end; }
+  .product-preview { width: min(100%, 16rem); }
+  .app-showcase { height: min(30vh, 15rem); min-height: 0; }
+  .showcase-phone { width: min(7.2rem, 34%); }
 }
 
 @media (max-width: 720px) {
-  body {
-    font-size: 15px;
-  }
-
-  .site-shell {
-    width: calc(100% - 1rem);
-  }
-
-  .site-header {
-    min-height: 3.75rem;
-  }
-
-  .brand {
-    gap: 0.55rem;
-    font-size: 0.82rem;
-  }
-
-  .brand img {
-    width: 2.15rem;
-    height: 2.15rem;
-    border-radius: 0.64rem;
-  }
-
-  .site-header nav {
-    gap: 0.4rem;
-  }
-
-  .site-header nav a {
-    min-width: 48px;
-    min-height: 44px;
-    padding-inline: 0.35rem;
-    font-size: 0.73rem;
-  }
-
+  body { font-size: 15px; }
+  .site-shell { width: calc(100% - 1.25rem); }
+  .site-header { min-height: 3.8rem; }
+  .brand { gap: 0.55rem; font-size: 0.82rem; }
+  .brand img { width: 2.1rem; height: 2.1rem; border-radius: 0.62rem; }
+  .site-header nav { gap: 0.9rem; }
+  .site-header nav a { min-height: 44px; font-size: 0.72rem; }
   .hero {
-    position: relative;
-    padding: 0.7rem 0 0.75rem;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas:
-      "copy"
-      "card";
-    grid-template-rows: auto minmax(0, 1fr);
-    gap: 0.65rem;
+    grid-template-columns: minmax(0, 1fr) minmax(7.8rem, 0.48fr);
+    grid-template-areas: "copy copy" "showcase preview";
+    align-content: center;
+    gap: clamp(0.8rem, 2vh, 1.2rem) 0.8rem;
+    padding: clamp(0.8rem, 2.2vh, 1.4rem) 0;
   }
-
-  .hero-copy {
-    position: relative;
-    z-index: 4;
-    display: grid;
-    grid-area: copy;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: 0.5rem 0.8rem;
-  }
-
-  h1 {
-    max-width: none;
-    grid-column: 1 / -1;
-    font-size: clamp(2.55rem, 12vw, 3.1rem);
-    letter-spacing: -0.058em;
-    line-height: 0.9;
-  }
-
-  .hero-lede {
-    max-width: 18.5rem;
-    margin: 0;
-    align-self: center;
-    font-size: clamp(0.76rem, 3.35vw, 0.88rem);
-    line-height: 1.38;
-  }
-
-  .store-state {
-    min-width: 6.6rem;
-    min-height: 2.45rem;
-    margin: 0;
-    padding: 0.58rem 0.8rem;
-    font-size: 0.7rem;
-  }
-
-  .compatibility-card {
-    width: 100%;
-    max-width: none;
-    height: 100%;
-    min-height: 0;
-    aspect-ratio: auto;
-    grid-area: card;
-    border: 1px solid transparent;
-    border-radius: 1.15rem;
-  }
-
-  .compatibility-card::after {
-    display: block;
-    background:
-      linear-gradient(
-        180deg,
-        rgb(3 11 18 / 98%) 0%,
-        rgb(3 11 18 / 67%) 26%,
-        rgb(3 11 18 / 3%) 54%,
-        rgb(3 11 18 / 18%) 72%,
-        rgb(3 11 18 / 92%) 100%
-      );
-  }
-
-  .compatibility-art {
-    display: block;
-  }
-
-  .compatibility-art img {
-    object-position: 50% 72%;
-  }
-
-  .compatibility-heading {
-    display: block;
-    top: 0.85rem;
-    right: 0.75rem;
-    left: 0.75rem;
-  }
-
-  .compatibility-eyebrow {
-    gap: 0.48rem;
-    font-size: 0.57rem;
-    letter-spacing: 0.14em;
-  }
-
-  .compatibility-eyebrow i {
-    width: 1rem;
-  }
-
-  .compatibility-heading strong {
-    margin-top: 0.42rem;
-    font-size: clamp(1.75rem, 8vw, 2.15rem);
-    line-height: 0.96;
-  }
-
-  .compatibility-cta {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    left: 0.75rem;
-    display: grid;
-    min-height: 3.4rem;
-    padding: 0.65rem 0.85rem;
-    border-radius: 0.9rem;
-    font-size: clamp(0.86rem, 4vw, 1rem);
-  }
-
-  .compatibility-cta img {
-    width: 1.55rem;
-    height: 1.55rem;
-  }
-
-  .card-phone {
-    right: 0.35rem;
-    bottom: 5.7rem;
-    display: block;
-    width: min(23%, 5.3rem);
-    height: auto;
-    padding: 0.14rem;
-    border-radius: 0.92rem;
-    box-shadow:
-      0 1rem 2rem rgb(0 0 0 / 60%),
-      0 0 0 0.18rem rgb(255 255 255 / 3%);
-  }
-
-  .card-phone img {
-    height: auto;
-    border-radius: 0.76rem;
-    object-fit: initial;
-  }
-
-  .product-preview {
-    position: absolute;
-    bottom: 6rem;
-    left: 0.6rem;
-    z-index: 5;
-    width: clamp(4.7rem, 22vw, 5.5rem);
-    grid-area: auto;
-  }
-
-  .product-preview video {
-    aspect-ratio: 9 / 16;
-    border-radius: 0.76rem;
-    box-shadow:
-      0 1.1rem 2.2rem rgb(0 0 0 / 58%),
-      0 0 0 0.2rem rgb(255 255 255 / 3%);
-  }
-
-  .video-play-button {
-    width: 3.05rem;
-  }
-
-  .video-play-button img {
-    width: 1.35rem;
-    height: 1.35rem;
-  }
+  .hero-copy { align-self: center; padding-right: 0; }
+  .eyebrow { margin-bottom: 0.65rem; font-size: 0.57rem; }
+  h1 { max-width: none; font-size: clamp(2.65rem, 12.2vw, 3.4rem); line-height: 0.91; }
+  .hero-lede { margin-top: 0.8rem; font-size: clamp(0.78rem, 3.4vw, 0.9rem); line-height: 1.46; }
+  .test-link { min-height: 44px; padding: 0.55rem 1rem; font-size: 0.86rem; }
+  .store-state { margin-top: 0.4rem; font-size: 0.68rem; }
+  .product-preview { width: min(100%, 8.8rem); }
+  .product-preview::before, .product-preview::after { display: none; }
+  .product-preview video { max-height: min(35vh, 17rem); border-radius: 0.85rem; }
+  .video-play-button { width: 3.4rem; }
+  .video-play-button img { width: 1.55rem; height: 1.55rem; }
+  .app-showcase { height: min(34vh, 18.5rem); min-height: 0; }
+  .app-showcase::before { width: 112%; }
+  .app-showcase::after { width: 88%; }
+  .showcase-phone { width: min(7.6rem, 56%); padding: 0.22rem; border-radius: 1.35rem; }
+  .showcase-phone img { border-radius: 1.12rem; }
 }
 
-@media (max-width: 720px) and (max-height: 720px) {
-  .site-header {
-    min-height: 3.4rem;
-  }
-
-  .hero {
-    padding-top: 0.45rem;
-    gap: 0.45rem;
-  }
-
-  h1 {
-    font-size: clamp(2.2rem, 10.5vw, 2.75rem);
-  }
-
-  .hero-lede {
-    font-size: 0.72rem;
-    line-height: 1.3;
-  }
-
-  .store-state {
-    min-height: 2.25rem;
-  }
-
-  .compatibility-heading strong {
-    font-size: clamp(1.55rem, 7.2vw, 1.9rem);
-  }
-
-  .compatibility-cta {
-    min-height: 3.1rem;
-  }
-
-  .product-preview {
-    bottom: 5.55rem;
-    width: 4.3rem;
-  }
-
-  .card-phone {
-    bottom: 5.3rem;
-    width: 4.5rem;
-  }
-}
-
-@media (max-height: 620px) and (min-width: 721px) and (max-width: 900px) {
-  .site-header {
-    min-height: 3.5rem;
-  }
-
-  .hero {
-    padding: 0.75rem 0 1rem;
-  }
-
-  h1 {
-    font-size: 2.8rem;
-  }
-
-  .hero-lede {
-    margin-top: 0.75rem;
-    font-size: 0.82rem;
-  }
-
-  .store-state {
-    min-height: 2.25rem;
-    margin-top: 0.75rem;
-  }
-
-  .compatibility-heading {
-    top: 1rem;
-  }
-
-  .compatibility-card {
-    min-height: 0;
-  }
-
-  .compatibility-heading strong {
-    margin-top: 0.55rem;
-    font-size: 2rem;
-  }
-
-  .compatibility-cta {
-    bottom: 2.6rem;
-    min-height: 3.6rem;
-  }
-
-  .card-phone {
-    bottom: 6.6rem;
-    width: 7.2rem;
-  }
+@media (max-height: 700px) and (min-width: 721px) {
+  .site-header { min-height: 4rem; }
+  .hero { padding-block: 1rem; }
+  h1 { font-size: clamp(3rem, 7.5vh, 4.5rem); }
+  .hero-lede { margin-top: 1rem; font-size: 0.95rem; }
+  .product-preview { width: min(100%, 14rem); }
+  .product-preview video { max-height: 72vh; }
+  .app-showcase { height: min(60vh, 31rem); min-height: 20rem; }
+  .showcase-phone { width: min(12rem, 68%); }
 }
 
 @media (orientation: landscape) and (max-width: 960px) and (max-height: 520px) {
-  .site-shell {
-    width: calc(100% - 1rem);
-  }
-
-  .site-header {
-    min-height: 3.4rem;
-  }
-
-  .brand {
-    gap: 0.55rem;
-    font-size: 0.82rem;
-  }
-
-  .brand img {
-    width: 2.15rem;
-    height: 2.15rem;
-    border-radius: 0.64rem;
-  }
-
-  .site-header nav {
-    gap: 0.4rem;
-  }
-
-  .site-header nav a {
-    min-width: 48px;
-    min-height: 44px;
-    padding-inline: 0.35rem;
-    font-size: 0.73rem;
-  }
-
+  .site-shell { width: calc(100% - 1.5rem); }
+  .site-header { min-height: 3.2rem; }
+  .site-header nav a { min-height: 44px; }
+  .brand img { width: 2rem; height: 2rem; }
   .hero {
-    padding: 0.45rem 0 0.65rem;
-    grid-template-columns:
-      minmax(11.5rem, 1.08fr)
-      minmax(5rem, 0.42fr)
-      minmax(9rem, 0.75fr);
-    grid-template-areas: "copy preview card";
-    grid-template-rows: minmax(0, 1fr);
-    align-items: center;
-    gap: 0.6rem;
+    grid-template-columns: 1fr 0.43fr 0.7fr;
+    grid-template-areas: "copy preview showcase";
+    gap: 1.5rem;
+    padding-block: 0.55rem;
   }
+  .hero-copy { align-self: center; }
+  .eyebrow { margin-bottom: 0.45rem; font-size: 0.58rem; }
+  h1 { font-size: 2.75rem; }
+  .hero-lede { margin-top: 0.7rem; font-size: 0.78rem; line-height: 1.38; }
+  .test-link { margin-top: 0.75rem; }
+  .product-preview { width: min(100%, 8.5rem); }
+  .product-preview video { max-height: 64vh; border-radius: 0.8rem; }
+  .app-showcase { height: 64vh; min-height: 0; }
+  .showcase-phone { width: min(9rem, 58%); }
+}
 
-  .hero-copy {
-    position: relative;
-    z-index: 4;
-    display: grid;
-    grid-area: copy;
-    grid-template-columns: 1fr;
-    align-content: center;
-    align-self: center;
-    align-items: start;
-    gap: 0.45rem;
-    transform: none;
-  }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy, .product-preview, .app-showcase { animation: reveal 560ms ease both; }
+  .product-preview { animation-delay: 80ms; }
+  .app-showcase { animation-delay: 150ms; }
+  .site-header nav a { transition: color 150ms ease; }
+}
 
-  h1 {
-    max-width: none;
-    grid-column: auto;
-    font-size: clamp(2rem, 6vw, 2.7rem);
-    line-height: 0.9;
-  }
-
-  .hero-lede {
-    max-width: 20rem;
-    margin: 0;
-    font-size: 0.72rem;
-    line-height: 1.3;
-  }
-
-  .store-state {
-    min-width: 6.6rem;
-    min-height: 2.25rem;
-    margin: 0;
-    padding: 0.58rem 0.8rem;
-    justify-self: start;
-    font-size: 0.7rem;
-  }
-
-  .product-preview {
-    position: relative;
-    inset: auto;
-    z-index: 3;
-    width: min(6.5rem, 100%);
-    max-height: 100%;
-    margin: 0;
-    grid-area: preview;
-    justify-self: center;
-    transform: none;
-  }
-
-  .product-preview video {
-    aspect-ratio: 9 / 16;
-    border-radius: 0.76rem;
-  }
-
-  .video-play-button {
-    width: 3.05rem;
-  }
-
-  .video-play-button img {
-    width: 1.35rem;
-    height: 1.35rem;
-  }
-
-  .compatibility-card {
-    display: block;
-    width: auto;
-    max-width: 100%;
-    height: 100%;
-    min-height: 0;
-    padding: 0;
-    aspect-ratio: 554 / 820;
-    grid-area: card;
-    border: 0;
-    border-radius: 1.15rem;
-    justify-self: center;
-  }
-
-  .compatibility-art {
-    display: block;
-  }
-
-  .compatibility-card::after {
-    display: none;
-  }
-
-  /* This branch used to render the baked poster, so the live heading and CTA
-     had never been sized for a card this small — the button wrapped onto two
-     lines and pushed itself past the bottom of the card. */
-  .compatibility-heading {
-    top: 0.7rem;
-    right: 0.6rem;
-    left: 0.6rem;
-    text-align: center;
-  }
-
-  .compatibility-eyebrow {
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: 0.5rem;
-  }
-
-  .compatibility-eyebrow i {
-    width: 0.9rem;
-  }
-
-  .compatibility-heading strong {
-    margin-top: 0.4rem;
-    font-size: clamp(0.95rem, 2.2vw, 1.15rem);
-  }
-
-  .compatibility-cta {
-    position: absolute;
-    right: 0.6rem;
-    bottom: 0.7rem;
-    left: 0.6rem;
-    min-height: 2.5rem;
-    padding: 0.45rem 0.7rem;
-    border-radius: 0.8rem;
-    gap: 0.4rem;
-    font-size: 0.76rem;
-  }
-
-  .compatibility-cta img {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  .card-phone {
-    display: none;
-  }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(0.7rem); }
 }
