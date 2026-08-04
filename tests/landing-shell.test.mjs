@@ -24,7 +24,7 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and current wording", () => {
   assert.match(html, /<meta name="description" content="Take a quick test together to see if Couples Alarm could work for you\.">/);
-  assert.match(html, /landing\.css\?v=20260803-cinematic-landing-1/);
+  assert.match(html, /landing\.css\?v=20260803-cinematic-landing-2/);
   assert.match(html, /For couples with different wake-up times/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
@@ -53,4 +53,5 @@ test("retains scrolling, accessible targets, and video behavior", () => {
   assert.match(html, /video\.requestFullscreen/);
   assert.match(html, /video\.onclick = \(\) => \{/);
   assert.match(html, /video\.controls = true/);
+  assert.match(css, /video:fullscreen,[\s\S]*video:-webkit-full-screen\s*\{[^}]*object-fit:\s*contain/);
 });
