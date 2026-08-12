@@ -29,20 +29,21 @@ test("keeps the direct test action and current wording", () => {
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
   assert.match(html, /class="hero-actions"/);
-  assert.match(html, /<a class="test-link" href="compatibility\/">Take the test<\/a>/);
-  assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*44px/);
+  assert.match(
+    html,
+    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg" alt="" aria-hidden="true">[\s\S]*<strong>Try it before you download<\/strong>[\s\S]*<small>See if it works for both of you<\/small>/,
+  );
+  assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*5\.85rem/);
   assert.match(ruleBody(".test-link"), /background:\s*transparent/);
   assert.match(ruleBody(".test-link"), /border:\s*1px solid rgb\(87 217 223 \/ 48%\)/);
-  for (const [, body] of css.matchAll(/\.test-link\s*\{([^}]*)\}/g)) {
-    for (const [, value] of body.matchAll(/min-height:\s*([^;]+)/g)) {
-      assert.equal(value.trim(), "44px");
-    }
-  }
   assert.match(
     html,
     /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*download-on-the-app-store\.svg[\s\S]*alt="Download on the App Store"/,
   );
   assert.match(css, /\.app-store-link\s*\{[^}]*min-height:\s*44px/);
+  assert.match(css, /\.soundwave-icon\s*\{\s*animation:\s*sound-pulse 1\.7s ease-in-out infinite;/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.soundwave-icon\s*\{\s*animation:\s*none;/);
+  assert.doesNotMatch(ruleBody(".app-store-link"), /animation/);
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
 
