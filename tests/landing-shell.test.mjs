@@ -36,7 +36,10 @@ test("keeps the direct test action and current wording", () => {
       assert.equal(value.trim(), "44px");
     }
   }
-  assert.match(html, /<p class="store-state">Coming soon to the App Store<\/p>/);
+  assert.match(
+    html,
+    /<a class="test-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">Download on the App Store<\/a>/,
+  );
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
 
