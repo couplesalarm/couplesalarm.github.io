@@ -24,13 +24,15 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and current wording", () => {
   assert.match(html, /<meta name="description" content="Take a quick test together to see if Couples Alarm could work for you\.">/);
-  assert.match(html, /landing\.css\?v=20260803-cinematic-landing-2/);
+  assert.match(html, /landing\.css\?v=20260812-app-store-cta/);
   assert.match(html, /For couples with different wake-up times/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
+  assert.match(html, /class="hero-actions"/);
   assert.match(html, /<a class="test-link" href="compatibility\/">Take the test<\/a>/);
   assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*44px/);
-  assert.match(ruleBody(".test-link"), /background:\s*#0066cc/);
+  assert.match(ruleBody(".test-link"), /background:\s*transparent/);
+  assert.match(ruleBody(".test-link"), /border:\s*1px solid rgb\(87 217 223 \/ 48%\)/);
   for (const [, body] of css.matchAll(/\.test-link\s*\{([^}]*)\}/g)) {
     for (const [, value] of body.matchAll(/min-height:\s*([^;]+)/g)) {
       assert.equal(value.trim(), "44px");
@@ -38,8 +40,9 @@ test("keeps the direct test action and current wording", () => {
   }
   assert.match(
     html,
-    /<a class="test-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">Download on the App Store<\/a>/,
+    /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*download-on-the-app-store\.svg[\s\S]*alt="Download on the App Store"/,
   );
+  assert.match(css, /\.app-store-link\s*\{[^}]*min-height:\s*44px/);
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
 
