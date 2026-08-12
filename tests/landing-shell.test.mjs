@@ -5,6 +5,7 @@ import test from "node:test";
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../landing.css", import.meta.url), "utf8");
 const soundwave = await readFile(new URL("../assets/soundwave.svg", import.meta.url), "utf8");
+const chevron = await readFile(new URL("../assets/chevron-right.svg", import.meta.url), "utf8");
 
 const ruleBody = (selector) => {
   const at = css.lastIndexOf(`\n${selector} {`);
@@ -32,19 +33,21 @@ test("keeps the direct test action and current wording", () => {
   assert.match(html, /class="hero-actions"/);
   assert.match(
     html,
-    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg" alt="" aria-hidden="true">[\s\S]*<strong>Try it before you download<\/strong>[\s\S]*<small>See if it works for both of you<\/small>/,
+    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg" alt="" aria-hidden="true">[\s\S]*<strong>Test Couples Alarm first<\/strong>[\s\S]*<small>Quick two-person check before downloading<\/small>[\s\S]*<img src="assets\/chevron-right\.svg" alt="" aria-hidden="true">/,
   );
   assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*max\(44px, 3\.5rem\)/);
-  assert.match(ruleBody(".test-link"), /background:\s*transparent/);
-  assert.match(ruleBody(".test-link"), /border:\s*1px solid rgb\(87 217 223 \/ 48%\)/);
+  assert.match(ruleBody(".test-link"), /background:\s*linear-gradient\(105deg, #bd23df, #7358ef 54%, #27cbe3\)/);
+  assert.match(ruleBody(".test-link"), /box-shadow:/);
   assert.match(
     html,
     /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*download-on-the-app-store\.svg[\s\S]*alt="Download on the App Store"/,
   );
-  assert.match(css, /\.app-store-link\s*\{[^}]*min-height:\s*44px/);
+  assert.match(css, /\.app-store-link\s*\{[^}]*min-height:\s*max\(44px, 3\.5rem\)/);
+  assert.match(ruleBody(".app-store-link img"), /height:\s*3\.5rem/);
   assert.match(css, /\.soundwave-icon\s*\{\s*animation:\s*sound-pulse 1\.7s ease-in-out infinite;/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.soundwave-icon\s*\{\s*animation:\s*none;/);
   assert.match(soundwave, /fill="#57d9df"/);
+  assert.match(chevron, /class="bi bi-chevron-right"/);
   assert.doesNotMatch(ruleBody(".app-store-link"), /animation/);
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
