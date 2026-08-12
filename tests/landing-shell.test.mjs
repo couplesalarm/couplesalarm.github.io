@@ -26,7 +26,7 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and current wording", () => {
   assert.match(html, /<meta name="description" content="Take a quick test together to see if Couples Alarm could work for you\.">/);
-  assert.match(html, /landing\.css\?v=20260812-option3-test-cta/);
+  assert.match(html, /landing\.css\?v=20260812-option3-test-cta-v2/);
   assert.match(html, /For couples with different wake-up times/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
@@ -49,8 +49,12 @@ test("keeps the direct test action and current wording", () => {
   assert.match(soundwave, /fill="#fff"/);
   assert.match(chevron, /class="bi bi-chevron-right"/);
   assert.match(css, /@media \(max-width: 720px\)[\s\S]*\.hero-actions\s*\{\s*flex-wrap:\s*nowrap;/);
-  assert.match(css, /@media \(max-width: 460px\)[\s\S]*\.hero-actions\s*\{[^}]*flex-wrap:\s*wrap;/);
+  assert.match(css, /width:\s*min\(19\.65rem, calc\(100% - 11\.1rem\)\)/);
+  assert.match(css, /\.test-link small \{ font-size: 0\.6rem; white-space: nowrap; \}/);
+  assert.match(css, /@media \(max-width: 487px\)[\s\S]*\.hero-actions\s*\{[^}]*flex-wrap:\s*wrap;/);
   assert.doesNotMatch(ruleBody(".app-store-link"), /animation/);
+  assert.doesNotMatch(css, /\.hero-copy,\s*\.product-preview/);
+  assert.match(css, /\.hero-copy > :not\(\.hero-actions\), \.product-preview/);
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
 
