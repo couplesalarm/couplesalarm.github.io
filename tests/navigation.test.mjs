@@ -29,11 +29,7 @@ test("keeps beta routes out of public navigation", async () => {
 });
 
 test("keeps the invitation-only beta routes available", async () => {
-  for (const page of [
-    "../beta/index.html",
-    "../download/index.html",
-    "../feedback/index.html",
-  ]) {
+  for (const page of ["../beta/index.html", "../feedback/index.html"]) {
     const html = await readFile(new URL(page, import.meta.url), "utf8");
     assert.match(html, /Beta feedback/);
     assert.match(html, /href="\.\.\/support\/"/);
@@ -41,17 +37,23 @@ test("keeps the invitation-only beta routes available", async () => {
   }
 });
 
-test("homepage describes availability without exposing the review process", async () => {
+test("public download links use the canonical App Store page", async () => {
   const html = await readFile(
     new URL("../index.html", import.meta.url),
     "utf8",
   );
+  const download = await readFile(
+    new URL("../download/index.html", import.meta.url),
+    "utf8",
+  );
+  const appStoreUrl =
+    "https://apps.apple.com/us/app/couples-alarm/id6792771975";
 
   assert.match(html, /https:\/\/couplesalarm\.com\//);
   assert.match(html, /assets\/couples-alarm-preview\.mp4/);
-  assert.match(html, /<p class="store-state">Coming soon to the App Store<\/p>/);
-  assert.doesNotMatch(html, /Coming soon on iPhone/);
-  assert.doesNotMatch(html, /App Store approval pending/);
+  assert.match(html, new RegExp(appStoreUrl));
+  assert.match(download, new RegExp(appStoreUrl));
+  assert.doesNotMatch(`${html}\n${download}`, /Coming soon|TestFlight|private beta/i);
   assert.doesNotMatch(html, /TestFlight|Private beta/);
 });
 
