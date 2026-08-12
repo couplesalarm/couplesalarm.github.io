@@ -26,14 +26,14 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and current wording", () => {
   assert.match(html, /<meta name="description" content="Take a quick test together to see if Couples Alarm could work for you\.">/);
-  assert.match(html, /landing\.css\?v=20260812-animated-test-cta/);
+  assert.match(html, /landing\.css\?v=20260812-option3-test-cta/);
   assert.match(html, /For couples with different wake-up times/);
   assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
   assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
   assert.match(html, /class="hero-actions"/);
   assert.match(
     html,
-    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg" alt="" aria-hidden="true">[\s\S]*<strong>Test Couples Alarm first<\/strong>[\s\S]*<small>Quick two-person check before downloading<\/small>[\s\S]*<img src="assets\/chevron-right\.svg" alt="" aria-hidden="true">/,
+    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg\?v=20260812-option3" alt="" aria-hidden="true">[\s\S]*<strong>Test Couples Alarm first<\/strong>[\s\S]*<small>Quick two-person check before downloading<\/small>[\s\S]*<img src="assets\/chevron-right\.svg" alt="" aria-hidden="true">/,
   );
   assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*max\(44px, 3\.5rem\)/);
   assert.match(ruleBody(".test-link"), /background:\s*linear-gradient\(105deg, #bd23df, #7358ef 54%, #27cbe3\)/);
@@ -46,8 +46,10 @@ test("keeps the direct test action and current wording", () => {
   assert.match(ruleBody(".app-store-link img"), /height:\s*3\.5rem/);
   assert.match(css, /\.soundwave-icon\s*\{\s*animation:\s*sound-pulse 1\.7s ease-in-out infinite;/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.soundwave-icon\s*\{\s*animation:\s*none;/);
-  assert.match(soundwave, /fill="#57d9df"/);
+  assert.match(soundwave, /fill="#fff"/);
   assert.match(chevron, /class="bi bi-chevron-right"/);
+  assert.match(css, /@media \(max-width: 720px\)[\s\S]*\.hero-actions\s*\{\s*flex-wrap:\s*nowrap;/);
+  assert.match(css, /@media \(max-width: 460px\)[\s\S]*\.hero-actions\s*\{[^}]*flex-wrap:\s*wrap;/);
   assert.doesNotMatch(ruleBody(".app-store-link"), /animation/);
   assert.doesNotMatch(html, /compatibility-card|compatibility-test-couple|sound check|Can one of you hear|Compare what each of you hears/);
 });
