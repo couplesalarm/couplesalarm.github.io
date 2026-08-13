@@ -10,6 +10,7 @@
   const endFrequency = 8500;
   const sweepDuration = 20000;
   const minimumMatchGap = 800;
+  const sweetSpotMargin = 300;
 
   if (navigator.audioSession) {
     navigator.audioSession.type = "playback";
@@ -37,8 +38,7 @@
   const responseText = (hz) =>
     hz === null ? "Did not hear it" : `${kilohertzText(hz)} kHz`;
   const frequencyPosition = (hz) =>
-    (Math.log(startFrequency / hz) / Math.log(startFrequency / endFrequency)) *
-    100;
+    ((hz - endFrequency) / (startFrequency - endFrequency)) * 100;
 
   const setReadout = (hz) => {
     setText("[data-frequency-readout]", kilohertzText(hz));
@@ -329,29 +329,30 @@
         ? sleepingPartner
         : undefined;
 
-    let title;
-    let summary;
-
-    if (requestedMatch) {
-      title = `${partnerLabels[wakingPartner]} heard tones ${partnerLabels[sleepingPartner]} did not.`;
-      summary = "Confirm a suggested tone in the app with a real bedside alarm.";
-    } else if (reverseMatch) {
-      title = `${partnerLabels[sleepingPartner]} heard tones ${partnerLabels[wakingPartner]} did not.`;
-      summary = "Confirm a suggested tone in the app with a real bedside alarm.";
-    } else if (responses.every((response) => response === null)) {
-      title = "No clear match.";
-      summary = "Neither partner heard the sound.";
-    } else {
-      title = "No clear match.";
-      summary = "Your answers were too close.";
-    }
-
-    setText("[data-result-title]", title);
-    setText("[data-result-summary]", summary);
+    const hasRange = matchedPartner !== undefined;
+    setText(
+      "[data-result-title]",
+      hasRange ? "A possible match" : "No clear match",
+    );
+    setText(
+      "[data-result-limit]",
+      hasRange
+        ? "Confirm this range with a bedside alarm before relying on it."
+        : responses.every((response) => response === null)
+          ? "Neither partner heard the sweep."
+          : "The two results were too close to show a useful gap.",
+    );
     setText("[data-result-partner-one-label]", partnerLabels[0]);
     setText("[data-result-partner-two-label]", partnerLabels[1]);
     setText("[data-result-partner-one]", responseText(responses[0]));
     setText("[data-result-partner-two]", responseText(responses[1]));
+
+    const sweetSpotBand = document.querySelector("[data-sweet-spot-band]");
+    const resultSpectrum = document.querySelector("[data-result-spectrum]");
+    const endpointOne = document.querySelector("[data-result-endpoint-one]");
+    const endpointTwo = document.querySelector("[data-result-endpoint-two]");
+    const lowPartner =
+      (responses[0] ?? endFrequency) <= (responses[1] ?? endFrequency) ? 0 : 1;
 
     responses.forEach((response, index) => {
       const marker = document.querySelector(
@@ -361,8 +362,11 @@
       if (response !== null) marker.style.left = `${frequencyPosition(response)}%`;
     });
 
-    const sweetSpotBand = document.querySelector("[data-sweet-spot-band]");
-    const resultSpectrum = document.querySelector("[data-result-spectrum]");
+    endpointOne.style.order = lowPartner === 0 ? "0" : "1";
+    endpointTwo.style.order = lowPartner === 1 ? "0" : "1";
+    endpointOne.classList.toggle("is-missing", responses[0] === null);
+    endpointTwo.classList.toggle("is-missing", responses[1] === null);
+    resultSpectrum.classList.toggle("has-range", hasRange);
     const resultDescription = responses
       .map((response, index) =>
         response === null
@@ -371,35 +375,24 @@
       )
       .join(". ");
 
-    if (matchedPartner === undefined) {
+    if (!hasRange) {
       sweetSpotBand.hidden = true;
       setText("[data-sweet-spot-value]", "No clear range");
-      setText(
-        "[data-sweet-spot-detail]",
-        responses.every((response) => response === null)
-          ? "Neither partner heard the sweep."
-          : "The two results are too close to show a reliable gap.",
-      );
       resultSpectrum.setAttribute(
         "aria-label",
         `${resultDescription}. No clear alarm sweet spot.`,
       );
     } else {
       const otherPartner = matchedPartner === 0 ? 1 : 0;
-      const highFrequency = responses[matchedPartner];
-      const lowFrequency = responses[otherPartner] ?? endFrequency;
-      const highPosition = frequencyPosition(highFrequency);
-      const lowPosition = frequencyPosition(lowFrequency);
+      const highFrequency = responses[matchedPartner] - sweetSpotMargin;
+      const lowFrequency =
+        (responses[otherPartner] ?? endFrequency) + sweetSpotMargin;
       sweetSpotBand.hidden = false;
-      sweetSpotBand.style.left = `${highPosition}%`;
-      sweetSpotBand.style.width = `${lowPosition - highPosition}%`;
+      sweetSpotBand.style.left = `${frequencyPosition(lowFrequency)}%`;
+      sweetSpotBand.style.width = `${frequencyPosition(highFrequency) - frequencyPosition(lowFrequency)}%`;
       setText(
         "[data-sweet-spot-value]",
         `${kilohertzText(lowFrequency)}–${kilohertzText(highFrequency)} kHz`,
-      );
-      setText(
-        "[data-sweet-spot-detail]",
-        `The highlighted range is where ${partnerLabels[matchedPartner]} responded before ${partnerLabels[otherPartner]}.`,
       );
       resultSpectrum.setAttribute(
         "aria-label",

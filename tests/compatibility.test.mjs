@@ -27,7 +27,7 @@ test("keeps the preview device-aware and honest about its limits", () => {
   assert.match(script, /Built-in speakers/);
   assert.match(html, /Stop if uncomfortable/);
   assert.match(html, /This is not a hearing test/);
-  assert.match(html, /Confirm any match with a real bedside alarm/);
+  assert.match(html, /Confirm this range with a bedside alarm before relying on it/);
 });
 
 test("runs both listening turns locally with Web Audio", () => {
@@ -85,16 +85,9 @@ test("keeps every step concise", () => {
     html,
     /About 2 minutes|Nothing is saved|Needs to wake up|Switch partner/,
   );
-  assert.match(html, /Partner One heard tones Partner Two did not/);
-  assert.match(
-    script,
-    /\$\{partnerLabels\[wakingPartner\]\} heard tones \$\{partnerLabels\[sleepingPartner\]\} did not/,
-  );
-  assert.match(
-    script,
-    /\$\{partnerLabels\[sleepingPartner\]\} heard tones \$\{partnerLabels\[wakingPartner\]\} did not/,
-  );
-  assert.match(html, /Confirm any match with a real bedside alarm\. This check cannot predict who will wake or stay asleep/);
+  assert.match(html, /A possible match/);
+  assert.match(html, /Confirm this range with a bedside alarm before relying on it/);
+  assert.doesNotMatch(`${html}\n${script}`, /heard tones .* did not/);
   assert.doesNotMatch(`${html}\n${script}`, /should wake|not disturb/i);
   assert.doesNotMatch(script, /Try switching roles|Switch who wakes up/);
   assert.doesNotMatch(`${html}\n${script}`, /This may work|promising match/i);
@@ -158,18 +151,32 @@ test("shows the live frequency readout the app shows", () => {
 test("shows recorded thresholds and the possible alarm sweet spot", () => {
   assert.match(html, /data-first-result/);
   assert.match(html, /Partner frequency results/);
-  assert.match(html, /Possible alarm sweet spot/);
+  assert.match(html, /data-sweet-spot-value/);
   assert.match(html, /data-sweet-spot-band/);
   assert.match(html, /data-result-marker-one/);
   assert.match(html, /data-result-marker-two/);
+  assert.match(html, /data-result-endpoint-one/);
+  assert.match(html, /data-result-endpoint-two/);
   assert.match(script, /const responseText = \(hz\) =>/);
+  assert.match(script, /const sweetSpotMargin = 300/);
   assert.match(script, /const frequencyPosition = \(hz\) =>/);
+  assert.match(script, /responses\[matchedPartner\] - sweetSpotMargin/);
+  assert.match(script, /responses\[otherPartner\] \?\? endFrequency\) \+ sweetSpotMargin/);
   assert.match(script, /responseText\(responses\[0\]\)/);
   assert.match(script, /responseText\(responses\[1\]\)/);
+  assert.match(script, /endpointOne\.style\.order/);
+  assert.match(script, /endpointTwo\.style\.order/);
+  assert.match(script, /classList\.toggle\("has-range", hasRange\)/);
   assert.match(script, /sweetSpotBand\.style\.left/);
   assert.match(script, /sweetSpotBand\.style\.width/);
+  assert.match(html, /Lower pitch/);
+  assert.match(html, /Higher pitch/);
   assert.match(script, /No clear alarm sweet spot/);
   assert.match(script, /Possible alarm sweet spot from/);
+  assert.doesNotMatch(
+    html,
+    /data-result-summary|data-sweet-spot-detail/,
+  );
 });
 
 test("keeps the sweep cues under reduced motion", () => {

@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://couplesalarm.com/compatibility/">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Try Couples Alarm together</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260813-results-1">
+  <link rel="stylesheet" href="compatibility.css?v=20260813-result-cleanup-2">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the Couples Alarm test</a>
@@ -154,37 +154,31 @@
       <section class="screen result-screen" data-screen="result" aria-labelledby="result-title" hidden>
         <div class="result-glow" aria-hidden="true"></div>
         <p class="eyebrow">Your test result</p>
-        <h2 id="result-title" data-result-title>Partner One heard tones Partner Two did not.</h2>
-        <p class="result-summary" data-result-summary></p>
-        <div class="result-partners" aria-label="Partner frequency results">
-          <div>
-            <span data-result-partner-one-label>Partner One</span>
-            <strong data-result-partner-one>—</strong>
+        <h2 id="result-title" data-result-title>A possible match</h2>
+        <strong class="result-range" data-sweet-spot-value>No clear range</strong>
+        <div class="result-spectrum" data-result-spectrum role="img" aria-label="Partner frequency comparison">
+          <div class="result-spectrum-track" aria-hidden="true">
+            <span class="sweet-spot-band" data-sweet-spot-band hidden></span>
+            <span class="result-marker result-marker-one" data-result-marker-one hidden><b>P1</b></span>
+            <span class="result-marker result-marker-two" data-result-marker-two hidden><b>P2</b></span>
           </div>
-          <div>
-            <span data-result-partner-two-label>Partner Two</span>
-            <strong data-result-partner-two>—</strong>
+          <div class="result-spectrum-labels" aria-hidden="true">
+            <span>Lower pitch</span>
+            <strong>Possible match</strong>
+            <span>Higher pitch</span>
           </div>
-        </div>
-        <div class="sweet-spot-card">
-          <div class="sweet-spot-heading">
-            <span>Possible alarm sweet spot</span>
-            <strong data-sweet-spot-value>No clear range</strong>
-          </div>
-          <div class="result-spectrum" data-result-spectrum role="img" aria-label="Frequency comparison">
-            <div class="result-spectrum-track" aria-hidden="true">
-              <span class="sweet-spot-band" data-sweet-spot-band hidden></span>
-              <span class="result-marker result-marker-one" data-result-marker-one hidden><b>P1</b></span>
-              <span class="result-marker result-marker-two" data-result-marker-two hidden><b>P2</b></span>
+          <div class="result-partners" aria-label="Partner frequency results">
+            <div data-result-endpoint-one>
+              <span data-result-partner-one-label>Partner One</span>
+              <strong data-result-partner-one>—</strong>
             </div>
-            <div class="result-spectrum-labels" aria-hidden="true">
-              <span>17.5 kHz</span>
-              <span>8.5 kHz</span>
+            <div data-result-endpoint-two>
+              <span data-result-partner-two-label>Partner Two</span>
+              <strong data-result-partner-two>—</strong>
             </div>
           </div>
-          <p data-sweet-spot-detail>The two results will appear here.</p>
         </div>
-        <p class="result-limit" data-result-limit>Confirm any match with a real bedside alarm. This check cannot predict who will wake or stay asleep.</p>
+        <p class="result-limit" data-result-limit>Confirm this range with a bedside alarm before relying on it.</p>
         <div class="result-actions">
           <a class="primary-action" href="../">Back to Couples Alarm</a>
           <button class="text-action" type="button" data-restart>Try again</button>
@@ -195,6 +189,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260813-results-1"></script>
+  <script src="compatibility.js?v=20260813-result-cleanup-2"></script>
 </body>
 </html>
