@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://couplesalarm.com/compatibility/">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Try Couples Alarm together</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260813-result-cleanup-2">
+  <link rel="stylesheet" href="compatibility.css?v=20260813-handoff-result-1">
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the Couples Alarm test</a>
@@ -143,7 +143,16 @@
         </figure>
         <div>
           <h2 id="handoff-title">Pass the device to <span data-next-partner>Partner Two</span>.</h2>
-          <p><span data-first-result-label>Partner One</span> result: <strong data-first-result>—</strong><br>Keep the same volume.</p>
+          <div class="handoff-result">
+            <span class="handoff-result-graphic" aria-hidden="true">
+              <img src="../assets/soundwave.svg" alt="">
+            </span>
+            <p>
+              <span class="handoff-result-label"><span data-first-result-label>Partner One</span> result</span>
+              <strong data-first-result>—</strong>
+            </p>
+          </div>
+          <p class="handoff-volume">Keep the same volume.</p>
           <button class="primary-action" type="button" data-next-turn>
             <img src="../assets/play-fill.svg" alt="">
             <span><b data-next-partner>Partner Two</b> is ready</span>
@@ -189,6 +198,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260813-result-cleanup-2"></script>
+  <script src="compatibility.js?v=20260813-handoff-result-1"></script>
 </body>
 </html>
