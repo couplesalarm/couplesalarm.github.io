@@ -35,7 +35,7 @@ test("runs both listening turns locally with Web Audio", () => {
   assert.match(script, /navigator\.audioSession\.type = "playback"/);
   assert.match(script, /const startFrequency = 17500/);
   assert.match(script, /const endFrequency = 8500/);
-  assert.match(script, /const sweepDuration = 12000/);
+  assert.match(script, /const sweepDuration = 20000/);
   assert.match(script, /gain\.gain\.exponentialRampToValueAtTime\(0\.14/);
   assert.match(script, /responses\[listeningOrder\[turn\]\]/);
   assert.match(script, /notHeardButton\.disabled = true/);
@@ -153,6 +153,23 @@ test("shows the live frequency readout the app shows", () => {
   // Decorative to assistive tech: it changes many times a second and the
   // status line already carries the state.
   assert.match(html, /<p class="tone-readout" aria-hidden="true">/);
+});
+
+test("shows recorded thresholds and the possible alarm sweet spot", () => {
+  assert.match(html, /data-first-result/);
+  assert.match(html, /Partner frequency results/);
+  assert.match(html, /Possible alarm sweet spot/);
+  assert.match(html, /data-sweet-spot-band/);
+  assert.match(html, /data-result-marker-one/);
+  assert.match(html, /data-result-marker-two/);
+  assert.match(script, /const responseText = \(hz\) =>/);
+  assert.match(script, /const frequencyPosition = \(hz\) =>/);
+  assert.match(script, /responseText\(responses\[0\]\)/);
+  assert.match(script, /responseText\(responses\[1\]\)/);
+  assert.match(script, /sweetSpotBand\.style\.left/);
+  assert.match(script, /sweetSpotBand\.style\.width/);
+  assert.match(script, /No clear alarm sweet spot/);
+  assert.match(script, /Possible alarm sweet spot from/);
 });
 
 test("keeps the sweep cues under reduced motion", () => {
