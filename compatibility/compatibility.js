@@ -121,7 +121,7 @@
     });
     errorMessage.hidden = true;
     window.scrollTo(0, 0);
-    const heading = visibleScreen?.querySelector("h1");
+    const heading = visibleScreen?.querySelector("h1, h2");
     if (heading) {
       heading.tabIndex = -1;
       heading.focus({ preventScroll: true });
