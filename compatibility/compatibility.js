@@ -8,7 +8,8 @@
 
   const startFrequency = 17500;
   const endFrequency = 8500;
-  const sweepDuration = 12000;
+  const sweepDuration = 20000;
+  const minimumMatchGap = 800;
 
   if (navigator.audioSession) {
     navigator.audioSession.type = "playback";
@@ -33,6 +34,11 @@
     startFrequency * Math.pow(endFrequency / startFrequency, progress);
 
   const kilohertzText = (hz) => (Math.round(hz / 100) / 10).toFixed(1);
+  const responseText = (hz) =>
+    hz === null ? "Did not hear it" : `${kilohertzText(hz)} kHz`;
+  const frequencyPosition = (hz) =>
+    (Math.log(startFrequency / hz) / Math.log(startFrequency / endFrequency)) *
+    100;
 
   const setReadout = (hz) => {
     setText("[data-frequency-readout]", kilohertzText(hz));
@@ -295,6 +301,8 @@
     if (turn === 0) {
       const nextPartner = partnerLabels[listeningOrder[1]];
       setText("[data-next-partner]", nextPartner);
+      setText("[data-first-result-label]", partnerLabels[listeningOrder[turn]]);
+      setText("[data-first-result]", responseText(heardFrequency));
       setProgress(2);
       showScreen("handoff");
       return;
@@ -309,10 +317,17 @@
     const sleepingResponse = responses[sleepingPartner];
     const requestedMatch =
       wakingResponse !== null &&
-      (sleepingResponse === null || wakingResponse - sleepingResponse >= 800);
+      (sleepingResponse === null ||
+        wakingResponse - sleepingResponse >= minimumMatchGap);
     const reverseMatch =
       sleepingResponse !== null &&
-      (wakingResponse === null || sleepingResponse - wakingResponse >= 800);
+      (wakingResponse === null ||
+        sleepingResponse - wakingResponse >= minimumMatchGap);
+    const matchedPartner = requestedMatch
+      ? wakingPartner
+      : reverseMatch
+        ? sleepingPartner
+        : undefined;
 
     let title;
     let summary;
@@ -335,14 +350,62 @@
     setText("[data-result-summary]", summary);
     setText("[data-result-partner-one-label]", partnerLabels[0]);
     setText("[data-result-partner-two-label]", partnerLabels[1]);
-    setText(
-      "[data-result-partner-one]",
-      responses[0] === null ? "Did not hear it" : "Heard it",
-    );
-    setText(
-      "[data-result-partner-two]",
-      responses[1] === null ? "Did not hear it" : "Heard it",
-    );
+    setText("[data-result-partner-one]", responseText(responses[0]));
+    setText("[data-result-partner-two]", responseText(responses[1]));
+
+    responses.forEach((response, index) => {
+      const marker = document.querySelector(
+        index === 0 ? "[data-result-marker-one]" : "[data-result-marker-two]",
+      );
+      marker.hidden = response === null;
+      if (response !== null) marker.style.left = `${frequencyPosition(response)}%`;
+    });
+
+    const sweetSpotBand = document.querySelector("[data-sweet-spot-band]");
+    const resultSpectrum = document.querySelector("[data-result-spectrum]");
+    const resultDescription = responses
+      .map((response, index) =>
+        response === null
+          ? `${partnerLabels[index]} did not hear the sweep`
+          : `${partnerLabels[index]} heard ${responseText(response)}`,
+      )
+      .join(". ");
+
+    if (matchedPartner === undefined) {
+      sweetSpotBand.hidden = true;
+      setText("[data-sweet-spot-value]", "No clear range");
+      setText(
+        "[data-sweet-spot-detail]",
+        responses.every((response) => response === null)
+          ? "Neither partner heard the sweep."
+          : "The two results are too close to show a reliable gap.",
+      );
+      resultSpectrum.setAttribute(
+        "aria-label",
+        `${resultDescription}. No clear alarm sweet spot.`,
+      );
+    } else {
+      const otherPartner = matchedPartner === 0 ? 1 : 0;
+      const highFrequency = responses[matchedPartner];
+      const lowFrequency = responses[otherPartner] ?? endFrequency;
+      const highPosition = frequencyPosition(highFrequency);
+      const lowPosition = frequencyPosition(lowFrequency);
+      sweetSpotBand.hidden = false;
+      sweetSpotBand.style.left = `${highPosition}%`;
+      sweetSpotBand.style.width = `${lowPosition - highPosition}%`;
+      setText(
+        "[data-sweet-spot-value]",
+        `${kilohertzText(lowFrequency)}–${kilohertzText(highFrequency)} kHz`,
+      );
+      setText(
+        "[data-sweet-spot-detail]",
+        `The highlighted range is where ${partnerLabels[matchedPartner]} responded before ${partnerLabels[otherPartner]}.`,
+      );
+      resultSpectrum.setAttribute(
+        "aria-label",
+        `${resultDescription}. Possible alarm sweet spot from ${kilohertzText(lowFrequency)} to ${kilohertzText(highFrequency)} kilohertz for ${partnerLabels[matchedPartner]}.`,
+      );
+    }
     setProgress(3);
     showScreen("result");
   };
