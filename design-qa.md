@@ -21,3 +21,39 @@
 - Browser evidence: Firefox, mobile 390 × 844 and desktop 1280 × 900; no console errors or overflow.
 
 Final Result: Passed
+
+---
+
+# Design QA — Partner One handoff result
+
+- Source visual truth: `/var/folders/sh/8t1ppy6j5qz61p3t3p86ws000000gp/T/codex-clipboard-ba832f38-3ffd-4222-97fe-cf67f6139a8c.png`
+- Implementation screenshot: `/tmp/couplesalarm-handoff-result/desktop-reference-normalized.png`
+- Full-view comparison: `/tmp/couplesalarm-handoff-result/comparison-desktop.png`
+- Viewport: 1510 × 744 CSS pixels at device scale factor 2; source and implementation are both 3020 × 1488 pixels.
+- State: Partner One completed at 16.4 kHz; Partner Two handoff is ready.
+
+## Findings
+
+- No actionable P0, P1, or P2 differences remain. The requested change intentionally increases the result's prominence beyond the source screenshot while preserving its overall two-column composition.
+- Typography: passed — Partner One's live frequency is now the largest supporting value, with the handoff heading still first in hierarchy.
+- Spacing and layout: passed — the result card aligns with the CTA and fits at desktop, 390 × 844 mobile, and 1280 × 640 short desktop without overflow or scrolling.
+- Colors and tokens: passed — the graphic and card reuse the existing aqua, coral, violet, night, border, and elevation language.
+- Image quality and assets: passed — the supplied couple illustration remains unchanged and the existing repository soundwave asset is used at native vector quality.
+- Copy: passed — the result label, measured value, volume instruction, and next action remain exact and concise.
+- Accessibility and interaction: passed — the decorative graphic is hidden from assistive technology, the live result remains text, focus moves to the handoff heading, and the primary action remains at least 44 pixels tall.
+
+## Comparison History
+
+- First comparison: passed. No P0/P1/P2 corrections were required after the rendered implementation was compared beside the source.
+
+## Focused Region
+
+- Not needed: the normalized full-view comparison renders the result card, icon, value, instruction, and CTA large enough for direct inspection.
+
+## Browser Evidence
+
+- Firefox: 1510 × 744 at 2×, 390 × 844 at 1×, and 1280 × 640 at 1×.
+- Primary interaction: Start test → Start listening → Stop — I hear it → handoff result.
+- Console errors: none.
+
+final result: passed

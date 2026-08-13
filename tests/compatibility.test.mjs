@@ -150,6 +150,9 @@ test("shows the live frequency readout the app shows", () => {
 
 test("shows recorded thresholds and the possible alarm sweet spot", () => {
   assert.match(html, /data-first-result/);
+  assert.match(html, /class="handoff-result"/);
+  assert.match(html, /assets\/soundwave\.svg/);
+  assert.match(css, /\.handoff-result \[data-first-result\][\s\S]*clamp\(2\.9rem/);
   assert.match(html, /Partner frequency results/);
   assert.match(html, /data-sweet-spot-value/);
   assert.match(html, /data-sweet-spot-band/);
