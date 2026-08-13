@@ -24,12 +24,13 @@ test("restores the three-part desktop landing", () => {
   assert.match(css, /\.showcase-phone \{[\s\S]*transform: rotate\(2\.5deg\)/);
 });
 
-test("keeps the direct test action and current wording", () => {
-  assert.match(html, /<meta name="description" content="Take a quick test together to see if Couples Alarm could work for you\.">/);
+test("keeps the direct test action and accurate wording", () => {
+  assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
   assert.match(html, /landing\.css\?v=20260812-option3-test-cta-v2/);
-  assert.match(html, /For couples with different wake-up times/);
-  assert.match(html, /Wake up\.<br><span>Let them sleep\.<\/span>/);
-  assert.match(html, /Couples Alarm is designed to wake one partner while the other keeps sleeping\. Take the quick test together to see if it could work for you\./);
+  assert.match(html, /For couples who hear tones differently/);
+  assert.match(html, /Find a tone<br><span>together\.<\/span>/);
+  assert.match(html, /A personalized alarm utility for couples who hear tones differently\. Take the quick test together to see if it could work for you\./);
+  assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /class="hero-actions"/);
   assert.match(
     html,

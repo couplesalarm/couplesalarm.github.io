@@ -34,6 +34,7 @@ test("keeps the invitation-only beta routes available", async () => {
     assert.match(html, /Beta feedback/);
     assert.match(html, /href="\.\.\/support\/"/);
     assert.match(html, /href="\.\.\/privacy\/"/);
+    assert.match(html, /<meta name="robots" content="noindex, nofollow">/);
   }
 });
 
@@ -55,6 +56,36 @@ test("public download links use the canonical App Store page", async () => {
   assert.match(download, new RegExp(appStoreUrl));
   assert.doesNotMatch(`${html}\n${download}`, /Coming soon|TestFlight|private beta/i);
   assert.doesNotMatch(html, /TestFlight|Private beta/);
+});
+
+test("publishes canonical search and App Store metadata", async () => {
+  for (const page of [
+    "../index.html",
+    "../compatibility/index.html",
+    "../support/index.html",
+    "../privacy/index.html",
+    "../download/index.html",
+  ]) {
+    const html = await readFile(new URL(page, import.meta.url), "utf8");
+    assert.match(html, /<meta name="apple-itunes-app" content="app-id=6792771975">/);
+  }
+
+  const home = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const compatibility = await readFile(
+    new URL("../compatibility/index.html", import.meta.url),
+    "utf8",
+  );
+  const robots = await readFile(new URL("../robots.txt", import.meta.url), "utf8");
+  const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8");
+
+  assert.match(home, /<script type="application\/ld\+json">/);
+  assert.match(home, /"@type": "SoftwareApplication"/);
+  assert.match(compatibility, /<link rel="canonical" href="https:\/\/couplesalarm\.com\/compatibility\/">/);
+  assert.match(robots, /Sitemap: https:\/\/couplesalarm\.com\/sitemap\.xml/);
+  for (const url of ["", "compatibility/", "support/", "privacy/"]) {
+    assert.match(sitemap, new RegExp(`<loc>https://couplesalarm\\.com/${url}</loc>`));
+  }
+  assert.doesNotMatch(sitemap, /admin|beta|feedback/);
 });
 
 test("keeps public-facing summaries in customer language", async () => {

@@ -318,11 +318,11 @@
     let summary;
 
     if (requestedMatch) {
-      title = `This tone should wake ${partnerLabels[wakingPartner]}—not ${partnerLabels[sleepingPartner]}.`;
-      summary = `${partnerLabels[wakingPartner]} heard the sound sooner. Confirm it in the app.`;
+      title = `${partnerLabels[wakingPartner]} heard tones ${partnerLabels[sleepingPartner]} did not.`;
+      summary = "Confirm a suggested tone in the app with a real bedside alarm.";
     } else if (reverseMatch) {
-      title = `This tone should wake ${partnerLabels[sleepingPartner]}—not ${partnerLabels[wakingPartner]}.`;
-      summary = `${partnerLabels[sleepingPartner]} heard the sound sooner. Confirm it in the app.`;
+      title = `${partnerLabels[sleepingPartner]} heard tones ${partnerLabels[wakingPartner]} did not.`;
+      summary = "Confirm a suggested tone in the app with a real bedside alarm.";
     } else if (responses.every((response) => response === null)) {
       title = "No clear match.";
       summary = "Neither partner heard the sound.";
