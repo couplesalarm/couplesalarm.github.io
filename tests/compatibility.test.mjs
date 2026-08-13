@@ -85,15 +85,17 @@ test("keeps every step concise", () => {
     html,
     /About 2 minutes|Nothing is saved|Needs to wake up|Switch partner/,
   );
-  assert.match(html, /This tone should wake Partner One—not Partner Two/);
+  assert.match(html, /Partner One heard tones Partner Two did not/);
   assert.match(
     script,
-    /This tone should wake \$\{partnerLabels\[wakingPartner\]\}—not \$\{partnerLabels\[sleepingPartner\]\}/,
+    /\$\{partnerLabels\[wakingPartner\]\} heard tones \$\{partnerLabels\[sleepingPartner\]\} did not/,
   );
   assert.match(
     script,
-    /This tone should wake \$\{partnerLabels\[sleepingPartner\]\}—not \$\{partnerLabels\[wakingPartner\]\}/,
+    /\$\{partnerLabels\[sleepingPartner\]\} heard tones \$\{partnerLabels\[wakingPartner\]\} did not/,
   );
+  assert.match(html, /Confirm any match with a real bedside alarm\. This check cannot predict who will wake or stay asleep/);
+  assert.doesNotMatch(`${html}\n${script}`, /should wake|not disturb/i);
   assert.doesNotMatch(script, /Try switching roles|Switch who wakes up/);
   assert.doesNotMatch(`${html}\n${script}`, /This may work|promising match/i);
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
