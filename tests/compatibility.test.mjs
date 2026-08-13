@@ -101,6 +101,12 @@ test("keeps every step concise", () => {
   assert.doesNotMatch(html, /readiness-list|listen-safety/);
 });
 
+test("keeps one page heading while focusing each step heading", () => {
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
+  assert.equal([...html.matchAll(/<h2\b/g)].length, 3);
+  assert.match(script, /visibleScreen\?\.querySelector\("h1, h2"\)/);
+});
+
 test("warns against headphones wherever the tone can be played", () => {
   assert.match(html, /only — no headphones/);
   assert.doesNotMatch(html, /Quiet room · <span data-speaker-title>/);
