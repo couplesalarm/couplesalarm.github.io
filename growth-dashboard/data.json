@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-13T11:34:12Z",
+  "apple": {
+    "mode": "manual",
+    "throughDate": "2026-08-12",
+    "firstTimeDownloads": 3,
+    "netPaidUnlocks": 0,
+    "estimatedProceedsUsd": 0,
+    "usRatingCount": 0
+  },
+  "social": {
+    "mode": "manual",
+    "updatedAt": "2026-08-13T11:34:12Z",
+    "platforms": [
+      { "name": "Facebook", "views": 222 },
+      { "name": "Instagram", "views": 40 },
+      { "name": "X", "views": 4 },
+      { "name": "YouTube", "views": 1 }
+    ]
+  }
+}
