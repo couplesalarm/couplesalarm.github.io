@@ -89,6 +89,13 @@ test("uses app context from the URL fragment instead of asking for a build", () 
   });
 });
 
+test("keeps detected app context after a successful submission", () => {
+  assert.match(
+    source,
+    /form\.reset\(\);\s*if \(appContext\.build\) buildInput\.value = appContext\.build;/,
+  );
+});
+
 test("asks each requested beta question once", async () => {
   const html = await readFile(
     new URL("../feedback/index.html", import.meta.url),

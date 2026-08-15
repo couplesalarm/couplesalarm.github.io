@@ -124,3 +124,9 @@ test("keeps public-facing summaries in customer language", async () => {
     );
   }
 });
+
+test("keeps the saved-sound handoff in customer language", async () => {
+  const html = await readFile(new URL("../download/index.html", import.meta.url), "utf8");
+  assert.match(html, /real bedside alarm check/);
+  assert.doesNotMatch(html, /AlarmKit/);
+});

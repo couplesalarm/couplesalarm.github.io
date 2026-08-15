@@ -68,3 +68,8 @@ test("loads every response page", async () => {
 test("does not persist the admin passcode or use email auth", () => {
   assert.doesNotMatch(source, /sessionStorage|localStorage|auth\/v1\/otp/);
 });
+
+test("does not strand failed sign-ins or old filters", () => {
+  assert.match(source, /loginStatus\.textContent = "Responses could not be loaded\. Please try again\."/);
+  assert.match(source, /searchInput\.value = "";\s*buildFilter\.value = "";/);
+});

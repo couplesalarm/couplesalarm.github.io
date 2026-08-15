@@ -13,4 +13,6 @@ test("gives invited testers one complete install and feedback path", () => {
   assert.match(page, /do not rely on this beta as your only alarm/i);
   assert.match(page, /you do not need to find the original invitation email/i);
   assert.match(page, /href="\.\.\/feedback\/"/);
+  assert.match(page, /latest available build/);
+  assert.doesNotMatch(page, /current beta is build \d+/i);
 });
