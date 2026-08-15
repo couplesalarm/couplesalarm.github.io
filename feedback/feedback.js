@@ -107,6 +107,7 @@ if (typeof document !== "undefined") {
       }
 
       form.reset();
+      if (appContext.build) buildInput.value = appContext.build;
       status.textContent = `Thank you — your feedback was recorded. Reference: ${result.reference}`;
     } catch {
       status.textContent =

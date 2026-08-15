@@ -224,6 +224,7 @@ if (typeof document !== "undefined") {
         passcodeInput.select();
         return;
       }
+      loginStatus.textContent = "Responses could not be loaded. Please try again.";
       dashboardStatus.textContent =
         "Responses could not be loaded. Please try again.";
     }
@@ -243,6 +244,8 @@ if (typeof document !== "undefined") {
     loginPanel.hidden = false;
     dashboard.hidden = true;
     signOutButton.hidden = true;
+    searchInput.value = "";
+    buildFilter.value = "";
     passcodeInput.focus();
   });
   refreshButton.addEventListener("click", loadDashboard);
