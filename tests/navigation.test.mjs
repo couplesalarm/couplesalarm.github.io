@@ -5,6 +5,7 @@ import test from "node:test";
 const publicPages = [
   "../index.html",
   "../compatibility/index.html",
+  "../different-wake-times/index.html",
   "../support/index.html",
   "../privacy/index.html",
 ];
@@ -62,6 +63,7 @@ test("publishes canonical search and App Store metadata", async () => {
   for (const page of [
     "../index.html",
     "../compatibility/index.html",
+    "../different-wake-times/index.html",
     "../support/index.html",
     "../privacy/index.html",
     "../download/index.html",
@@ -75,17 +77,42 @@ test("publishes canonical search and App Store metadata", async () => {
     new URL("../compatibility/index.html", import.meta.url),
     "utf8",
   );
+  const guide = await readFile(
+    new URL("../different-wake-times/index.html", import.meta.url),
+    "utf8",
+  );
   const robots = await readFile(new URL("../robots.txt", import.meta.url), "utf8");
   const sitemap = await readFile(new URL("../sitemap.xml", import.meta.url), "utf8");
 
   assert.match(home, /<script type="application\/ld\+json">/);
   assert.match(home, /"@type": "SoftwareApplication"/);
   assert.match(compatibility, /<link rel="canonical" href="https:\/\/couplesalarm\.com\/compatibility\/">/);
+  assert.match(guide, /<link rel="canonical" href="https:\/\/couplesalarm\.com\/different-wake-times\/">/);
   assert.match(robots, /Sitemap: https:\/\/couplesalarm\.com\/sitemap\.xml/);
-  for (const url of ["", "compatibility/", "support/", "privacy/"]) {
+  for (const url of ["", "compatibility/", "different-wake-times/", "support/", "privacy/"]) {
     assert.match(sitemap, new RegExp(`<loc>https://couplesalarm\\.com/${url}</loc>`));
   }
   assert.doesNotMatch(sitemap, /admin|beta|feedback/);
+});
+
+test("publishes the evidence-led different-wake-times guide", async () => {
+  const home = await readFile(new URL("../index.html", import.meta.url), "utf8");
+  const guide = await readFile(
+    new URL("../different-wake-times/index.html", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(home, /href="different-wake-times\/"/);
+  assert.match(guide, /<meta property="og:type" content="article">/);
+  assert.match(guide, /"@type": "Article"/);
+  assert.match(guide, /ct=owned_guide_wake_times_01/);
+  assert.match(guide, /ppid=b953fb2e-ed1a-4cae-b8a4-7bac2525a093/);
+  assert.match(guide, /support\.apple\.com\/en-nz\/118444/);
+  assert.match(guide, /support\.apple\.com\/guide\/watch\/adjust-volume-and-haptics/);
+  assert.match(guide, /pubmed\.ncbi\.nlm\.nih\.gov\/24509892/);
+  assert.match(guide, /Thompson and colleagues/);
+  assert.match(guide, /www\.nhlbi\.nih\.gov\/health\/sleep-deprivation\/healthy-sleep-habits/);
+  assert.match(guide, /No phone, watch, light, or app setup here guarantees/);
 });
 
 test("keeps public-facing summaries in customer language", async () => {
