@@ -11,12 +11,16 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
-export function snapshotFreshness(generatedAt, now = Date.now()) {
-  const ageHours = (now - Date.parse(generatedAt)) / 3_600_000;
-  if (!Number.isFinite(ageHours)) return { state: "stale", label: "Snapshot date unavailable" };
-  if (ageHours <= 36) return { state: "fresh", label: "Fresh published snapshot" };
-  const days = Math.max(1, Math.floor(ageHours / 24));
-  return { state: "stale", label: `${days} day${days === 1 ? "" : "s"} since refresh` };
+export function snapshotFreshness(throughDate, now = Date.now()) {
+  const sourceDay = Date.parse(`${throughDate}T00:00:00Z`);
+  const current = new Date(now);
+  const today = Date.UTC(current.getUTCFullYear(), current.getUTCMonth(), current.getUTCDate());
+  if (!Number.isFinite(sourceDay) || !Number.isFinite(today)) {
+    return { state: "stale", label: "Apple report date unavailable" };
+  }
+  const daysBehind = Math.max(0, Math.floor((today - sourceDay) / 86_400_000));
+  if (daysBehind <= 1) return { state: "fresh", label: "Apple report current" };
+  return { state: "stale", label: `Apple data ${daysBehind} days behind` };
 }
 
 function setMode(element, mode) {
@@ -27,9 +31,9 @@ function setMode(element, mode) {
 }
 
 export function renderDashboard(snapshot, doc = globalThis.document, now = Date.now()) {
-  const freshness = snapshotFreshness(snapshot.generatedAt, now);
+  const freshness = snapshotFreshness(snapshot.apple.throughDate, now);
   const status = doc.querySelector("#snapshot-status");
-  status.textContent = `${freshness.label} · ${dateFormat.format(new Date(snapshot.generatedAt))}`;
+  status.textContent = `${freshness.label} · checked ${dateFormat.format(new Date(snapshot.generatedAt))}`;
   status.dataset.state = freshness.state;
 
   doc.querySelector("#first-time-downloads").textContent = numberFormat.format(snapshot.apple.firstTimeDownloads);

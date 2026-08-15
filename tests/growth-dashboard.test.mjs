@@ -19,11 +19,11 @@ test("loads a cache-busted snapshot and exposes an accessible refresh action", (
 });
 
 test("flags old published snapshots", () => {
-  const generatedAt = "2026-08-13T11:34:12Z";
-  assert.equal(snapshotFreshness(generatedAt, Date.parse("2026-08-14T12:00:00Z")).state, "fresh");
-  assert.deepEqual(snapshotFreshness(generatedAt, Date.parse("2026-08-15T12:00:00Z")), {
+  const throughDate = "2026-08-13";
+  assert.equal(snapshotFreshness(throughDate, Date.parse("2026-08-14T12:00:00Z")).state, "fresh");
+  assert.deepEqual(snapshotFreshness(throughDate, Date.parse("2026-08-15T12:00:00Z")), {
     state: "stale",
-    label: "2 days since refresh",
+    label: "Apple data 2 days behind",
   });
 });
 
@@ -46,6 +46,8 @@ test("aggregates only first app units and paid lifetime unlocks", () => {
   });
   assert.match(workflow, /cron: "15 13 \* \* \*"/);
   assert.match(workflow, /ASC_REPORTS_PRIVATE_KEY/);
+  assert.match(workflow, /ref: main/);
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /\/pages\/builds/);
+  assert.match(html, /USD-only proceeds/);
 });
