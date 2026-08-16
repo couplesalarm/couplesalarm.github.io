@@ -34,7 +34,7 @@ jobs:
             echo "::error::Apple reporting secrets are not configured; the dashboard was not refreshed."
             exit 1
           fi
-      - name: Publish latest Apple snapshot
+      - name: Publish latest growth snapshot
         env:
           ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_REPORTS_ISSUER_ID }}

@@ -25,9 +25,10 @@ export function snapshotFreshness(throughDate, now = Date.now()) {
 
 function setMode(element, mode) {
   const automatic = mode === "automatic";
-  element.textContent = automatic ? "Automatic daily" : "Manual snapshot";
+  element.textContent = automatic ? "Automatic daily" : mode === "mixed" ? "Partly automatic" : "Manual snapshot";
   element.classList.toggle("auto", automatic);
-  element.classList.toggle("manual", !automatic);
+  element.classList.toggle("mixed", mode === "mixed");
+  element.classList.toggle("manual", mode === "manual");
 }
 
 export function renderDashboard(snapshot, doc = globalThis.document, now = Date.now()) {
@@ -46,10 +47,16 @@ export function renderDashboard(snapshot, doc = globalThis.document, now = Date.
   appleThrough.textContent = dateFormat.format(new Date(`${snapshot.apple.throughDate}T00:00:00Z`));
   setMode(doc.querySelector("#apple-mode"), snapshot.apple.mode);
   setMode(doc.querySelector("#social-mode"), snapshot.social.mode);
+  setMode(doc.querySelector("#social-source-mode"), snapshot.social.mode);
 
-  const socialUpdated = doc.querySelector("#social-updated");
-  socialUpdated.dateTime = snapshot.social.updatedAt;
-  socialUpdated.textContent = dateFormat.format(new Date(snapshot.social.updatedAt));
+  const sourceParts = ["automatic", "manual"].flatMap((mode) => {
+    const platforms = snapshot.social.platforms.filter((platform) => platform.mode === mode);
+    if (!platforms.length) return [];
+    const checkedAt = Math.min(...platforms.map(({ updatedAt }) => Date.parse(updatedAt)));
+    const label = platforms.map(({ name }) => name).join(" + ");
+    return `${label} ${mode === "automatic" ? "daily" : "manual"} (${dateFormat.format(new Date(checkedAt))})`;
+  });
+  doc.querySelector("#social-source-line").textContent = sourceParts.join(" · ");
 
   const maxViews = Math.max(1, ...snapshot.social.platforms.map(({ views }) => views));
   const bars = snapshot.social.platforms.map(({ name, views }) => {

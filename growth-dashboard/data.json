@@ -10,24 +10,35 @@
     "usRatingCount": 0
   },
   "social": {
-    "mode": "manual",
-    "updatedAt": "2026-08-13T11:34:12Z",
+    "mode": "mixed",
     "platforms": [
       {
         "name": "Facebook",
-        "views": 222
+        "views": 6,
+        "mode": "manual",
+        "updatedAt": "2026-08-16T16:04:48Z",
+        "url": "https://www.facebook.com/reel/1063453539453229"
       },
       {
         "name": "Instagram",
-        "views": 40
+        "views": 7,
+        "mode": "manual",
+        "updatedAt": "2026-08-16T16:04:48Z",
+        "url": "https://www.instagram.com/couplesalarm/reel/DcBdZX6R07v/"
       },
       {
         "name": "X",
-        "views": 4
+        "views": 2,
+        "mode": "automatic",
+        "updatedAt": "2026-08-16T16:04:48Z",
+        "url": "https://x.com/couplesalarm/status/2088261204279963649"
       },
       {
         "name": "YouTube",
-        "views": 1
+        "views": 18,
+        "mode": "automatic",
+        "updatedAt": "2026-08-16T16:04:48Z",
+        "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
       }
     ]
   }
