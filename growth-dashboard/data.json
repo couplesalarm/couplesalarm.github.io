@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T15:27:33.031Z",
+  "generatedAt": "2026-08-16T16:08:32.135Z",
   "apple": {
     "mode": "automatic",
     "throughDate": "2026-08-15",
@@ -30,14 +30,14 @@
         "name": "X",
         "views": 2,
         "mode": "automatic",
-        "updatedAt": "2026-08-16T16:04:48Z",
+        "updatedAt": "2026-08-16T16:08:32.284Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649"
       },
       {
         "name": "YouTube",
         "views": 18,
         "mode": "automatic",
-        "updatedAt": "2026-08-16T16:04:48Z",
+        "updatedAt": "2026-08-16T16:08:32.284Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
       }
     ]
