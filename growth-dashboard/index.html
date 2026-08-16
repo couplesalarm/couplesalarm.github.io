@@ -259,6 +259,7 @@
     }
 
     .mode.auto { border-color: rgb(87 217 223 / 30%); color: var(--cyan); }
+    .mode.mixed { border-color: rgb(255 199 87 / 30%); color: #ffd07a; }
     .mode.manual { border-color: rgb(255 121 87 / 30%); color: #ff9b80; }
 
     .source-line {
@@ -438,15 +439,15 @@
     <section class="reach" aria-labelledby="reach-title">
       <div class="section-head">
         <h2 id="reach-title">Launch-post reach</h2>
-        <span id="social-mode" class="mode manual">Manual snapshot</span>
+        <span id="social-mode" class="mode mixed">Partly automatic</span>
       </div>
       <ul id="social-bars" class="bars" aria-label="Reported launch-post views">
-        <li class="bar-row"><span class="platform">Facebook</span><span class="bar-track"><span class="bar" style="--bar-width:100%"></span></span><span class="bar-value">222</span></li>
-        <li class="bar-row"><span class="platform">Instagram</span><span class="bar-track"><span class="bar" style="--bar-width:18%"></span></span><span class="bar-value">40</span></li>
-        <li class="bar-row"><span class="platform">X</span><span class="bar-track"><span class="bar" style="--bar-width:2%"></span></span><span class="bar-value">4</span></li>
-        <li class="bar-row"><span class="platform">YouTube</span><span class="bar-track"><span class="bar" style="--bar-width:1%"></span></span><span class="bar-value">1</span></li>
+        <li class="bar-row"><span class="platform">Facebook</span><span class="bar-track"><span class="bar" style="--bar-width:33%"></span></span><span class="bar-value">6</span></li>
+        <li class="bar-row"><span class="platform">Instagram</span><span class="bar-track"><span class="bar" style="--bar-width:39%"></span></span><span class="bar-value">7</span></li>
+        <li class="bar-row"><span class="platform">X</span><span class="bar-track"><span class="bar" style="--bar-width:11%"></span></span><span class="bar-value">2</span></li>
+        <li class="bar-row"><span class="platform">YouTube</span><span class="bar-track"><span class="bar" style="--bar-width:100%"></span></span><span class="bar-value">18</span></li>
       </ul>
-      <p class="source-line">Owned-post insights · last manually checked <time id="social-updated" datetime="2026-08-13T11:34:12Z">Aug 13, 2026</time></p>
+      <p id="social-source-line" class="source-line">X + YouTube daily (Aug 16, 2026) · Facebook + Instagram manual (Aug 16, 2026)</p>
     </section>
 
     <section class="sources" aria-labelledby="sources-title">
@@ -457,14 +458,14 @@
           <p>First-time app units, paid unlocks, and USD-denominated proceeds come from Sales &amp; Trends. US rating count comes from Apple’s public catalog.</p>
         </article>
         <article class="source-card">
-          <div class="source-card-head"><h3>Owned social</h3><span class="mode manual">Manual snapshot</span></div>
-          <p>Platform insights remain manual because the owned accounts do not expose one safe, shared public reporting API.</p>
+          <div class="source-card-head"><h3>Owned social</h3><span id="social-source-mode" class="mode mixed">Partly automatic</span></div>
+          <p>X and YouTube public views update daily. Facebook and Instagram remain manual until reporting API access is configured.</p>
         </article>
       </div>
     </section>
 
     <noscript><p class="source-line">JavaScript is off, so this page is showing its built-in snapshot.</p></noscript>
   </main>
-  <script type="module" src="dashboard.js?v=20260815"></script>
+  <script type="module" src="dashboard.js?v=20260816"></script>
 </body>
 </html>

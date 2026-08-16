@@ -2,7 +2,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { snapshotFreshness } from "../growth-dashboard/dashboard.js";
-import { parseSalesTsv, reportDates, summarizeSalesRows } from "../scripts/refresh-growth-dashboard.mjs";
+import {
+  parseSalesTsv,
+  parseXViews,
+  parseYouTubeViews,
+  reportDates,
+  summarizeSalesRows,
+} from "../scripts/refresh-growth-dashboard.mjs";
 
 const html = await readFile(new URL("../growth-dashboard/index.html", import.meta.url), "utf8");
 const client = await readFile(new URL("../growth-dashboard/dashboard.js", import.meta.url), "utf8");
@@ -60,5 +66,17 @@ test("requests explicit daily reports through yesterday", () => {
     "2026-08-13",
     "2026-08-14",
     "2026-08-15",
+  ]);
+});
+
+test("reads public social view counts", () => {
+  assert.equal(parseXViews('name:"Views",userInteractionCount:2'), 2);
+  assert.equal(parseYouTubeViews('{"viewCount":"18"}'), 18);
+  assert.equal(snapshot.social.mode, "mixed");
+  assert.deepEqual(snapshot.social.platforms.map(({ name, mode }) => [name, mode]), [
+    ["Facebook", "manual"],
+    ["Instagram", "manual"],
+    ["X", "automatic"],
+    ["YouTube", "automatic"],
   ]);
 });

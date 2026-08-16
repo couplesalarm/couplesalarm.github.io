@@ -6,6 +6,22 @@ import { resolve } from "node:path";
 
 const snapshotPath = new URL("../growth-dashboard/data.json", import.meta.url);
 const appUnitTypes = new Set(["1", "1F", "1T", "F1"]);
+const socialSources = new Map([
+  ["X", { url: "https://x.com/couplesalarm/status/2088261204279963649", parse: parseXViews }],
+  ["YouTube", { url: "https://www.youtube.com/shorts/cIhu0YqJFW4", parse: parseYouTubeViews }],
+]);
+
+export function parseXViews(html) {
+  const match = html.match(/name:"Views",userInteractionCount:(\d+)/);
+  if (!match) throw new Error("X view count was not found");
+  return Number(match[1]);
+}
+
+export function parseYouTubeViews(html) {
+  const match = html.match(/"viewCount":"(\d+)"/);
+  if (!match) throw new Error("YouTube view count was not found");
+  return Number(match[1]);
+}
 
 export function parseSalesTsv(input) {
   const lines = input.replace(/^\uFEFF/, "").trim().split(/\r?\n/);
@@ -97,6 +113,38 @@ async function publicRatingCount(appId, fetchImpl = fetch) {
   return Number(result.userRatingCount || 0);
 }
 
+async function refreshPublicSocial(social, fetchImpl = fetch) {
+  const updatedAt = new Date().toISOString();
+  const platforms = await Promise.all(social.platforms.map(async (platform) => {
+    const source = socialSources.get(platform.name);
+    if (!source) return platform;
+
+    try {
+      const response = await fetchImpl(source.url, {
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; CouplesAlarmGrowthDashboard/1.0)" },
+      });
+      if (!response.ok) throw new Error(`request failed (${response.status})`);
+      return {
+        ...platform,
+        views: source.parse(await response.text()),
+        mode: "automatic",
+        updatedAt,
+        url: source.url,
+      };
+    } catch (error) {
+      console.warn(`${platform.name} social refresh failed: ${error.message}`);
+      return { ...platform, mode: "automatic", url: source.url };
+    }
+  }));
+
+  const automaticCount = platforms.filter(({ mode }) => mode === "automatic").length;
+  return {
+    ...social,
+    mode: automaticCount === platforms.length ? "automatic" : automaticCount ? "mixed" : "manual",
+    platforms,
+  };
+}
+
 async function privateKeyFrom(env) {
   if (env.ASC_PRIVATE_KEY) return env.ASC_PRIVATE_KEY.replaceAll("\\n", "\n");
   if (env.ASC_PRIVATE_KEY_PATH) return readFile(env.ASC_PRIVATE_KEY_PATH, "utf8");
@@ -134,6 +182,7 @@ export async function refreshGrowthDashboard(env = process.env, fetchImpl = fetc
     ...summarizeSalesRows(reports, { appId, iapSku }),
     usRatingCount: await publicRatingCount(appId, fetchImpl),
   };
+  snapshot.social = await refreshPublicSocial(snapshot.social, fetchImpl);
   await writeFile(snapshotPath, `${JSON.stringify(snapshot, null, 2)}\n`);
   return snapshot;
 }
