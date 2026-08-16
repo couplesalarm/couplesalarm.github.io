@@ -47,6 +47,8 @@ test("aggregates only first app units and paid lifetime unlocks", () => {
   assert.match(workflow, /cron: "15 13 \* \* \*"/);
   assert.match(workflow, /ASC_REPORTS_PRIVATE_KEY/);
   assert.match(workflow, /ref: main/);
+  assert.match(workflow, /Apple reporting secrets are not configured/);
+  assert.doesNotMatch(workflow, /ready=false|keeping the last dashboard snapshot/);
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /\/pages\/builds/);
   assert.match(html, /USD-only proceeds/);

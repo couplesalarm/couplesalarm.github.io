@@ -24,21 +24,17 @@ jobs:
         with:
           node-version: 22
       - name: Check reporting configuration
-        id: config
         env:
           ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_REPORTS_ISSUER_ID }}
           ASC_PRIVATE_KEY: ${{ secrets.ASC_REPORTS_PRIVATE_KEY }}
           ASC_VENDOR_NUMBER: ${{ secrets.ASC_VENDOR_NUMBER }}
         run: |
-          if [[ -n "$ASC_KEY_ID" && -n "$ASC_ISSUER_ID" && -n "$ASC_PRIVATE_KEY" && -n "$ASC_VENDOR_NUMBER" ]]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Apple reporting secrets are not configured; keeping the last dashboard snapshot."
+          if [[ -z "$ASC_KEY_ID" || -z "$ASC_ISSUER_ID" || -z "$ASC_PRIVATE_KEY" || -z "$ASC_VENDOR_NUMBER" ]]; then
+            echo "::error::Apple reporting secrets are not configured; the dashboard was not refreshed."
+            exit 1
           fi
       - name: Publish latest Apple snapshot
-        if: steps.config.outputs.ready == 'true'
         env:
           ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_REPORTS_ISSUER_ID }}
@@ -47,7 +43,6 @@ jobs:
         run: node scripts/refresh-growth-dashboard.mjs
       - name: Commit changed snapshot
         id: update
-        if: steps.config.outputs.ready == 'true'
         run: |
           if git diff --quiet -- growth-dashboard/data.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
