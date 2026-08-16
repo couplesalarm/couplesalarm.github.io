@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { snapshotFreshness } from "../growth-dashboard/dashboard.js";
-import { parseSalesTsv, summarizeSalesRows } from "../scripts/refresh-growth-dashboard.mjs";
+import { parseSalesTsv, reportDates, summarizeSalesRows } from "../scripts/refresh-growth-dashboard.mjs";
 
 const html = await readFile(new URL("../growth-dashboard/index.html", import.meta.url), "utf8");
 const client = await readFile(new URL("../growth-dashboard/dashboard.js", import.meta.url), "utf8");
@@ -44,7 +44,7 @@ test("aggregates only first app units and paid lifetime unlocks", () => {
     netPaidUnlocks: 1,
     estimatedProceedsUsd: 7,
   });
-  assert.match(workflow, /cron: "15 13 \* \* \*"/);
+  assert.match(workflow, /cron: "15 17 \* \* \*"/);
   assert.match(workflow, /ASC_REPORTS_PRIVATE_KEY/);
   assert.match(workflow, /ref: main/);
   assert.match(workflow, /Apple reporting secrets are not configured/);
@@ -52,4 +52,13 @@ test("aggregates only first app units and paid lifetime unlocks", () => {
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /\/pages\/builds/);
   assert.match(html, /USD-only proceeds/);
+});
+
+test("requests explicit daily reports through yesterday", () => {
+  assert.deepEqual(reportDates("2026-08-12", Date.parse("2026-08-16T17:15:00Z")), [
+    "2026-08-12",
+    "2026-08-13",
+    "2026-08-14",
+    "2026-08-15",
+  ]);
 });
