@@ -83,6 +83,12 @@ function datesBetween(start, end) {
   return dates;
 }
 
+export function reportDates(startDate, now = Date.now()) {
+  const cutoff = new Date(now);
+  cutoff.setUTCDate(cutoff.getUTCDate() - 1);
+  return datesBetween(startDate, cutoff.toISOString().slice(0, 10));
+}
+
 async function publicRatingCount(appId, fetchImpl = fetch) {
   const response = await fetchImpl(`https://itunes.apple.com/lookup?id=${appId}&country=us`);
   if (!response.ok) throw new Error(`Apple catalog request failed (${response.status})`);
@@ -111,16 +117,12 @@ export async function refreshGrowthDashboard(env = process.env, fetchImpl = fetc
     privateKey: await privateKeyFrom(env),
   });
 
-  const latest = await downloadSalesReport({ token, vendorNumber: env.ASC_VENDOR_NUMBER }, fetchImpl);
-  if (!latest?.length) throw new Error("Apple has not published a Sales & Trends report yet");
-  const throughDate = latest.map((row) => toIsoDate(row["End Date"])).sort().at(-1);
-  if (!throughDate || throughDate < startDate) throw new Error("Latest Apple report predates the launch window");
-
   const reports = [];
-  for (const date of datesBetween(startDate, throughDate)) {
-    const rows = date === throughDate
-      ? latest
-      : await downloadSalesReport({ date, token, vendorNumber: env.ASC_VENDOR_NUMBER }, fetchImpl);
+  const dates = reportDates(startDate);
+  const throughDate = dates.at(-1);
+  if (!throughDate) throw new Error("Apple report window predates the launch date");
+  for (const date of dates) {
+    const rows = await downloadSalesReport({ date, token, vendorNumber: env.ASC_VENDOR_NUMBER }, fetchImpl);
     if (rows) reports.push(...rows);
   }
 
