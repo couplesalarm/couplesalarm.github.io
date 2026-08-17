@@ -33,11 +33,17 @@
   }
   window.gtag = gtag;
 
+  // analytics_storage stays "granted" on purpose. It is a permission, not an
+  // action: client_storage "none" below is what actually stops gtag writing
+  // anything, and it wins regardless. Denying it as well would downgrade every
+  // hit to a cookieless consent-mode ping, which GA4 only ever surfaces through
+  // behavioral modeling — and a property this small will never reach the
+  // modeling thresholds, so the reports would stay empty forever.
   gtag("consent", "default", {
     ad_storage: "denied",
     ad_user_data: "denied",
     ad_personalization: "denied",
-    analytics_storage: "denied",
+    analytics_storage: "granted",
   });
   gtag("set", "ads_data_redaction", true);
   gtag("set", "url_passthrough", false);
