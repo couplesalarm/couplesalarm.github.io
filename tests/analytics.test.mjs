@@ -109,10 +109,10 @@ test("configures analytics without cookies, storage, or ad signals", () => {
   for (const key of ["ad_storage", "ad_user_data", "ad_personalization"]) {
     assert.equal(consentState[key], "denied", `${key} must default to denied`);
   }
-  // Denying this would reduce every hit to a modeling-only ping and leave the
-  // reports permanently empty; client_storage "none" is the real no-cookie
-  // guarantee, so granting the permission costs nothing.
-  assert.equal(consentState.analytics_storage, "granted");
+  // Granting this writes _ga cookies on the live site — GA4 does not honor
+  // client_storage "none". The privacy policy promises no cookies, so this
+  // must stay denied unless the policy changes first.
+  assert.equal(consentState.analytics_storage, "denied");
 
   const config = byCommand("config").find(([, id]) => id === "G-TEST12345");
   assert.ok(config, "expected a config call for the Measurement ID");
