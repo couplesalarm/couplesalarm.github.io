@@ -1,0 +1,38 @@
+name: Email monthly page views
+
+on:
+  schedule:
+    # 13:05 UTC on the 1st, covering the whole previous calendar month.
+    - cron: "5 13 1 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: monthly-page-view-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check reporting configuration
+        env:
+          MONTHLY_REPORT_TOKEN: ${{ secrets.MONTHLY_REPORT_TOKEN }}
+        run: |
+          if [[ -z "$MONTHLY_REPORT_TOKEN" ]]; then
+            echo "::error::MONTHLY_REPORT_TOKEN is not configured; no report was sent."
+            exit 1
+          fi
+      - name: Send the monthly page view report
+        env:
+          MONTHLY_REPORT_TOKEN: ${{ secrets.MONTHLY_REPORT_TOKEN }}
+        run: |
+          response=$(mktemp)
+          status=$(curl -sS -o "$response" -w "%{http_code}" -X POST \
+            -H "Authorization: Bearer $MONTHLY_REPORT_TOKEN" \
+            "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/email-monthly-page-views")
+          cat "$response"
+          echo
+          if [[ "$status" != "200" ]]; then
+            echo "::error::Report function returned HTTP $status"
+            exit 1
+          fi

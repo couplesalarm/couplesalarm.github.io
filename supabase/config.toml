@@ -9,3 +9,10 @@ verify_jwt = false
 
 [functions.list-couples-alarm-feedback]
 verify_jwt = false
+
+[functions.record-page-view]
+verify_jwt = false
+
+# Guarded by MONTHLY_REPORT_TOKEN instead, so the scheduled job can call it.
+[functions.email-monthly-page-views]
+verify_jwt = false
