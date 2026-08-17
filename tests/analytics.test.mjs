@@ -106,14 +106,13 @@ test("configures analytics without cookies, storage, or ad signals", () => {
 
   const [[, consentMode, consentState]] = byCommand("consent");
   assert.equal(consentMode, "default");
-  for (const key of [
-    "ad_storage",
-    "ad_user_data",
-    "ad_personalization",
-    "analytics_storage",
-  ]) {
+  for (const key of ["ad_storage", "ad_user_data", "ad_personalization"]) {
     assert.equal(consentState[key], "denied", `${key} must default to denied`);
   }
+  // Denying this would reduce every hit to a modeling-only ping and leave the
+  // reports permanently empty; client_storage "none" is the real no-cookie
+  // guarantee, so granting the permission costs nothing.
+  assert.equal(consentState.analytics_storage, "granted");
 
   const config = byCommand("config").find(([, id]) => id === "G-TEST12345");
   assert.ok(config, "expected a config call for the Measurement ID");
