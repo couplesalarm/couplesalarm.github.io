@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T17:46:03.437Z",
+  "generatedAt": "2026-08-21T17:45:48.913Z",
   "apple": {
     "mode": "automatic",
-    "throughDate": "2026-08-19",
+    "throughDate": "2026-08-20",
     "firstTimeDownloads": 9,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 0
+    "usRatingCount": 1
   },
   "social": {
     "mode": "mixed",
@@ -30,14 +30,14 @@
         "name": "X",
         "views": 2,
         "mode": "automatic",
-        "updatedAt": "2026-08-20T17:46:03.613Z",
+        "updatedAt": "2026-08-21T17:45:49.179Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649"
       },
       {
         "name": "YouTube",
         "views": 18,
         "mode": "automatic",
-        "updatedAt": "2026-08-20T17:46:03.613Z",
+        "updatedAt": "2026-08-21T17:45:49.179Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
       }
     ]
