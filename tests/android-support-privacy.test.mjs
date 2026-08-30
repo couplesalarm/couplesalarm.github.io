@@ -64,4 +64,5 @@ test("keeps privacy section links valid", () => {
     assert.ok(privacy.includes(`id="${target}"`), target);
   }
   assert.match(privacy, /id="on-your-iphone"/); // Preserve existing external anchors.
+  assert.match(privacy, /href="mailto:couplesalarm.support@gmail.com">couplesalarm.support@<wbr>gmail.com/);
 });
