@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-26T19:52:48.427Z",
+  "generatedAt": "2026-09-27T20:09:17.726Z",
   "apple": {
     "mode": "automatic",
-    "throughDate": "2026-09-25",
+    "throughDate": "2026-09-26",
     "firstTimeDownloads": 14,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
@@ -37,7 +37,7 @@
         "name": "YouTube",
         "views": 18,
         "mode": "automatic",
-        "updatedAt": "2026-09-26T19:52:48.592Z",
+        "updatedAt": "2026-09-27T20:09:19.429Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
       }
     ]
