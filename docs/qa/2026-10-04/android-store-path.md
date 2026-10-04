@@ -30,7 +30,7 @@ and the private Android readiness record in the task workspace.
 
 ## Validation
 
-- Current website candidate: `node --test tests/*.test.mjs` passed **85/85**.
+- Current website candidate: `node --test tests/*.test.mjs` passed **86/86**.
   The new regression checks ensure a visible Android status without a Play
   link or interactive download control, and the official Apple badge on
   `/download/`. The iOS-only SoftwareApplication schema and USD 0
@@ -68,3 +68,9 @@ Screenshots from exact PR #88:
 Screenshots from this Android draft:
 [homepage mobile](android-home-webkit-mobile.png) ·
 [download page mobile](android-download-webkit-mobile.png).
+
+Release preparation: after the Android review disclosure, the full suite passed
+86/86. The homepage and shared CSS URLs now use `20261004-android-path-1`
+to refresh returning visitors' cached styles. Brian directly authorized website
+deployment on October 4; final publishing and live-byte verification are recorded
+in the release task evidence.
