@@ -26,15 +26,15 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and accurate wording", () => {
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
-  assert.match(html, /landing\.css\?v=20260812-option3-test-cta-v2/);
+  assert.match(html, /landing\.css\?v=20261004-fit-offer-1/);
   assert.match(html, /For couples who hear tones differently/);
   assert.match(html, /Find a tone<br><span>together\.<\/span>/);
-  assert.match(html, /A personalized alarm utility for couples who hear tones differently\. Take the quick test together to see if it could work for you\./);
+  assert.match(html, /An iPhone alarm utility for couples who hear tones differently\. Choose who needs to wake first/);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /class="hero-actions"/);
   assert.match(
     html,
-    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg\?v=20260812-option3" alt="" aria-hidden="true">[\s\S]*<strong>Test Couples Alarm first<\/strong>[\s\S]*<small>Quick two-person check before downloading<\/small>[\s\S]*<img src="assets\/chevron-right\.svg" alt="" aria-hidden="true">/,
+    /<a class="test-link" href="compatibility\/">[\s\S]*<img class="soundwave-icon" src="assets\/soundwave\.svg\?v=20260812-option3" alt="" aria-hidden="true">[\s\S]*<strong>Try the browser preview<\/strong>[\s\S]*<small>Confirm the fit in free iPhone setup<\/small>[\s\S]*<img src="assets\/chevron-right\.svg" alt="" aria-hidden="true">/,
   );
   assert.match(css, /\.test-link\s*\{[^}]*min-height:\s*max\(44px, 3\.5rem\)/);
   assert.match(ruleBody(".test-link"), /background:\s*linear-gradient\(105deg, #bd23df, #7358ef 54%, #27cbe3\)/);
@@ -73,4 +73,31 @@ test("retains scrolling, accessible targets, and video behavior", () => {
   assert.match(html, /video\.onclick = \(\) => \{/);
   assert.match(html, /video\.controls = true/);
   assert.match(css, /video:fullscreen,[\s\S]*video:-webkit-full-screen\s*\{[^}]*object-fit:\s*contain/);
+});
+
+test("explains eligibility, free fit and access before visitors commit", () => {
+  const body = html.slice(html.indexOf('<body>'));
+  assert.match(body, /iPhone · iOS 26 or later/);
+  assert.match(body, /Setup and the bedside fit check are free/);
+  assert.match(body, /Completing setup starts one calendar month of full access/);
+  assert.match(body, /\$9\.99 one-time lifetime purchase in the U\.S\., with no subscription/);
+  assert.match(body, /person waking first can hear a tested tone their partner does not/);
+  assert.match(body, /browser preview cannot confirm that fit/);
+  assert.match(body, /keep using an alarm you trust/);
+  assert.match(body, /No alarm setup guarantees/);
+  assert.match(body, /not a medical assessment/);
+  assert.match(body, /Already scheduled alarms remain active when the free month ends/);
+});
+
+test("search markup keeps the free download distinct from continued access", () => {
+  const schema = JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.equal(schema.operatingSystem, 'iOS 26.0 or later');
+  assert.equal(schema.offers.price, '0');
+  assert.equal(schema.offers.priceCurrency, 'USD');
+  assert.match(schema.description, /Free setup and bedside fit check/);
+  assert.match(schema.description, /one calendar month of full access starts after setup/);
+  assert.match(schema.description, /\$9\.99 one-time lifetime purchase in the U\.S/);
+  assert.equal(schema.downloadUrl, 'https://apps.apple.com/us/app/couples-alarm/id6792771975');
+  assert.equal(schema.aggregateRating, undefined);
+  assert.equal(schema.review, undefined);
 });
