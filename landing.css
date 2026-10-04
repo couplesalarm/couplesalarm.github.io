@@ -475,6 +475,17 @@ h1 span {
 }
 
 /* Keep eligibility and the offer beside the download action at every size. */
+.android-availability {
+  display: flex;
+  max-width: 42ch;
+  margin: 0.85rem 0 0;
+  flex-wrap: wrap;
+  gap: 0.1rem 0.5rem;
+  color: #bdc7ca;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.android-availability strong { color: var(--aqua); }
 .offer-copy {
   display: grid;
   max-width: 42ch;
@@ -498,6 +509,7 @@ h1 span {
 }
 .fit-guidance p { margin: 0.8rem 0 0; color: #bdc7ca; }
 @media (max-width: 720px) {
+  .android-availability { max-width: none; }
   .offer-copy { max-width: none; font-size: 0.85rem; }
   .fit-guidance { padding-block: 1.5rem 2rem; }
 }

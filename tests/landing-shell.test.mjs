@@ -25,11 +25,11 @@ test("restores the three-part desktop landing", () => {
 });
 
 test("keeps the direct test action and accurate wording", () => {
-  assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
+  assert.match(html, /<meta name="description" content="Couples Alarm helps partners find and confirm a tone together\./);
   assert.match(html, /landing\.css\?v=20261004-fit-offer-1/);
   assert.match(html, /For couples who hear tones differently/);
   assert.match(html, /Find a tone<br><span>together\.<\/span>/);
-  assert.match(html, /An iPhone alarm utility for couples who hear tones differently\. Choose who needs to wake first/);
+  assert.match(html, /An alarm utility for couples who hear tones differently\. Choose who needs to wake first/);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /class="hero-actions"/);
   assert.match(
@@ -77,6 +77,8 @@ test("retains scrolling, accessible targets, and video behavior", () => {
 
 test("explains eligibility, free fit and access before visitors commit", () => {
   const body = html.slice(html.indexOf('<body>'));
+  assert.match(body, /Android · private testing/);
+  assert.match(body, /There is no public Google Play download yet/);
   assert.match(body, /iPhone · iOS 26 or later/);
   assert.match(body, /Setup and the bedside fit check are free/);
   assert.match(body, /Completing setup starts one calendar month of full access/);
@@ -87,6 +89,18 @@ test("explains eligibility, free fit and access before visitors commit", () => {
   assert.match(body, /No alarm setup guarantees/);
   assert.match(body, /not a medical assessment/);
   assert.match(body, /Already scheduled alarms remain active when the free month ends/);
+});
+
+test("keeps Android's future store path inactive while preserving the official iPhone badge", async () => {
+  const download = await readFile(new URL("../download/index.html", import.meta.url), "utf8");
+  const android = download.match(/<section class="notice android-testing"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(android, "Android availability section must remain visible");
+  assert.match(android, /data-google-play-download="unavailable"/);
+  assert.match(android, /no public Google Play listing or download link/);
+  assert.doesNotMatch(android, /<a\b|<button\b|href=/);
+  assert.doesNotMatch(html + download, /play\.google\.com\/store\/apps\/details/);
+  assert.match(download, /developer\.apple\.com\/assets\/elements\/badges\/download-on-the-app-store\.svg/);
+  assert.match(download, /alt="Download on the App Store"/);
 });
 
 test("search markup keeps the free download distinct from continued access", () => {
