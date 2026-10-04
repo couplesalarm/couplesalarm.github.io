@@ -9,8 +9,8 @@
 //
 // This beacon does. It sends the page path and the referrer host to our own
 // Supabase function and nothing else. No cookie, no browser storage, no
-// advertising network, and no identifier that survives the request. Because it
-// stores nothing on the visitor's device, it needs no consent banner.
+// advertising network, or client-generated visitor identifier. The recorder
+// retains only its existing approximate, daily visitor hash.
 (function () {
   "use strict";
 
@@ -28,10 +28,23 @@
     navigator.msDoNotTrack === "1";
   if (doNotTrack) return;
 
+  const referrerOrigin = function (value) {
+    if (!value) return null;
+    try {
+      const url = new URL(value);
+      if (url.protocol !== "https:" && url.protocol !== "http:") return null;
+      // Keep a URL the recorder can parse, but send only its scheme and host.
+      // Do not transmit credentials, port, path, query string, or fragment.
+      return url.protocol + "//" + url.hostname;
+    } catch (error) {
+      return null;
+    }
+  };
+
   const payload = JSON.stringify({
     // Query strings and fragments can carry personal data, so never send them.
     path: window.location.pathname,
-    referrer: document.referrer || null,
+    referrer: referrerOrigin(document.referrer),
   });
 
   const send = function () {
@@ -43,6 +56,7 @@
         keepalive: true,
         mode: "cors",
         credentials: "omit",
+        referrerPolicy: "no-referrer",
         cache: "no-store",
       }).catch(function () {});
     } catch (error) {

@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Take a quick test together to see if Couples Alarm could work for you.">
+  <meta name="description" content="Try a two-person browser preview, then confirm fit together in free Couples Alarm setup on an iPhone with iOS 26 or later.">
   <meta name="apple-itunes-app" content="app-id=6792771975">
   <meta name="theme-color" content="#06111a">
   <link rel="canonical" href="https://couplesalarm.com/compatibility/">
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Try Couples Alarm together</title>
-  <link rel="stylesheet" href="compatibility.css?v=20260813-handoff-result-1">
-  <script defer src="../assets/analytics.js?v=20260817-firstparty-1"></script>
+  <link rel="stylesheet" href="compatibility.css?v=20261004-preview-fit-1">
+  <script defer src="../assets/analytics.js?v=20261004-referrer-host-1"></script>
 </head>
 <body>
   <a class="skip-link" href="#test-content">Skip to the Couples Alarm test</a>
@@ -39,17 +39,22 @@
       <section class="screen ready-screen" data-screen="ready" aria-labelledby="ready-title">
         <div class="ready-heading">
           <h1 id="ready-title">See if Couples Alarm could <span>work for you.</span></h1>
-          <p data-device-intro>Take the test together on this device.</p>
+          <p data-device-intro>Try the browser preview together on this device.</p>
+          <p class="ready-limit">Browser, device and volume affect this preview. It cannot confirm app fit.</p>
+          <p class="ready-fit">Couples Alarm only works if the person who needs to wake up can hear a sound their partner can’t.</p>
         </div>
 
         <figure class="ready-scene">
-          <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="Two partners and their dog trying Couples Alarm together">
+          <picture>
+            <source srcset="../assets/compatibility-flow-couple.webp?v=20261004" type="image/webp">
+            <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="Two partners and their dog trying Couples Alarm together" width="1536" height="1024" decoding="async">
+          </picture>
         </figure>
 
         <div class="ready-actions">
           <button class="primary-action" type="button" data-start-preview>
             <img src="../assets/play-fill.svg" alt="">
-            <span>Start the test</span>
+            <span>Start the preview</span>
           </button>
         </div>
       </section>
@@ -140,7 +145,10 @@
 
       <section class="screen handoff-screen" data-screen="handoff" aria-labelledby="handoff-title" hidden>
         <figure>
-          <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="">
+          <picture>
+            <source srcset="../assets/compatibility-flow-couple.webp?v=20261004" type="image/webp">
+            <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="" width="1536" height="1024" decoding="async">
+          </picture>
         </figure>
         <div>
           <h2 id="handoff-title">Pass the device to <span data-next-partner>Partner Two</span>.</h2>
@@ -163,8 +171,8 @@
 
       <section class="screen result-screen" data-screen="result" aria-labelledby="result-title" hidden>
         <div class="result-glow" aria-hidden="true"></div>
-        <p class="eyebrow">Your test result</p>
-        <h2 id="result-title" data-result-title>A possible match</h2>
+        <p class="eyebrow">Your browser preview</p>
+        <h2 id="result-title" data-result-title>A possible range</h2>
         <strong class="result-range" data-sweet-spot-value>No clear range</strong>
         <div class="result-spectrum" data-result-spectrum role="img" aria-label="Partner frequency comparison">
           <div class="result-spectrum-track" aria-hidden="true">
@@ -174,7 +182,7 @@
           </div>
           <div class="result-spectrum-labels" aria-hidden="true">
             <span>Lower pitch</span>
-            <strong>Possible match</strong>
+            <strong>Possible range</strong>
             <span>Higher pitch</span>
           </div>
           <div class="result-partners" aria-label="Partner frequency results">
@@ -188,9 +196,11 @@
             </div>
           </div>
         </div>
-        <p class="result-limit" data-result-limit>Confirm this range with a bedside alarm before relying on it.</p>
+        <p class="result-limit" data-result-limit>Confirm a bundled tone together in free iPhone setup.</p>
+        <p class="result-context">Browser, device and volume affect this preview; it cannot confirm app fit. Keep using an alarm you trust.</p>
         <div class="result-actions">
-          <a class="primary-action" href="../">Back to Couples Alarm</a>
+          <a class="primary-action" href="https://apps.apple.com/us/app/couples-alarm/id6792771975" aria-describedby="result-setup-note">Confirm in free iPhone setup</a>
+          <p id="result-setup-note" class="result-setup-note">iOS 26 or later · Setup and the fit test are free.</p>
           <button class="text-action" type="button" data-restart>Try again</button>
         </div>
       </section>
@@ -199,6 +209,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20260813-handoff-result-1"></script>
+  <script src="compatibility.js?v=20261004-preview-fit-1"></script>
 </body>
 </html>
