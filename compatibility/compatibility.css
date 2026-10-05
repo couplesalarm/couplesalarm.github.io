@@ -289,17 +289,10 @@ h2 em {
   text-shadow: 0 1rem 4rem rgb(82 219 226 / 10%);
 }
 
-.ready-heading > p {
+.ready-heading > p:last-child {
   margin: 0.55rem auto 0;
   color: var(--muted);
   font-size: 0.9rem;
-}
-
-.ready-heading .ready-limit,
-.ready-heading .ready-fit {
-  max-width: 38rem;
-  font-size: 0.8rem;
-  line-height: 1.4;
 }
 
 .ready-scene {
@@ -325,7 +318,7 @@ h2 em {
     1rem 0 3rem rgb(82 219 226 / 10%);
 }
 
-.ready-scene img {
+.ready-scene > img {
   display: block;
   width: 100%;
   height: 100%;
@@ -1086,16 +1079,11 @@ h2 em {
   color: var(--muted);
 }
 
-.result-limit,
-.result-context {
+.result-limit {
   max-width: 34rem;
   margin: 0;
   color: var(--muted);
   font-size: 0.78rem;
-}
-
-.result-context {
-  font-size: 0.75rem;
 }
 
 .result-actions {
@@ -1107,13 +1095,6 @@ h2 em {
 
 .result-actions .primary-action {
   min-height: 3.8rem;
-  grid-template-columns: 1fr;
-}
-
-.result-setup-note {
-  margin: 0.4rem 0 0;
-  color: var(--muted);
-  font-size: 0.75rem;
 }
 
 .error-message {
@@ -1839,18 +1820,4 @@ h2 em {
   .result-actions .primary-action {
     min-height: 3.2rem;
   }
-}
-
-.ready-scene picture { display: block; width: 100%; height: 100%; }
-
-/* Let long result copy extend below the progress row on short screens. */
-@media (max-height: 640px) and (min-width: 761px) {
-  .result-screen {
-    height: auto;
-    align-content: start;
-    padding-block: 0.75rem;
-  }
-}
-@media (max-height: 640px) and (min-width: 761px) {
-  .result-spectrum-track { margin-bottom: 2rem; }
 }

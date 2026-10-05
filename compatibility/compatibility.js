@@ -16,6 +16,7 @@
     navigator.audioSession.type = "playback";
   }
 
+  const wakingPartner = 0;
   const listeningOrder = [0, 1];
   let turn = 0;
   let responses = [undefined, undefined];
@@ -70,21 +71,21 @@
   const currentDeviceCopy = () =>
     isIPhone
       ? {
-          intro: "Try the browser preview together on this iPhone.",
+          intro: "Take the test together on this iPhone.",
           title: "iPhone speaker",
         }
       : isIPad
         ? {
-            intro: "Try the browser preview together on this iPad.",
+            intro: "Take the test together on this iPad.",
             title: "iPad speaker",
           }
         : phoneQuery.matches
           ? {
-              intro: "Try the browser preview together on this phone.",
+              intro: "Take the test together on this phone.",
               title: "Phone speaker",
             }
           : {
-              intro: "Try the browser preview together on this device.",
+              intro: "Take the test together on this device.",
               title: "Built-in speakers",
             };
 
@@ -311,52 +312,35 @@
   };
 
   const showResult = () => {
-    // The browser preview does not ask who needs to wake first. Identify the
-    // partner for this possible range without selecting a waking schedule.
-    const firstResponse = responses[0];
-    const secondResponse = responses[1];
-    const firstMatch =
-      firstResponse !== null &&
-      (secondResponse === null ||
-        firstResponse - secondResponse >= minimumMatchGap);
-    const secondMatch =
-      secondResponse !== null &&
-      (firstResponse === null ||
-        secondResponse - firstResponse >= minimumMatchGap);
-    const matchedPartner = firstMatch
-      ? 0
-      : secondMatch
-        ? 1
+    const sleepingPartner = wakingPartner === 0 ? 1 : 0;
+    const wakingResponse = responses[wakingPartner];
+    const sleepingResponse = responses[sleepingPartner];
+    const requestedMatch =
+      wakingResponse !== null &&
+      (sleepingResponse === null ||
+        wakingResponse - sleepingResponse >= minimumMatchGap);
+    const reverseMatch =
+      sleepingResponse !== null &&
+      (wakingResponse === null ||
+        sleepingResponse - wakingResponse >= minimumMatchGap);
+    const matchedPartner = requestedMatch
+      ? wakingPartner
+      : reverseMatch
+        ? sleepingPartner
         : undefined;
 
-    const otherPartner = matchedPartner === 0 ? 1 : 0;
-    const highFrequency = matchedPartner === undefined
-      ? undefined
-      : responses[matchedPartner] - sweetSpotMargin;
-    const lowFrequency = matchedPartner === undefined
-      ? undefined
-      : (responses[otherPartner] ?? endFrequency) + sweetSpotMargin;
-    // A missing response can leave no range inside the sweep after margins.
-    // Ignore floating-point dust at equal margins as well as reversed bounds.
-    const rangeTolerance = Number.EPSILON * startFrequency * 4;
-    const hasRange = matchedPartner !== undefined &&
-      highFrequency - lowFrequency > rangeTolerance;
-    document.querySelector("[data-sweet-spot-value]").hidden = !hasRange;
+    const hasRange = matchedPartner !== undefined;
     setText(
       "[data-result-title]",
-      hasRange
-        ? `Possible range for ${partnerLabels[matchedPartner]}`
-        : "No clear range",
+      hasRange ? "A possible match" : "No clear match",
     );
     setText(
       "[data-result-limit]",
       hasRange
-        ? `This only fits your plan if ${partnerLabels[matchedPartner]} needs to wake up and can hear a sound ${partnerLabels[matchedPartner === 0 ? 1 : 0]} can’t. Confirm a bundled tone together in free iPhone setup.`
+        ? "Confirm this range with a bedside alarm before relying on it."
         : responses.every((response) => response === null)
-          ? "Neither partner heard the sweep. You can still check for a suitable bundled tone in free iPhone setup."
-          : matchedPartner !== undefined
-            ? "The preview did not show a usable range. You can still check for a suitable bundled tone in free iPhone setup."
-            : "The two results were too close to show a range. You can still check for a suitable bundled tone in free iPhone setup.",
+          ? "Neither partner heard the sweep."
+          : "The two results were too close to show a useful gap.",
     );
     setText("[data-result-partner-one-label]", partnerLabels[0]);
     setText("[data-result-partner-two-label]", partnerLabels[1]);
@@ -396,9 +380,13 @@
       setText("[data-sweet-spot-value]", "No clear range");
       resultSpectrum.setAttribute(
         "aria-label",
-        `${resultDescription}. No clear range in this browser preview.`,
+        `${resultDescription}. No clear alarm sweet spot.`,
       );
     } else {
+      const otherPartner = matchedPartner === 0 ? 1 : 0;
+      const highFrequency = responses[matchedPartner] - sweetSpotMargin;
+      const lowFrequency =
+        (responses[otherPartner] ?? endFrequency) + sweetSpotMargin;
       sweetSpotBand.hidden = false;
       sweetSpotBand.style.left = `${frequencyPosition(lowFrequency)}%`;
       sweetSpotBand.style.width = `${frequencyPosition(highFrequency) - frequencyPosition(lowFrequency)}%`;
@@ -408,7 +396,7 @@
       );
       resultSpectrum.setAttribute(
         "aria-label",
-        `${resultDescription}. Possible browser preview range from ${kilohertzText(lowFrequency)} to ${kilohertzText(highFrequency)} kilohertz for ${partnerLabels[matchedPartner]}. This does not confirm app fit.`,
+        `${resultDescription}. Possible alarm sweet spot from ${kilohertzText(lowFrequency)} to ${kilohertzText(highFrequency)} kilohertz for ${partnerLabels[matchedPartner]}.`,
       );
     }
     setProgress(3);
