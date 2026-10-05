@@ -35,6 +35,12 @@ test("keeps Android testing separate from public availability", () => {
   assert.doesNotMatch(`${privacy}\n${support}`, /href="https:\/\/play\.google\.com\/store\/apps/);
 });
 
+test("discloses Android review handling", () => {
+  assert.match(privacy, /id="android-reviews"/);
+  assert.match(privacy, /Google Play decides whether to show the card/);
+  assert.match(privacy, /does not store your rating or review text/);
+});
+
 test("gives separate Android permissions and real alarm-test instructions", () => {
   for (const label of ["Exact alarms", "Notifications", "Full-screen alarms", "Alarm notification channel"]) {
     assert.ok(support.includes(`<strong>${label}</strong>`), label);
