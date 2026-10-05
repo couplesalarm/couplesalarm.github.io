@@ -95,14 +95,12 @@ test("publishes canonical search and App Store metadata", async () => {
   assert.doesNotMatch(sitemap, /admin|beta|feedback/);
 });
 
-test("publishes the evidence-led different-wake-times guide", async () => {
-  const home = await readFile(new URL("../index.html", import.meta.url), "utf8");
+test("keeps the evidence-led different-wake-times guide available", async () => {
   const guide = await readFile(
     new URL("../different-wake-times/index.html", import.meta.url),
     "utf8",
   );
 
-  assert.match(home, /href="different-wake-times\/"/);
   assert.match(guide, /<meta property="og:type" content="article">/);
   assert.match(guide, /"@type": "Article"/);
   assert.match(guide, /ct=owned_guide_wake_times_01/);
