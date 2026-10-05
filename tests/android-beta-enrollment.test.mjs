@@ -12,8 +12,15 @@ const [home, download, support, beta] = await Promise.all([
 
 const signupForm = "https://docs.google.com/forms/d/e/1FAIpQLSeRYN0x9f12SPhvEApryNvo8ADy34UxSkohdXu6JntoZAOtug/viewform?usp=publish-editor";
 
-test("keeps Android beta access private while giving applicants one clear route", () => {
-  assert.ok(home.includes(`href="${signupForm}"`));
+test("keeps Android access consent-gated while giving visitors one clear route", () => {
+  assert.match(home, /<h2 id="android-app-title">Android™ app<\/h2>/);
+  assert.match(home, /<a class="android-app-cta" href="beta\/android\/">[\s\S]*?<svg class="android-app-icon"[\s\S]*?<span>Android™ app<\/span>/);
+  assert.match(home, /Couples Alarm for Android\. View app details\./);
+  assert.match(home, /Android is a trademark of Google LLC\./);
+  assert.match(home, /The Android robot is reproduced or modified from work created and shared by Google/);
+  assert.doesNotMatch(home, /eligibility|consent|testing/i);
+  assert.doesNotMatch(home, /Android (?:closed )?beta|Apply for the Android beta/i);
+  assert.doesNotMatch(home, new RegExp(signupForm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   assert.match(download, /href="\.\.\/beta\/android\/"/);
   assert.match(support, /href="\.\.\/beta\/android\/"/);
   assert.match(beta, /data-android-beta-enrollment="pending"/);
