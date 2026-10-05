@@ -29,7 +29,8 @@ test("keeps the direct test action and accurate wording", () => {
   assert.match(html, /landing\.css\?v=20260812-option3-test-cta-v2/);
   assert.match(html, /For couples who hear tones differently/);
   assert.match(html, /Find a tone<br><span>together\.<\/span>/);
-  assert.match(html, /A personalized alarm utility for couples who hear tones differently\. Take the quick test together to see if it could work for you\./);
+  assert.doesNotMatch(html, /<p class="hero-lede">/);
+  assert.doesNotMatch(html, /Read the practical shared-morning guide\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /class="hero-actions"/);
   assert.match(
