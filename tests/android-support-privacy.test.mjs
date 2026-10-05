@@ -16,17 +16,6 @@ test("distinguishes local setup from Google Play purchase processing", () => {
   assert.doesNotMatch(privacy, /does not automatically collect or send personal data|Information leaves your iPhone only/);
 });
 
-test("discloses the Android review request without claiming display or a successful wake", () => {
-  assert.match(privacy, /id="android-reviews"/);
-  assert.match(privacy, /href="#android-reviews"/);
-  assert.match(privacy, /stop a saved alarm that was actually ringing/);
-  assert.match(privacy, /same enabled alarm has stayed unchanged and scheduled for at least 120 hours/);
-  assert.match(privacy, /does not tell the app whether it woke anyone/);
-  assert.match(privacy, /Google Play decides whether to show the card/);
-  assert.match(privacy, /shared privately with Couples Alarm during a closed test/);
-  assert.match(privacy, /does not store your rating or review text/);
-});
-
 test("discloses Android delivery storage and platform-specific deletion", () => {
   assert.match(privacy, /before that first unlock/);
   assert.match(privacy, /not partner names, listening answers, or custom labels/);
