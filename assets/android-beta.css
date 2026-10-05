@@ -1,0 +1,34 @@
+.android-beta-callout {
+  max-width: 37rem;
+  margin-top: 1.75rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgb(87 217 223 / 30%);
+  border-radius: 0.85rem;
+  background: rgb(87 217 223 / 6%);
+}
+
+.android-beta-callout h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.05rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.android-beta-callout p {
+  margin: 0.45rem 0 0.65rem;
+  color: #bdc7ca;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.android-beta-signup {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--aqua);
+  font-size: 0.9rem;
+  font-weight: 750;
+  text-underline-offset: 0.2em;
+}
