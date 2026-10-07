@@ -1,52 +1,68 @@
-.android-app-callout {
-  max-width: 37rem;
-  margin-top: 1.75rem;
-  padding: 1.1rem 1.25rem;
-  border: 1px solid rgb(87 217 223 / 30%);
-  border-radius: 0.85rem;
-  background: rgb(87 217 223 / 6%);
+.hero-actions {
+  display: grid;
+  width: min(100%, 24rem);
+  gap: 0.75rem;
 }
 
-.android-app-callout h2 {
-  margin: 0;
-  color: var(--ink);
-  font-size: 1.05rem;
-  line-height: 1.4;
-  letter-spacing: -0.01em;
-}
+.hero-actions .test-link { width: 100%; }
+.hero-actions .cta-chevron-tile { margin-left: auto; }
 
-.android-app-callout p {
-  margin: 0.45rem 0 0.65rem;
-  color: #bdc7ca;
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.android-app-cta {
-  display: inline-flex;
-  min-height: 44px;
+.app-badges {
+  display: grid;
+  width: 100%;
+  max-width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
   align-items: center;
-  gap: 0.55rem;
-  color: var(--aqua);
-  font-size: 0.9rem;
-  font-weight: 750;
+  justify-items: center;
+  gap: 0.65rem;
+}
+
+.app-badges .app-store-link {
+  width: 10.5rem;
+  justify-content: center;
+}
+
+.android-app-link {
+  display: inline-flex;
+  width: 10.5rem;
+  min-height: 3.5rem;
+  flex: none;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid #46575f;
+  border-radius: 0.45rem;
+  background: #09151c;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
 }
 
-.android-app-cta:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
+.android-app-link:hover { opacity: 0.82; }
+
+.android-app-link img {
+  display: block;
+  width: 2.5rem;
+  height: auto;
+  flex: none;
 }
 
-.android-app-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: currentcolor;
+.android-badge-copy { display: grid; gap: 0.15rem; }
+.android-badge-copy small { font-size: 0.7rem; line-height: 1; }
+.android-badge-copy strong { font-size: 1.35rem; font-weight: 500; line-height: 1; }
+
+.android-brand-attribution {
+  width: min(90rem, calc(100% - 2.5rem));
+  margin-inline: auto;
+  padding-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
 }
 
-.android-app-callout .android-brand-attribution {
-  margin: 0.7rem 0 0;
-  color: #819197;
-  font-size: 0.62rem;
-  line-height: 1.45;
+.android-brand-attribution p { margin: 0; }
+.android-brand-attribution a { text-underline-offset: 0.15em; }
+
+@media (max-width: 720px) {
+  .android-brand-attribution { width: calc(100% - 1.25rem); }
 }

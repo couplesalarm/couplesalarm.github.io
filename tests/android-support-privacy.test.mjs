@@ -35,12 +35,15 @@ test("keeps Android testing separate from public availability", () => {
   assert.doesNotMatch(`${privacy}\n${support}`, /href="https:\/\/play\.google\.com\/store\/apps/);
 });
 
-test("explains the optional public Android tester group", () => {
+test("explains tester-group privacy and selected Android access", () => {
   assert.match(privacy, /id="android-beta-group"/);
   assert.match(privacy, /Couples Alarm Android Beta Google Group/);
   assert.match(privacy, /member email addresses and the member directory are not visible to other members/);
   assert.match(privacy, /does not send your partner names, listening answers, alarms, or app setup/);
-  assert.match(support, /Join the tester group on the/);
+  assert.match(support, /Complete the application on the/);
+  assert.match(support, /Applying does not automatically grant tester access/);
+  assert.match(support, /Selected testers will receive private access/);
+  assert.doesNotMatch(support, /Join the tester group on the/);
   assert.match(support, /same Google account you use in the Play Store/);
 });
 
