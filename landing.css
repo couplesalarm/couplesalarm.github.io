@@ -183,6 +183,13 @@ video:focus-visible {
   color: var(--ink);
 }
 
+.social-icon {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  filter: brightness(0) invert(1);
+}
+
 main { min-height: 0; }
 
 .hero {
