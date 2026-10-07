@@ -9,29 +9,82 @@ const [home, download, support, beta] = await Promise.all([
   "support/index.html",
   "beta/android/index.html",
 ].map((path) => readFile(new URL(path, root), "utf8")));
+const applicationURL = "https://docs.google.com/forms/d/e/1FAIpQLSeRYN0x9f12SPhvEApryNvo8ADy34UxSkohdXu6JntoZAOtug/viewform?usp=publish-editor";
 
-test("keeps homepage Android details neutral and makes enrollment self-service", () => {
-  assert.match(home, /<h2 id="android-app-title">Android™ app<\/h2>/);
-  assert.match(home, /<a class="android-app-cta" href="beta\/android\/">[\s\S]*?<svg class="android-app-icon"[\s\S]*?<span>Android™ app<\/span>/);
-  assert.match(home, /Couples Alarm for Android\. View app details\./);
-  assert.match(home, /Android is a trademark of Google LLC\./);
-  assert.match(home, /The Android robot is reproduced or modified from work created and shared by Google/);
+function applicationLink(html, label) {
+  const links = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+  const match = links.find(([, , text]) => text.replace(/<[^>]+>/g, "").trim() === label);
+  assert.ok(match, label);
+  return match[1];
+}
+
+test("puts the test action before the balanced robot app options", () => {
+  assert.ok(home.indexOf('<a class="test-link"') < home.indexOf('<div class="app-badges">'));
+  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android app">/);
+  assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
+  assert.match(home, /<strong>Android™<\/strong><small>app<\/small>/);
+  assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
+  assert.match(home, /<footer class="android-brand-attribution">[\s\S]*?Android is a trademark of Google LLC\./);
+  assert.match(home, /The Android robot is reproduced or modified from work created and shared by/);
+  assert.match(home, /href="https:\/\/developer\.android\.com\/distribute\/marketing-tools\/brand-guidelines"/);
+  assert.match(home, /href="https:\/\/creativecommons\.org\/licenses\/by\/3\.0\/"/);
   assert.doesNotMatch(home, /eligibility|consent|testing/i);
   assert.doesNotMatch(home, /Android (?:closed )?beta|Apply for the Android beta/i);
+  assert.doesNotMatch(home, /Get it on Google Play|Pre-register on Google Play/);
+});
+
+test("sends both Android entry paths to the existing application without automatic access", () => {
+  assert.equal(applicationLink(download, "Complete the application"), applicationURL);
+  assert.equal(applicationLink(beta, "Apply for the Android beta"), applicationURL);
   assert.match(download, /href="\.\.\/beta\/android\/"/);
   assert.match(support, /href="\.\.\/beta\/android\/"/);
-  assert.match(beta, /data-android-beta-enrollment="group-open-play-pending"/);
-  assert.match(beta, /Tester enrollment is open\. Google Play install is not open yet\./);
-  assert.match(beta, /Join the Couples Alarm Android Beta Google Group with the same Google account you use in the Play Store\./);
-  assert.match(beta, /Joining the group does not install the app or start the 14-day closed-test period\./);
-  assert.match(beta, /Join the tester Google Group/);
-  assert.match(beta, /Open the Google Play opt-in link/);
-  assert.match(beta, /href="https:\/\/groups\.google\.com\/g\/couples-alarm-android-beta"/);
-  assert.match(beta, /Join the Couples Alarm Android Beta Google Group/);
-  assert.match(beta, /Google Play opt-in and install open with the closed release/);
+  for (const html of [download, beta]) {
+    assert.match(html, /eligibility and consent in submission order/);
+    assert.match(html, /does not automatically grant tester access/i);
+    assert.match(html, /Selected testers will receive private access/);
+    assert.doesNotMatch(html, /href="https:\/\/groups\.google\.com\//);
+    assert.doesNotMatch(html, /Tester enrollment is open|Join the tester group/i);
+  }
+});
+
+test("requires selection and private access before opt-in and the latest test build", () => {
+  const steps = [...beta.matchAll(/<li><strong>([^<]+)<\/strong>/g)].map(([, text]) => text);
+  assert.deepEqual(steps, [
+    "Complete the application",
+    "Wait for selection",
+    "Receive private access and opt-in instructions",
+    "Install, update, and test",
+  ]);
+  assert.match(beta, /Access is for selected testers; applying or joining a group does not automatically grant it/);
+  assert.match(beta, /After access is granted and you opt in, install the latest available test build from Google Play/);
+  assert.match(beta, /If already installed, use Update when it appears/);
+  assert.match(beta, /Your application and Play Store account must match/);
+  assert.match(beta, /Use the Google account you entered in the application/);
+  assert.match(beta, /Try the app with your partner, stay opted in for 14 days/);
+});
+
+test("keeps Google Play opt-in and installation disabled while release access is unverified", () => {
+  assert.match(beta, /data-android-beta-enrollment="application-first-play-pending"/);
+  assert.match(beta, /Google Play install is not open yet\./);
+  assert.match(download, /Google Play install is not open yet\./);
+  const control = beta.match(/<span\b([^>]*)>Google Play opt-in and install are not open yet<\/span>/);
+  assert.ok(control);
+  assert.match(control[1], /role="link"/);
+  assert.match(control[1], /aria-disabled="true"/);
+  assert.match(control[1], /aria-describedby="play-access-note"/);
+  assert.doesNotMatch(control[1], /href=|tabindex=|onclick=/i);
+  assert.match(beta, /id="play-access-note">Submitting the application does not enroll you in Google Play or start the 14-day closed-test period/);
+  for (const html of [home, download, support, beta]) {
+    assert.doesNotMatch(html, /href="https:\/\/play\.google\.com\//);
+  }
   assert.match(beta, /at least 12 testers to stay opted in continuously for 14 days/);
   assert.match(beta, /https:\/\/support\.google\.com\/googleplay\/android-developer\/answer\/14151465\?hl=en/);
-  assert.doesNotMatch(beta, /href="https:\/\/play\.google\.com\//);
-  assert.doesNotMatch(beta, /first 15|applications are reviewed|apply and consent/i);
-  assert.match(beta, /Stay opted in for 14 days/);
+});
+
+test("preserves backup-alarm and post-install feedback guidance", () => {
+  assert.match(beta, /Do not rely on an Android test build for an important wake-up/);
+  assert.match(beta, /Keep a trusted backup alarm while testing/);
+  assert.match(beta, /href="\.\.\/\.\.\/support\/#android"/);
+  assert.match(beta, /href="\.\.\/\.\.\/feedback\/">beta feedback form<\/a> after you install/);
+  assert.match(download, /Keep a trusted backup alarm until the selected tone has passed the bedside check on this iPhone/);
 });
