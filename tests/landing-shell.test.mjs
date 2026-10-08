@@ -26,7 +26,7 @@ test("restores the three-part desktop landing", () => {
 
 test("keeps the direct test action and accurate wording", () => {
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
-  assert.match(html, /landing\.css\?v=20261007-social-icons-1/);
+  assert.match(html, /landing\.css\?v=20261007-social-logos-only-1/);
   assert.match(html, /For couples who hear tones differently/);
   assert.match(html, /Find a tone<br><span>together\.<\/span>/);
   assert.doesNotMatch(html, /<p class="hero-lede">/);
