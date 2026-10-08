@@ -32,6 +32,7 @@ if (typeof document !== "undefined") {
   const submitButton = form.querySelector('button[type="submit"]');
   const fields = document.querySelector("#application-fields");
   const status = document.querySelector("#application-status");
+  const access = document.querySelector("#application-access");
   let submitting = false;
 
   form.addEventListener("submit", async (event) => {
@@ -51,7 +52,8 @@ if (typeof document !== "undefined") {
       fields.hidden = true;
       form.querySelector(".application-submit").hidden = true;
       status.dataset.state = "success";
-      status.textContent = "You’re on the beta list. We’ll email your access instructions. Use the same Google account in the Play Store.";
+      status.textContent = "You’re signed up. Follow these two steps to get the beta. No approval email is needed.";
+      access.hidden = false;
       status.focus();
     } catch {
       status.dataset.state = "error";

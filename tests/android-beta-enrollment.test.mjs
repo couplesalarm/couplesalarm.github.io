@@ -47,38 +47,39 @@ test("keeps email-only beta signup on the website", () => {
   assert.match(support, /href="\.\.\/beta\/android\/#application"/);
   for (const html of [download, beta]) {
     assert.doesNotMatch(html, /eligibility|consent requirements|Wait for selection/);
-    assert.doesNotMatch(html, /href="https:\/\/groups\.google\.com\//);
-    assert.doesNotMatch(html, /Tester enrollment is open|Join the tester group/i);
+    assert.doesNotMatch(html, /We’ll arrange access|We’ll send access instructions|email your next steps/);
   }
 });
 
-test("explains email signup, private access and Google Play opt-in in order", () => {
+test("explains email signup, self-service group joining and Google Play opt-in in order", () => {
   const steps = [...beta.matchAll(/<li><strong>([^<]+)<\/strong>/g)].map(([, text]) => text);
   assert.deepEqual(steps, [
     "Sign up with your email",
-    "Receive access instructions",
+    "Join the tester group",
     "Opt in on Google Play",
     "Install, update, and test",
   ]);
   assert.match(beta, /Signing up does not automatically opt you in on Google Play/);
-  assert.match(beta, /After access is granted and you opt in, install the latest available test build from Google Play/);
+  assert.match(beta, /After joining the group and opting in, follow Google Play’s download link to install the latest available test build/);
   assert.match(beta, /If already installed, use Update when it appears/);
   assert.match(beta, /Use the same email in the Play Store/);
   assert.match(beta, /Use the Google account you signed up with/);
   assert.match(beta, /Try the app with your partner, stay opted in for 14 days/);
 });
 
-test("offers the published Google Play opt-in after access instructions", () => {
-  assert.match(beta, /data-android-beta-enrollment="application-first-play-published"/);
+test("offers self-service access to the published Google Play beta without an email wait", () => {
+  assert.match(beta, /data-android-beta-enrollment="email-signup-self-service-play-published"/);
   assert.match(beta, /Sign up for the Android beta\./);
   assert.match(download, /The Google Play closed beta is published\./);
   assert.doesNotMatch(`${download}\n${beta}`, /not open yet|when the closed release is available/);
-  const control = beta.match(/<a\b([^>]*)>Already have access\? Open Google Play beta<\/a>/);
-  assert.ok(control);
-  assert.match(control[1], /href="https:\/\/play\.google\.com\/apps\/testing\/com\.couplesalarm\.android"/);
-  assert.match(control[1], /aria-describedby="play-access-note"/);
-  assert.doesNotMatch(control[1], /aria-disabled|onclick=/i);
-  assert.match(beta, /id="play-access-note">Use the Play link after you receive your access instructions/);
+  assert.equal(applicationLink(beta, "Already signed up? Get the beta"), "#steps-title");
+  assert.equal(applicationLink(beta, "Join the tester group"), "https://groups.google.com/g/couples-alarm-android-beta/about");
+  assert.equal(applicationLink(beta, "Open Google Play beta"), "https://play.google.com/apps/testing/com.couplesalarm.android");
+  assert.match(beta, /id="application-access"[^>]*hidden/);
+  assert.ok(beta.indexOf('>Join the tester group</a>') < beta.indexOf('>Open Google Play beta</a>'));
+  assert.match(beta, /No organizer approval is needed/);
+  assert.match(beta, /choose Become a tester/);
+  assert.doesNotMatch(beta, /We’ll email your access instructions|after you receive your access instructions/);
   assert.match(beta, /Your 14-day test period starts when you opt in/);
   for (const html of [home, download, support]) {
     assert.doesNotMatch(html, /href="https:\/\/play\.google\.com\//);
