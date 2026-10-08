@@ -1,0 +1,41 @@
+.beta-enrollment {
+  scroll-margin-top: 2rem;
+}
+
+.beta-enrollment .handoff-steps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.beta-enrollment .handoff-steps li {
+  grid-template-rows: auto auto 1fr auto;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+}
+
+.beta-enrollment .handoff-steps h3 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.beta-enrollment .handoff-steps p {
+  margin: 0;
+  color: var(--soft-ink);
+}
+
+.beta-enrollment .handoff-steps strong {
+  margin: 0;
+}
+
+.enrollment-privacy {
+  max-width: 75ch;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 700px) {
+  .beta-enrollment .handoff-steps {
+    grid-template-columns: 1fr;
+  }
+}
