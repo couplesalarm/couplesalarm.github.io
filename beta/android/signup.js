@@ -57,7 +57,7 @@ if (typeof document !== "undefined") {
       fields.hidden = true;
       form.querySelector(".application-submit").hidden = true;
       status.dataset.state = "success";
-      status.textContent = "Thank you — your application has been received. Brian will contact selected testers with access and Google Play instructions when the test build is ready. Applying does not automatically grant access.";
+      status.textContent = "Thank you — your application has been received. Brian will contact selected testers with access and Google Play instructions. Applying does not automatically grant access.";
       status.focus();
     } catch {
       status.dataset.state = "error";
