@@ -112,3 +112,19 @@ The initial action previously opened another start overlay, and the partner hand
 - Safari in the iPhone 17 Pro Simulator: setup page visual review. This is browser-flow and layout validation, not physical speaker/hearing or alarm-delivery validation.
 - Screenshots and layout receipts: `/Users/BrianM/couplesalarm/outputs/audio-workflow-20261008/`.
 - Website only; no native app binary or TestFlight release.
+
+---
+
+# Design QA — Compact frequency-first test, 2026-10-08
+
+Brian requested a visibly refreshed, mobile-first test with no separate introduction, less copy, no time display, and no scrolling at normal phone sizes.
+
+- The homepage's “Try the listening test” link opens Partner One directly. A single Start button on that screen begins playback; loading the page never starts sound. Restart returns to that same idle screen.
+- Replaced the waveform with a compact concentric frequency dial and soft lavender/cyan accents. The central kHz value is visible before and during playback; countdown and duration labels are removed. The audio sweep itself is unchanged.
+- Removed the “See if Couples Alarm could work for you” page and the requested “Stop if uncomfortable. This is not a hearing test.” copy. A small note says “Designed for the partner who hears higher pitches.” Speaker/no-headphones/comfortable-volume guidance remains compact.
+- The handoff and results share the compact card treatment. Layout adapts to short portrait and landscape windows without hiding response controls or disabling scrolling as an accessibility fallback.
+- OpenAI-generated concept used for the visual direction: `/Users/BrianM/.codex/generated_images/01a11bc7-fd64-7281-b2c1-8cf8a7b7c7ec/exec-c92d8bad-c8c4-4911-bd4f-c04138146bdb.png`. The concept's time readout was superseded by Brian's frequency-only correction before delivery. All new visuals are CSS/SVG; no new bitmap dependency.
+- Validation: 92 Node tests pass, including direct-entry/no-autoplay coverage and the existing lifecycle, pause, retry, timing-boundary, handoff, and result cases.
+- 42 browser layout checks: idle, playing, paused, finished, handoff, and result at 390×664, 390×844, 320×568, 320×480, 1440×900, 1280×640, and 844×390. No horizontal or vertical document overflow at these normal-scale sizes. Keyboard Start/Pause and reduced-motion behavior pass; the decorative pulse stops while the functional sweep ring remains. No console errors or warnings.
+- iPhone 17 Pro Simulator Safari visual review confirms the complete initial test screen fits above the browser controls. This validates the web layout, not physical speaker response.
+- Evidence: `/Users/BrianM/couplesalarm/outputs/compact-test-20261008/`.

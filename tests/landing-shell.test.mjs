@@ -26,7 +26,7 @@ test("keeps the direct test action and accurate wording", () => {
   assert.match(html, /Find a tone<br><span>together\.<\/span>/);
   assert.match(html, /Try a quick listening check together to see whether different tones could work for you\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
-  assert.match(html, /<a class="test-link" href="compatibility\/">\s*<strong>Try the listening check<\/strong>/);
+  assert.match(html, /<a class="test-link" href="compatibility\/">\s*<strong>Try the listening test<\/strong>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.match(html, /aria-label="How Couples Alarm works"/);
 });
