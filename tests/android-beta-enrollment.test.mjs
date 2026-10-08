@@ -67,18 +67,19 @@ test("requires selection and private access before opt-in and the latest test bu
   assert.match(beta, /Try the app with your partner, stay opted in for 14 days/);
 });
 
-test("keeps Google Play opt-in and installation disabled while release access is unverified", () => {
-  assert.match(beta, /data-android-beta-enrollment="application-first-play-pending"/);
-  assert.match(beta, /Google Play install is not open yet\./);
-  assert.match(download, /Google Play install is not open yet\./);
-  const control = beta.match(/<span\b([^>]*)>Google Play opt-in and install are not open yet<\/span>/);
+test("offers the published Google Play opt-in only with selected-tester instructions", () => {
+  assert.match(beta, /data-android-beta-enrollment="application-first-play-published"/);
+  assert.match(beta, /Google Play access is for selected testers\./);
+  assert.match(download, /The Google Play closed beta is published\./);
+  assert.doesNotMatch(`${download}\n${beta}`, /not open yet|when the closed release is available/);
+  const control = beta.match(/<a\b([^>]*)>Selected tester\? Open Google Play beta<\/a>/);
   assert.ok(control);
-  assert.match(control[1], /role="link"/);
-  assert.match(control[1], /aria-disabled="true"/);
+  assert.match(control[1], /href="https:\/\/play\.google\.com\/apps\/testing\/com\.couplesalarm\.android"/);
   assert.match(control[1], /aria-describedby="play-access-note"/);
-  assert.doesNotMatch(control[1], /href=|tabindex=|onclick=/i);
+  assert.doesNotMatch(control[1], /aria-disabled|onclick=/i);
   assert.match(beta, /id="play-access-note">Submitting the application does not enroll you in Google Play or start the 14-day closed-test period/);
-  for (const html of [home, download, support, beta]) {
+  assert.match(beta, /Use the Google Play link after your account has been granted access/);
+  for (const html of [home, download, support]) {
     assert.doesNotMatch(html, /href="https:\/\/play\.google\.com\//);
   }
   assert.match(beta, /at least 12 testers to stay opted in continuously for 14 days/);
