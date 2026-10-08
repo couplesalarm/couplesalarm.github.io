@@ -57,3 +57,24 @@ Final Result: Passed
 - Console errors: none.
 
 final result: passed
+
+
+---
+
+# Design QA — Dawn homepage, 2026-10-08
+
+Brian approved the generated dawn concept. The implementation keeps the original video, poster, couple, Bailey, and app screenshot as separate assets, with live HTML copy and controls.
+
+- Decorative background: `assets/dawn-bedroom.webp`, 26 KB, created with OpenAI's built-in image-generation tool and compressed to WebP.
+- Original generated plate: `/Users/BrianM/.codex/generated_images/01a11bc7-fd64-7281-b2c1-8cf8a7b7c7ec/exec-f8218946-7f16-413e-92db-7b97f81f26e7.png`.
+- Desktop and mobile implementation screenshots: `/Users/BrianM/couplesalarm/outputs/homepage-dawn-20261008/desktop.png` and `mobile.png`.
+- Browser checks: 320×568, 390×844, 768×1024, 980×720, 1280×640, 1440×740, 1920×1080, 844×390. Video keeps its 9:16 proportions and full frame. The 320-pixel scrollbar edge case was corrected and rechecked without document overflow.
+- User-initiated video playback, native controls, primary listening-check navigation, pause/resume, and reduced-motion emulation passed. No browser console errors.
+- Repository validation: `node --test tests/*.test.mjs`, 81 passed.
+- The button uses dark text on a lighter lavender/cyan gradient for readability. Motion affects only a decorative light layer; the scene, content, and video remain stationary. Users can pause motion, and reduced-motion preferences disable it.
+- Mobile stacks copy above the media group and presents the three steps vertically.
+- This is a website-only change. No app binary, alarm behavior, or release build changes.
+
+## Background generation prompt
+
+Use case: precise-object-edit. Create ONLY the full-bleed background image from this approved Couples Alarm website concept, as a landscape 16:9 high-quality web background. Remove ALL foreground UI, text, logos, icons, buttons, divider lines, phones, video card, people and dog. Reconstruct the quiet bedroom environment behind them. Preserve the source's deep midnight navy across the entire left 55% with very little visual detail, soft rumpled indigo bedding along the bottom, very subtle out-of-focus bedroom shapes in center, warm sunrise window at far right with muted amber peach light and soft curtain, indistinct plant and bedside table only on right edge. No writing on books or objects. Lower contrast and soften background details slightly compared with reference, atmospheric and intentionally defocused, to sit behind legible website text and existing portrait video. Do not invent characters. No interface or letters anywhere. This is a production decorative BACKGROUND PLATE only.
