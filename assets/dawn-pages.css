@@ -1,0 +1,223 @@
+/* Shared, quiet companion to the homepage's dawn treatment. */
+:root {
+  --background: #080f20;
+  --night: #080f20;
+  --night-deep: #050b17;
+  --panel: #111b2e;
+  --panel-soft: #182237;
+  --text: #f5f1e9;
+  --ink: #f5f1e9;
+  --muted: #c1c8d8;
+  --soft-ink: #c1c8d8;
+  --quiet: #a3aec3;
+  --accent: #a4e8f0;
+  --aqua: #a4e8f0;
+  --cyan: #a4e8f0;
+  --signal: #ffa58a;
+  --border: rgb(218 222 242 / 19%);
+  --line: rgb(218 222 242 / 19%);
+  --dawn-action: linear-gradient(105deg, #d9a1fb, #b2b6ff 54%, #8ce6f4);
+}
+html { min-width: 0; scroll-padding-top: 1.5rem; }
+body.dawn-page {
+  min-width: 0;
+  isolation: isolate;
+  background: var(--night);
+  font-family: "Avenir Next", Avenir, "Century Gothic", sans-serif;
+}
+.dawn-page::before {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  content: "";
+  background: linear-gradient(90deg, rgb(6 13 29 / 78%), rgb(6 13 29 / 44%)),
+    url("dawn-bedroom.webp") center / cover no-repeat;
+  mask-image: none;
+  pointer-events: none;
+}
+.dawn-page::after {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background: linear-gradient(0deg, #080f20 3%, rgb(8 15 32 / 80%) 35%, transparent 90%);
+  filter: none;
+  pointer-events: none;
+}
+.dawn-page a { text-underline-offset: 0.2em; }
+.dawn-page :is(a, button, summary, input, textarea):focus-visible {
+  outline: 3px solid var(--aqua);
+  outline-offset: 4px;
+}
+.site-page :is(header, main, footer) { width: min(74rem, calc(100% - 8vw)); }
+.dawn-page .site-header { --header-nav-text: #d5dae6; --header-nav-active: #fff; }
+.site-page .page-header { padding-top: 1.25rem; }
+.dawn-page .page-brand, .dawn-page .brand { font-weight: 750; letter-spacing: -0.01em; }
+.dawn-page .page-brand img, .dawn-page .brand img { box-shadow: none; border-radius: 0.8rem; }
+.site-page .page-title { margin-top: 1.2rem; padding-block: 2.6rem 2.4rem; border-color: var(--border); }
+.site-page h1 { max-width: 20ch; margin-top: 0.75rem; font-size: clamp(2.5rem, 4.6vw, 4rem); font-weight: 750; line-height: 1.08; letter-spacing: -0.055em; }
+.site-page h2 { font-weight: 650; line-height: 1.25; }
+.site-page .page-title .meta { margin-top: 1rem; font-size: 1.08rem; }
+.dawn-page .eyebrow { font: 700 0.69rem/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: 0.13em; color: var(--aqua); }
+.site-page main { gap: 2rem; padding-bottom: 3.5rem; }
+.site-page .page-footer { padding-block: 1.8rem 2.5rem; border-color: var(--border); }
+.site-page .page-footer > div span { color: var(--muted); }
+
+/* Reading surfaces retain contrast even over the brighter window. */
+.dawn-page :is(.contact, .install-callout, .notice, .feedback-form fieldset, .privacy-highlights, .policy-index) {
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: rgb(12 22 40 / 94%);
+  box-shadow: 0 0.7rem 2rem rgb(0 0 0 / 10%);
+}
+.dawn-page .notice { border-left: 3px solid #f2b29c; }
+.dawn-page .notice h2 { font-size: 1.35rem; }
+.dawn-page .notice p:last-child { margin-bottom: 0; }
+.dawn-page :is(.support-topic p, .support-topic li, .policy-sections p, .policy-sections li, .privacy-highlights span) { color: #c5cddd; }
+.dawn-page .button-link { border-radius: 2rem; }
+.dawn-page .primary-link,
+.dawn-page .primary-action,
+.dawn-page .enrollment-actions .button-link,
+.dawn-page .form-actions button {
+  background: var(--dawn-action);
+  color: #14172f;
+  border: 1px solid rgb(255 255 255 / 25%);
+  box-shadow: 0 0.5rem 1.8rem rgb(119 105 187 / 16%);
+}
+.dawn-page .button-link:hover { transform: none; filter: brightness(1.07); }
+.quick-links { gap: 0.6rem; margin-top: 1.35rem; }
+.quick-links a { min-height: 44px; padding: 0.4rem 1rem; border: 1px solid var(--border); border-radius: 2rem; background: rgb(17 28 48 / 85%); color: #e1e5f0; text-decoration: none; font-size: 0.85rem; }
+.quick-links a:hover { border-color: var(--aqua); }
+
+/* Native disclosures make support scan-friendly, with no scripted state. */
+.support-page .support-topics { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; border: 0; border-radius: 0; overflow: visible; }
+.support-page details.support-topic { padding: 0; border: 1px solid var(--border); border-radius: 1rem; background: rgb(12 22 40 / 94%); }
+.support-topic summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; padding: 1.15rem 1.5rem; list-style: none; cursor: pointer; }
+.support-topic summary::-webkit-details-marker { display: none; }
+.support-topic summary::after { content: "+"; color: #c5b7f4; font-size: 1.5rem; font-weight: 400; }
+.support-topic[open] summary::after { content: "−"; }
+.support-topic summary h2 { margin: 0; font-size: 1.15rem; }
+.support-topic[open] summary { border-bottom: 1px solid var(--border); }
+.support-answer { padding: 0.35rem 1.5rem 1.5rem; }
+.support-answer p, .support-answer ol { max-width: 72ch; }
+.support-page .support-contact { align-items: center; }
+
+/* Long-form pages use a compact index and a comfortable reading measure. */
+.dawn-page .privacy-highlights { overflow: hidden; }
+.dawn-page .privacy-highlights p { padding: 1.4rem; }
+.dawn-page .privacy-highlights strong { color: #eddfd8; }
+.dawn-page .privacy-highlights span { margin-top: 0.3rem; font-size: 0.85rem; line-height: 1.6; }
+.dawn-page .policy-layout { grid-template-columns: 14rem minmax(0, 1fr); gap: 2.5rem; }
+.dawn-page .policy-index { padding: 1.2rem; top: 1.5rem; }
+.dawn-page .policy-index a { font-size: 0.87rem; line-height: 1.4; }
+.dawn-page .policy-sections { padding: clamp(1.25rem, 3vw, 2.2rem); border: 1px solid var(--border); border-radius: 1.25rem; background: rgb(10 20 37 / 96%); }
+.dawn-page .policy-sections > section { padding-bottom: 2rem; scroll-margin-top: 1.5rem; }
+.dawn-page .policy-sections > section + section { padding-top: 2rem; }
+.dawn-page .policy-sections > section:last-child { padding-bottom: 0; }
+.dawn-page .policy-sections h2 { max-width: 30ch; font-size: 1.55rem; }
+.dawn-page .policy-sections p:last-child { margin-bottom: 0; }
+
+.download-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem; }
+.download-options .install-callout, .download-options .notice { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 1.7rem; border: 1px solid var(--border); }
+.download-options .stacked-actions { margin-top: auto; padding-top: 0.5rem; }
+.download-options .notice > .button-link { margin-top: auto; }
+.download-options h2 { font-size: 1.5rem; }
+.download-options p:not(.eyebrow) { font-size: 0.95rem; color: var(--muted); }
+.illustrated-title { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr); align-items: center; gap: 2rem; }
+.illustrated-title .page-illustration { display: block; width: min(100%, 22.5rem); height: auto; justify-self: end; border-radius: 1rem; }
+.dawn-page .handoff-section { padding-block: 1rem; }
+.dawn-page .handoff-section h2 { max-width: none; }
+.dawn-page .handoff-steps { margin-top: 1.4rem; gap: 0.75rem; }
+.dawn-page .handoff-steps li { min-height: 0; padding: 1.2rem; border: 1px solid var(--border); border-radius: 1rem; background: rgb(12 22 40 / 94%); }
+.dawn-page .handoff-steps strong { margin-top: 0.45rem; }
+.dawn-page .handoff-steps li::before { color: #c5b7f4; }
+.dawn-page .beta-video-layout { gap: 2.5rem; padding-block: 1rem; }
+.beta-guide-page .support-topics { background: rgb(12 22 40 / 94%); }
+
+/* Keep Android's recently simplified two-step enrollment compact. */
+.android-beta-guide-page > :is(header, main, footer) { width: min(30rem, calc(100% - 2.5rem)); }
+.android-beta-guide-page > header { padding: 1.8rem 0; }
+.android-beta-guide-page .beta-enrollment { padding: 1.6rem; border: 1px solid var(--border); border-radius: 1.35rem; background: rgb(12 22 40 / 94%); box-shadow: 0 1rem 3rem rgb(0 0 0 / 20%); }
+.android-beta-guide-page .beta-enrollment h1 { font-size: 1.85rem; margin-top: 0.4rem; }
+.android-beta-guide-page .enrollment-intro { margin-bottom: 1.3rem; font-size: 0.95rem; }
+.android-beta-guide-page .enrollment-actions { gap: 1.2rem; }
+.android-beta-guide-page .enrollment-actions p { font-size: 0.85rem; }
+.android-beta-guide-page .enrollment-note { margin-top: 1.3rem; font-size: 0.8rem; }
+.android-beta-guide-page > footer { padding-block: 0.8rem 1.5rem; }
+.android-beta-guide-page footer nav { justify-content: center; }
+
+.feedback-page .feedback-form { margin-top: 0.75rem; width: min(58rem, 100%); }
+.feedback-page .choice { background: rgb(27 38 59 / 85%); border-color: #48536b; }
+.feedback-page .choice:has(input:checked) { background: #2c3456; border-color: #c5b7f4; }
+.feedback-page :is(input[type="text"], textarea) { background: #0b1427; border-color: #536077; }
+.feedback-page input::placeholder, .feedback-page textarea::placeholder { color: #9eabc3; }
+.feedback-page .form-actions button { border-radius: 2rem; }
+
+/* Listening interactions keep their dimensions and response timing. */
+.compatibility-page .test-shell { width: min(90rem, calc(100% - 6vw)); }
+.compatibility-page::before { background-image: linear-gradient(90deg, rgb(6 13 29 / 88%), rgb(6 13 29 / 65%)), url("dawn-bedroom.webp"); }
+.compatibility-page .primary-action { border-radius: 1.5rem; }
+.compatibility-page .ready-actions [data-start-preview] { min-height: 4.7rem; font-size: clamp(1.1rem, 2vw, 1.6rem); }
+.compatibility-page .ready-scene { border-color: var(--border); box-shadow: 0 1rem 3rem rgb(0 0 0 / 25%); }
+.compatibility-page .progress-step { color: #a6b1c6; }
+.compatibility-page .progress-step:is(.is-current, .is-complete) { color: var(--aqua); }
+.compatibility-page .start-tone-control { background: linear-gradient(145deg, #18243b, #10192c) padding-box, var(--dawn-action) border-box; box-shadow: 0 1rem 2rem rgb(0 0 0 / 30%); }
+.compatibility-page .handoff-result { border-color: var(--border); background: rgb(20 31 51 / 95%); }
+.compatibility-page .result-glow { opacity: 0.5; }
+
+@media (min-width: 761px) {
+  .compatibility-page .ready-screen { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .compatibility-page .listen-screen { grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr); }
+  .compatibility-page .handoff-screen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .dawn-page .policy-layout { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .dawn-page .policy-index { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1rem; }
+}
+@media (max-width: 760px) {
+  .site-page :is(header, main, footer) { width: calc(100% - 2.5rem); }
+  .site-page .page-header { grid-template-columns: 1fr auto; gap: 0 1rem; }
+  .site-page .site-header > nav { gap: 0.65rem; justify-content: flex-end; }
+  .site-page .site-header > nav a { font-size: 0.75rem; }
+  .site-page .site-header .page-brand { font-size: 0.86rem; gap: 0.55rem; }
+  .site-page .site-header .page-brand img { width: 35px; height: 35px; }
+  .site-page .page-title { grid-column: 1 / -1; margin-top: 1rem; padding-block: 2rem; }
+  .site-page h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
+  .site-page .page-title .meta { font-size: 1rem; }
+  .site-page main { gap: 1.4rem; padding-bottom: 2.5rem; }
+  .dawn-page .eyebrow { font-size: 0.63rem; }
+  .dawn-page .contact, .dawn-page .install-callout, .dawn-page .feedback-form fieldset { padding: 1.3rem; }
+  .dawn-page .support-topic summary { padding: 1rem 1.1rem; }
+  .support-topic summary h2 { font-size: 1.04rem; }
+  .support-answer { padding: 0.2rem 1.1rem 1.2rem; }
+  .dawn-page .notice { padding: 1.2rem; }
+  .dawn-page .notice h2 { font-size: 1.2rem; }
+  .download-options { grid-template-columns: minmax(0, 1fr); }
+  .illustrated-title { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+  .illustrated-title .page-illustration { width: min(100%, 18rem); justify-self: center; }
+  .dawn-page .handoff-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dawn-page .handoff-steps li { padding: 1rem; }
+  .dawn-page .privacy-highlights { grid-template-columns: 1fr; }
+  .dawn-page .policy-sections { padding: 1.2rem; }
+  .dawn-page .policy-sections h2 { font-size: 1.4rem; }
+  .dawn-page .policy-index { padding: 1rem; }
+  .feedback-page .choice-grid { grid-template-columns: minmax(0, 1fr); }
+  .feedback-page legend { font-size: 1.3rem; }
+  .android-beta-guide-page > header { padding-block: 1.3rem; }
+  .android-beta-guide-page .beta-enrollment { padding: 1.25rem; }
+  .android-beta-guide-page .beta-enrollment h1 { font-size: 1.75rem; }
+  .android-beta-guide-page > footer { padding-block: 0.6rem 1rem; }
+  .compatibility-page .test-shell { width: calc(100% - 1.5rem); }
+  .compatibility-page .ready-actions [data-start-preview] { min-height: 4rem; font-size: 1.2rem; }
+}
+@media (max-width: 380px) {
+  .site-page :is(header, main, footer) { width: calc(100% - 2rem); }
+  .site-page .page-header { gap: 0 0.5rem; }
+  .site-page .site-header .page-brand { font-size: 0.77rem; }
+  .site-page .site-header > nav { gap: 0.5rem; }
+  .site-page .site-header > nav a { font-size: 0.7rem; }
+  .dawn-page .handoff-steps { grid-template-columns: minmax(0, 1fr); }
+  .dawn-page .policy-index { grid-template-columns: minmax(0, 1fr); }
+  .android-beta-guide-page .beta-enrollment { padding: 1rem; }
+}
