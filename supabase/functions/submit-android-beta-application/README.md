@@ -1,6 +1,6 @@
 # Android beta applications
 
-The public form at `/beta/android/#application` saves through this endpoint with the project's public anon JWT. Gateway JWT verification stays enabled, and the handler checks the matching public key, site origin, required fields, adult confirmation and contact consent. It never accepts applicant reads or tester admission requests.
+The public form at `/beta/android/#application` saves through this endpoint with the project's public anon JWT. Gateway JWT verification stays enabled; the handler checks the site origin, required fields, adult confirmation and contact consent. It never accepts applicant reads or tester admission requests. A valid public JWT is not compared byte-for-byte with the runtime's generated anon token, which can represent the same project with different token timestamps.
 
 Applications are stored in `public.couples_alarm_android_beta_applications` in the existing Couples Alarm project `xqdqgsbkapvlskcldmpe`, database `postgres`, host `db.xqdqgsbkapvlskcldmpe.supabase.co`. RLS is enabled with no public policies; `anon` and `authenticated` have no table privileges. Server-only credentials write the validated payload. No applicant information is included in a response or logged.
 

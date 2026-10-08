@@ -68,11 +68,8 @@ export async function handleRequest(request, getEnv = (name) => Deno.env.get(nam
   }
 
   try {
-    const anonKey = getEnv("SUPABASE_ANON_KEY");
-    if (!anonKey) throw new Error("Server configuration unavailable");
-    if (request.headers.get("apikey") !== anonKey || request.headers.get("authorization") !== `Bearer ${anonKey}`) {
-      return respond(401, {ok:false,error:"Application key not accepted"});
-    }
+    // The enabled gateway verifies the project's JWT before this handler runs.
+    // Valid public JWTs can differ from the runtime's generated anon token.
     const rawBody = await request.text();
     if (new TextEncoder().encode(rawBody).length > 4096) return respond(413, {ok:false,error:"Application is too large"});
     const input = JSON.parse(rawBody);

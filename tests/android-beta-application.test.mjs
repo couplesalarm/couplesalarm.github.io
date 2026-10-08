@@ -40,12 +40,8 @@ test("requires real age confirmation, contact consent, device details and valid 
   }
 });
 
-test("rejects requests without the public application key or from other origins", async () => {
-  for (const [headers, code] of [
-    [{apikey:"wrong"},401], [{authorization:"Bearer wrong"},401], [{origin:"https://elsewhere.example"},403],
-  ]) {
-    assert.equal((await handleRequest(request(valid,headers),getEnv,mustNotFetch)).status,code);
-  }
+test("rejects other origins before reading or writing application data", async () => {
+  assert.equal((await handleRequest(request(valid,{origin:"https://elsewhere.example"}),getEnv,mustNotFetch)).status,403);
 });
 
 test("rejects malformed, non-JSON and oversized requests without writing", async () => {
