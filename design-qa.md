@@ -95,3 +95,20 @@ Extends Brian's approved homepage direction to eight visitor-facing pages: Suppo
 - Browser QA: all eight pages at 1440×900, 390×844, and 320×568, with the shared stylesheet verified loaded and no horizontal overflow or missing images. Listening ready/listen states also passed at 768×1024, 980×720, and 1280×640. Support expands with a click and collapses with Enter.
 - Screenshots and machine-readable layout receipts: `/Users/BrianM/couplesalarm/outputs/inner-pages-dawn-20261008/`.
 - Website only; no native app binary or TestFlight release.
+
+---
+
+# Design QA — Single-start listening workflow, 2026-10-08
+
+The initial action previously opened another start overlay, and the partner handoff repeated the same extra step. Each partner now begins their tone with one deliberate click. Brief speaker, volume, response, and immediate-playback instructions appear before that click.
+
+- The approved dawn design continues in a compact listening card with a large response button, a 20-second countdown, three-step progress, and a quiet separate pause action. The responsive layout replaces accumulated fixed-height rules; short desktops use two columns and small phones reduce decorative space.
+- Pause, backgrounding, and interrupted audio do not save a response. A retry restarts only the current partner. A completed sweep offers explicit no-response confirmation or replay. Audio failures expose an enabled retry action. Leaving the page disconnects voices and closes the context.
+- Thresholds follow the Web Audio clock. A delayed end timer cannot invent a late response. The 17.5–8.5 kHz exponential sweep, 20-second duration, gain and fades remain unchanged.
+- Results visibly identify the partner associated with a possible range. The minimum gap now applies when the other partner hears nothing, preventing reversed or zero-width suggested ranges near the sweep floor. No match stays a device-specific preview result; no waking guarantee is made.
+- OpenAI-generated layout concept (design input, no new shipped bitmap): `/Users/BrianM/.codex/generated_images/01a11bc7-fd64-7281-b2c1-8cf8a7b7c7ec/exec-73801ed8-23c8-45ba-ac45-b68967e67d37.png`. Existing dawn background, couple, and Bailey artwork are retained.
+- Validation: `node --test tests/*.test.mjs`, 91 passing. Includes 19 controller tests with deterministic audio/timer clocks for single starts, repeated clicks, pauses, pending resumes, interruptions, natural completion, retries, errors, page exit, timing boundaries, both match directions, and no-match edge cases.
+- Browser QA: ready, playing, handoff, and result at 1440×900, 1280×640, 980×720, 768×1024, 390×844, and 320×568 (24 layout checks). No horizontal overflow; active response and pause buttons are visible at all six sizes. Both one-click starts, pause/retry, actual 20-second completion, possible-match and no-match results, restart, keyboard controls, and reduced-motion behavior were exercised. No browser errors or warnings were recorded.
+- Safari in the iPhone 17 Pro Simulator: setup page visual review. This is browser-flow and layout validation, not physical speaker/hearing or alarm-delivery validation.
+- Screenshots and layout receipts: `/Users/BrianM/couplesalarm/outputs/audio-workflow-20261008/`.
+- Website only; no native app binary or TestFlight release.

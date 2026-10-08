@@ -25,6 +25,8 @@
   let toneRun = 0;
   let sweepStartedAt = 0;
   let sweepPlaying = false;
+  let phase = "idle";
+  let currentScreen = "ready";
   let sweepTimer;
   let readoutTimer;
 
@@ -54,9 +56,10 @@
     const tick = () => {
       const progress = Math.min(
         1,
-        (performance.now() - sweepStartedAt) / sweepDuration,
+        ((audioContext.currentTime - sweepStartedAt) * 1000) / sweepDuration,
       );
       setReadout(frequencyAt(progress));
+      setText("[data-audio-detail]", `${Math.max(0, Math.ceil((sweepDuration / 1000) * (1 - progress)))} seconds left`);
     };
     tick();
     readoutTimer = window.setInterval(tick, 80);
@@ -120,6 +123,7 @@
   };
 
   const showScreen = (name) => {
+    currentScreen = name;
     let visibleScreen;
     screens.forEach((screen) => {
       screen.hidden = screen.dataset.screen !== name;
@@ -197,26 +201,56 @@
     activeVoices.forEach(stopVoice);
   };
 
-  const prepareTurn = () => {
-    const partner = partnerLabels[listeningOrder[turn]];
-    setText("[data-listening-partner]", partner);
-    setText("[data-audio-status]", "Ready");
+  // Every response path is explicit. Pausing never counts as not hearing.
+  const setListeningState = (nextPhase) => {
+    phase = nextPhase;
+    sweepPlaying = phase === "playing";
+    const controls = {
+      "[data-heard]": phase === "playing",
+      "[data-not-heard]": phase === "finished",
+      "[data-start-tone]": phase === "paused" || phase === "error",
+      "[data-pause-tone]": phase === "starting" || phase === "playing",
+      "[data-retry-turn]": phase === "finished",
+    };
+    Object.entries(controls).forEach(([selector, visible]) => {
+      const button = document.querySelector(selector);
+      button.hidden = !visible;
+      button.disabled = !visible;
+    });
+    listeningStage.classList.toggle("is-idle", !["playing", "finished"].includes(phase));
+    const copy = {
+      starting: ["Starting…", "Getting the tone ready", "Tap as soon as you hear the tone."],
+      playing: ["Playing", "20 seconds left", "The pitch is lowering. Keep the same volume."],
+      finished: ["Tone finished", "Nothing is recorded until you choose below", "Didn’t hear it? Confirm below, or listen again."],
+      paused: ["Paused", "No response was saved for this turn", "Retry when you’re ready. Keep the same volume."],
+      error: ["Sound unavailable", "No response was saved for this turn", "Check that audio is allowed, then retry this turn."],
+    }[phase];
+    if (copy) {
+      setText("[data-audio-status]", copy[0]);
+      setText("[data-audio-detail]", copy[1]);
+      setText("[data-listen-instruction]", copy[2]);
+    }
+  };
 
-    const startToneButton = document.querySelector("[data-start-tone]");
-    const heardButton = document.querySelector("[data-heard]");
-    const notHeardButton = document.querySelector("[data-not-heard]");
-    startToneButton.hidden = false;
-    startToneButton.disabled = false;
-    heardButton.hidden = true;
-    heardButton.disabled = true;
-    notHeardButton.hidden = true;
-    notHeardButton.disabled = true;
-    listeningStage.classList.add("is-idle");
+  const pauseTurn = (moveFocus = true) => {
+    if (currentScreen !== "listen" || !["starting", "playing"].includes(phase)) return;
+    stopTone();
+    setListeningState("paused");
+    resetSweepProgress();
+    setReadout(startFrequency);
+    if (moveFocus) document.querySelector("[data-start-tone]").focus({ preventScroll: true });
+  };
+
+  const prepareTurn = () => {
+    setText("[data-listening-partner]", partnerLabels[listeningOrder[turn]]);
+    setText("[data-turn-number]", String(turn + 1));
+    setListeningState("idle");
     resetSweepProgress();
     setReadout(startFrequency);
   };
 
   const startTone = async () => {
+    if (currentScreen !== "listen" || ["starting", "playing"].includes(phase)) return;
     stopTone();
     const run = toneRun;
     errorMessage.hidden = true;
@@ -225,16 +259,23 @@
     const notHeardButton = document.querySelector("[data-not-heard]");
     startToneButton.hidden = true;
     startToneButton.disabled = true;
-    setText("[data-audio-status]", "Starting…");
+    setListeningState("starting");
 
     try {
       const AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextClass) {
         throw new Error("Web Audio is not supported");
       }
-      audioContext ||= new AudioContextClass();
+      if (!audioContext) {
+        audioContext = new AudioContextClass();
+        audioContext.addEventListener("statechange", () => {
+          if (audioContext && audioContext.state !== "running" && phase === "playing") pauseTurn();
+        });
+      }
+      // Called directly from the user's start/retry click, including on Safari.
       await audioContext.resume();
       if (run !== toneRun) return;
+      if (audioContext.state !== "running") throw new Error("Audio did not start");
 
       const oscillator = audioContext.createOscillator();
       const gain = audioContext.createGain();
@@ -256,8 +297,8 @@
       oscillator.start(now);
       oscillator.stop(finish + 0.03);
 
-      sweepStartedAt = performance.now();
-      sweepPlaying = true;
+      sweepStartedAt = now;
+      setListeningState("playing");
 
       heardButton.hidden = false;
       heardButton.disabled = false;
@@ -269,20 +310,28 @@
       runSweepProgress();
       startReadout();
 
-      sweepTimer = window.setTimeout(() => {
+      const completeSweep = () => {
         if (run !== toneRun) return;
+        // A wall timer can run before the audio clock reaches the endpoint.
+        const remaining = finish - audioContext.currentTime;
+        if (remaining > 0.01) {
+          sweepTimer = window.setTimeout(completeSweep, remaining * 1000);
+          return;
+        }
         stopTone();
+        setListeningState("finished");
         heardButton.hidden = true;
         heardButton.disabled = true;
         notHeardButton.hidden = false;
         notHeardButton.disabled = false;
         notHeardButton.focus({ preventScroll: true });
-        setText("[data-audio-status]", "Finished");
         setReadout(endFrequency);
-      }, sweepDuration);
+      };
+      sweepTimer = window.setTimeout(completeSweep, sweepDuration);
     } catch {
       if (run !== toneRun) return;
       stopTone();
+      setListeningState("error");
       startToneButton.hidden = false;
       startToneButton.disabled = false;
       startToneButton.focus({ preventScroll: true });
@@ -297,13 +346,14 @@
   const finishTurn = (heardFrequency) => {
     responses[listeningOrder[turn]] = heardFrequency;
     stopTone();
+    phase = "idle";
 
     if (turn === 0) {
       const nextPartner = partnerLabels[listeningOrder[1]];
       setText("[data-next-partner]", nextPartner);
       setText("[data-first-result-label]", partnerLabels[listeningOrder[turn]]);
       setText("[data-first-result]", responseText(heardFrequency));
-      setProgress(2);
+      setProgress(1);
       showScreen("handoff");
       return;
     }
@@ -317,12 +367,10 @@
     const sleepingResponse = responses[sleepingPartner];
     const requestedMatch =
       wakingResponse !== null &&
-      (sleepingResponse === null ||
-        wakingResponse - sleepingResponse >= minimumMatchGap);
+      wakingResponse - (sleepingResponse ?? endFrequency) >= minimumMatchGap;
     const reverseMatch =
       sleepingResponse !== null &&
-      (wakingResponse === null ||
-        sleepingResponse - wakingResponse >= minimumMatchGap);
+      sleepingResponse - (wakingResponse ?? endFrequency) >= minimumMatchGap;
     const matchedPartner = requestedMatch
       ? wakingPartner
       : reverseMatch
@@ -330,6 +378,12 @@
         : undefined;
 
     const hasRange = matchedPartner !== undefined;
+    setText("[data-result-for]", hasRange
+      ? `A range to try for ${partnerLabels[matchedPartner]}`
+      : "No useful range found on this device");
+    const nextLink = document.querySelector("[data-result-next]");
+    nextLink.textContent = hasRange ? "Get Couples Alarm" : "About Couples Alarm";
+    nextLink.setAttribute("href", hasRange ? "../download/" : "../");
     setText(
       "[data-result-title]",
       hasRange ? "A possible match" : "No clear match",
@@ -339,8 +393,8 @@
       hasRange
         ? "Confirm this range with a bedside alarm before relying on it."
         : responses.every((response) => response === null)
-          ? "Neither partner heard the sweep."
-          : "The two results were too close to show a useful gap.",
+          ? "Neither partner heard the sweep on this device. Its speaker and your volume can affect the result."
+          : "There wasn’t enough room between your responses for a useful range. This device and volume can affect the result.",
     );
     setText("[data-result-partner-one-label]", partnerLabels[0]);
     setText("[data-result-partner-two-label]", partnerLabels[1]);
@@ -399,42 +453,54 @@
         `${resultDescription}. Possible alarm sweet spot from ${kilohertzText(lowFrequency)} to ${kilohertzText(highFrequency)} kilohertz for ${partnerLabels[matchedPartner]}.`,
       );
     }
-    setProgress(3);
+    setProgress(2);
     showScreen("result");
   };
 
   document.querySelector("[data-start-preview]").addEventListener("click", () => {
+    if (currentScreen !== "ready") return;
     turn = 0;
     responses = [undefined, undefined];
-    setProgress(1);
+    setProgress(0);
     prepareTurn();
     showScreen("listen");
+    startTone();
   });
 
   document.querySelector("[data-start-tone]").addEventListener("click", startTone);
+  document.querySelector("[data-retry-turn]").addEventListener("click", startTone);
+  document.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
 
   document.querySelector("[data-heard]").addEventListener("click", () => {
-    if (!sweepPlaying) return;
-    const progress = Math.min(
-      1,
-      (performance.now() - sweepStartedAt) / sweepDuration,
-    );
+    if (currentScreen !== "listen" || !sweepPlaying || audioContext.state !== "running") return;
+    const progress = ((audioContext.currentTime - sweepStartedAt) * 1000) / sweepDuration;
+    if (progress > 1) {
+      // A delayed timer must not let a late tap invent an end-of-sweep response.
+      stopTone();
+      setListeningState("finished");
+      setReadout(endFrequency);
+      document.querySelector("[data-not-heard]").focus({ preventScroll: true });
+      return;
+    }
     finishTurn(frequencyAt(progress));
   });
 
   document.querySelector("[data-not-heard]").addEventListener("click", () => {
-    if (sweepPlaying) return;
+    if (currentScreen !== "listen" || phase !== "finished") return;
     finishTurn(null);
   });
 
   document.querySelector("[data-next-turn]").addEventListener("click", () => {
+    if (currentScreen !== "handoff") return;
     turn = 1;
     prepareTurn();
     showScreen("listen");
+    startTone();
   });
 
   document.querySelector("[data-restart]").addEventListener("click", () => {
     stopTone();
+    phase = "idle";
     turn = 0;
     responses = [undefined, undefined];
     setProgress(0);
@@ -442,22 +508,11 @@
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) return;
-    stopTone();
-    // Re-enable as well as re-show: leaving the button disabled here stranded
-    // the turn for anyone who backgrounded the page mid-sweep.
-    document.querySelector("[data-start-tone]").hidden = false;
-    document.querySelector("[data-start-tone]").disabled = false;
-    document.querySelector("[data-heard]").hidden = true;
-    document.querySelector("[data-heard]").disabled = true;
-    document.querySelector("[data-not-heard]").hidden = true;
-    document.querySelector("[data-not-heard]").disabled = true;
-    setText("[data-audio-status]", "Paused");
-    listeningStage.classList.add("is-idle");
-    resetSweepProgress();
+    if (document.hidden) pauseTurn(false);
   });
 
   const closeAudio = () => {
+    pauseTurn(false);
     stopTone();
     const context = audioContext;
     audioContext = undefined;
