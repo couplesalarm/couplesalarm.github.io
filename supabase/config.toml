@@ -7,6 +7,9 @@ additional_redirect_urls = ["https://couplesalarm.com/admin/", "https://couplesa
 [functions.submit-couples-alarm-feedback]
 verify_jwt = false
 
+[functions.submit-android-beta-application]
+verify_jwt = true
+
 [functions.list-couples-alarm-feedback]
 verify_jwt = false
 

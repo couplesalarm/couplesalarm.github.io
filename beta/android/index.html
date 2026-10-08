@@ -10,6 +10,7 @@
   <link rel="icon" href="../../assets/app-icon.png" type="image/png">
   <title>Couples Alarm Android Beta</title>
   <link rel="stylesheet" href="../../style.css?v=20261005-android-beta-enrollment-1">
+  <link rel="stylesheet" href="signup.css?v=20261007-1">
 </head>
 <body class="site-page android-beta-guide-page">
   <a class="skip-link" href="#content">Skip to Android beta instructions</a>
@@ -40,10 +41,67 @@
         <p>Complete the application with your Play Store Google account and review the eligibility and consent requirements. Access is for selected testers; applying or joining a group does not automatically grant it. Do not rely on an Android test build for an important wake-up.</p>
       </div>
       <div class="stacked-actions">
-        <a class="button-link primary-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeRYN0x9f12SPhvEApryNvo8ADy34UxSkohdXu6JntoZAOtug/viewform?usp=publish-editor">Apply for the Android beta</a>
+        <a class="button-link primary-link" href="#application">Apply for the Android beta</a>
         <span class="button-link" role="link" aria-disabled="true" aria-describedby="play-access-note">Google Play opt-in and install are not open yet</span>
         <small id="play-access-note">Submitting the application does not enroll you in Google Play or start the 14-day closed-test period. Selected testers will receive private access and Play instructions after the closed release is available.</small>
       </div>
+    </section>
+
+    <section id="application" class="beta-application" aria-labelledby="application-title">
+      <div class="application-intro">
+        <p class="eyebrow">Android beta signup</p>
+        <h2 id="application-title">Apply here.</h2>
+        <p>Use the Google account you use in the Play Store. Brian will contact selected testers when the test build is ready. No rating or review is required.</p>
+      </div>
+      <form id="beta-application-form" class="feedback-form beta-application-form">
+        <fieldset id="application-fields">
+          <legend>Your application</legend>
+          <p class="meta">All fields are required unless marked optional.</p>
+          <div class="question">
+            <label class="question-title" for="play-email">Google Play email</label>
+            <input id="play-email" name="playEmail" type="email" autocomplete="email" maxlength="254" required aria-describedby="play-email-hint">
+            <span id="play-email-hint" class="meta">The Google account on your Android phone’s Play Store.</span>
+          </div>
+          <div class="application-device-fields">
+            <label class="question" for="phone-model">
+              <span class="question-title">Android phone brand and model</span>
+              <input id="phone-model" name="phoneModel" type="text" maxlength="120" placeholder="For example, Samsung Galaxy S24" required>
+            </label>
+            <label class="question" for="android-version">
+              <span class="question-title">Android version</span>
+              <input id="android-version" name="androidVersion" type="text" maxlength="40" placeholder="For example, Android 15 or Not sure" required>
+            </label>
+          </div>
+          <fieldset class="application-commitment">
+            <legend>Can you stay opted in for 14 consecutive days, try the app, and share honest feedback?</legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="radio" name="canTest14Days" value="yes" required><span>Yes</span></label>
+              <label class="choice"><input type="radio" name="canTest14Days" value="no"><span>No</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="application-interests">
+            <legend>What interests you? <span class="optional">Optional</span></legend>
+            <div class="choice-grid">
+              <label class="choice"><input type="checkbox" name="interests" value="different_wake_times"><span>Different wake times</span></label>
+              <label class="choice"><input type="checkbox" name="interests" value="sharing_a_room"><span>Sharing a room</span></label>
+              <label class="choice"><input type="checkbox" name="interests" value="trying_a_new_alarm"><span>Trying a new alarm</span></label>
+              <label class="choice"><input type="checkbox" name="interests" value="helping_improve_the_app"><span>Helping improve the app</span></label>
+            </div>
+          </fieldset>
+          <div class="application-consent">
+            <label class="choice"><input type="checkbox" name="adultConfirmed" required><span>I am 18 years old or older.</span></label>
+            <label class="choice"><input type="checkbox" name="contactConsent" required><span>I consent to Couples Alarm using my email and device information to organize the beta and contact me, and, if selected, adding my email to the Google Play tester list or private tester group for access.</span></label>
+          </div>
+          <p class="meta application-privacy">Your application is stored privately and used to organize this beta, not for marketing. <a href="../../privacy/#android-beta-group">Application privacy</a>.</p>
+          <label class="application-honeypot" aria-hidden="true">Leave this field empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+        </fieldset>
+        <div class="application-submit">
+          <button type="submit">Submit application</button>
+          <p class="meta">Applying does not automatically grant access. Keep a backup alarm while testing and do not make real purchases during the beta.</p>
+        </div>
+        <p id="application-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+        <noscript><p>Please enable JavaScript to submit this form, or contact <a href="mailto:couplesalarm.support@gmail.com">Couples Alarm Support</a>.</p></noscript>
+      </form>
     </section>
 
     <section class="handoff-section" aria-labelledby="steps-title">
@@ -96,5 +154,6 @@
       <a href="mailto:couplesalarm.support@gmail.com">Contact</a>
     </nav>
   </footer>
+  <script type="module" src="signup.js?v=20261007-1"></script>
 </body>
 </html>
