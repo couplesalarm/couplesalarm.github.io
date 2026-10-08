@@ -19,16 +19,16 @@ function applicationLink(html, label) {
 
 test("puts the test action before the balanced robot app options", () => {
   assert.ok(home.indexOf('<a class="test-link"') < home.indexOf('<div class="app-badges">'));
-  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android app">/);
+  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android beta">/);
   assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
-  assert.match(home, /<strong>Android™<\/strong><small>app<\/small>/);
+  assert.match(home, /<strong>Android™<\/strong><small>beta<\/small>/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
   assert.match(home, /<footer class="android-brand-attribution">[\s\S]*?Android is a trademark of Google LLC\./);
   assert.match(home, /The Android robot is reproduced or modified from work created and shared by/);
   assert.match(home, /href="https:\/\/developer\.android\.com\/distribute\/marketing-tools\/brand-guidelines"/);
   assert.match(home, /href="https:\/\/creativecommons\.org\/licenses\/by\/3\.0\/"/);
   assert.doesNotMatch(home, /eligibility|consent|testing/i);
-  assert.doesNotMatch(home, /Android (?:closed )?beta|Apply for the Android beta/i);
+  assert.doesNotMatch(home, /Apply for the Android beta/i);
   assert.doesNotMatch(home, /Get it on Google Play|Pre-register on Google Play/);
 });
 
