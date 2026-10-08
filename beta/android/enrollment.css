@@ -1,41 +1,84 @@
+.android-beta-guide-page {
+  background: var(--night);
+  font-size: 1rem;
+}
+
+.android-beta-guide-page::before {
+  display: none;
+}
+
+.android-beta-guide-page > header,
+.android-beta-guide-page > main,
+.android-beta-guide-page > footer {
+  width: min(28rem, calc(100% - 3rem));
+}
+
+.android-beta-guide-page > header {
+  padding: 2rem 0;
+}
+
+.android-beta-guide-page .page-brand {
+  font-size: 1rem;
+}
+
+.android-beta-guide-page > main {
+  display: block;
+  padding: 0;
+}
+
 .beta-enrollment {
-  scroll-margin-top: 2rem;
+  scroll-margin-top: 1.5rem;
 }
 
-.beta-enrollment .handoff-steps {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.beta-enrollment .handoff-steps li {
-  grid-template-rows: auto auto 1fr auto;
-  gap: 1rem;
-  border: 1px solid var(--border);
-  border-radius: 1.2rem;
-}
-
-.beta-enrollment .handoff-steps h3 {
+.beta-enrollment h1 {
+  max-width: none;
   margin: 0;
-  font-size: 1.25rem;
+  font-size: clamp(1.75rem, 5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
 }
 
-.beta-enrollment .handoff-steps p {
-  margin: 0;
+.enrollment-intro {
+  margin: 0.75rem 0 1.75rem;
   color: var(--soft-ink);
 }
 
-.beta-enrollment .handoff-steps strong {
+.enrollment-actions {
+  display: grid;
+  gap: 1.5rem;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.enrollment-privacy {
-  max-width: 75ch;
+.enrollment-actions .button-link {
+  width: 100%;
+  background: var(--cyan);
+  box-shadow: none;
+}
+
+.enrollment-actions p {
+  margin: 0.5rem 0 0;
+  color: var(--soft-ink);
   font-size: 0.9rem;
 }
 
-@media (max-width: 700px) {
-  .beta-enrollment .handoff-steps {
-    grid-template-columns: 1fr;
-  }
+.enrollment-note {
+  margin: 1.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.android-beta-guide-page > footer {
+  padding: 1.25rem 0 2rem;
+}
+
+.android-beta-guide-page footer nav {
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.android-beta-guide-page footer a {
+  color: var(--soft-ink);
+  font-size: 0.85rem;
 }
