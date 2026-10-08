@@ -78,3 +78,20 @@ Brian approved the generated dawn concept. The implementation keeps the original
 ## Background generation prompt
 
 Use case: precise-object-edit. Create ONLY the full-bleed background image from this approved Couples Alarm website concept, as a landscape 16:9 high-quality web background. Remove ALL foreground UI, text, logos, icons, buttons, divider lines, phones, video card, people and dog. Reconstruct the quiet bedroom environment behind them. Preserve the source's deep midnight navy across the entire left 55% with very little visual detail, soft rumpled indigo bedding along the bottom, very subtle out-of-focus bedroom shapes in center, warm sunrise window at far right with muted amber peach light and soft curtain, indistinct plant and bedside table only on right edge. No writing on books or objects. Lower contrast and soften background details slightly compared with reference, atmospheric and intentionally defocused, to sit behind legible website text and existing portrait video. Do not invent characters. No interface or letters anywhere. This is a production decorative BACKGROUND PLATE only.
+
+---
+
+# Design QA — Dawn companion pages, 2026-10-08
+
+Extends Brian's approved homepage direction to eight visitor-facing pages: Support, Privacy, Download, the shared-morning guide, iPhone beta, Android beta, Feedback, and the listening check. The opt-in `assets/dawn-pages.css` reuses the existing 26 KB dawn background and leaves the homepage, internal admin/dashboard, and review-evidence pages independent.
+
+- Reading pages use a static, darker version of the dawn scene, consistent typography/actions, and opaque reading surfaces. No new decorative motion is introduced on task or reading pages.
+- Support uses native keyboard-accessible disclosures and direct shortcuts, with safety guidance and all original answers retained.
+- Download offers parallel platform cards and reuses the established couple/Bailey artwork. Android enrollment retains the same two external links and compact layout; no signup form or extra step was added.
+- Privacy/guide keep their original text and anchor destinations, with a compact index and a readable content panel.
+- Feedback preserves every field, payload, and submission handler. Selection styling and keyboard controls were exercised locally without submitting feedback.
+- Listening preserves its audio logic, timing, artwork, progress, partner handoff, spectrum, and result wording. Browser QA exercised completed-sweep, response, handoff, possible-match, no-clear-match, and restart states. Flexible tablet columns correct the old minimum-column overflow without shrinking the response controls.
+- Validation: all 81 existing Node tests pass. Original main-content text comparisons pass on all eight pages (apart from the Android decorative eyebrow). No application JavaScript changed.
+- Browser QA: all eight pages at 1440×900, 390×844, and 320×568, with the shared stylesheet verified loaded and no horizontal overflow or missing images. Listening ready/listen states also passed at 768×1024, 980×720, and 1280×640. Support expands with a click and collapses with Enter.
+- Screenshots and machine-readable layout receipts: `/Users/BrianM/couplesalarm/outputs/inner-pages-dawn-20261008/`.
+- Website only; no native app binary or TestFlight release.
