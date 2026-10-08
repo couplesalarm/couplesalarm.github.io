@@ -10,7 +10,7 @@
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Try Couples Alarm together</title>
   <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
-  <link rel="stylesheet" href="compatibility.css?v=20261008-workflow-1">
+  <link rel="stylesheet" href="compatibility.css?v=20261008-orbit-1">
   <script defer src="../assets/analytics.js?v=20260817-firstparty-1"></script>
 </head>
 <body class="dawn-page compatibility-page">
@@ -36,108 +36,43 @@
         <span class="progress-step" data-progress="result"><b>3</b>Your result</span>
       </div>
 
-      <section class="screen ready-screen" data-screen="ready" aria-labelledby="ready-title">
-        <div class="ready-heading">
-          <p class="eyebrow">A quick listening preview</p>
-          <h1 id="ready-title">See if Couples Alarm could <span>work for you.</span></h1>
-          <p data-device-intro>Take the test together on this device.</p>
-        </div>
-
-        <figure class="ready-scene">
-          <img src="../assets/compatibility-flow-couple.png?v=20260730" alt="Two partners and their dog trying Couples Alarm together">
-        </figure>
-
-        <div class="ready-actions">
-          <ol class="test-instructions">
-            <li><strong>Use your speaker.</strong><span>No headphones. Set a comfortable volume.</span></li>
-            <li><strong>Tap as soon as you hear the tone.</strong><span>The pitch lowers for up to 20 seconds.</span></li>
-            <li><strong>Then pass it to your partner.</strong><span>Same device, position, and volume.</span></li>
-          </ol>
-          <p class="start-notice" id="start-notice">Sound starts immediately for <strong>Partner One</strong>.</p>
-          <button class="primary-action" type="button" data-start-preview aria-describedby="start-notice">
-            <img src="../assets/play-fill.svg" alt="">
-            <span>Start the test</span>
-          </button>
-          <p class="preview-limit">Stop if uncomfortable. This is not a hearing test.</p>
-        </div>
-      </section>
-
-      <section class="screen listen-screen" data-screen="listen" aria-labelledby="listen-title" hidden>
+      <section class="screen listen-screen" data-screen="listen" aria-labelledby="listen-title">
         <div class="listen-copy">
           <p class="eyebrow"><span data-listening-partner>Partner One</span> · <span data-turn-number>1</span> of 2</p>
-          <h2 id="listen-title">Tap when you <em>hear it.</em></h2>
-          <p data-listen-instruction>The pitch is lowering. Keep the same volume.</p>
+          <h1 id="listen-title">Find your <em>tone.</em></h1>
+          <p id="listen-instruction" data-listen-instruction>Start, then tap “I hear it.”</p>
         </div>
 
         <div class="listening-stage">
-          <svg class="tone-visualizer" viewBox="0 0 960 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-            <defs>
-              <linearGradient id="tone-spectrum" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#52dbe2"/>
-                <stop offset=".5" stop-color="#9b7de7"/>
-                <stop offset="1" stop-color="#ff795c"/>
-              </linearGradient>
-              <filter id="tone-glow" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="5" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-              <clipPath id="tone-field">
-                <rect x="40" y="96" width="880" height="204" rx="18"/>
-              </clipPath>
-              <linearGradient id="tone-beam" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#f4f1e9" stop-opacity=".5"/>
-                <stop offset="1" stop-color="#f4f1e9" stop-opacity="0"/>
-              </linearGradient>
-              <!-- One cycle is ~50 units wide here; stretching the group widens
-                   every wavelength at once, which is what a falling pitch does. -->
-              <path id="tone-wave-path" d="M0 214 q12.5 -78 25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0 t25 0"/>
-            </defs>
-
-            <path class="tone-descent-guide" d="M92 62 C332 54 626 112 876 188"/>
-
-            <g clip-path="url(#tone-field)">
-              <g class="tone-wave-group">
-                <use class="tone-wave-glow" href="#tone-wave-path"/>
-                <use class="tone-wave" href="#tone-wave-path"/>
-              </g>
-            </g>
-
-            <g class="tone-head">
-              <rect class="tone-beam" x="-1.5" y="18" width="3" height="104" rx="1.5"/>
-              <circle class="tone-emit" cx="0" cy="0" r="18"/>
-              <circle class="tone-emit tone-emit-late" cx="0" cy="0" r="18"/>
-              <circle class="tone-head-halo" cx="0" cy="0" r="21"/>
-              <circle class="tone-head-core" cx="0" cy="0" r="8"/>
-            </g>
-          </svg>
-          <p class="tone-readout" aria-hidden="true"><span data-frequency-readout>17.5</span> kHz</p>
-          <div class="sweep-scale" aria-hidden="true">
-            <span class="sweep-cap">High</span>
-            <span class="sweep-track">
-              <span class="sweep-fill" data-sweep-progress></span>
-            </span>
-            <span class="sweep-cap">Low</span>
+          <div class="tone-orbit" aria-hidden="true">
+            <svg class="orbit-track" viewBox="0 0 220 220" focusable="false">
+              <defs><linearGradient id="orbit-color" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#deb5ff"/><stop offset="1" stop-color="#9aebed"/></linearGradient></defs>
+              <circle class="orbit-rail" cx="110" cy="110" r="101"/>
+              <circle class="orbit-progress" cx="110" cy="110" r="101" pathLength="1"/>
+            </svg>
+            <div class="orbit-core">
+              <p class="tone-readout" aria-hidden="true"><span data-frequency-readout>17.5</span><small>kHz</small></p>
+            </div>
+            <span class="orbit-spark"></span>
           </div>
           <div class="listening-status" aria-live="polite">
             <strong data-audio-status>Ready</strong>
-            <span data-audio-detail aria-live="off">Up to 20 seconds</span>
+
           </div>
           <div class="listening-controls">
             <button class="primary-action listening-action" type="button" data-heard hidden disabled>
               <span class="listening-action-main">I hear it</span>
-              <span class="listening-action-sub">Stops the tone and saves your response</span>
+
             </button>
             <button class="primary-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
-            <button class="primary-action" type="button" data-start-tone hidden disabled>Retry this turn</button>
+            <button class="primary-action listening-action" type="button" data-start-tone aria-describedby="listen-instruction">Start</button>
             <button class="text-action" type="button" data-pause-tone hidden disabled>Pause sound</button>
             <button class="text-action" type="button" data-retry-turn hidden>Listen again</button>
           </div>
         </div>
 
-        <p class="preview-limit"><strong data-speaker-title>Device speaker</strong> only — no headphones.<br>Stop if uncomfortable. This is not a hearing test.</p>
+        <p class="preview-limit"><span data-speaker-title>Device speaker</span> · No headphones · Comfortable volume</p>
+        <p class="hearing-note">Designed for the partner who hears higher pitches.</p>
       </section>
 
       <section class="screen handoff-screen" data-screen="handoff" aria-labelledby="handoff-title" hidden>
@@ -156,8 +91,8 @@
               <strong data-first-result>—</strong>
             </p>
           </div>
-          <p class="handoff-volume">Keep the same position and volume. Tap as soon as you hear the tone.</p>
-          <p class="start-notice" id="next-notice">Speaker only — no headphones. Sound starts immediately.</p>
+          <p class="handoff-volume">Same device. Same position and volume.</p>
+          <p class="start-notice" id="next-notice">Sound starts when Partner Two taps below.</p>
           <button class="primary-action" type="button" data-next-turn aria-describedby="next-notice">
             <img src="../assets/play-fill.svg" alt="">
             <span>Start <b data-next-partner>Partner Two</b>’s turn</span>
@@ -204,6 +139,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20261008-workflow-1"></script>
+  <script src="compatibility.js?v=20261008-orbit-1"></script>
 </body>
 </html>

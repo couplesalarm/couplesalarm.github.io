@@ -47,8 +47,8 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     nodes.set(`[${match[1]}]`, new Element());
   }
   nodes.set(".listening-stage", new Element());
-  const screens = ["ready", "listen", "handoff", "result"].map((name) => {
-    const element = new Element(); element.dataset.screen = name; element.hidden = name !== "ready"; return element;
+  const screens = ["listen", "handoff", "result"].map((name) => {
+    const element = new Element(); element.dataset.screen = name; element.hidden = name !== "listen"; return element;
   });
   const steps = [0, 1, 2].map(() => new Element());
   const el = (selector) => {
@@ -105,7 +105,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     get context() { return context; },
     get focused() { return focused; },
     get screen() { return screens.find((screen) => !screen.hidden).dataset.screen; },
-    async click(selector) { await el(selector).emit("click"); await flush(); },
+    async click(selector) { void el(selector).emit("click"); await flush(); },
     async resolve() { pendingResume = false; resolveResume(); await flush(); },
     async allowAudio() { failResume = false; window.AudioContext = AudioContext; },
     async hide() { document.hidden = true; await document.emit("visibilitychange"); },
@@ -122,7 +122,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     },
   };
 }
-const start = (p) => p.click("[data-start-preview]");
+const start = (p) => p.click("[data-start-tone]");
 const heard = (p) => p.click("[data-heard]");
 const next = (p) => p.click("[data-next-turn]");
 async function unheard(p) { p.advance(20); await p.click("[data-not-heard]"); }
@@ -258,7 +258,7 @@ for (const kind of ["neither", "same", "late-and-unheard"]) {
     if (kind === "same") { p.advance(4); await heard(p); } else await unheard(p);
     assert.equal(p.el("[data-result-title]").textContent, "No clear match");
     assert.equal(p.el("[data-sweet-spot-band]").hidden, true);
-    await p.click("[data-restart]"); assert.equal(p.screen, "ready");
+    await p.click("[data-restart]"); assert.equal(p.screen, "listen");
     await start(p); assert.equal(p.el("[data-listening-partner]").textContent, "Partner One");
   });
 }
@@ -275,4 +275,14 @@ test("a response at the exact endpoint is accepted before the completion callbac
   const p = preview(); await start(p); p.advance(20, 20, false); await heard(p);
   assert.equal(p.screen, "handoff");
   assert.equal(p.el("[data-first-result]").textContent, "8.5 kHz");
+});
+
+
+test("opens directly on the first listening turn without starting audio", () => {
+  const p = preview();
+  assert.equal(p.screen, "listen");
+  assert.equal(p.voices.length, 0);
+  assert.equal(p.el("[data-start-tone]").hidden, false);
+  assert.equal(p.el("[data-start-tone]").textContent, "Start");
+  assert.equal(p.el("[data-frequency-readout]").textContent, "17.5");
 });

@@ -4,7 +4,6 @@
   const progressSteps = [...document.querySelectorAll(".progress-step")];
   const errorMessage = document.querySelector("[data-error-message]");
   const listeningStage = document.querySelector(".listening-stage");
-  const sweepProgress = document.querySelector("[data-sweep-progress]");
 
   const startFrequency = 17500;
   const endFrequency = 8500;
@@ -26,7 +25,7 @@
   let sweepStartedAt = 0;
   let sweepPlaying = false;
   let phase = "idle";
-  let currentScreen = "ready";
+  let currentScreen = "listen";
   let sweepTimer;
   let readoutTimer;
 
@@ -59,7 +58,6 @@
         ((audioContext.currentTime - sweepStartedAt) * 1000) / sweepDuration,
       );
       setReadout(frequencyAt(progress));
-      setText("[data-audio-detail]", `${Math.max(0, Math.ceil((sweepDuration / 1000) * (1 - progress)))} seconds left`);
     };
     tick();
     readoutTimer = window.setInterval(tick, 80);
@@ -74,29 +72,22 @@
   const currentDeviceCopy = () =>
     isIPhone
       ? {
-          intro: "Take the test together on this iPhone.",
           title: "iPhone speaker",
         }
       : isIPad
         ? {
-            intro: "Take the test together on this iPad.",
             title: "iPad speaker",
           }
         : phoneQuery.matches
           ? {
-              intro: "Take the test together on this phone.",
               title: "Phone speaker",
             }
           : {
-              intro: "Take the test together on this device.",
               title: "Built-in speakers",
             };
 
   const updateDeviceCopy = () => {
     const deviceCopy = currentDeviceCopy();
-    document.querySelectorAll("[data-device-intro]").forEach((element) => {
-      element.textContent = deviceCopy.intro;
-    });
     document.querySelectorAll("[data-speaker-title]").forEach((element) => {
       element.textContent = deviceCopy.title;
     });
@@ -173,14 +164,10 @@
     activeVoices.delete(voice);
   };
 
-  // The sweep bar is driven by a single CSS transition rather than a per-frame
-  // loop, so it still reads as progress without an animation callback.
+  // The ring follows the sweep duration without a per-frame rendering loop.
   const resetSweepProgress = () => {
     listeningStage.classList.remove("is-sweeping");
-    sweepProgress.style.transitionDuration = "0ms";
-    sweepProgress.style.transform = "scaleX(0)";
-    void sweepProgress.offsetWidth;
-    sweepProgress.style.transitionDuration = "";
+    void listeningStage.offsetWidth;
   };
 
   const runSweepProgress = () => {
@@ -188,8 +175,6 @@
     // Keeps the CSS sweep animations locked to the same clock as the audio.
     listeningStage.style.setProperty("--sweep-duration", `${sweepDuration}ms`);
     listeningStage.classList.add("is-sweeping");
-    sweepProgress.style.transitionDuration = `${sweepDuration}ms`;
-    sweepProgress.style.transform = "scaleX(1)";
   };
 
   const stopTone = () => {
@@ -208,7 +193,7 @@
     const controls = {
       "[data-heard]": phase === "playing",
       "[data-not-heard]": phase === "finished",
-      "[data-start-tone]": phase === "paused" || phase === "error",
+      "[data-start-tone]": ["idle", "paused", "error"].includes(phase),
       "[data-pause-tone]": phase === "starting" || phase === "playing",
       "[data-retry-turn]": phase === "finished",
     };
@@ -218,17 +203,18 @@
       button.disabled = !visible;
     });
     listeningStage.classList.toggle("is-idle", !["playing", "finished"].includes(phase));
+    setText("[data-start-tone]", phase === "idle" ? "Start" : "Retry this turn");
     const copy = {
-      starting: ["Starting…", "Getting the tone ready", "Tap as soon as you hear the tone."],
-      playing: ["Playing", "20 seconds left", "The pitch is lowering. Keep the same volume."],
-      finished: ["Tone finished", "Nothing is recorded until you choose below", "Didn’t hear it? Confirm below, or listen again."],
-      paused: ["Paused", "No response was saved for this turn", "Retry when you’re ready. Keep the same volume."],
-      error: ["Sound unavailable", "No response was saved for this turn", "Check that audio is allowed, then retry this turn."],
+      idle: ["Ready when you are", "Start, then tap “I hear it.”"],
+      starting: ["Starting…", "Tap as soon as you hear it."],
+      playing: ["Playing", "Tap as soon as you hear it."],
+      finished: ["Tone finished", "Didn’t hear it? Confirm or listen again."],
+      paused: ["Paused", "Nothing saved. Retry when you’re ready."],
+      error: ["Sound unavailable", "Check your audio, then retry."],
     }[phase];
     if (copy) {
       setText("[data-audio-status]", copy[0]);
-      setText("[data-audio-detail]", copy[1]);
-      setText("[data-listen-instruction]", copy[2]);
+      setText("[data-listen-instruction]", copy[1]);
     }
   };
 
@@ -393,8 +379,8 @@
       hasRange
         ? "Confirm this range with a bedside alarm before relying on it."
         : responses.every((response) => response === null)
-          ? "Neither partner heard the sweep on this device. Its speaker and your volume can affect the result."
-          : "There wasn’t enough room between your responses for a useful range. This device and volume can affect the result.",
+          ? "Neither partner heard the sweep. Try another device with the same comfortable volume."
+          : "Your responses are too close for a useful range on this device.",
     );
     setText("[data-result-partner-one-label]", partnerLabels[0]);
     setText("[data-result-partner-two-label]", partnerLabels[1]);
@@ -457,16 +443,6 @@
     showScreen("result");
   };
 
-  document.querySelector("[data-start-preview]").addEventListener("click", () => {
-    if (currentScreen !== "ready") return;
-    turn = 0;
-    responses = [undefined, undefined];
-    setProgress(0);
-    prepareTurn();
-    showScreen("listen");
-    startTone();
-  });
-
   document.querySelector("[data-start-tone]").addEventListener("click", startTone);
   document.querySelector("[data-retry-turn]").addEventListener("click", startTone);
   document.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
@@ -504,7 +480,8 @@
     turn = 0;
     responses = [undefined, undefined];
     setProgress(0);
-    showScreen("ready");
+    prepareTurn();
+    showScreen("listen");
   });
 
   document.addEventListener("visibilitychange", () => {
@@ -526,5 +503,5 @@
 
   updateDeviceCopy();
   setProgress(0);
-  listeningStage.classList.add("is-idle");
+  prepareTurn();
 })();
