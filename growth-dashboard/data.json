@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-07T21:59:40.242Z",
+  "generatedAt": "2026-10-08T22:05:10.675Z",
   "apple": {
     "mode": "automatic",
-    "throughDate": "2026-10-06",
-    "firstTimeDownloads": 16,
+    "throughDate": "2026-10-07",
+    "firstTimeDownloads": 17,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 1
+    "usRatingCount": 2
   },
   "social": {
     "mode": "mixed",
@@ -37,7 +37,7 @@
         "name": "YouTube",
         "views": 18,
         "mode": "automatic",
-        "updatedAt": "2026-10-07T21:59:40.519Z",
+        "updatedAt": "2026-10-08T22:05:10.824Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
       }
     ]
