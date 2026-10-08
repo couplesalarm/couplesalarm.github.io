@@ -128,3 +128,16 @@ Brian requested a visibly refreshed, mobile-first test with no separate introduc
 - 42 browser layout checks: idle, playing, paused, finished, handoff, and result at 390×664, 390×844, 320×568, 320×480, 1440×900, 1280×640, and 844×390. No horizontal or vertical document overflow at these normal-scale sizes. Keyboard Start/Pause and reduced-motion behavior pass; the decorative pulse stops while the functional sweep ring remains. No console errors or warnings.
 - iPhone 17 Pro Simulator Safari visual review confirms the complete initial test screen fits above the browser controls. This validates the web layout, not physical speaker response.
 - Evidence: `/Users/BrianM/couplesalarm/outputs/compact-test-20261008/`.
+
+---
+
+# Design QA — Animated aurora frequency test, 2026-10-08
+
+The listening screen now uses a larger frequency instrument with three slowly rotating luminous ellipses, orbiting points, a soft aurora glow, tick marks, and a frosted lavender/cyan response button. The colour changes with the actual audio-clock frequency. OpenAI-generated concept used as design input: `/Users/BrianM/.codex/generated_images/01a11bc7-fd64-7281-b2c1-8cf8a7b7c7ec/exec-759f367f-d7d6-4712-9074-0348635e36f4.png`. Shipped visuals remain CSS/SVG, with no new bitmap or animation library.
+
+- Motion can be disabled independently of sound. The initial setting follows reduced-motion preferences; a deliberate toggle overrides it for this page. The central frequency and functional sweep cue continue to work when decorative motion is paused.
+- Direct entry, one Start button, concise instructions, and frequency-only display are preserved. Audio parameters and threshold calculations are unchanged.
+- Tightened the handoff and result layouts for short screens, including side-by-side result actions on the shortest portrait windows.
+- Validation: 94 Node tests pass. New coverage checks that pausing decoration cannot stop the audio/readout/response and that reduced-motion defaults never start sound. Browser observations confirm rotating transforms, changing frequency, working motion toggle, and reduced-motion default. No browser errors or warnings.
+- Responsive QA covers ready, playing, paused, finished, handoff, and possible-match result at 390×664, 390×844, 320×568, 320×480, 1440×900, 1280×640, and 844×390. Safari in the iPhone 17 Pro Simulator visually confirms the complete initial screen fits above browser controls.
+- Evidence: `/Users/BrianM/couplesalarm/outputs/animated-test-20261008/`. Browser and Simulator checks validate layout and flow, not physical speaker/hearing response. Website only; no native binary or TestFlight release.
