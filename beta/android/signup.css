@@ -76,3 +76,27 @@
 .beta-application-form [hidden] {
   display: none;
 }
+
+.application-access h3 {
+  margin: 0.5rem 0 1rem;
+}
+
+.application-access-steps {
+  display: grid;
+  gap: 1.75rem;
+  padding-left: 1.5rem;
+}
+
+.application-access-steps li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.application-access-steps p {
+  margin: 0 0 0.75rem;
+}
+
+.application-access > .meta {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
