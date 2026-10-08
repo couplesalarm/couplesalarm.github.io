@@ -9,7 +9,6 @@ const [home, download, support, beta] = await Promise.all([
   "support/index.html",
   "beta/android/index.html",
 ].map((path) => readFile(new URL(path, root), "utf8")));
-const applicationURL = "https://docs.google.com/forms/d/e/1FAIpQLSeRYN0x9f12SPhvEApryNvo8ADy34UxSkohdXu6JntoZAOtug/viewform?usp=publish-editor";
 
 function applicationLink(html, label) {
   const links = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
@@ -33,9 +32,14 @@ test("puts the test action before the balanced robot app options", () => {
   assert.doesNotMatch(home, /Get it on Google Play|Pre-register on Google Play/);
 });
 
-test("sends both Android entry paths to the existing application without automatic access", () => {
-  assert.equal(applicationLink(download, "Complete the application"), applicationURL);
-  assert.equal(applicationLink(beta, "Apply for the Android beta"), applicationURL);
+test("keeps Android applications on the website without automatic access", () => {
+  assert.equal(applicationLink(download, "Complete the application"), "../beta/android/#application");
+  assert.equal(applicationLink(beta, "Apply for the Android beta"), "#application");
+  assert.match(beta, /id="beta-application-form"/);
+  assert.doesNotMatch(`${download}\n${beta}`, /docs\.google\.com|<iframe/i);
+  assert.match(beta, /name="playEmail" type="email"[^>]*required/);
+  assert.match(beta, /name="adultConfirmed" required/);
+  assert.match(beta, /name="contactConsent" required/);
   assert.match(download, /href="\.\.\/beta\/android\/"/);
   assert.match(support, /href="\.\.\/beta\/android\/"/);
   for (const html of [download, beta]) {

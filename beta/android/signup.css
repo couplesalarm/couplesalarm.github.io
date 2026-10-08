@@ -1,0 +1,92 @@
+.beta-application {
+  scroll-margin-top: 2rem;
+}
+
+.application-intro {
+  width: min(58rem, 100%);
+  margin: 0 auto 1.5rem;
+}
+
+.application-intro h2 {
+  margin: 0.75rem 0;
+}
+
+.application-intro > p:last-child {
+  max-width: 60ch;
+  color: var(--soft-ink);
+}
+
+.application-device-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.beta-application-form input[type="email"] {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: #090b17;
+  color: var(--text);
+}
+
+.beta-application-form fieldset fieldset {
+  margin-top: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.beta-application-form fieldset fieldset legend {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.application-consent {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.application-submit {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+}
+
+.application-submit p,
+.application-privacy {
+  max-width: 65ch;
+  font-size: 0.9rem;
+}
+
+.application-honeypot {
+  display: none;
+}
+
+#application-status:empty {
+  display: none;
+}
+
+#application-status[data-state="success"] {
+  padding: 1.5rem;
+  border: 1px solid var(--cyan);
+  border-radius: 1rem;
+  background: rgb(35 210 250 / 8%);
+  color: var(--soft-ink);
+}
+
+.beta-application-form [hidden] {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .application-device-fields {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
