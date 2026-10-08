@@ -135,24 +135,16 @@ video:focus-visible {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 0.75rem 1.5rem;
   padding: 1rem 0 1.25rem;
   border-top: 1px solid var(--line);
 }
 
-.social-nav p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 650;
-  letter-spacing: 0.02em;
-}
-
 .social-nav ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.25rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -164,28 +156,20 @@ video:focus-visible {
   min-height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  padding: 0.55rem 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgb(244 241 233 / 3%);
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 650;
+  border-radius: 0.35rem;
   text-decoration: none;
-  white-space: nowrap;
 }
 
-.social-nav a:hover,
+.social-nav a:hover { opacity: 0.72; }
+
 .social-nav a:focus-visible {
-  border-color: var(--aqua);
-  background: rgb(87 217 223 / 7%);
-  color: var(--ink);
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
 }
 
 .social-icon {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 1.5rem;
+  height: 1.5rem;
   flex: none;
   filter: brightness(0) invert(1);
 }
@@ -446,9 +430,7 @@ h1 span {
   .site-header nav { gap: 0.9rem; }
   .site-header nav a { min-height: 44px; font-size: 0.72rem; }
   .social-nav { justify-content: center; gap: 0.6rem; }
-  .social-nav p { width: 100%; text-align: center; }
   .social-nav ul { justify-content: center; }
-  .social-nav a { padding-inline: 0.75rem; }
   .hero {
     grid-template-columns: minmax(0, 1fr) minmax(7.8rem, 0.48fr);
     grid-template-areas: "copy copy" "showcase preview";
