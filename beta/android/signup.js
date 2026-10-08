@@ -7,12 +7,6 @@ const publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 export function buildApplication(data) {
   return {
     playEmail: String(data.get("playEmail") || "").trim().toLowerCase(),
-    phoneModel: String(data.get("phoneModel") || "").trim(),
-    androidVersion: String(data.get("androidVersion") || "").trim(),
-    canTest14Days: String(data.get("canTest14Days") || ""),
-    adultConfirmed: data.get("adultConfirmed") === "on",
-    contactConsent: data.get("contactConsent") === "on",
-    interests: data.getAll("interests").map(String),
     website: String(data.get("website") || ""),
   };
 }
@@ -46,9 +40,9 @@ if (typeof document !== "undefined") {
     const application = buildApplication(new FormData(form));
     submitting = true;
     submitButton.disabled = true;
-    submitButton.textContent = "Submitting…";
+    submitButton.textContent = "Joining…";
     form.setAttribute("aria-busy", "true");
-    status.textContent = "Sending your application…";
+    status.textContent = "Saving your signup…";
     delete status.dataset.state;
 
     try {
@@ -57,17 +51,17 @@ if (typeof document !== "undefined") {
       fields.hidden = true;
       form.querySelector(".application-submit").hidden = true;
       status.dataset.state = "success";
-      status.textContent = "Thank you — your application has been received. Brian will contact selected testers with access and Google Play instructions. Applying does not automatically grant access.";
+      status.textContent = "You’re on the beta list. We’ll email your access instructions. Use the same Google account in the Play Store.";
       status.focus();
     } catch {
       status.dataset.state = "error";
-      status.textContent = "We couldn’t send your application. Your answers are still here. Please try again, or contact couplesalarm.support@gmail.com.";
+      status.textContent = "We couldn’t save your signup. Your email is still here. Please try again, or contact couplesalarm.support@gmail.com.";
       status.focus();
     } finally {
       submitting = false;
       form.removeAttribute("aria-busy");
       submitButton.disabled = false;
-      submitButton.textContent = "Submit application";
+      submitButton.textContent = "Join the beta";
     }
   });
 }

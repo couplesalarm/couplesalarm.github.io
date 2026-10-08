@@ -2,9 +2,6 @@ const allowedOrigins = new Set([
   "https://couplesalarm.com",
   "https://couplesalarm.github.io",
 ]);
-const allowedInterests = new Set([
-  "different_wake_times", "sharing_a_room", "trying_a_new_alarm", "helping_improve_the_app",
-]);
 
 function corsHeaders(origin) {
   return {
@@ -29,25 +26,14 @@ export function parseApplication(input) {
     throw new Error("Invalid application");
   }
   const email = requiredText(input.playEmail, 254).toLowerCase();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email) ||
-      input.adultConfirmed !== true || input.contactConsent !== true ||
-      !["yes", "no"].includes(input.canTest14Days) ||
-      !Array.isArray(input.interests) || input.interests.length > allowedInterests.size ||
-      input.interests.some((value) => !allowedInterests.has(value)) ||
-      new Set(input.interests).size !== input.interests.length) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email)) {
     throw new Error("Invalid application");
   }
   return {
     id: crypto.randomUUID(),
     play_email: email,
-    phone_model: requiredText(input.phoneModel, 120),
-    android_version: requiredText(input.androidVersion, 40),
-    adult_confirmed: true,
-    contact_consent: true,
-    can_test_14_days: input.canTest14Days === "yes",
-    interests: input.interests,
-    consent_version: "android_beta_website_v1",
-    source: "website_android_beta_v1",
+    consent_version: "android_beta_email_notice_v2",
+    source: "website_android_beta_email_v2",
   };
 }
 

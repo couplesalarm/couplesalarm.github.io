@@ -3,7 +3,7 @@
 }
 
 .application-intro {
-  width: min(58rem, 100%);
+  width: min(42rem, 100%);
   margin: 0 auto 1.5rem;
 }
 
@@ -16,10 +16,23 @@
   color: var(--soft-ink);
 }
 
-.application-device-fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.beta-application-form {
+  width: min(42rem, 100%);
   gap: 1rem;
+}
+
+.beta-application-form .question {
+  margin-top: 0;
+}
+
+.signup-legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .beta-application-form input[type="email"] {
@@ -30,26 +43,6 @@
   border-radius: 0.85rem;
   background: #090b17;
   color: var(--text);
-}
-
-.beta-application-form fieldset fieldset {
-  margin-top: 2rem;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-}
-
-.beta-application-form fieldset fieldset legend {
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.application-consent {
-  display: grid;
-  gap: 0.75rem;
-  margin-top: 2rem;
 }
 
 .application-submit {
@@ -82,11 +75,4 @@
 
 .beta-application-form [hidden] {
   display: none;
-}
-
-@media (max-width: 600px) {
-  .application-device-fields {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
 }

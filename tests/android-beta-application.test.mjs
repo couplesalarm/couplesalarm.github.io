@@ -3,10 +3,7 @@ import test from "node:test";
 import { buildApplication, submitApplication } from "../beta/android/signup.js";
 import { handleRequest, parseApplication } from "../supabase/functions/submit-android-beta-application/index.ts";
 
-const valid = {
-  playEmail:" Test@Example.com ", phoneModel:" Test Android phone ", androidVersion:" Not sure ",
-  canTest14Days:"yes", adultConfirmed:true, contactConsent:true, interests:["sharing_a_room"], website:"",
-};
+const valid = {playEmail:" Test@Example.com ", website:""};
 const values = { SUPABASE_URL:"https://example.supabase.co", SUPABASE_ANON_KEY:"public-test-key", SUPABASE_SERVICE_ROLE_KEY:"server-test-key" };
 const getEnv = (name) => values[name];
 function request(body = valid, headers = {}, method = "POST") {
@@ -17,26 +14,19 @@ function request(body = valid, headers = {}, method = "POST") {
 }
 const mustNotFetch = async () => { throw new Error("Unexpected database access"); };
 
-test("normalizes the application and records consent without trusting extra fields", () => {
-  const application = parseApplication({...valid, source:"attacker", contact_consent:false, secret:"ignored"});
+test("accepts an email alone and discards unneeded or client-controlled fields", () => {
+  const application = parseApplication({...valid, source:"attacker", contact_consent:false, secret:"ignored", phoneModel:"Old phone", androidVersion:"15", adultConfirmed:true, canTest14Days:"yes", interests:["sharing_a_room"]});
   assert.equal(application.play_email, "test@example.com");
-  assert.equal(application.phone_model, "Test Android phone");
-  assert.equal(application.android_version, "Not sure");
-  assert.equal(application.contact_consent, true);
-  assert.equal(application.source, "website_android_beta_v1");
-  assert.equal(application.consent_version, "android_beta_website_v1");
-  assert.ok(!("secret" in application));
-  assert.equal(parseApplication({...valid, canTest14Days:"no", interests:[]}).can_test_14_days, false);
+  assert.equal(application.source, "website_android_beta_email_v2");
+  assert.equal(application.consent_version, "android_beta_email_notice_v2");
+  assert.deepEqual(Object.keys(application).sort(), ["consent_version","id","play_email","source"]);
+  assert.equal(parseApplication({playEmail:"test@example.com"}).play_email,"test@example.com");
 });
 
-test("requires real age confirmation, contact consent, device details and valid email", async () => {
-  for (const change of [
-    {adultConfirmed:false}, {adultConfirmed:"true"}, {contactConsent:false}, {contactConsent:undefined},
-    {playEmail:"invalid"}, {phoneModel:" "}, {androidVersion:" "}, {canTest14Days:""},
-    {interests:["marketing"]}, {interests:["sharing_a_room","sharing_a_room"]}, {phoneModel:"x".repeat(121)},
-  ]) {
-    const response = await handleRequest(request({...valid,...change}), getEnv, mustNotFetch);
-    assert.equal(response.status, 400, JSON.stringify(change));
+test("requires a valid email without asking for age, device details or commitment", async () => {
+  for (const body of [null, [], {}, {playEmail:null}, {playEmail:42}, {playEmail:" "}, {playEmail:"invalid"}, {playEmail:"a b@example.com"}, {playEmail:"x".repeat(255)+"@example.com"}]) {
+    const response = await handleRequest(request(body), getEnv, mustNotFetch);
+    assert.equal(response.status, 400, JSON.stringify(body));
   }
 });
 
@@ -69,8 +59,7 @@ test("writes validated fields privately and does not expose or overwrite existin
     assert.equal(options.headers.apikey,"server-test-key");
     const row = JSON.parse(options.body);
     assert.equal(row.play_email,"test@example.com");
-    assert.equal(row.adult_confirmed,true);
-    assert.equal(row.contact_consent,true);
+    assert.deepEqual(Object.keys(row).sort(),["consent_version","id","play_email","source"]);
     return new Response(null,{status:201});
   });
   assert.equal(called,1);
@@ -91,10 +80,10 @@ test("serializes only submitted signup fields and sends them to the website back
   data.append("interests","sharing_a_room");
   const application = buildApplication(data);
   assert.equal(application.playEmail,"test@example.com");
-  assert.equal(application.adultConfirmed,true);
+  assert.deepEqual(application,{playEmail:"test@example.com",website:""});
   await submitApplication(application,async (url,options) => {
     assert.match(url,/\/submit-android-beta-application$/);
-    assert.equal(JSON.parse(options.body).phoneModel,"Phone");
+    assert.deepEqual(JSON.parse(options.body),{playEmail:"test@example.com",website:""});
     assert.ok(options.headers.apikey.startsWith("eyJ"));
     return new Response(JSON.stringify({ok:true}),{status:202});
   });
