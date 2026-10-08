@@ -41,8 +41,27 @@
   const frequencyPosition = (hz) =>
     ((hz - endFrequency) / (startFrequency - endFrequency)) * 100;
 
+  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const motionButton = document.querySelector("[data-motion-toggle]");
+  let motionChoice;
+  const updateMotion = () => {
+    const enabled = motionChoice ?? !motionQuery.matches;
+    listeningStage.classList.toggle("motion-paused", !enabled);
+    motionButton.setAttribute("aria-pressed", String(enabled));
+    motionButton.textContent = enabled ? "Motion on" : "Motion off";
+  };
+  motionButton.addEventListener("click", () => {
+    motionChoice = motionButton.getAttribute("aria-pressed") !== "true";
+    updateMotion();
+  });
+  motionQuery.addEventListener("change", updateMotion);
+  updateMotion();
+
   const setReadout = (hz) => {
     setText("[data-frequency-readout]", kilohertzText(hz));
+    // Colour follows the actual pitch; decorative motion never drives audio.
+    const pitchProgress = Math.max(0, Math.min(1, (startFrequency - hz) / (startFrequency - endFrequency)));
+    listeningStage.style.setProperty("--pitch-shift", `${pitchProgress * 45}deg`);
   };
 
   const stopReadout = () => {

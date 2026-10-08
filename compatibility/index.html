@@ -10,7 +10,7 @@
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Try Couples Alarm together</title>
   <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
-  <link rel="stylesheet" href="compatibility.css?v=20261008-orbit-1">
+  <link rel="stylesheet" href="compatibility.css?v=20261008-aurora-1">
   <script defer src="../assets/analytics.js?v=20260817-firstparty-1"></script>
 </head>
 <body class="dawn-page compatibility-page">
@@ -45,8 +45,13 @@
 
         <div class="listening-stage">
           <div class="tone-orbit" aria-hidden="true">
+            <div class="aurora-cloud"></div>
+            <div class="aurora-band aurora-band-one"></div>
+            <div class="aurora-band aurora-band-two"></div>
+            <div class="aurora-band aurora-band-three"></div>
             <svg class="orbit-track" viewBox="0 0 220 220" focusable="false">
               <defs><linearGradient id="orbit-color" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#deb5ff"/><stop offset="1" stop-color="#9aebed"/></linearGradient></defs>
+              <circle class="orbit-ticks" cx="110" cy="110" r="106" pathLength="60"/>
               <circle class="orbit-rail" cx="110" cy="110" r="101"/>
               <circle class="orbit-progress" cx="110" cy="110" r="101" pathLength="1"/>
             </svg>
@@ -66,8 +71,11 @@
             </button>
             <button class="primary-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
             <button class="primary-action listening-action" type="button" data-start-tone aria-describedby="listen-instruction">Start</button>
-            <button class="text-action" type="button" data-pause-tone hidden disabled>Pause sound</button>
-            <button class="text-action" type="button" data-retry-turn hidden>Listen again</button>
+            <div class="secondary-controls">
+              <button class="text-action" type="button" data-pause-tone hidden disabled>Pause sound</button>
+              <button class="text-action" type="button" data-retry-turn hidden>Listen again</button>
+              <button class="text-action motion-toggle" type="button" data-motion-toggle aria-label="Animation" aria-pressed="true">Motion on</button>
+            </div>
           </div>
         </div>
 
@@ -139,6 +147,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20261008-orbit-1"></script>
+  <script src="compatibility.js?v=20261008-aurora-1"></script>
 </body>
 </html>

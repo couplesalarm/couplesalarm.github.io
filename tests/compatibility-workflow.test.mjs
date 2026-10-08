@@ -8,7 +8,7 @@ const script = await readFile(new URL("../compatibility/compatibility.js", impor
 
 // Exercise the shipped controller with deterministic audio and timer clocks.
 // The DOM double resolves only selectors actually present in the page.
-function preview({ pendingResume = false, failResume = false, unsupported = false } = {}) {
+function preview({ pendingResume = false, failResume = false, unsupported = false, reducedMotion = false } = {}) {
   let wallTime = 0;
   let audioTime = 0;
   let timerId = 0;
@@ -36,6 +36,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
       this.style = { setProperty: (key, value) => { this.style[key] = value; } };
     }
     setAttribute(key, value) { this.attributes[key] = value; }
+    getAttribute(key) { return this.attributes[key]; }
     removeAttribute(key) { delete this.attributes[key]; }
     addEventListener(type, fn) { (this.events[type] ||= []).push(fn); }
     emit(type) { return Promise.all((this.events[type] || []).map((fn) => fn())); }
@@ -92,7 +93,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
   Object.assign(window, {
     AudioContext: unsupported ? undefined : AudioContext,
     scrollTo() {},
-    matchMedia: () => ({ matches: false, addEventListener() {} }),
+    matchMedia: () => ({ matches: reducedMotion, addEventListener() {} }),
     setTimeout: (fn, delay) => { timers.set(++timerId, { fn, at: wallTime + delay }); return timerId; },
     clearTimeout: (id) => timers.delete(id),
     setInterval: (fn) => { intervals.set(++timerId, fn); return timerId; },
@@ -285,4 +286,29 @@ test("opens directly on the first listening turn without starting audio", () => 
   assert.equal(p.el("[data-start-tone]").hidden, false);
   assert.equal(p.el("[data-start-tone]").textContent, "Start");
   assert.equal(p.el("[data-frequency-readout]").textContent, "17.5");
+});
+
+
+test("turning off decorative motion leaves the audio clock and response working", async () => {
+  const p = preview(); await start(p); p.advance(2);
+  await p.click("[data-motion-toggle]");
+  assert.equal(p.el("[data-motion-toggle]").getAttribute("aria-pressed"), "false");
+  assert.ok(p.el(".listening-stage").classes.has("motion-paused"));
+  assert.equal(p.el("[data-audio-status]").textContent, "Playing");
+  assert.equal(p.voices[0].disconnected, false);
+  const before = p.el("[data-frequency-readout]").textContent;
+  p.advance(3);
+  assert.notEqual(p.el("[data-frequency-readout]").textContent, before);
+  await heard(p);
+  assert.equal(p.screen, "handoff");
+});
+
+test("reduced motion starts paused and can be explicitly enabled without starting sound", async () => {
+  const p = preview({ reducedMotion: true });
+  assert.ok(p.el(".listening-stage").classes.has("motion-paused"));
+  assert.equal(p.el("[data-motion-toggle]").textContent, "Motion off");
+  await p.click("[data-motion-toggle]");
+  assert.equal(p.el(".listening-stage").classes.has("motion-paused"), false);
+  assert.equal(p.el("[data-motion-toggle]").textContent, "Motion on");
+  assert.equal(p.voices.length, 0);
 });
