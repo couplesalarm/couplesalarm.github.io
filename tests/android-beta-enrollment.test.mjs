@@ -17,14 +17,14 @@ function applicationLink(html, label) {
   return match[1];
 }
 
-test("keeps the download CTA and secondary test before the balanced robot app options", () => {
+test("keeps the iPhone download primary and the test and Android beta secondary", () => {
   assert.ok(home.indexOf("Download for iPhone") < home.indexOf('<a class="listening-test-link"'));
-  assert.ok(home.indexOf('<a class="listening-test-link"') < home.indexOf('<div class="app-badges">'));
-  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android beta">/);
+  assert.ok(home.indexOf('Download for iPhone') < home.indexOf('<div class="secondary-actions">'));
+  assert.match(home, /<div class="secondary-actions">[\s\S]*?<a class="listening-test-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android beta">/);
   assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
   assert.match(home, /<strong>Android™<\/strong><small>beta<\/small>/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
-  assert.match(home, /<footer class="android-brand-attribution">[\s\S]*?Android is a trademark of Google LLC\./);
+  assert.match(home, /<p class="android-brand-attribution">Android is a trademark of Google LLC\./);
   assert.match(home, /The Android robot is reproduced or modified from work created and shared by/);
   assert.match(home, /href="https:\/\/developer\.android\.com\/distribute\/marketing-tools\/brand-guidelines"/);
   assert.match(home, /href="https:\/\/creativecommons\.org\/licenses\/by\/3\.0\/"/);
