@@ -76,5 +76,5 @@ as $$
     );
 $$;
 
-revoke all on function public.couples_alarm_page_view_summary(timestamptz, timestamptz) from anon, authenticated;
+revoke all on function public.couples_alarm_page_view_summary(timestamptz, timestamptz) from public, anon, authenticated;
 grant execute on function public.couples_alarm_page_view_summary(timestamptz, timestamptz) to service_role;

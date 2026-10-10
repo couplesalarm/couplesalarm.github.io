@@ -1,122 +1,73 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+const allowedOrigins = new Set(["https://couplesalarm.com", "https://www.couplesalarm.com"]);
+const publicPaths = new Set(["/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/"]);
+const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_youtube_iphone", "tracking_qa"]);
 
-const allowedOrigins = new Set([
-  "https://couplesalarm.com",
-  "https://www.couplesalarm.com",
-]);
-
-function corsHeaders(origin: string) {
+function corsHeaders(origin) {
   return {
-    "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Headers": "content-type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Max-Age": "86400",
-    Vary: "Origin",
+    "Access-Control-Allow-Origin": origin, "Access-Control-Allow-Headers": "content-type, apikey",
+    "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Max-Age": "86400",
+    "Cache-Control": "no-store", Vary: "Origin",
   };
 }
-
-export function normalizePath(value: unknown) {
+export function normalizePath(value) {
   if (typeof value !== "string" || !value.startsWith("/")) return null;
-  // Query strings and fragments can carry personal data, so drop them.
-  const path = value.split(/[?#]/)[0];
-  if (path.length > 200) return null;
-  return path;
+  const path = value.split(/[?#]/)[0].replace(/index\.html$/, "");
+  return publicPaths.has(path) ? path : null;
 }
-
-export function referrerHost(value: unknown) {
-  if (typeof value !== "string" || value === "") return null;
-  let host: string;
-  try {
-    host = new URL(value).hostname;
-  } catch {
-    return null;
-  }
-  // Our own pages are not a referrer worth reporting.
-  if (host === "couplesalarm.com" || host === "www.couplesalarm.com") {
-    return null;
-  }
+export function referrerHost(value) {
+  if (typeof value !== "string" || !value) return null;
+  let host;
+  try { host = new URL(value.includes("://") ? value : "https://" + value).hostname; }
+  catch { return null; }
+  if (host === "couplesalarm.com" || host === "www.couplesalarm.com") return null;
   return host.slice(0, 200);
 }
-
-// A salted digest of IP and user agent, where the salt changes every UTC day.
-// It lets us count people without a cookie, and makes yesterday's digest for
-// the same person unrecoverable, so nobody can be followed across days.
-export async function visitorHash(
-  ip: string,
-  userAgent: string,
-  secret: string,
-  now = new Date(),
-) {
-  const day = now.toISOString().slice(0, 10);
-  const material = `${secret}:${day}:${ip}:${userAgent}`;
-  const digest = await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(material),
-  );
-  return [...new Uint8Array(digest)]
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("")
-    .slice(0, 32);
+function keys(value) {
+  try { return Object.values(JSON.parse(value || "{}")).filter(key => typeof key === "string"); }
+  catch { return []; }
 }
-
-export async function handleRequest(request: Request) {
+export async function visitorHash(ip, userAgent, secret, now = new Date()) {
+  const day = now.toISOString().slice(0, 10);
+  // Domain-separated HMAC; the server key never leaves the function.
+  // PAGE_VIEW_SALT may override the server-only default without redeployment.
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const message = JSON.stringify(["couples-alarm-page-views-v1", day, ip, userAgent]);
+  const digest = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(message));
+  return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, "0")).join("").slice(0, 32);
+}
+export async function handleRequest(request, env = name => Deno.env.get(name), fetchImpl = fetch) {
   const origin = request.headers.get("origin");
-  if (!origin || !allowedOrigins.has(origin)) {
-    return new Response(null, { status: 403 });
-  }
-  if (request.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
-  }
-  if (request.method !== "POST") {
-    return new Response(null, { status: 405, headers: corsHeaders(origin) });
-  }
-
+  if (!origin || !allowedOrigins.has(origin)) return new Response(null, { status: 403 });
+  const respond = status => new Response(null, { status, headers: corsHeaders(origin) });
+  if (request.method === "OPTIONS") return respond(204);
+  if (request.method !== "POST") return respond(405);
+  const publicKeys = keys(env("SUPABASE_PUBLISHABLE_KEYS"));
+  if (env("SUPABASE_ANON_KEY")) publicKeys.push(env("SUPABASE_ANON_KEY"));
+  if (!publicKeys.includes(request.headers.get("apikey"))) return respond(401);
   try {
     const rawBody = await request.text();
-    if (new TextEncoder().encode(rawBody).length > 2048) {
-      return new Response(null, { status: 413, headers: corsHeaders(origin) });
-    }
-    const body = JSON.parse(rawBody) as Record<string, unknown>;
+    if (new TextEncoder().encode(rawBody).length > 2048) return respond(413);
+    let body;
+    try { body = JSON.parse(rawBody); } catch { return respond(400); }
+    if (!body || typeof body !== "object") return respond(400);
     const path = normalizePath(body.path);
-    if (!path) {
-      return new Response(null, { status: 400, headers: corsHeaders(origin) });
-    }
-
-    const projectUrl = Deno.env.get("SUPABASE_URL");
-    const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    const salt = Deno.env.get("PAGE_VIEW_SALT");
-    if (!projectUrl || !serviceRoleKey || !salt) {
-      throw new Error("Server configuration is unavailable");
-    }
-
-    const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "";
-    const userAgent = request.headers.get("user-agent") ?? "";
-
-    const response = await fetch(
-      `${projectUrl}/rest/v1/couples_alarm_page_views`,
-      {
-        method: "POST",
-        headers: {
-          apikey: serviceRoleKey,
-          Authorization: `Bearer ${serviceRoleKey}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-        },
-        body: JSON.stringify({
-          path,
-          referrer_host: referrerHost(body.referrer),
-          visitor_hash: await visitorHash(ip, userAgent, salt),
-        }),
-      },
-    );
-    if (!response.ok) throw new Error("Database insert failed");
-
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
-  } catch {
-    // A page view is never worth surfacing an error to a visitor over.
-    return new Response(null, { status: 204, headers: corsHeaders(origin) });
-  }
+    const eventType = body.event_type || "page_view";
+    if (!path || !["page_view", "app_store_click"].includes(eventType)) return respond(400);
+    const campaign = campaigns.has(body.campaign) ? body.campaign : null;
+    const projectUrl = env("SUPABASE_URL");
+    const serviceKey = keys(env("SUPABASE_SECRET_KEYS"))[0] || env("SUPABASE_SERVICE_ROLE_KEY");
+    if (!projectUrl || !serviceKey) return respond(503);
+    const salt = env("PAGE_VIEW_SALT") || serviceKey;
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
+    const userAgent = request.headers.get("user-agent") || "";
+    const response = await fetchImpl(projectUrl + "/rest/v1/couples_alarm_page_views", {
+      method: "POST",
+      headers: { apikey: serviceKey, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ path, referrer_host: referrerHost(body.referrer), event_type: eventType,
+        campaign, visitor_hash: await visitorHash(ip, userAgent, salt) }),
+    });
+    return respond(response.ok ? 204 : 503);
+  } catch { return respond(503); }
 }
-
-Deno.serve(handleRequest);
+if (typeof Deno !== "undefined") Deno.serve(request => handleRequest(request));
