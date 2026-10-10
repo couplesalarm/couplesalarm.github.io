@@ -22,7 +22,7 @@ test("retains the original story and app artwork in the dawn landing", () => {
 
 test("keeps the selected copy and original action destinations", () => {
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
-  assert.match(html, /For couples who hear tones differently/);
+  assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
   assert.match(html, /An alarm clock designed for your wake time and your partner’s sleep\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
@@ -31,7 +31,7 @@ test("keeps the selected copy and original action destinations", () => {
   assert.match(html, /aria-label="How Couples Alarm works"/);
 });
 
-test("retains scrolling, accessible targets, and user-initiated video behavior", () => {
+test("permits accessible reflow and retains user-initiated video behavior", () => {
   assert.match(ruleBody("body"), /overflow-y:\s*auto/);
   assert.doesNotMatch(ruleBody("html"), /overflow:\s*hidden/);
   assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
@@ -48,7 +48,6 @@ test("retains scrolling, accessible targets, and user-initiated video behavior",
   assert.match(ruleBody(".product-preview video"), /object-fit:\s*contain/);
   assert.doesNotMatch(ruleBody(".product-preview video"), /max-height/);
   assert.match(css, /@media \(prefers-reduced-motion: no-preference\)/);
-  assert.match(html, /prefers-reduced-motion: reduce/);
-  assert.match(html, /Pause background motion/);
-  assert.match(css, /\.motion-paused \.dawn-light \{ animation-play-state: paused; \}/);
+  assert.doesNotMatch(html, /motion-toggle|Pause background motion/);
+  assert.doesNotMatch(css, /dawn-drift|animation-play-state/);
 });

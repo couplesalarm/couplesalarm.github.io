@@ -38,11 +38,10 @@ body {
   z-index: -1;
   background: radial-gradient(ellipse at 90% 24%, rgb(255 190 137 / 16%), transparent 43%),
     radial-gradient(ellipse at 56% 88%, rgb(115 125 218 / 12%), transparent 45%);
-  transform-origin: 80% 35%;
 }
 
 a { color: inherit; }
-a:focus-visible, button:focus-visible, video:focus-visible {
+a:focus-visible, button:focus-visible, video:focus-visible, summary:focus-visible {
   outline: 3px solid var(--aqua);
   outline-offset: 5px;
 }
@@ -69,7 +68,7 @@ button { font: inherit; }
 }
 .site-header {
   display: flex;
-  min-height: 5.2rem;
+  min-height: clamp(3.5rem, 8svh, 5.2rem);
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -103,39 +102,32 @@ main { display: grid; align-items: center; }
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   align-items: center;
   gap: clamp(2rem, 4vw, 4.5rem);
-  padding-block: clamp(2.5rem, 5vh, 5rem);
+  padding-block: clamp(0.75rem, 2.4svh, 2.25rem);
 }
 .hero-copy { position: relative; z-index: 2; }
-.eyebrow {
-  margin: 0 0 1.4rem;
-  color: var(--aqua);
-  font: 700 0.72rem/1.5 "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
 h1 {
   margin: 0;
-  font-size: clamp(3.4rem, 5.7vw, 6.1rem);
+  font-size: clamp(2.25rem, min(4.1vw, 7.5svh), 4.25rem);
   font-weight: 800;
-  line-height: 0.99;
-  letter-spacing: -0.065em;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
 }
 h1 span { color: var(--signal); }
 .hero-lede {
   max-width: 32rem;
-  margin: 1.4rem 0 0;
+  margin: clamp(0.75rem, 1.8svh, 1.4rem) 0 0;
   color: #d3d8e3;
-  font-size: clamp(1rem, 1.35vw, 1.3rem);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
   line-height: 1.55;
 }
-.hero-actions { display: grid; width: min(100%, 27rem); margin-top: 1.6rem; gap: 0; }
+.hero-actions { display: grid; width: min(100%, 27rem); margin-top: clamp(0.85rem, 2svh, 1.6rem); gap: 0; }
 .test-link {
   display: flex;
-  min-height: 3.8rem;
+  min-height: 3.4rem;
   align-items: center;
   justify-content: center;
   gap: 1.3rem;
-  padding: 0.85rem 1.5rem;
+  padding: 0.7rem 1.25rem;
   border: 1px solid rgb(255 255 255 / 25%);
   border-radius: 3rem;
   background: linear-gradient(105deg, #d9a1fb, #b2b6ff 54%, #8ce6f4);
@@ -146,12 +138,12 @@ h1 span { color: var(--signal); }
 .test-link strong { font-size: 1.08rem; line-height: 1.3; }
 .cta-arrow { font-size: 1.8rem; line-height: 1; }
 .test-link:hover { filter: brightness(1.08); }
-.cta-note { margin: 0.55rem 0 1.45rem; text-align: center; color: #c7cddd; font-size: 0.82rem; }
+.cta-note { margin: 0.4rem 0 clamp(0.65rem, 1.5svh, 1.2rem); text-align: center; color: #c7cddd; font-size: 0.82rem; }
 .app-badges { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 1rem; }
-.app-store-link { display: inline-flex; min-height: 3.5rem; align-items: center; }
-.app-store-link img { display: block; width: auto; height: 3.5rem; }
+.app-store-link { display: inline-flex; min-height: 3rem; align-items: center; }
+.app-store-link img { display: block; width: auto; height: 3rem; }
 .app-badges .app-store-link { width: auto; }
-.android-app-link { background: rgb(6 15 28 / 60%); border-color: #83909e; }
+.android-app-link { min-height: 3rem; background: rgb(6 15 28 / 60%); border-color: #83909e; }
 .app-store-link:hover, .android-app-link:hover { opacity: 0.8; }
 
 .hero-media {
@@ -174,7 +166,7 @@ h1 span { color: var(--signal); }
 .hero-media::after { inset: 17% 6%; border-color: rgb(255 193 154 / 14%); }
 .product-preview {
   position: relative;
-  width: min(100%, 38svh, 22rem);
+  width: min(100%, 32svh, 22rem);
   margin: 0 0 0 auto;
 }
 .product-preview video {
@@ -210,7 +202,7 @@ h1 span { color: var(--signal); }
 .video-play-button:hover { background: #11182a; border-color: #fff; }
 .video-play-button[hidden] { display: none; }
 .video-play-button img { width: 1.9rem; height: 1.9rem; margin-left: 0.18rem; }
-.app-showcase { width: min(100%, 30svh, 17rem); margin: 0; }
+.app-showcase { width: min(100%, 25svh, 17rem); margin: 0; }
 .showcase-phone {
   padding: 0.3rem;
   border: 1px solid #566072;
@@ -221,7 +213,8 @@ h1 span { color: var(--signal); }
 }
 .showcase-phone img { display: block; width: 100%; height: auto; border-radius: 1.7rem; }
 
-.page-bottom { display: flex; align-items: center; gap: 2rem; border-top: 1px solid var(--line); padding-block: 1.65rem; }
+.page-bottom { display: flex; align-items: center; gap: 1.5rem; border-top: 1px solid var(--line); padding-block: clamp(0.5rem, 1.8svh, 1.35rem); }
+.footer-links { display: flex; align-items: center; gap: 0.65rem; }
 .morning-steps { display: grid; flex: 1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
 .morning-steps li { display: flex; align-items: center; gap: 0.85rem; }
 .step-number { color: #aebcff; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.06em; }
@@ -231,19 +224,45 @@ h1 span { color: var(--signal); }
 .social-nav a { display: grid; place-items: center; min-width: 44px; min-height: 44px; border-radius: 0.4rem; }
 .social-nav a:hover { opacity: 0.7; }
 .social-icon { width: 1.35rem; height: 1.35rem; filter: brightness(0) invert(1); }
-.android-brand-attribution { width: min(94rem, calc(100% - 8vw)); font-size: 0.68rem; color: #aab4c7; }
-.motion-toggle { min-height: 44px; padding: 0; border: 0; background: none; color: #c7cddd; font-size: 0.72rem; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
+.brand-credits { position: relative; z-index: 5; }
+.brand-credits summary {
+  display: flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  color: #c7cddd;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  list-style: none;
+}
+.brand-credits summary::-webkit-details-marker { display: none; }
+.brand-credits[open] summary { color: var(--aqua); }
+.brand-credits .android-brand-attribution {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  width: min(30rem, calc(100vw - 4rem));
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: #10192b;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 35%);
+  color: #d3d8e3;
+  font-size: 0.8rem;
+}
 
 @media (max-width: 1100px) {
   .site-shell { width: calc(100% - 4rem); }
   .hero { gap: 2rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  h1 { font-size: clamp(3rem, 5.7vw, 4.5rem); }
-  .eyebrow { font-size: 0.63rem; }
   .hero-media { gap: 1.1rem; }
-  .page-bottom { flex-wrap: wrap; justify-content: center; gap: 1.3rem; }
+  .page-bottom { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
   .morning-steps { flex-basis: 100%; }
 }
-@media (max-width: 760px) {
+@media (max-width: 959px) {
   .site-shell { width: calc(100% - 2.5rem); }
   .site-header { min-height: 4.7rem; }
   .brand { font-size: 0.86rem; gap: 0.55rem; }
@@ -252,8 +271,7 @@ h1 span { color: var(--signal); }
   .site-header nav a { font-size: 0.75rem; }
   .hero { grid-template-columns: minmax(0, 1fr); gap: 2.7rem; padding-block: 2.3rem 3rem; }
   .hero-copy { max-width: 32rem; margin-inline: auto; width: 100%; }
-  .eyebrow { margin-bottom: 1rem; font-size: 0.61rem; }
-  h1 { font-size: clamp(3.3rem, 11vw, 4.6rem); }
+  h1 { font-size: clamp(2.3rem, 8.8vw, 3.6rem); }
   .hero-lede { font-size: 1rem; margin-top: 1.1rem; }
   .hero-actions { margin-top: 1.4rem; width: 100%; }
   .test-link { padding-inline: 1rem; gap: 1rem; }
@@ -278,24 +296,17 @@ h1 span { color: var(--signal); }
   .step-number { font-size: 1.5rem; }
   .page-bottom { padding-block: 1.7rem 1rem; }
   .dawn-scene { background-position: center, center, 65% center; }
-  .android-brand-attribution { width: calc(100% - 2.5rem); }
+  .brand-credits .android-brand-attribution { width: min(30rem, calc(100vw - 2.5rem)); }
 }
 @media (max-width: 360px) {
-  .site-shell, .android-brand-attribution { width: calc(100% - 2rem); }
+  .site-shell { width: calc(100% - 2rem); }
   .brand { font-size: 0.78rem; }
   .site-header nav { gap: 0.45rem; }
   .app-badges { gap: 0.5rem; }
   .app-store-link img { height: 2.7rem; }
   .android-app-link { width: 8.3rem; gap: 0.4rem; }
   .android-badge-copy strong { font-size: 1.05rem; }
-  .eyebrow { font-size: 0.56rem; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .dawn-light { animation: dawn-drift 24s ease-in-out infinite alternate; }
   .test-link { transition: filter 180ms ease; }
-}
-.motion-paused .dawn-light { animation-play-state: paused; }
-@keyframes dawn-drift {
-  from { opacity: 0.35; transform: translate3d(-1%, 0, 0) scale(1); }
-  to { opacity: 1; transform: translate3d(1%, -1%, 0) scale(1.04); }
 }
