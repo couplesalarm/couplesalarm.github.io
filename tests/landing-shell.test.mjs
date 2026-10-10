@@ -24,7 +24,8 @@ test("leads with the iPhone download and preserves the secondary listening test"
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
   assert.match(html, /For couples who hear tones differently/);
   assert.match(html, /An iPhone alarm<br><span>app for couples\.<\/span>/);
-  assert.match(html, /Couples Alarm helps partners who hear tones differently find and confirm an alarm sound together\./);
+  assert.match(html, /Love the snooze button\?/);
+  assert.match(html, /whether you hear a tone your partner doesn’t, then confirm it together at your bedside/);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /<a class="test-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">\s*<strong>Download for iPhone<\/strong>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
