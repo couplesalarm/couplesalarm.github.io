@@ -43,14 +43,19 @@ const run = ({
   referrer = "https://news.ycombinator.com/item?id=1",
   dnt = null,
   prerendering = false,
+  hrefs = ["https://apps.apple.com/us/app/couples-alarm/id6792771975"],
 } = {}) => {
   const sent = [];
   const listeners = {};
+  const links = hrefs.map(href => ({ href, listeners: {}, addEventListener(name, fn) { this.listeners[name] = fn; } }));
   const sandbox = {
+    URL,
+    URLSearchParams,
     navigator: { doNotTrack: dnt },
     document: {
       referrer,
       prerendering,
+      querySelectorAll: () => links,
       addEventListener: (name, fn) => {
         listeners[name] = fn;
       },
@@ -66,6 +71,8 @@ const run = ({
   vm.runInContext(analytics, sandbox);
   return {
     sent,
+    links,
+    clickStore: () => links[0]?.listeners.click?.(),
     firePrerenderingChange: () => listeners.prerenderingchange?.(),
   };
 };
@@ -99,12 +106,39 @@ test("never sends the query string, which can carry personal data", () => {
   assert.doesNotMatch(JSON.stringify(sent[0].body), /a@b\.com/);
 });
 
-test("sends the referrer, and null when there is none", () => {
+test("sends only the referrer host, and null when there is none", () => {
   assert.equal(
     run().sent[0].body.referrer,
-    "https://news.ycombinator.com/item?id=1",
+    "news.ycombinator.com",
   );
   assert.equal(run({ referrer: "" }).sent[0].body.referrer, null);
+});
+
+test("counts store clicks separately and keeps the direct attributed store URL", () => {
+  const runResult = run({ search: "?ct=paid_facebook_iphone&email=private@example.com" });
+  const url = new URL(runResult.links[0].href);
+  assert.equal(url.hostname, "apps.apple.com");
+  assert.equal(url.searchParams.get("pt"), "129195755");
+  assert.equal(url.searchParams.get("ct"), "paid_facebook_iphone");
+  runResult.clickStore();
+  assert.deepEqual(runResult.sent.map(row => row.body.event_type), ["page_view", "app_store_click"]);
+  assert.equal(runResult.sent[1].body.campaign, "paid_facebook_iphone");
+  assert.doesNotMatch(JSON.stringify(runResult.sent), /private@example/);
+});
+
+test("does not collect arbitrary campaign values or alter other apps", () => {
+  const result = run({ search: "?ct=private@example.com", hrefs: ["https://apps.apple.com/app/id123"] });
+  assert.equal(result.sent[0].body.campaign, null);
+  assert.equal(result.links[0].href, "https://apps.apple.com/app/id123");
+  result.clickStore();
+  assert.equal(result.sent.length, 1);
+});
+
+test("Do Not Track also suppresses click counting and campaign tagging", () => {
+  const result = run({ dnt: "1" });
+  result.clickStore();
+  assert.deepEqual(result.sent, []);
+  assert.equal(new URL(result.links[0].href).search, "");
 });
 
 test("counts only the production hostnames", () => {
