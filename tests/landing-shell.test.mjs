@@ -20,21 +20,18 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
 
-test("leads with the iPhone download and preserves the secondary listening test", () => {
-  assert.match(html, /<meta name="description" content="An iPhone alarm for couples with different wake times\./);
-  assert.match(html, /An iPhone alarm<br><span>app for couples\.<\/span>/);
-  assert.match(html, /Different wake times, one shared bedroom/);
-  assert.match(html, /whether you hear a tone your partner doesn’t—for early starts and extra snoozes/);
-  assert.match(html, /Not every couple finds a fit\. Confirm a tone together at your bedside/);
+test("keeps the selected copy and original action destinations", () => {
+  assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
+  assert.match(html, /For couples who hear tones differently/);
+  assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
+  assert.match(html, /An alarm clock designed for your wake time and your partner’s sleep\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
-  assert.match(html, /<a class="test-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">\s*<strong>Download for iPhone<\/strong>/);
-  assert.match(html, /<p class="cta-note">iPhone · iOS 26 or later<\/p>/);
-  assert.match(html, /<a class="listening-test-link" href="compatibility\/">Try the listening test<\/a>/);
-  assert.ok(html.indexOf("Download for iPhone") < html.indexOf("Try the listening test"));
-  assert.equal((html.match(/href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975"/g) || []).length, 1);
+  assert.match(html, /<a class="test-link" href="compatibility\/">\s*<strong>Take the listening test to find your alarm tone\.<\/strong>/);
+  assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
+  assert.match(html, /aria-label="How Couples Alarm works"/);
 });
 
-test("allows narrow-screen reflow, accessible targets, and user-initiated video behavior", () => {
+test("retains scrolling, accessible targets, and user-initiated video behavior", () => {
   assert.match(ruleBody("body"), /overflow-y:\s*auto/);
   assert.doesNotMatch(ruleBody("html"), /overflow:\s*hidden/);
   assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
