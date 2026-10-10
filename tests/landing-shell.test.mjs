@@ -20,14 +20,17 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
 
-test("keeps the direct test action and accurate wording", () => {
+test("leads with the iPhone download and preserves the secondary listening test", () => {
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
   assert.match(html, /For couples who hear tones differently/);
-  assert.match(html, /Find a tone<br><span>together\.<\/span>/);
-  assert.match(html, /Try a quick listening check together to see whether different tones could work for you\./);
+  assert.match(html, /An iPhone alarm<br><span>app for couples\.<\/span>/);
+  assert.match(html, /Couples Alarm helps partners who hear tones differently find and confirm an alarm sound together\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
-  assert.match(html, /<a class="test-link" href="compatibility\/">\s*<strong>Try the listening test<\/strong>/);
+  assert.match(html, /<a class="test-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">\s*<strong>Download for iPhone<\/strong>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
+  assert.match(html, /<p class="cta-note">iPhone · iOS 26 or later<\/p>/);
+  assert.match(html, /<a class="listening-test-link" href="compatibility\/">Try the listening test<\/a>/);
+  assert.ok(html.indexOf("Download for iPhone") < html.indexOf("Try the listening test"));
   assert.match(html, /aria-label="How Couples Alarm works"/);
 });
 
