@@ -73,6 +73,11 @@ const run = ({
     sent,
     links,
     clickStore: () => links[0]?.listeners.click?.(),
+    clickInternal: (href) => {
+      const link = { href };
+      listeners.click?.({ target: { closest: () => link } });
+      return link.href;
+    },
     firePrerenderingChange: () => listeners.prerenderingchange?.(),
   };
 };
@@ -132,6 +137,27 @@ test("does not collect arbitrary campaign values or alter other apps", () => {
   assert.equal(result.links[0].href, "https://apps.apple.com/app/id123");
   result.clickStore();
   assert.equal(result.sent.length, 1);
+});
+
+test("preserves approved campaign attribution through static and dynamic internal steps", () => {
+  const result = run({ search: "?ct=paid_facebook_iphone&email=private@example.com", hrefs: ["https://couplesalarm.com/compatibility/"] });
+  assert.equal(new URL(result.links[0].href).search, "?ct=paid_facebook_iphone");
+  const next = new URL(result.clickInternal("../download/#app-store-install"));
+  assert.equal(next.pathname, "/download/");
+  assert.equal(next.search, "?ct=paid_facebook_iphone");
+  assert.equal(next.hash, "#app-store-install");
+  assert.doesNotMatch(next.href, /email|private/);
+  assert.equal(result.sent.length, 1, "navigation decoration does not count a store click");
+});
+
+test("internal tagging respects explicit sources, privacy boundaries and Do Not Track", () => {
+  const result = run({ search: "?ct=paid_facebook_iphone" });
+  for (const href of ["https://example.com/download/", "https://couplesalarm.com/admin/", "mailto:someone@example.com", "http://couplesalarm.com/download/", "https://couplesalarm.com/download/?ct=tracking_qa"]) {
+    assert.equal(result.clickInternal(href), href);
+  }
+  for (const options of [{ dnt: "1", search: "?ct=paid_facebook_iphone" }, { search: "?ct=private@example.com" }]) {
+    assert.equal(run(options).clickInternal("../download/"), "../download/");
+  }
 });
 
 test("Do Not Track also suppresses click counting and campaign tagging", () => {

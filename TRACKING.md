@@ -50,3 +50,11 @@ Website App Store badges use `owned_website`. The iPhone ad test reserves
 `paid_facebook_iphone`, `paid_instagram_iphone`, and `paid_youtube_iphone`, using
 the existing Apple provider token. Direct-to-store ad visits bypass the website
 counter; inspect platform clicks and Apple's campaign reports for those visits.
+
+An allowlisted `ct` value is also carried through same-host acquisition links,
+including the listening-result link that changes at runtime. Other query values
+are never copied to another page. Existing destination tokens are retained;
+Do Not Track disables this behavior as well as event requests. The partner-share
+feature always shares the clean public download URL, with no campaign or personal
+data. The static desktop QR opens the canonical App Store listing directly and
+does not identify the scanning person or preserve the desktop visitor's campaign.

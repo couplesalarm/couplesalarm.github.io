@@ -145,6 +145,8 @@ h1 span { color: var(--signal); }
 .app-badges .app-store-link { width: auto; }
 .android-app-link { min-height: 3rem; background: rgb(6 15 28 / 60%); border-color: #83909e; }
 .app-store-link:hover, .android-app-link:hover { opacity: 0.8; }
+.download-details { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
+.download-details a { display: inline-block; padding-block: 0.35rem; color: var(--aqua); text-underline-offset: 0.2em; }
 
 .hero-media {
   position: relative;
