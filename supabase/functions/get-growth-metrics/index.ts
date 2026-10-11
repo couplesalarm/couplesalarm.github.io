@@ -1,5 +1,5 @@
 const allowedOrigins = new Set(["https://couplesalarm.com", "https://www.couplesalarm.com", "http://127.0.0.1:4179"]);
-const campaigns = new Set(["unattributed", "owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_youtube_iphone", "paid_tiktok_iphone"]);
+const campaigns = new Set(["unattributed", "owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_youtube_iphone", "paid_tiktok_iphone"]);
 const pages = new Set(["/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/", "Other page"]);
 const referrers = new Set(["Direct / unknown", "Facebook", "Instagram", "TikTok", "YouTube", "X", "Google", "Bing", "Other referring websites"]);
 function keys(value) {

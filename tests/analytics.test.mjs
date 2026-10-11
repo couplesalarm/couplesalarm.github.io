@@ -298,3 +298,18 @@ test("the privacy policy describes first-party counting, not Google", async () =
   assert.match(html, /IP address is never stored/);
   assert.match(html, /Do Not Track/);
 });
+
+
+test("V14 keeps a dedicated label through website and App Store steps", () => {
+  const campaign = "paid_instagram_snooze_v14";
+  const result = run({ pathname: "/", search: "?ct=" + campaign + "&utm_campaign=snooze_war_v14_20261011&email=private@example.com" });
+  const next = new URL(result.clickInternal("/compatibility/"));
+  assert.equal(next.search, "?ct=" + campaign);
+  const handoff = run({ pathname: next.pathname, search: next.search });
+  assert.equal(new URL(handoff.links[0].href).searchParams.get("ct"), campaign);
+  assert.equal(new URL(handoff.links[0].href).searchParams.get("pt"), "129195755");
+  handoff.clickStore();
+  assert.deepEqual(handoff.sent.map(row => row.body.campaign), [campaign, campaign]);
+  assert.doesNotMatch(JSON.stringify([...result.sent, ...handoff.sent]), /utm_|private@example/);
+  assert.equal(run({ search: "?ct=paid_instagram_iphone" }).sent[0].body.campaign, "paid_instagram_iphone");
+});

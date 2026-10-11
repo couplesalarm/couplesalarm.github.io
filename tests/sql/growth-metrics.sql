@@ -14,6 +14,7 @@ create role service_role bypassrls;
 \i supabase/migrations/20261010050104_add_acquisition_event_measurement.sql
 \i supabase/migrations/20261011161552_allow_paid_tiktok_campaign.sql
 \i supabase/migrations/20261011180935_add_growth_dashboard_metrics.sql
+\i supabase/migrations/20261011204245_allow_snooze_war_v14_campaign.sql
 insert into public.couples_alarm_page_views (viewed_at,path,visitor_hash,event_type,campaign,referrer_host) values
 (date_trunc('day',now())-interval '3 days'+interval '5 hours','/private-email@example.com',repeat('a',32),'page_view',null,'private-person.example'),
 (date_trunc('day',now())-interval '1 day'+interval '1 hour','/',repeat('a',32),'page_view',null,null),
@@ -46,3 +47,24 @@ begin
 end $$;
 set role service_role;
 select jsonb_array_length(public.couples_alarm_growth_metrics()->'daily') as verified_server_read_days;
+
+reset role;
+begin;
+insert into public.couples_alarm_page_views (path,visitor_hash,event_type,campaign) values
+('/',repeat('v',32),'page_view','paid_instagram_snooze_v14'),
+('/',repeat('v',32),'app_store_click','paid_instagram_snooze_v14');
+do $$
+declare r jsonb;
+begin
+ select value into r from jsonb_array_elements(public.couples_alarm_growth_metrics()->'campaigns')
+ where value->>'label' = 'paid_instagram_snooze_v14';
+ assert r is not null and (r->>'pageViews')::int = 1 and (r->>'appStoreClicks')::int = 1,
+   'V14 must retain its own campaign counts';
+ begin
+   insert into public.couples_alarm_page_views (path,visitor_hash,campaign)
+   values ('/',repeat('x',32),'unapproved@example.com');
+   raise exception 'unexpectedly accepted arbitrary campaign';
+ exception when check_violation then null;
+ end;
+end $$;
+rollback;

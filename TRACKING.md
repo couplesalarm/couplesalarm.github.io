@@ -67,6 +67,19 @@ including `ct=tracking_qa` for test visits. Apply the recorded
 `allow_paid_tiktok_campaign` migration before deploying the updated recorder and
 frontend. Historical unlabeled events are not retroactively reclassified.
 
+## Snooze War V14
+
+The approved $80 Instagram Reel uses `ct=paid_instagram_snooze_v14`. This
+fixed label remains separate from older `paid_instagram_iphone` traffic and is
+carried through the website to Apple's App Store campaign URL. Apply
+`allow_snooze_war_v14_campaign`, update both `get-growth-metrics` and
+`record-page-view`, then publish the frontend before enabling the ad.
+
+Apple campaign reports are delayed and privacy-thresholded. An unavailable
+campaign count is not zero; downloads are not paid unlocks. The website label
+reports events, not verified sponsored impressions. Operator checks must be
+identified separately. Use `ct=tracking_qa` for routine smoke checks.
+
 ## Growth dashboard
 
 The existing public page at `https://couplesalarm.com/growth-dashboard/` reads a
