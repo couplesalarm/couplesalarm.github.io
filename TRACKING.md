@@ -143,3 +143,13 @@ against the hosted project. Deploy the recorded migration and the
 `get-growth-metrics` function to the verified project above, merge the website
 PR, dispatch the existing daily refresh, and verify both live counts and the
 published Apple report in the actual dashboard.
+
+## Four-couple Snooze War test
+
+The shared $80 Instagram campaign keeps the young V14 label and adds
+`paid_ig_snooze_asian_v15`, `paid_ig_snooze_white_v15`, and
+`paid_ig_snooze_black_v15`. Each fixed label carries through the website to
+App Store badges. Apply `allow_snooze_war_v15_casts` and deploy both handlers
+before publishing the frontend and enabling these creatives. Tags distinguish
+creative traffic; they do not verify an ad impression, install, or paid unlock.
+Record operator CTA checks separately from acquired traffic.

@@ -3,7 +3,10 @@ export const WEBSITE_PUBLIC_KEY = "sb_publishable_aHZQlUwb3hUVeyYyVi5wGg_IryIbCV
 export const campaignLabels = {
   unattributed: "No campaign tag", owned_website: "Website default",
   paid_facebook_iphone: "Facebook ad", paid_instagram_iphone: "Instagram ad",
-  paid_instagram_snooze_v14: "Instagram · Snooze War V14",
+  paid_instagram_snooze_v14: "Instagram · Snooze War · Young V14",
+  paid_ig_snooze_asian_v15: "Instagram · Snooze War · Asian V15",
+  paid_ig_snooze_white_v15: "Instagram · Snooze War · Older White V15",
+  paid_ig_snooze_black_v15: "Instagram · Snooze War · Black V15",
   paid_youtube_iphone: "YouTube ad", paid_tiktok_iphone: "TikTok ad",
 };
 export function startDate(end, days) {

@@ -4,7 +4,7 @@
   "use strict";
   const ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/record-page-view";
   const PUBLIC_KEY = "sb_publishable_aHZQlUwb3hUVeyYyVi5wGg_IryIbCVH";
-  const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_youtube_iphone", "paid_tiktok_iphone", "tracking_qa"]);
+  const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15", "paid_youtube_iphone", "paid_tiktok_iphone", "tracking_qa"]);
   const host = window.location.hostname;
   if (host !== "couplesalarm.com" && host !== "www.couplesalarm.com") return;
   const doNotTrack = window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
