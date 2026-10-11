@@ -300,8 +300,7 @@ test("the privacy policy describes first-party counting, not Google", async () =
 });
 
 
-test("V14 keeps a dedicated label through website and App Store steps", () => {
-  const campaign = "paid_instagram_snooze_v14";
+for (const campaign of ["paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15"]) test(`${campaign} keeps a dedicated label through website and App Store steps`, () => {
   const result = run({ pathname: "/", search: "?ct=" + campaign + "&utm_campaign=snooze_war_v14_20261011&email=private@example.com" });
   const next = new URL(result.clickInternal("/compatibility/"));
   assert.equal(next.search, "?ct=" + campaign);

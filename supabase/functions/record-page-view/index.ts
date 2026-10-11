@@ -1,6 +1,6 @@
 const allowedOrigins = new Set(["https://couplesalarm.com", "https://www.couplesalarm.com"]);
 const publicPaths = new Set(["/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/"]);
-const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_youtube_iphone", "paid_tiktok_iphone", "tracking_qa"]);
+const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15", "paid_youtube_iphone", "paid_tiktok_iphone", "tracking_qa"]);
 
 function corsHeaders(origin) {
   return {

@@ -45,7 +45,7 @@ test("invalid events and private paths are rejected; arbitrary campaign data is 
   assert.equal(stored.campaign, null);
 });
 
-for (const campaign of ["paid_tiktok_iphone", "paid_instagram_snooze_v14"]) test(`${campaign} is retained for both supported event types`, async () => {
+for (const campaign of ["paid_tiktok_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15"]) test(`${campaign} is retained for both supported event types`, async () => {
   for (const event_type of ["page_view", "app_store_click"]) {
     let stored;
     const response = await handleRequest(request({ event_type, campaign, utm_campaign: "private@example.com" }), env, async (_, options) => {

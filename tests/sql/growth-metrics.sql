@@ -15,6 +15,7 @@ create role service_role bypassrls;
 \i supabase/migrations/20261011161552_allow_paid_tiktok_campaign.sql
 \i supabase/migrations/20261011180935_add_growth_dashboard_metrics.sql
 \i supabase/migrations/20261011204245_allow_snooze_war_v14_campaign.sql
+\i supabase/migrations/20261011222114_allow_snooze_war_v15_casts.sql
 insert into public.couples_alarm_page_views (viewed_at,path,visitor_hash,event_type,campaign,referrer_host) values
 (date_trunc('day',now())-interval '3 days'+interval '5 hours','/private-email@example.com',repeat('a',32),'page_view',null,'private-person.example'),
 (date_trunc('day',now())-interval '1 day'+interval '1 hour','/',repeat('a',32),'page_view',null,null),
@@ -67,4 +68,17 @@ begin
  exception when check_violation then null;
  end;
 end $$;
+rollback;
+
+-- Each matching creative remains distinct across page views and outbound clicks.
+begin;
+insert into public.couples_alarm_page_views(path,visitor_hash,event_type,campaign)
+select '/',repeat('c',32),event_type,campaign
+from unnest(array['paid_ig_snooze_asian_v15','paid_ig_snooze_white_v15','paid_ig_snooze_black_v15']) as campaign
+cross join unnest(array['page_view','app_store_click']) as event_type;
+do $$ declare tag text; r jsonb; begin
+foreach tag in array array['paid_ig_snooze_asian_v15','paid_ig_snooze_white_v15','paid_ig_snooze_black_v15'] loop
+ select value into r from jsonb_array_elements(public.couples_alarm_growth_metrics()->'campaigns') where value->>'label'=tag;
+ assert (r->>'pageViews')::int=1 and (r->>'appStoreClicks')::int=1, 'missing per-creative events';
+end loop; end $$;
 rollback;
