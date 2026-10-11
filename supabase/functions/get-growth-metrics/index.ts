@@ -37,6 +37,8 @@ export function publicMetrics(data) {
       pageViews: count(row.pageViews), appStoreClicks: count(row.appStoreClicks) })),
     pages: grouped(data.pages, pages), campaigns: grouped(data.campaigns, campaigns),
     referrers: grouped(data.referrers, referrers, false),
+    // Older saved reports have no exclusion ledger. Do not imply a verified zero.
+    ...(Array.isArray(data.excluded) ? { excluded: grouped(data.excluded, new Set([...campaigns, "tracking_qa"])) } : {}),
   };
 }
 export async function handleRequest(request, env = name => Deno.env.get(name), fetchImpl = fetch) {

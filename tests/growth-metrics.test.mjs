@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { publicMetrics, handleRequest } from "../supabase/functions/get-growth-metrics/index.ts";
-import { dailyCsv, websiteRange } from "../growth-dashboard/metrics.js";
+import { appleRange, creativeComparison, dailyCsv, fetchWebsiteMetrics, websiteRange } from "../growth-dashboard/metrics.js";
 import { readDashboardSources, socialFreshness } from "../growth-dashboard/dashboard.js";
 const report = {
   schemaVersion: 1, timezone: "UTC", generatedAt: "2026-10-11T18:00:00Z", firstRecordedAt: "2026-10-10T05:14:53Z",
@@ -82,4 +82,49 @@ test("V14 reports remain distinct from earlier Instagram campaigns", () => {
   const selected = websiteRange(publicMetrics(data), 7);
   assert.equal(selected.campaigns.length, 2);
   assert.equal(selected.campaigns.find(row => row.label === "paid_instagram_snooze_v14").appStoreClicks, 1);
+});
+
+test("confirmed test counts stay separate and follow the selected period", () => {
+  const data = structuredClone(report);
+  data.excluded = [
+    { date: "2026-10-10", label: "tracking_qa", pageViews: 2, appStoreClicks: 1, rawEventId: "private" },
+    { date: "2026-10-11", label: "paid_instagram_snooze_v14", pageViews: 3, appStoreClicks: 1 },
+  ];
+  const projected = publicMetrics(data);
+  assert.doesNotMatch(JSON.stringify(projected), /rawEventId|private/);
+  const today = websiteRange(projected, 1);
+  assert.equal(today.excluded.length, 1);
+  assert.equal(today.pageViews, 4, "excluded counts must not be added back");
+  const compared = creativeComparison(today);
+  assert.equal(compared.length, 4, "every video remains visible, even without events");
+  assert.equal(compared[0].excludedViews, 3);
+  assert.equal(compared[0].excludedClicks, 1);
+  assert.equal(compared[1].pageViews, 0);
+  assert.equal(creativeComparison(null)[0].pageViews, null, "unavailable is not zero");
+  assert.equal(creativeComparison(websiteRange(report, 1))[0].excludedViews, null, "legacy report has unknown exclusions");
+});
+
+test("Apple period totals use the same received days as the chart and preserve missing reports", () => {
+  const apple = { startDate: "2026-10-01", throughDate: "2026-10-10", requestedThroughDate: "2026-10-10", daily: [
+    { date: "2026-10-01", firstTimeDownloads: 10, netPaidUnlocks: 2, estimatedProceedsUsd: 14 },
+    { date: "2026-10-04", firstTimeDownloads: null, netPaidUnlocks: null, estimatedProceedsUsd: null },
+    { date: "2026-10-10", firstTimeDownloads: 0, netPaidUnlocks: -1, estimatedProceedsUsd: -7 },
+  ] };
+  const week = appleRange(apple, 7);
+  assert.equal(week.start, "2026-10-04");
+  assert.equal(week.firstTimeDownloads, 0);
+  assert.equal(week.netPaidUnlocks, -1);
+  assert.equal(week.estimatedProceedsUsd, -7);
+  assert.equal(week.missing, 1);
+  assert.equal(appleRange(apple, "all").firstTimeDownloads, 10);
+  assert.equal(appleRange(apple, 90).start, "2026-10-01", "do not imply coverage before launch");
+  assert.equal(appleRange({ ...apple, daily: [apple.daily[1]] }, 7).firstTimeDownloads, null);
+});
+
+test("malformed live groups fall back without breaking the entire dashboard", async () => {
+  const invalid = { ...report, campaigns: null };
+  await assert.rejects(fetchWebsiteMetrics(async () => ({ ok: true, json: async () => invalid })), /Invalid grouped/);
+  const result = await readDashboardSources(async url => ({ ok: true, json: async () => url.startsWith("data.json") ? { website: report } : invalid }));
+  assert.equal(result.websiteLive, false);
+  assert.equal(result.snapshot.website.generatedAt, report.generatedAt);
 });

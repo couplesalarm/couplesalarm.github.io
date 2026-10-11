@@ -7,15 +7,18 @@ select :'HOST' = '127.0.0.1' and :'PORT' = '55439' as safe_test_host \gset
   \quit
 \endif
 set timezone = 'UTC';
-create role anon;
-create role authenticated;
-create role service_role bypassrls;
+do $$ begin
+ if not exists (select from pg_roles where rolname='anon') then create role anon; end if;
+ if not exists (select from pg_roles where rolname='authenticated') then create role authenticated; end if;
+ if not exists (select from pg_roles where rolname='service_role') then create role service_role bypassrls; end if;
+end $$;
 \i supabase/migrations/20260817120000_create_couples_alarm_page_views.sql
 \i supabase/migrations/20261010050104_add_acquisition_event_measurement.sql
 \i supabase/migrations/20261011161552_allow_paid_tiktok_campaign.sql
 \i supabase/migrations/20261011180935_add_growth_dashboard_metrics.sql
 \i supabase/migrations/20261011204245_allow_snooze_war_v14_campaign.sql
 \i supabase/migrations/20261011222114_allow_snooze_war_v15_casts.sql
+\i supabase/migrations/20261011232705_exclude_confirmed_dashboard_tests.sql
 insert into public.couples_alarm_page_views (viewed_at,path,visitor_hash,event_type,campaign,referrer_host) values
 (date_trunc('day',now())-interval '3 days'+interval '5 hours','/private-email@example.com',repeat('a',32),'page_view',null,'private-person.example'),
 (date_trunc('day',now())-interval '1 day'+interval '1 hour','/',repeat('a',32),'page_view',null,null),
@@ -28,6 +31,10 @@ insert into public.couples_alarm_page_views (viewed_at,path,visitor_hash,event_t
 (now()-interval '2 seconds','/',repeat('c',32),'app_store_click','owned_website',null),
 (now()-interval '1 second','/',repeat('d',32),'page_view',null,null),
 (now()-interval '1 second','/',repeat('d',32),'app_store_click','owned_website',null);
+insert into public.couples_alarm_page_views(viewed_at,path,visitor_hash,event_type,campaign,qa_reason) values
+(date_trunc('day',now())-interval '1 day'+interval '8 hours','/',repeat('a',32),'page_view','paid_instagram_snooze_v14','operator_cta_check'),
+(date_trunc('day',now())-interval '1 day'+interval '9 hours','/',repeat('z',32),'page_view','paid_instagram_snooze_v14','operator_cta_check'),
+(date_trunc('day',now())-interval '1 day'+interval '10 hours','/',repeat('z',32),'app_store_click','paid_instagram_snooze_v14','operator_cta_check');
 do $$
 declare r jsonb; yesterday jsonb; zero_day jsonb;
 begin
@@ -39,6 +46,11 @@ begin
  assert (yesterday->>'pageViews')::int = 3, 'clicks and QA excluded from views';
  assert (yesterday->>'appStoreClicks')::int = 2, 'QA excluded from clicks';
  assert (yesterday->>'visitorsWhoClicked')::int = 1, 'intersection must count visitors with page view';
+ assert (select sum((value->>'pageViews')::int) from jsonb_array_elements(r->'excluded')) = 3, 'tagged and individually confirmed test views remain inspectable';
+ assert (select sum((value->>'appStoreClicks')::int) from jsonb_array_elements(r->'excluded')) = 2, 'excluded test clicks remain inspectable';
+ assert (select count(*) from public.couples_alarm_page_views where qa_reason is not null) = 3, 'raw test events must remain stored';
+ assert (select sum(events) from public.couples_alarm_acquisition_summary(current_date-1,current_date)) = 5, 'acquisition summary must use same exclusion rules';
+ assert (public.couples_alarm_page_view_summary(current_date-1,current_date)->>'views')::int = 3, 'legacy view summary must exclude confirmed tests';
  assert (zero_day->>'visitors')::int = 0, 'days with no events after collection starts must be zero';
  assert r::text not like '%private-email%' and r::text not like '%private-person%' and r::text not like '%visitor_hash%', 'no private fields';
  assert not has_table_privilege('anon','public.couples_alarm_page_views','SELECT'), 'anon cannot read raw rows';

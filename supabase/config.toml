@@ -20,6 +20,10 @@ verify_jwt = false
 [functions.get-growth-metrics]
 verify_jwt = false
 
+# Fixed-account, read-only Meta aggregates; custom publishable-key validation.
+[functions.get-meta-metrics]
+verify_jwt = false
+
 # Guarded by MONTHLY_REPORT_TOKEN instead, so the scheduled job can call it.
 [functions.email-monthly-page-views]
 verify_jwt = false
