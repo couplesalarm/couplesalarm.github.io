@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22
       - name: Test reporting logic
-        run: node --test tests/growth-dashboard.test.mjs tests/growth-metrics.test.mjs
+        run: node --test tests/growth-dashboard.test.mjs tests/growth-metrics.test.mjs tests/meta-metrics.test.mjs
       - name: Publish latest growth snapshot
         env:
           ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}

@@ -153,3 +153,57 @@ App Store badges. Apply `allow_snooze_war_v15_casts` and deploy both handlers
 before publishing the frontend and enabling these creatives. Tags distinguish
 creative traffic; they do not verify an ad impression, install, or paid unlock.
 Record operator CTA checks separately from acquired traffic.
+
+## Dashboard review — October 11, 2026
+
+The four-couple comparison is now the first dashboard section. It uses the
+same website period as the chart, other traffic, excluded-test details and CSV.
+The approved $80 is a shared campaign cap, not measured spend or remaining
+budget. The Meta link is the source for current delivery and spend; the
+dashboard does not compute cost per download without attributed installs.
+Website reports reload every five minutes while the page is visible. Apple
+period changes apply to both the totals and the daily chart; the separate
+since-launch line preserves lifetime context. Missing reports remain unavailable.
+
+`exclude_confirmed_dashboard_tests` adds nullable `qa_reason` to the private raw
+table. The only allowed value is `operator_cta_check`. All three reporting RPCs
+exclude these events and `tracking_qa`; original event times, tags and rows are
+retained. Only the service role can classify tests. The event recorder never
+accepts this field from browsers. The public growth endpoint adds bounded
+`excluded` groups containing only date, approved campaign label and event counts.
+Saved reports without that field explicitly show test separation as unavailable.
+
+Fifteen individually verified October 11 operator events (11 page views and 4
+App Store clicks) were classified using the V14 and four-couple launch receipts.
+The events are matched by ID, exact timestamp, campaign and type; the maintenance
+update requires all fifteen to match. No time-window or visitor-wide deletion or
+reclassification is used. Other prelaunch/preview traffic is still unclassified
+and must not be asserted to be customer acquisition. Routine future smoke checks
+should continue to use `ct=tracking_qa`.
+
+### Automatic API sources
+
+- Website: `get-growth-metrics` reads fresh aggregate database counts on load,
+  manual refresh and every five minutes while the dashboard is visible.
+- Apple: the existing GitHub Actions collector calls the official Sales &
+  Trends API and US catalog API daily using its existing encrypted report-only
+  credentials. The browser reloads the latest API-derived import automatically;
+  Apple's downloads are next-day reports, not real-time installations. The saved
+  JSON is a published API cache, never a manually entered performance figure.
+- Meta: `get-meta-metrics` calls the official Graph Marketing API using
+  server-only `META_ADS_READ_TOKEN` and an explicit `META_GRAPH_VERSION`.
+  Configure a token with `ads_read` for account `856701151737561` after the
+  owner's Meta terms/access approval. Do not request ad-management permission.
+  The handler accepts no arbitrary account, campaign, date or field parameters
+  and has no write operations. It projects only the four known Snooze War ads
+  from campaign `120252400023250695`, caching reads for five minutes per worker.
+  Ad counts use the account's time zone; website counts use UTC. Failed refreshes
+  retain their last successful source timestamp. Missing authorization is
+  explicitly `not_connected`, never zero spend. No token belongs in the browser,
+  the repository, evidence screenshots or application logs.
+
+The Meta integration is not connected until a real authenticated response is
+verified. The prepared app is named **Couples Alarm Reporting**, uses **Measure
+ad performance data with Marketing API**, and belongs to the Couples Alarm
+business portfolio. Creation and token authorization are held for the owner's
+approval of Meta's terms and the reporting access.

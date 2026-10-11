@@ -1,4 +1,4 @@
-import { campaignLabels, dailyCsv, fetchWebsiteMetrics, startDate, websiteRange } from "./metrics.js?v=20261011-v15";
+import { appleRange, campaignLabels, creativeComparison, dailyCsv, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard2";
 const numberFormat = new Intl.NumberFormat("en-US");
 const currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -91,9 +91,25 @@ function chart(doc, selector, data, metric) {
   });
   target.replaceChildren(svg);
 }
+function renderCreatives(selected, doc) {
+  set(doc, "#creative-window", selected ? `${dayLabel(selected.start)} – ${dayLabel(selected.end)} (UTC). This period also controls the website charts and tables below.` : "Website comparison is unavailable until a report loads.");
+  const cards = creativeComparison(selected).map(creative => {
+    const card = element(doc, "article", undefined, "creative-card");
+    card.append(element(doc, "h3", creative.label), element(doc, "p", creative.version, "creative-version"));
+    const counts = element(doc, "div", undefined, "creative-counts");
+    for (const [value, label] of [[creative.pageViews, "Page views"], [creative.appStoreClicks, "App Store clicks"]]) {
+      const count = element(doc, "div", undefined, "creative-count");
+      count.append(element(doc, "strong", fmt(value)), element(doc, "span", label)); counts.append(count);
+    }
+    card.append(counts, element(doc, "p", creative.excludedViews === null ? "Test separation unavailable in this report." : `Tests excluded: ${fmt(creative.excludedViews)} ${creative.excludedViews === 1 ? "view" : "views"} · ${fmt(creative.excludedClicks)} ${creative.excludedClicks === 1 ? "click" : "clicks"}`, "creative-tests"));
+    return card;
+  });
+  doc.querySelector("#creative-comparison").replaceChildren(...cards);
+}
 function renderWebsite(snapshot, doc, options) {
   const website = snapshot.website;
   if (!website) {
+    renderCreatives(null, doc);
     badge(doc, "#website-mode", "Unavailable", "stale");
     set(doc, "#website-updated", "Website reporting could not be reached; no saved report is available.");
     set(doc, "#website-source-status", "Website reporting unavailable. Retry the refresh or check the reporting endpoint.");
@@ -110,35 +126,56 @@ function renderWebsite(snapshot, doc, options) {
   set(doc, "#yesterday-label", `Previous day’s visitors${previous?.partial ? " · partial" : ""}`);
   set(doc, "#website-updated", `${fresh ? "Read from website counter" : "Saved website counts"} · ${timeLabel(website.generatedAt)}`);
   const selected = websiteRange(website, options.websiteDays);
+  renderCreatives(selected, doc);
   const first = website.firstRecordedAt;
   set(doc, "#website-range", `${dayLabel(selected.start)} – ${dayLabel(selected.end)} (UTC). Collection began ${timeLabel(first)}${first ? `, ${first.slice(0, 4)}` : ""}; earlier days are unavailable. Partial days are muted.`);
-  set(doc, "#website-totals", `${fmt(selected.pageViews)} page views · ${fmt(selected.appStoreClicks)} App Store clicks across ${selected.daily.length} recorded days in this period.`);
+  set(doc, "#website-totals", `${fmt(selected.pageViews)} page views · ${fmt(selected.appStoreClicks)} App Store clicks across ${selected.daily.length} recorded ${selected.daily.length === 1 ? "day" : "days"} in this period.`);
+  const excluded = selected.excluded;
+  set(doc, "#qa-summary", excluded ? `${fmt(excluded.reduce((total, row) => total + row.pageViews + row.appStoreClicks, 0))} test events excluded in this period · view details` : "Test separation unavailable in this saved report");
+  rows(doc, "#qa-rows", excluded?.length ? excluded.map(row => [campaignLabels[row.label] || "Other approved test", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [[excluded ? "No confirmed test events in this period" : "Exclusion details unavailable", "—", "—"]]);
   chart(doc, "#daily-chart", selected.daily, options.websiteMetric);
   rows(doc, "#daily-rows", [...selected.daily].reverse().map(row => [dayLabel(row.date), fmt(row.visitors), fmt(row.pageViews), fmt(row.appStoreClicks), row.partial ? "Partial day" : "Full day"]));
   doc.querySelector("#export-daily").disabled = !selected.daily.length;
   bars(doc, "#pages-breakdown", selected.pages.filter(row => row.pageViews > 0));
   bars(doc, "#referrers-breakdown", selected.referrers);
-  rows(doc, "#campaign-rows", selected.campaigns.length ? selected.campaigns.map(row => [campaignLabels[row.label] || "Other approved campaign", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [["No recorded events", "—", "—"]]);
+  const otherCampaigns = selected.campaigns.filter(row => !snoozeCreatives.some(creative => creative.tag === row.label));
+  rows(doc, "#campaign-rows", otherCampaigns.length ? otherCampaigns.map(row => [campaignLabels[row.label] || "Other approved campaign", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [["No other recorded events", "—", "—"]]);
   set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public marketing pages only; beta, feedback and dashboard pages are excluded. Do Not Track is respected.`);
 }
 function renderApple(snapshot, doc, options) {
   const apple = snapshot.apple;
-  if (!apple) { badge(doc, "#apple-mode", "Unavailable", "stale"); return; }
+  if (!apple) {
+    badge(doc, "#apple-mode", "Unavailable", "stale");
+    set(doc, "#apple-window", "Apple reporting could not be loaded.");
+    set(doc, "#apple-source-status", "Published Apple snapshot unavailable. Try Check for updates.");
+    return;
+  }
   const freshness = snapshotFreshness(apple.throughDate, options.now);
   badge(doc, "#apple-mode", apple.status === "error" ? "Refresh failed" : freshness.label, apple.status === "error" ? "stale" : freshness.state);
-  set(doc, "#first-time-downloads", fmt(apple.firstTimeDownloads)); set(doc, "#paid-unlocks", fmt(apple.netPaidUnlocks));
-  set(doc, "#estimated-proceeds", Number.isFinite(apple.estimatedProceedsUsd) ? currencyFormat.format(apple.estimatedProceedsUsd) : "—"); set(doc, "#rating-count", fmt(apple.usRatingCount));
-  set(doc, "#apple-window", `Reported totals since ${dayLabel(apple.startDate || "2026-08-12")} · latest received report: ${dayLabel(apple.throughDate)}.`);
-  const missing = apple.missingDates?.length;
-  set(doc, "#apple-coverage", `${apple.status === "error" ? "The latest refresh failed; these are the last saved totals. " : ""}${missing ? `${missing} daily reports were unavailable in the requested window. Totals include received reports only; missing days are not zero. ` : !apple.daily ? "Daily report history has not been published yet. " : ""}These are all reported app acquisitions, not downloads attributed to the website. Proceeds exclude non-USD currencies; ratings are US-only.`);
-  const end = apple.requestedThroughDate || apple.throughDate;
-  const start = end ? startDate(end, options.appleDays) : "";
-  const data = (apple.daily || []).filter(row => row.date >= start && row.date <= end);
-  chart(doc, "#apple-chart", data, "firstTimeDownloads");
-  rows(doc, "#apple-rows", [...data].reverse().map(row => [dayLabel(row.date), row.firstTimeDownloads === null ? "Report unavailable" : fmt(row.firstTimeDownloads), fmt(row.netPaidUnlocks)]));
+  const selected = appleRange(apple, options.appleDays);
+  set(doc, "#first-time-downloads", fmt(selected.firstTimeDownloads)); set(doc, "#paid-unlocks", fmt(selected.netPaidUnlocks));
+  set(doc, "#estimated-proceeds", Number.isFinite(selected.estimatedProceedsUsd) ? currencyFormat.format(selected.estimatedProceedsUsd) : "—"); set(doc, "#rating-count", fmt(apple.usRatingCount));
+  set(doc, "#apple-window", `${dayLabel(selected.start)} – ${dayLabel(selected.end)} · latest received report: ${dayLabel(apple.throughDate)}.`);
+  set(doc, "#apple-coverage", `${apple.status === "error" ? "The latest refresh failed; these are saved values. " : ""}${selected.received} daily reports received; ${selected.missing} unavailable in this period. Missing reports are not zero. Downloads include all sources, not just our ads. Proceeds exclude non-USD currencies; US ratings are the current catalog total, independent of the period.`);
+  set(doc, "#apple-lifetime", `Since launch: ${fmt(apple.firstTimeDownloads)} reported first-time downloads · ${fmt(apple.netPaidUnlocks)} net paid unlocks. These are different outcomes.`);
+  chart(doc, "#apple-chart", selected.daily, "firstTimeDownloads");
+  rows(doc, "#apple-rows", [...selected.daily].reverse().map(row => [dayLabel(row.date), row.firstTimeDownloads === null ? "Report unavailable" : fmt(row.firstTimeDownloads), fmt(row.netPaidUnlocks)]));
   const checked = apple.updatedAt || snapshot.generatedAt;
-  set(doc, "#apple-updated", `Apple Sales & Trends + US catalog · last successful snapshot ${timeLabel(checked)}. Daily refresh scheduled at 17:15 UTC; actual runs and Apple availability may be later.`);
-  set(doc, "#apple-source-status", `${freshness.label}${apple.status === "error" ? "; latest refresh failed" : ""}. Last successful snapshot ${timeLabel(checked)}. The button reloads the published Apple snapshot; it does not request a new Apple report.`);
+  set(doc, "#apple-updated", `Apple Sales & Trends API + US catalog API · last successful import ${timeLabel(checked)}. Automatic daily collection at 17:15 UTC; Apple publishes daily reports the following day.`);
+  set(doc, "#apple-source-status", `${freshness.label}${apple.status === "error" ? "; latest API import failed" : ""}. Automatic Apple API import checked ${timeLabel(checked)}. This page reloads the latest imported report; Apple does not provide an instant install counter.`);
+}
+function renderMeta(snapshot, doc, options) {
+  const meta = snapshot.meta;
+  const selected = metaRange(meta, options.websiteDays);
+  const fresh = meta?.status === 'connected' && options.now - Date.parse(meta.updatedAt) < 15 * 60 * 1000;
+  badge(doc, '#meta-mode', fresh ? 'API connected' : selected ? 'Saved API report' : meta?.status === 'not_connected' ? 'Connection needed' : 'Unavailable', fresh ? 'fresh' : 'stale');
+  doc.querySelector('#meta-results').hidden = !selected;
+  const message = selected ? `${fresh ? 'Read automatically from Meta' : 'Meta could not refresh; showing the last successful report'} · ${timeLabel(meta.updatedAt)}. ${dayLabel(selected.start)} – ${dayLabel(selected.end)} · ${meta.timezone}.` : meta?.status === 'not_connected' ? 'The reporting API is ready, but Meta account authorization is still required. No spend or click totals are assumed.' : 'The Meta reporting API could not be reached. Website and Apple reporting continue independently.';
+  set(doc, '#meta-updated', message); set(doc, '#meta-source-status', message);
+  if (!selected) return;
+  const money = value => Number.isFinite(value) ? new Intl.NumberFormat('en-US', {style:'currency',currency:meta.currency}).format(value) : '—';
+  set(doc, '#meta-spend', money(selected.spend)); set(doc, '#meta-clicks', fmt(selected.linkClicks)); set(doc, '#meta-landing', fmt(selected.landingPageViews));
+  rows(doc, '#meta-rows', selected.ads.map(ad => [ad.label, ad.status.replaceAll('_',' ').toLowerCase(), money(ad.spend), fmt(ad.linkClicks), fmt(ad.landingPageViews)]));
 }
 function renderSocial(snapshot, doc, now) {
   const target = doc.querySelector("#social-rows");
@@ -156,21 +193,24 @@ function renderSocial(snapshot, doc, now) {
 }
 export function renderDashboard(snapshot, doc = globalThis.document, now = Date.now(), options = {}) {
   const config = { websiteDays: 7, websiteMetric: "visitors", appleDays: 30, websiteLive: false, ...options, now };
-  renderWebsite(snapshot, doc, config); renderApple(snapshot, doc, config); renderSocial(snapshot, doc, now);
+  renderWebsite(snapshot, doc, config); renderApple(snapshot, doc, config); renderMeta(snapshot, doc, config); renderSocial(snapshot, doc, now);
   const status = doc.querySelector("#snapshot-status");
-  status.textContent = `${config.websiteLive ? "Website counts refreshed" : "Website saved report"} · Apple ${dayLabel(snapshot.apple?.throughDate)}`;
-  status.dataset.state = config.websiteLive ? "fresh" : "stale";
+  const websiteFresh = config.websiteLive && now - Date.parse(snapshot.website?.generatedAt) < 3600000;
+  status.textContent = `${websiteFresh ? "Website counts refreshed" : snapshot.website ? "Website saved report" : "Website unavailable"} · Apple through ${dayLabel(snapshot.apple?.throughDate)}`;
+  status.dataset.state = websiteFresh ? "fresh" : "stale";
 }
 export async function readDashboardSources(fetchImpl = globalThis.fetch, previous = null, now = Date.now()) {
   const results = await Promise.allSettled([
     (async () => { const response = await fetchImpl(`data.json?ts=${now}`, { cache: "no-store", signal: AbortSignal.timeout(15000) });
       if (!response.ok) throw new Error("Snapshot unavailable"); return response.json(); })(),
     fetchWebsiteMetrics(fetchImpl),
+    fetchMetaMetrics(fetchImpl),
   ]);
   const saved = results[0].status === "fulfilled" ? results[0].value : previous;
   const websiteLive = results[1].status === "fulfilled";
-  if (!saved && !websiteLive) throw new Error("Both reporting sources are unavailable");
-  const snapshot = { ...(saved || {}), website: websiteLive ? results[1].value : saved?.website };
+  if (!saved && !websiteLive && !results[2].value?.daily) throw new Error("Reporting sources are unavailable");
+  const meta = results[2].status === 'fulfilled' ? results[2].value : { ...(previous?.meta || {}), status:'error' };
+  const snapshot = { ...(saved || {}), website: websiteLive ? results[1].value : saved?.website, meta };
   return { snapshot, websiteLive, warnings: [results[0].status === "rejected" ? "The published Apple snapshot could not be loaded." : "", !websiteLive ? "Live website reporting is unavailable. Any website counts shown are from the dated saved report." : ""].filter(Boolean).join(" ") };
 }
 export async function loadDashboard(fetchImpl = globalThis.fetch, doc = globalThis.document, now = Date.now()) {
@@ -180,10 +220,11 @@ export async function loadDashboard(fetchImpl = globalThis.fetch, doc = globalTh
 }
 if (typeof document !== "undefined") {
   let snapshot = null, websiteLive = false;
-  const controls = () => ({ websiteDays: Number(document.querySelector("#website-period").value), websiteMetric: document.querySelector("#website-metric").value, appleDays: Number(document.querySelector("#apple-period").value), websiteLive });
+  const controls = () => ({ websiteDays: Number(document.querySelector("#website-period").value), websiteMetric: document.querySelector("#website-metric").value, appleDays: document.querySelector("#apple-period").value === "all" ? "all" : Number(document.querySelector("#apple-period").value), websiteLive });
   const render = () => { if (snapshot) renderDashboard(snapshot, document, Date.now(), controls()); };
   const button = document.querySelector("#refresh-dashboard");
   const run = async () => {
+    if (button.disabled) return;
     button.disabled = true; button.textContent = "Checking…";
     try {
       const result = await readDashboardSources(fetch, snapshot);
@@ -195,6 +236,7 @@ if (typeof document !== "undefined") {
     } finally { button.disabled = false; button.textContent = "Check for updates"; }
   };
   button.addEventListener("click", run);
+  setInterval(() => { if (!document.hidden) run(); }, 5 * 60 * 1000);
   let resizeTimer;
   window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(render, 120); });
   for (const id of ["#website-period", "#website-metric", "#apple-period"]) document.querySelector(id).addEventListener("change", render);
