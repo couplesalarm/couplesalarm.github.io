@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "generatedAt": "2026-10-10T20:34:24.486Z",
   "apple": {
     "mode": "automatic",
@@ -7,7 +7,8 @@
     "firstTimeDownloads": 17,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 2
+    "usRatingCount": 2,
+    "updatedAt": "2026-10-10T20:34:24.486Z"
   },
   "social": {
     "mode": "mixed",
@@ -39,6 +40,194 @@
         "mode": "automatic",
         "updatedAt": "2026-10-10T20:34:24.668Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
+      }
+    ]
+  },
+  "website": {
+    "schemaVersion": 1,
+    "timezone": "UTC",
+    "generatedAt": "2026-10-11T18:17:54.569Z",
+    "firstRecordedAt": "2026-10-10T05:14:53.728Z",
+    "daily": [
+      {
+        "date": "2026-10-10",
+        "partial": true,
+        "visitors": 50,
+        "visitorsWhoClicked": 4,
+        "pageViews": 99,
+        "appStoreClicks": 25
+      },
+      {
+        "date": "2026-10-11",
+        "partial": true,
+        "visitors": 88,
+        "visitorsWhoClicked": 4,
+        "pageViews": 113,
+        "appStoreClicks": 7
+      }
+    ],
+    "pages": [
+      {
+        "date": "2026-10-10",
+        "label": "/",
+        "pageViews": 64,
+        "appStoreClicks": 21
+      },
+      {
+        "date": "2026-10-10",
+        "label": "/compatibility/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-10",
+        "label": "/different-wake-times/",
+        "pageViews": 0,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-10",
+        "label": "/download/",
+        "pageViews": 30,
+        "appStoreClicks": 3
+      },
+      {
+        "date": "2026-10-10",
+        "label": "/support/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/",
+        "pageViews": 91,
+        "appStoreClicks": 5
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/compatibility/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/different-wake-times/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/download/",
+        "pageViews": 11,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "/support/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      }
+    ],
+    "campaigns": [
+      {
+        "date": "2026-10-10",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 25
+      },
+      {
+        "date": "2026-10-10",
+        "label": "paid_facebook_iphone",
+        "pageViews": 21,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-10",
+        "label": "unattributed",
+        "pageViews": 78,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 6
+      },
+      {
+        "date": "2026-10-11",
+        "label": "paid_facebook_iphone",
+        "pageViews": 2,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-11",
+        "label": "paid_tiktok_iphone",
+        "pageViews": 54,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-11",
+        "label": "unattributed",
+        "pageViews": 57,
+        "appStoreClicks": 0
+      }
+    ],
+    "referrers": [
+      {
+        "date": "2026-10-10",
+        "label": "Direct / unknown",
+        "pageViews": 44
+      },
+      {
+        "date": "2026-10-10",
+        "label": "Facebook",
+        "pageViews": 20
+      },
+      {
+        "date": "2026-10-10",
+        "label": "Instagram",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-10-10",
+        "label": "TikTok",
+        "pageViews": 19
+      },
+      {
+        "date": "2026-10-10",
+        "label": "X",
+        "pageViews": 13
+      },
+      {
+        "date": "2026-10-11",
+        "label": "Direct / unknown",
+        "pageViews": 64
+      },
+      {
+        "date": "2026-10-11",
+        "label": "Facebook",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-11",
+        "label": "TikTok",
+        "pageViews": 46
+      },
+      {
+        "date": "2026-10-11",
+        "label": "X",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-11",
+        "label": "YouTube",
+        "pageViews": 1
       }
     ]
   }

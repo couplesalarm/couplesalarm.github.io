@@ -66,3 +66,67 @@ nor carried to internal links. An explicit allowlisted `ct` takes priority,
 including `ct=tracking_qa` for test visits. Apply the recorded
 `allow_paid_tiktok_campaign` migration before deploying the updated recorder and
 frontend. Historical unlabeled events are not retroactively reclassified.
+
+## Growth dashboard
+
+The existing public page at `https://couplesalarm.com/growth-dashboard/` reads a
+bounded aggregate report from `get-growth-metrics` when opened or refreshed.
+The handler checks the project publishable key and approved browser origins,
+then calls the service-role-only `couples_alarm_growth_metrics()` function.
+Only that fixed RPC is available; no date/query input, raw rows, visitor hashes,
+arbitrary paths or arbitrary referring domains are published. Unknown referring
+hosts are grouped as Other. The raw table and SQL RPC remain inaccessible to
+`anon` and `authenticated`.
+
+Collection was first observed at **2026-10-10 05:14:53 UTC**. No earlier website
+history is available in this counter. The dashboard provides the latest 90 UTC
+days; 7/30/90-day controls affect the website chart, detail table, CSV, pages,
+referrers, campaigns and period totals together. Days before collection are
+unavailable, not zero. The first day and current day are marked partial.
+
+- **Estimated visitors:** distinct daily visitor digests on page-view events.
+  Multiple page views on one UTC day count once. These estimates cannot identify
+  people across days; never sum them and label the sum unique people.
+- **Page views:** recorded public marketing-page loads. Reloads count. Beta,
+  feedback, admin, and the growth dashboard are not tagged.
+- **App Store outbound clicks:** recorded clicks, not installs or unique people.
+  Repeated clicks count. Store attribution uses Apple's separate campaign reports.
+- **Campaign breakdown:** the event's approved link tag, not a verified paid-ad
+  impression or installation. Untagged page views use No campaign tag; untagged
+  outbound badges use Website default. These two groups are not a funnel.
+- **Referrers:** referring-host groups on page views. Direct / unknown includes
+  absent referrers, internal navigation, and apps that omit them; it does not
+  mean every view was a direct visitor acquisition.
+- **Exclusions and limits:** `tracking_qa` is excluded. Untagged operator checks
+  and bots may remain. Do Not Track and blocked requests create undercounting.
+  These are observed website events, not an audited customer count.
+
+The existing daily GitHub Actions job also stores a website snapshot. If live
+reporting fails, the dashboard uses that snapshot with its original timestamp
+and a visible warning. Apple and social refreshes are independent of website
+reporting; a source failure retains its last successful timestamp.
+
+Apple totals are cumulative received Sales & Trends daily reports from August
+12, 2026. The refresh now retains daily rows, unavailable-report dates, the
+requested cutoff, and the last report actually received. HTTP 404 reports are
+unavailable, not fabricated zeroes, and cannot advance the received-report date.
+Apple's reporting dates and website UTC dates must not be treated as a joined
+attribution funnel. USD-only proceeds exclude other currencies, and rating counts
+come from the US public catalog.
+
+The old four launch-post checks remain as explicitly historical, individually
+dated rows. They do not report all current social posts or paid campaigns.
+Product-page conversion, attributed campaign downloads, current paid-platform
+reports, Android installations, and retention/crash/deletion metrics remain
+unconnected and are identified on the page with their authoritative sources.
+
+### Validation and release
+
+Run `node --test tests/*.test.mjs`. Replay the page-view, acquisition, TikTok and
+growth-metrics migrations in an isolated local PostgreSQL database; the fixture
+in `tests/sql/growth-metrics.sql` verifies repeated visits, clicks, QA exclusion,
+zero-event days, privacy projection, and role permissions. Never run that fixture
+against the hosted project. Deploy the recorded migration and the
+`get-growth-metrics` function to the verified project above, merge the website
+PR, dispatch the existing daily refresh, and verify both live counts and the
+published Apple report in the actual dashboard.

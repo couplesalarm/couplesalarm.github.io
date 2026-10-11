@@ -3,6 +3,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { gunzipSync } from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { fetchWebsiteMetrics } from "../growth-dashboard/metrics.js";
 
 const snapshotPath = new URL("../growth-dashboard/data.json", import.meta.url);
 const appUnitTypes = new Set(["1", "1F", "1T", "F1"]);
@@ -30,11 +31,6 @@ export function parseSalesTsv(input) {
   return lines.slice(1).filter(Boolean).map((line) =>
     Object.fromEntries(headers.map((header, index) => [header, line.split("\t")[index] ?? ""])),
   );
-}
-
-function toIsoDate(value) {
-  const [month, day, year] = value.split("/");
-  return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 }
 
 export function summarizeSalesRows(rows, { appId, iapSku }) {
@@ -128,12 +124,12 @@ async function refreshPublicSocial(social, fetchImpl = fetch) {
         ...platform,
         views: source.parse(await response.text()),
         mode: "automatic",
-        updatedAt,
+        updatedAt, lastAttemptAt: updatedAt, status: "ok",
         url: source.url,
       };
     } catch (error) {
       console.warn(`${platform.name} social refresh failed: ${error.message}`);
-      return { ...platform, mode: "automatic", url: source.url };
+      return { ...platform, mode: "automatic", url: source.url, lastAttemptAt: updatedAt, status: "error" };
     }
   }));
 
@@ -151,7 +147,7 @@ async function privateKeyFrom(env) {
   throw new Error("ASC_PRIVATE_KEY or ASC_PRIVATE_KEY_PATH is required");
 }
 
-export async function refreshGrowthDashboard(env = process.env, fetchImpl = fetch) {
+export async function refreshApple(env, fetchImpl = fetch, now = Date.now()) {
   const required = ["ASC_KEY_ID", "ASC_ISSUER_ID", "ASC_VENDOR_NUMBER"];
   const missing = required.filter((name) => !env[name]);
   if (missing.length) throw new Error(`Missing required configuration: ${missing.join(", ")}`);
@@ -165,24 +161,44 @@ export async function refreshGrowthDashboard(env = process.env, fetchImpl = fetc
     privateKey: await privateKeyFrom(env),
   });
 
-  const reports = [];
-  const dates = reportDates(startDate);
-  const throughDate = dates.at(-1);
-  if (!throughDate) throw new Error("Apple report window predates the launch date");
+  const reports = [], daily = [], missingDates = [];
+  const dates = reportDates(startDate, now);
+  if (!dates.length) throw new Error("Apple report window predates the launch date");
   for (const date of dates) {
     const rows = await downloadSalesReport({ date, token, vendorNumber: env.ASC_VENDOR_NUMBER }, fetchImpl);
-    if (rows) reports.push(...rows);
+    if (rows) {
+      reports.push(...rows);
+      daily.push({ date, ...summarizeSalesRows(rows, { appId, iapSku }) });
+    } else {
+      missingDates.push(date);
+      daily.push({ date, firstTimeDownloads: null, netPaidUnlocks: null, estimatedProceedsUsd: null });
+    }
   }
-
-  const snapshot = JSON.parse(await readFile(snapshotPath, "utf8"));
-  snapshot.generatedAt = new Date().toISOString();
-  snapshot.apple = {
-    mode: "automatic",
-    throughDate,
+  const throughDate = daily.filter(row => row.firstTimeDownloads !== null).at(-1)?.date;
+  if (!throughDate) throw new Error("No Apple daily reports were available");
+  return {
+    mode: "automatic", status: missingDates.length ? "partial" : "ok",
+    updatedAt: new Date(now).toISOString(), startDate, throughDate,
+    requestedThroughDate: dates.at(-1), missingDates, daily,
     ...summarizeSalesRows(reports, { appId, iapSku }),
     usRatingCount: await publicRatingCount(appId, fetchImpl),
   };
+}
+
+export async function refreshGrowthDashboard(env = process.env, fetchImpl = fetch) {
+  const snapshot = JSON.parse(await readFile(snapshotPath, "utf8"));
+  snapshot.schemaVersion = 2;
+  const checkedAt = new Date().toISOString();
+  // One source failing must not prevent independently available data refreshing.
+  try { snapshot.apple = await refreshApple(env, fetchImpl); }
+  catch (error) {
+    console.warn(`Apple refresh failed: ${error.message}`);
+    snapshot.apple = { ...snapshot.apple, updatedAt: snapshot.apple.updatedAt || snapshot.generatedAt, status: "error", lastAttemptAt: checkedAt };
+  }
+  try { snapshot.website = await fetchWebsiteMetrics(fetchImpl); }
+  catch (error) { console.warn(`Website refresh failed: ${error.message}`); }
   snapshot.social = await refreshPublicSocial(snapshot.social, fetchImpl);
+  snapshot.generatedAt = new Date().toISOString();
   await writeFile(snapshotPath, `${JSON.stringify(snapshot, null, 2)}\n`);
   return snapshot;
 }
