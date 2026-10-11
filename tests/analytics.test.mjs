@@ -139,6 +139,56 @@ test("does not collect arbitrary campaign values or alter other apps", () => {
   assert.equal(result.sent.length, 1);
 });
 
+const tiktokUtm = "utm_source=tiktok&utm_medium=paid_social&utm_campaign=website_link_test_20261011";
+
+test("the approved TikTok UTM route attributes views, internal handoffs and store clicks", () => {
+  const result = run({ pathname: "/", search: "?" + tiktokUtm + "&email=private@example.com" });
+  assert.equal(result.sent[0].body.campaign, "paid_tiktok_iphone");
+  assert.equal(new URL(result.links[0].href).searchParams.get("ct"), "paid_tiktok_iphone");
+  assert.equal(new URL(result.clickInternal("/download/")).search, "?ct=paid_tiktok_iphone");
+  result.clickStore();
+  assert.equal(result.sent[1].body.campaign, "paid_tiktok_iphone");
+  assert.doesNotMatch(JSON.stringify(result.sent), /utm_|website_link_test|private@example/);
+});
+
+test("the dedicated TikTok ct token works without UTM parameters", () => {
+  const result = run({ search: "?ct=paid_tiktok_iphone" });
+  result.clickStore();
+  assert.deepEqual(result.sent.map(row => row.body.campaign), ["paid_tiktok_iphone", "paid_tiktok_iphone"]);
+});
+
+test("unapproved or incomplete TikTok UTM tuples stay unlabelled", () => {
+  for (const search of [
+    "?utm_source=tiktok",
+    "?" + tiktokUtm.replace("tiktok", "other"),
+    "?" + tiktokUtm.replace("paid_social", "organic"),
+    "?" + tiktokUtm.replace("website_link_test_20261011", "private@example.com"),
+  ]) {
+    const result = run({ search });
+    assert.equal(result.sent[0].body.campaign, null);
+    result.clickStore();
+    assert.equal(result.sent[1].body.campaign, "owned_website");
+    assert.doesNotMatch(JSON.stringify(result.sent), /utm_|private@example/);
+  }
+});
+
+test("explicit campaign labels and QA override the TikTok alias", () => {
+  for (const campaign of ["tracking_qa", "paid_facebook_iphone"]) {
+    const result = run({ search: "?" + tiktokUtm + "&ct=" + campaign });
+    result.clickStore();
+    assert.deepEqual(result.sent.map(row => row.body.campaign), [campaign, campaign]);
+    assert.equal(new URL(result.clickInternal("/download/")).searchParams.get("ct"), campaign);
+  }
+});
+
+test("Do Not Track suppresses the approved TikTok alias and all events", () => {
+  const result = run({ dnt: "1", search: "?" + tiktokUtm });
+  result.clickStore();
+  assert.deepEqual(result.sent, []);
+  assert.equal(new URL(result.links[0].href).search, "");
+  assert.equal(result.clickInternal("/download/"), "/download/");
+});
+
 test("preserves approved campaign attribution through static and dynamic internal steps", () => {
   const result = run({ search: "?ct=paid_facebook_iphone&email=private@example.com", hrefs: ["https://couplesalarm.com/compatibility/"] });
   assert.equal(new URL(result.links[0].href).search, "?ct=paid_facebook_iphone");

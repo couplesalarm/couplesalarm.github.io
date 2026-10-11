@@ -47,7 +47,8 @@ repair; this deployment does not send email or assert that monthly email deliver
 is configured.
 
 Website App Store badges use `owned_website`. The iPhone ad test reserves
-`paid_facebook_iphone`, `paid_instagram_iphone`, and `paid_youtube_iphone`, using
+`paid_facebook_iphone`, `paid_instagram_iphone`, `paid_youtube_iphone`, and
+`paid_tiktok_iphone`, using
 the existing Apple provider token. Direct-to-store ad visits bypass the website
 counter; inspect platform clicks and Apple's campaign reports for those visits.
 
@@ -58,3 +59,10 @@ Do Not Track disables this behavior as well as event requests. The partner-share
 feature always shares the clean public download URL, with no campaign or personal
 data. The static desktop QR opens the canonical App Store listing directly and
 does not identify the scanning person or preserve the desktop visitor's campaign.
+
+The exact TikTok ad query `utm_source=tiktok&utm_medium=paid_social&utm_campaign=website_link_test_20261011` is an alias for `paid_tiktok_iphone`.
+Only that approved tuple is recognized; arbitrary UTM values are neither stored
+nor carried to internal links. An explicit allowlisted `ct` takes priority,
+including `ct=tracking_qa` for test visits. Apply the recorded
+`allow_paid_tiktok_campaign` migration before deploying the updated recorder and
+frontend. Historical unlabeled events are not retroactively reclassified.
