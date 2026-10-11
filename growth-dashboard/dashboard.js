@@ -1,4 +1,4 @@
-import { campaignLabels, dailyCsv, fetchWebsiteMetrics, startDate, websiteRange } from "./metrics.js";
+import { campaignLabels, dailyCsv, fetchWebsiteMetrics, startDate, websiteRange } from "./metrics.js?v=20261011-v14";
 const numberFormat = new Intl.NumberFormat("en-US");
 const currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });

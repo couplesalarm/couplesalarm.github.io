@@ -71,3 +71,15 @@ test("social failures and old counts never appear freshly checked", () => {
   assert.match(socialFreshness({ mode: "automatic", updatedAt: "2026-08-24" }, Date.parse("2026-10-11")), /^Stale/);
   assert.match(socialFreshness({ status: "error", updatedAt: "2026-10-11" }), /^Refresh failed/);
 });
+
+
+test("V14 reports remain distinct from earlier Instagram campaigns", () => {
+  const data = structuredClone(report);
+  data.campaigns = [
+    { date: "2026-10-11", label: "paid_instagram_iphone", pageViews: 3, appStoreClicks: 2 },
+    { date: "2026-10-11", label: "paid_instagram_snooze_v14", pageViews: 4, appStoreClicks: 1 },
+  ];
+  const selected = websiteRange(publicMetrics(data), 7);
+  assert.equal(selected.campaigns.length, 2);
+  assert.equal(selected.campaigns.find(row => row.label === "paid_instagram_snooze_v14").appStoreClicks, 1);
+});
