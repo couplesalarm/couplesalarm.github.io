@@ -1,14 +1,422 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-10T20:34:24.486Z",
+  "generatedAt": "2026-10-11T18:23:24.695Z",
   "apple": {
     "mode": "automatic",
-    "throughDate": "2026-10-09",
-    "firstTimeDownloads": 17,
+    "status": "partial",
+    "updatedAt": "2026-10-11T18:22:51.651Z",
+    "startDate": "2026-08-12",
+    "throughDate": "2026-10-10",
+    "requestedThroughDate": "2026-10-10",
+    "missingDates": [
+      "2026-08-15",
+      "2026-08-16",
+      "2026-08-20",
+      "2026-08-21",
+      "2026-08-22",
+      "2026-08-23",
+      "2026-08-24",
+      "2026-08-25",
+      "2026-08-26",
+      "2026-08-27",
+      "2026-08-28",
+      "2026-08-29",
+      "2026-08-30",
+      "2026-08-31",
+      "2026-09-01",
+      "2026-09-04",
+      "2026-09-05",
+      "2026-09-06",
+      "2026-09-07",
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-13",
+      "2026-09-14",
+      "2026-09-15",
+      "2026-09-16",
+      "2026-09-18",
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-23",
+      "2026-09-25",
+      "2026-09-26",
+      "2026-09-27",
+      "2026-09-28",
+      "2026-09-30",
+      "2026-10-01",
+      "2026-10-04",
+      "2026-10-05",
+      "2026-10-08",
+      "2026-10-09"
+    ],
+    "daily": [
+      {
+        "date": "2026-08-12",
+        "firstTimeDownloads": 6,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-13",
+        "firstTimeDownloads": 2,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-14",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-15",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-16",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-17",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-18",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-19",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-08-20",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-21",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-22",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-23",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-24",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-25",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-26",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-27",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-28",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-29",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-30",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-08-31",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-01",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-02",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-03",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-04",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-05",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-06",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-07",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-08",
+        "firstTimeDownloads": 2,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-09",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-10",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-11",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-12",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-13",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-14",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-15",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-16",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-17",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-18",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-19",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-20",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-21",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-22",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-23",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-24",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-25",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-26",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-27",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-28",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-09-29",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-09-30",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-01",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-02",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-03",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-04",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-05",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-06",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-07",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-08",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-09",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-10",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      }
+    ],
+    "firstTimeDownloads": 18,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 2,
-    "updatedAt": "2026-10-10T20:34:24.486Z"
+    "usRatingCount": 2
   },
   "social": {
     "mode": "mixed",
@@ -32,21 +440,25 @@
         "views": 3,
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
-        "url": "https://x.com/couplesalarm/status/2088261204279963649"
+        "url": "https://x.com/couplesalarm/status/2088261204279963649",
+        "lastAttemptAt": "2026-10-11T18:23:22.682Z",
+        "status": "error"
       },
       {
         "name": "YouTube",
-        "views": 18,
+        "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-10T20:34:24.668Z",
-        "url": "https://www.youtube.com/shorts/cIhu0YqJFW4"
+        "updatedAt": "2026-10-11T18:23:22.682Z",
+        "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
+        "lastAttemptAt": "2026-10-11T18:23:22.682Z",
+        "status": "ok"
       }
     ]
   },
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-11T18:17:54.569Z",
+    "generatedAt": "2026-10-11T18:23:22.609Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -60,9 +472,9 @@
       {
         "date": "2026-10-11",
         "partial": true,
-        "visitors": 88,
+        "visitors": 90,
         "visitorsWhoClicked": 4,
-        "pageViews": 113,
+        "pageViews": 116,
         "appStoreClicks": 7
       }
     ],
@@ -100,7 +512,7 @@
       {
         "date": "2026-10-11",
         "label": "/",
-        "pageViews": 91,
+        "pageViews": 93,
         "appStoreClicks": 5
       },
       {
@@ -118,7 +530,7 @@
       {
         "date": "2026-10-11",
         "label": "/download/",
-        "pageViews": 11,
+        "pageViews": 12,
         "appStoreClicks": 2
       },
       {
@@ -168,13 +580,13 @@
       {
         "date": "2026-10-11",
         "label": "paid_tiktok_iphone",
-        "pageViews": 54,
+        "pageViews": 55,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-11",
         "label": "unattributed",
-        "pageViews": 57,
+        "pageViews": 59,
         "appStoreClicks": 0
       }
     ],
@@ -207,7 +619,7 @@
       {
         "date": "2026-10-11",
         "label": "Direct / unknown",
-        "pageViews": 64
+        "pageViews": 65
       },
       {
         "date": "2026-10-11",
@@ -222,12 +634,12 @@
       {
         "date": "2026-10-11",
         "label": "X",
-        "pageViews": 1
+        "pageViews": 2
       },
       {
         "date": "2026-10-11",
         "label": "YouTube",
-        "pageViews": 1
+        "pageViews": 2
       }
     ]
   }
