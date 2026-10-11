@@ -6,466 +6,105 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="color-scheme" content="dark">
   <link rel="icon" href="data:,">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'unsafe-inline'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://xqdqgsbkapvlskcldmpe.supabase.co; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Couples Alarm — Growth Dashboard</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --ink: #f4f1e9;
-      --muted: #9aa8ad;
-      --faint: #74868d;
-      --cyan: #57d9df;
-      --coral: #ff7957;
-      --panel: rgb(244 241 233 / 5%);
-      --line: rgb(244 241 233 / 11%);
-      --canvas: #03080c;
-      font-family: "Avenir Next", Avenir, "Century Gothic", sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      min-width: 320px;
-      min-height: 100vh;
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 88% 4%, rgb(255 121 87 / 16%), transparent 24rem),
-        radial-gradient(circle at 12% 96%, rgb(87 217 223 / 12%), transparent 28rem),
-        var(--canvas);
-    }
-
-    button { font: inherit; }
-
-    .shell {
-      width: min(960px, 100%);
-      margin: 0 auto;
-      padding: 34px 24px 64px;
-    }
-
-    .masthead {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 26px;
-    }
-
-    .eyebrow,
-    .source-line,
-    .mode,
-    .status { font-family: "SFMono-Regular", Consolas, monospace; }
-
-    .eyebrow {
-      margin: 0 0 6px;
-      color: var(--cyan);
-      font-size: 11px;
-      font-weight: 750;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    h1, h2, p { margin-top: 0; }
-
-    h1 {
-      max-width: 640px;
-      margin-bottom: 8px;
-      font-size: clamp(30px, 5vw, 48px);
-      font-weight: 680;
-      line-height: .98;
-      letter-spacing: -.05em;
-    }
-
-    .lede {
-      max-width: 620px;
-      margin-bottom: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .actions {
-      display: flex;
-      align-items: flex-end;
-      flex: 0 0 auto;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .status {
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.4;
-      text-align: right;
-      text-transform: uppercase;
-    }
-
-    .status::before {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      margin-right: 7px;
-      border-radius: 50%;
-      background: var(--muted);
-      content: "";
-    }
-
-    .status[data-state="fresh"]::before { background: var(--cyan); }
-    .status[data-state="stale"]::before { background: var(--coral); }
-
-    .refresh {
-      min-height: 44px;
-      padding: 9px 15px;
-      border: 1px solid rgb(87 217 223 / 35%);
-      border-radius: 999px;
-      background: rgb(87 217 223 / 9%);
-      color: var(--cyan);
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .refresh:hover { background: rgb(87 217 223 / 15%); }
-    .refresh:disabled { cursor: wait; opacity: .55; }
-    .refresh:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
-
-    .pulse,
-    .reach,
-    .sources {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--panel);
-      box-shadow: inset 0 1px rgb(255 255 255 / 6%), 0 18px 48px rgb(0 0 0 / 20%);
-    }
-
-    .pulse {
-      padding: 22px;
-      background:
-        radial-gradient(circle at 88% 10%, rgb(255 121 87 / 17%), transparent 28%),
-        radial-gradient(circle at 68% 130%, rgb(87 217 223 / 14%), transparent 42%),
-        linear-gradient(145deg, #03080c, #071018 68%, #0a1b22);
-    }
-
-    .pulse::before {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgb(255 255 255 / 3%) 1px, transparent 1px),
-        linear-gradient(90deg, rgb(255 255 255 / 3%) 1px, transparent 1px);
-      background-size: 44px 44px;
-      content: "";
-      mask-image: radial-gradient(circle at 80% 20%, black, transparent 66%);
-      pointer-events: none;
-    }
-
-    .pulse-head,
-    .metrics,
-    .next-signals,
-    .source-line { position: relative; }
-
-    .pulse-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    h2 {
-      margin-bottom: 0;
-      font-size: clamp(24px, 4vw, 34px);
-      font-weight: 680;
-      line-height: 1;
-      letter-spacing: -.045em;
-    }
-
-    .through {
-      margin: 0;
-      color: var(--muted);
-      font: 650 10px/1.45 "SFMono-Regular", Consolas, monospace;
-      text-align: right;
-      text-transform: uppercase;
-    }
-
-    .metrics {
-      display: grid;
-      grid-template-columns: 1.45fr repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    .metric {
-      display: flex;
-      min-width: 0;
-      min-height: 86px;
-      padding: 14px;
-      flex-direction: column;
-      justify-content: center;
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      background: rgb(244 241 233 / 5%);
-    }
-
-    .metric.lead {
-      border-color: rgb(87 217 223 / 35%);
-      background: linear-gradient(135deg, rgb(87 217 223 / 14%), rgb(87 217 223 / 5%));
-    }
-
-    .value {
-      color: var(--ink);
-      font-size: clamp(25px, 4vw, 34px);
-      font-weight: 720;
-      line-height: 1;
-      letter-spacing: -.04em;
-    }
-
-    .lead .value { color: var(--cyan); }
-
-    .label {
-      margin-top: 7px;
-      color: #aeb9bd;
-      font-size: 10px;
-      font-weight: 650;
-      line-height: 1.2;
-    }
-
-    .next-signals {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 14px;
-    }
-
-    .next-signals strong { font-size: 11px; white-space: nowrap; }
-
-    .tags {
-      display: flex;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .tag,
-    .mode {
-      padding: 4px 7px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: #bdc7ca;
-      font-size: 9px;
-      font-weight: 650;
-      line-height: 1.1;
-    }
-
-    .mode.auto { border-color: rgb(87 217 223 / 30%); color: var(--cyan); }
-    .mode.mixed { border-color: rgb(255 199 87 / 30%); color: #ffd07a; }
-    .mode.manual { border-color: rgb(255 121 87 / 30%); color: #ff9b80; }
-
-    .source-line {
-      margin: 13px 0 0;
-      color: var(--faint);
-      font-size: 9px;
-      letter-spacing: .03em;
-    }
-
-    .reach,
-    .sources { margin-top: 18px; padding: 22px; }
-
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .section-head h2 { font-size: 20px; letter-spacing: -.025em; }
-
-    .bars {
-      display: grid;
-      gap: 12px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .bar-row {
-      display: grid;
-      grid-template-columns: 94px minmax(0, 1fr) 52px;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .platform { color: #cbd3d5; font-size: 12px; }
-
-    .bar-track {
-      height: 24px;
-      overflow: hidden;
-      border-radius: 8px;
-      background: rgb(244 241 233 / 5%);
-    }
-
-    .bar {
-      width: var(--bar-width);
-      min-width: 3px;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #238e9a, var(--cyan));
-      transform-origin: left;
-    }
-
-    .bar-value {
-      color: var(--ink);
-      font-variant-numeric: tabular-nums;
-      font-size: 12px;
-      font-weight: 700;
-      text-align: right;
-    }
-
-    .source-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .source-card {
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgb(244 241 233 / 3%);
-    }
-
-    .source-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .source-card h3 { margin: 0; font-size: 13px; }
-
-    .source-card p {
-      margin: 9px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.45;
-    }
-
-    .error {
-      min-height: 18px;
-      margin: 10px 0 0;
-      color: #ff9b80;
-      font-size: 11px;
-      text-align: right;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .pulse, .reach, .sources { animation: arrive .45s ease-out both; }
-      .reach { animation-delay: .07s; }
-      .sources { animation-delay: .14s; }
-      .bar { animation: grow .55s .15s ease-out both; }
-      @keyframes arrive { from { opacity: 0; transform: translateY(8px); } }
-      @keyframes grow { from { transform: scaleX(0); } }
-    }
-
-    @media (max-width: 700px) {
-      .shell { padding: 24px 16px 40px; }
-      .masthead { display: block; }
-      .actions { align-items: flex-start; margin-top: 18px; }
-      .status, .error { text-align: left; }
-      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .metric { min-height: 76px; }
-      .next-signals { align-items: flex-start; flex-direction: column; }
-      .tags { justify-content: flex-start; }
-      .source-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 430px) {
-      .pulse, .reach, .sources { padding: 17px; border-radius: 19px; }
-      .pulse-head { align-items: flex-start; flex-direction: column; }
-      .through { text-align: left; }
-      .metrics { gap: 6px; }
-      .metric { padding: 11px; }
-      .bar-row { grid-template-columns: 76px minmax(0, 1fr) 42px; gap: 8px; }
-    }
-  </style>
+  <link rel="stylesheet" href="dashboard.css?v=20261011">
 </head>
 <body>
+  <a class="skip-link" href="#website-title">Skip to website metrics</a>
   <main class="shell">
     <header class="masthead">
-      <div>
-        <p class="eyebrow">Couples Alarm · launch pulse</p>
-        <h1>Growth Dashboard</h1>
-        <p class="lede">Acquisition and monetization from Apple, with owned social reach kept separate when a platform still needs a manual check.</p>
-      </div>
+      <div><p class="eyebrow">Couples Alarm</p><h1>Growth Dashboard</h1>
+        <p class="lede">Website activity, App Store outcomes, and the reporting gaps between them.</p></div>
       <div class="actions">
-        <p id="snapshot-status" class="status" data-state="stale" aria-live="polite">Showing published snapshot</p>
+        <p id="snapshot-status" class="status" aria-live="polite">Loading sources…</p>
         <button id="refresh-dashboard" class="refresh" type="button">Check for updates</button>
-        <p id="refresh-error" class="error" aria-live="polite"></p>
       </div>
     </header>
+    <nav class="section-nav" aria-label="Dashboard sections">
+      <a href="#website-title">Website</a><a href="#apple-title">App Store</a><a href="#coverage-title">Coverage &amp; sources</a>
+      <a href="/">Open website ↗</a>
+    </nav>
+    <p id="refresh-error" class="error" role="status"></p>
 
-    <section class="pulse" aria-labelledby="pulse-title">
-      <div class="pulse-head">
-        <div>
-          <p class="eyebrow">Apple launch outcomes</p>
-          <h2 id="pulse-title">First signals are in.</h2>
+    <section class="pulse" aria-labelledby="website-title">
+      <div class="section-head"><h2 id="website-title">Website activity</h2><span id="website-mode" class="mode">Connecting</span></div>
+      <p id="website-current-day" class="muted">Daily counts use UTC.</p>
+      <div class="metrics" aria-label="Latest website day">
+        <article class="metric lead"><span id="today-visitors" class="value">—</span><span class="label">Estimated visitors</span></article>
+        <article class="metric"><span id="today-views" class="value">—</span><span class="label">Page views</span></article>
+        <article class="metric"><span id="today-clicks" class="value">—</span><span class="label">App Store outbound clicks</span></article>
+        <article class="metric"><span id="yesterday-visitors" class="value">—</span><span id="yesterday-label" class="label">Previous day’s visitors</span></article>
+      </div>
+      <p class="note">Visitors are estimated separately each UTC day, without cookies. The same person can appear on different days. Tagged QA is excluded; untagged tests and bots may remain. Clicks show intent, not downloads.</p>
+      <p id="website-updated" class="source-line">Website reporting is loading.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="daily-title">
+      <div class="section-head wrap"><h2 id="daily-title">Daily website activity</h2>
+        <div class="controls">
+          <label>Website period <select id="website-period"><option value="7">Last 7 days</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select></label>
+          <label>Chart <select id="website-metric"><option value="visitors">Estimated visitors</option><option value="pageViews">Page views</option><option value="appStoreClicks">App Store clicks</option></select></label>
         </div>
-        <p class="through">Apple data through<br><time id="apple-through" datetime="2026-08-12">Aug 12, 2026</time></p>
       </div>
-
-      <div class="metrics" aria-label="Launch metrics">
-        <article class="metric lead"><span id="first-time-downloads" class="value">3</span><span class="label">First-time downloads</span></article>
-        <article class="metric"><span id="paid-unlocks" class="value">0</span><span class="label">Net paid unlocks</span></article>
-        <article class="metric"><span id="estimated-proceeds" class="value">$0</span><span class="label">USD-only proceeds</span></article>
-        <article class="metric"><span id="rating-count" class="value">0</span><span class="label">US ratings</span></article>
-      </div>
-
-      <div class="next-signals">
-        <strong>Next signals</strong>
-        <div class="tags" aria-label="Metrics to add when data is available">
-          <span class="tag">Store conversion</span>
-          <span class="tag">Campaign downloads</span>
-          <span class="tag">Day-35 paid</span>
-          <span class="tag">Day-7 retention</span>
-          <span class="tag">Crashes · deletions</span>
-        </div>
-      </div>
-
-      <p class="source-line">Apple Sales &amp; Trends · US App Store catalog · aggregate data only</p>
+      <p id="website-range" class="muted">Waiting for website data.</p>
+      <div id="daily-chart" class="chart" aria-live="polite"></div>
+      <p id="website-totals" class="totals"></p>
+      <details><summary>Daily numbers &amp; CSV</summary>
+        <div class="detail-actions"><button id="export-daily" class="refresh" disabled type="button">Download daily CSV</button></div>
+        <div class="table-scroll" tabindex="0" aria-label="Daily website numbers"><table><caption class="sr-only">Website counts for the selected period, UTC</caption>
+          <thead><tr><th scope="col">Date (UTC)</th><th scope="col">Visitors, est.</th><th scope="col">Page views</th><th scope="col">App Store clicks</th><th scope="col">Coverage</th></tr></thead><tbody id="daily-rows"></tbody>
+        </table></div>
+      </details>
     </section>
 
-    <section class="reach" aria-labelledby="reach-title">
-      <div class="section-head">
-        <h2 id="reach-title">Launch-post reach</h2>
-        <span id="social-mode" class="mode mixed">Partly automatic</span>
-      </div>
-      <ul id="social-bars" class="bars" aria-label="Reported launch-post views">
-        <li class="bar-row"><span class="platform">Facebook</span><span class="bar-track"><span class="bar" style="--bar-width:33%"></span></span><span class="bar-value">6</span></li>
-        <li class="bar-row"><span class="platform">Instagram</span><span class="bar-track"><span class="bar" style="--bar-width:39%"></span></span><span class="bar-value">7</span></li>
-        <li class="bar-row"><span class="platform">X</span><span class="bar-track"><span class="bar" style="--bar-width:11%"></span></span><span class="bar-value">2</span></li>
-        <li class="bar-row"><span class="platform">YouTube</span><span class="bar-track"><span class="bar" style="--bar-width:100%"></span></span><span class="bar-value">18</span></li>
-      </ul>
-      <p id="social-source-line" class="source-line">X + YouTube daily (Aug 16, 2026) · Facebook + Instagram manual (Aug 16, 2026)</p>
+    <div class="split">
+      <section class="panel" aria-labelledby="pages-title"><h2 id="pages-title">Pages viewed</h2><p class="muted">Uses the selected website period.</p><div id="pages-breakdown"></div></section>
+      <section class="panel" aria-labelledby="referrers-title"><h2 id="referrers-title">Referring websites</h2><p class="muted">Direct / unknown also includes apps that omit a referrer.</p><div id="referrers-breakdown"></div></section>
+    </div>
+    <section class="panel" aria-labelledby="campaign-title">
+      <h2 id="campaign-title">Campaign-tagged activity</h2>
+      <p class="muted">Website events in the selected period. Tags describe the link used; they do not verify paid delivery or attribute a download.</p>
+      <div class="table-scroll" tabindex="0" aria-label="Campaign activity"><table><caption class="sr-only">Website events by approved campaign tag</caption><thead><tr><th scope="col">Campaign label</th><th scope="col">Page views</th><th scope="col">App Store clicks</th></tr></thead><tbody id="campaign-rows"></tbody></table></div>
+      <p class="note">“Website default” is added to untagged App Store buttons. Those clicks may follow page views counted under “No campaign tag.” Do not calculate a conversion rate between these groups. Direct-to-store ads bypass the website counter.</p>
     </section>
 
-    <section class="sources" aria-labelledby="sources-title">
-      <div class="section-head"><h2 id="sources-title">Source freshness</h2></div>
-      <div class="source-grid">
-        <article class="source-card">
-          <div class="source-card-head"><h3>Apple</h3><span id="apple-mode" class="mode manual">Manual snapshot</span></div>
-          <p>First-time app units, paid unlocks, and USD-denominated proceeds come from Sales &amp; Trends. US rating count comes from Apple’s public catalog.</p>
-        </article>
-        <article class="source-card">
-          <div class="source-card-head"><h3>Owned social</h3><span id="social-source-mode" class="mode mixed">Partly automatic</span></div>
-          <p>X and YouTube public views update daily. Facebook and Instagram remain manual until reporting API access is configured.</p>
-        </article>
+    <section class="panel" aria-labelledby="apple-title">
+      <div class="section-head"><h2 id="apple-title">App Store outcomes</h2><span id="apple-mode" class="mode">Loading</span></div>
+      <p id="apple-window" class="muted">Apple Sales &amp; Trends report window is loading.</p>
+      <div class="metrics" aria-label="Reported Apple totals">
+        <article class="metric lead"><span id="first-time-downloads" class="value">—</span><span class="label">First-time downloads</span></article>
+        <article class="metric"><span id="paid-unlocks" class="value">—</span><span class="label">Net paid unlocks</span></article>
+        <article class="metric"><span id="estimated-proceeds" class="value">—</span><span class="label">USD-only proceeds</span></article>
+        <article class="metric"><span id="rating-count" class="value">—</span><span class="label">US ratings</span></article>
       </div>
+      <p id="apple-coverage" class="note"></p>
+      <div class="section-head small"><h3>Daily first-time downloads</h3><label>Apple period <select id="apple-period"><option value="30">Last 30 reporting days</option><option value="7">Last 7 reporting days</option><option value="90">Last 90 reporting days</option></select></label></div>
+      <div id="apple-chart" class="chart"></div>
+      <details><summary>Daily Apple reports</summary><div class="table-scroll" tabindex="0" aria-label="Daily Apple reports"><table><caption class="sr-only">Daily first-time downloads and report availability</caption><thead><tr><th scope="col">Report date</th><th scope="col">First-time downloads</th><th scope="col">Net paid unlocks</th></tr></thead><tbody id="apple-rows"></tbody></table></div></details>
+      <p id="apple-updated" class="source-line"></p>
     </section>
 
-    <noscript><p class="source-line">JavaScript is off, so this page is showing its built-in snapshot.</p></noscript>
+    <section class="panel" aria-labelledby="coverage-title">
+      <h2 id="coverage-title">Coverage &amp; sources</h2>
+      <div class="table-scroll" tabindex="0" aria-label="Measurement coverage"><table class="coverage"><caption class="sr-only">What is connected and what is still unavailable</caption><thead><tr><th scope="col">Measurement</th><th scope="col">Status and next source</th></tr></thead><tbody>
+        <tr><th scope="row">Website visits &amp; outbound clicks</th><td id="website-source-status">Connecting to first-party aggregate reporting.</td></tr>
+        <tr><th scope="row">Downloads, unlocks &amp; proceeds</th><td id="apple-source-status">Reading the daily published Apple report.</td></tr>
+        <tr><th scope="row">Campaign-attributed downloads</th><td>Not connected. <a href="https://appstoreconnect.apple.com/analytics" target="_blank" rel="noopener noreferrer">App Store Connect Analytics ↗</a> is the source. Apple requires at least five first-time downloads before a campaign appears; a missing campaign is not zero downloads.</td></tr>
+        <tr><th scope="row">Product-page conversion</th><td>Not connected. Requires Apple's product-page views and downloads for the same period and population; website clicks cannot supply that denominator.</td></tr>
+        <tr><th scope="row">Current social reach &amp; ad spend</th><td>Not connected to current campaigns. The historical post checks below cover individual August posts only. Ad-platform views, clicks, spend, and attributed installs must be reported separately.</td></tr>
+        <tr><th scope="row">Android installs</th><td>Not connected. Read release-specific statistics in <a href="https://play.google.com/console/" target="_blank" rel="noopener noreferrer">Google Play Console ↗</a>.</td></tr>
+        <tr><th scope="row">Retention, crashes &amp; deletions</th><td>Not connected. Apple's aggregate analytics may be available subject to consent and reporting thresholds. The app has no added tracking SDK.</td></tr>
+      </tbody></table></div>
+      <details class="historical"><summary>Historical launch-post checks</summary>
+        <p class="note">These are individual posts, not channel totals or current campaign results. Each row retains its own last successful check.</p>
+        <div class="table-scroll" tabindex="0" aria-label="Historical social posts"><table><caption class="sr-only">Historical social post views with exact source freshness</caption><thead><tr><th scope="col">Post</th><th scope="col">Views</th><th scope="col">Last successful check</th><th scope="col">Status</th></tr></thead><tbody id="social-rows"></tbody></table></div>
+      </details>
+      <div class="source-links"><a href="https://github.com/couplesalarm/couplesalarm.github.io/blob/main/TRACKING.md" target="_blank" rel="noopener noreferrer">Metric definitions &amp; collection coverage ↗</a><a href="https://github.com/couplesalarm/couplesalarm.github.io/actions/workflows/refresh-growth-dashboard.yml" target="_blank" rel="noopener noreferrer">Daily refresh runs ↗</a><a href="/admin/">Private beta feedback ↗</a></div>
+    </section>
+    <footer>Website days use UTC. Apple uses its own report dates. Aggregate reporting only.</footer>
+    <noscript><p class="error">Enable JavaScript to load the measured data. No example counts are shown.</p></noscript>
   </main>
-  <script type="module" src="dashboard.js?v=20260816"></script>
+  <script type="module" src="dashboard.js?v=20261011"></script>
 </body>
 </html>

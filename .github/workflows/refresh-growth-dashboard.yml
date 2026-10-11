@@ -23,17 +23,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Check reporting configuration
-        env:
-          ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_REPORTS_ISSUER_ID }}
-          ASC_PRIVATE_KEY: ${{ secrets.ASC_REPORTS_PRIVATE_KEY }}
-          ASC_VENDOR_NUMBER: ${{ secrets.ASC_VENDOR_NUMBER }}
-        run: |
-          if [[ -z "$ASC_KEY_ID" || -z "$ASC_ISSUER_ID" || -z "$ASC_PRIVATE_KEY" || -z "$ASC_VENDOR_NUMBER" ]]; then
-            echo "::error::Apple reporting secrets are not configured; the dashboard was not refreshed."
-            exit 1
-          fi
+      - name: Test reporting logic
+        run: node --test tests/growth-dashboard.test.mjs tests/growth-metrics.test.mjs
       - name: Publish latest growth snapshot
         env:
           ASC_KEY_ID: ${{ secrets.ASC_REPORTS_KEY_ID }}

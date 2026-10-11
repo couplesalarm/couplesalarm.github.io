@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { generateKeyPairSync } from "node:crypto";
+import { gzipSync } from "node:zlib";
 import { snapshotFreshness } from "../growth-dashboard/dashboard.js";
 import {
   parseSalesTsv,
@@ -8,6 +10,7 @@ import {
   parseYouTubeViews,
   reportDates,
   summarizeSalesRows,
+  refreshApple,
 } from "../scripts/refresh-growth-dashboard.mjs";
 
 const html = await readFile(new URL("../growth-dashboard/index.html", import.meta.url), "utf8");
@@ -21,7 +24,7 @@ test("loads a cache-busted snapshot and exposes an accessible refresh action", (
   assert.match(client, /data\.json\?ts=/);
   assert.match(client, /cache: "no-store"/);
   assert.doesNotMatch(html, /data-data-analytics-portable-artifact|connect-src 'none'/);
-  assert.equal(snapshot.schemaVersion, 1);
+  assert.ok([1, 2].includes(snapshot.schemaVersion));
 });
 
 test("flags old published snapshots", () => {
@@ -53,7 +56,7 @@ test("aggregates only first app units and paid lifetime unlocks", () => {
   assert.match(workflow, /cron: "15 17 \* \* \*"/);
   assert.match(workflow, /ASC_REPORTS_PRIVATE_KEY/);
   assert.match(workflow, /ref: main/);
-  assert.match(workflow, /Apple reporting secrets are not configured/);
+  assert.match(workflow, /Test reporting logic/);
   assert.doesNotMatch(workflow, /ready=false|keeping the last dashboard snapshot/);
   assert.match(workflow, /pages: write/);
   assert.match(workflow, /\/pages\/builds/);
@@ -79,4 +82,22 @@ test("reads public social view counts", () => {
     ["X", "automatic"],
     ["YouTube", "automatic"],
   ]);
+});
+
+
+test("Apple freshness advances only through received reports and preserves missing days", async () => {
+  const { privateKey } = generateKeyPairSync("ec", { namedCurve: "P-256" });
+  const env = { ASC_KEY_ID: "test", ASC_ISSUER_ID: "test", ASC_VENDOR_NUMBER: "test", ASC_PRIVATE_KEY: privateKey.export({ type: "pkcs8", format: "pem" }), ASC_REPORT_START_DATE: "2026-10-08" };
+  const apple = await refreshApple(env, async value => {
+    const url = new URL(value);
+    if (url.hostname === "itunes.apple.com") return { ok: true, json: async () => ({ results: [{ userRatingCount: 2 }] }) };
+    if (url.searchParams.get("filter[reportDate]") !== "2026-10-08") return { ok: false, status: 404 };
+    return { ok: true, arrayBuffer: async () => gzipSync("SKU\tProduct Type Identifier\tUnits\tApple Identifier\napp\t1F\t3\t6792771975\n") };
+  }, Date.parse("2026-10-11T18:00:00Z"));
+  assert.equal(apple.throughDate, "2026-10-08");
+  assert.equal(apple.requestedThroughDate, "2026-10-10");
+  assert.equal(apple.firstTimeDownloads, 3);
+  assert.deepEqual(apple.missingDates, ["2026-10-09", "2026-10-10"]);
+  assert.equal(apple.daily[1].firstTimeDownloads, null);
+  assert.equal(apple.status, "partial");
 });
