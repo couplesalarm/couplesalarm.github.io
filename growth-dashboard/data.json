@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T20:58:23.985Z",
+  "generatedAt": "2026-10-11T23:49:32.819Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-11T20:57:52.514Z",
+    "updatedAt": "2026-10-11T23:49:00.119Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-10",
     "requestedThroughDate": "2026-10-10",
@@ -441,16 +441,16 @@
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-11T20:58:22.362Z",
+        "lastAttemptAt": "2026-10-11T23:49:31.230Z",
         "status": "error"
       },
       {
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-11T20:58:22.362Z",
+        "updatedAt": "2026-10-11T23:49:31.230Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-11T20:58:22.362Z",
+        "lastAttemptAt": "2026-10-11T23:49:31.230Z",
         "status": "ok"
       }
     ]
@@ -458,7 +458,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-11T23:31:56.413Z",
+    "generatedAt": "2026-10-11T23:49:31.153Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
