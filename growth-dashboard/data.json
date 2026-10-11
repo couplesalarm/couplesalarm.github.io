@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T18:23:24.695Z",
+  "generatedAt": "2026-10-11T20:58:23.985Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-11T18:22:51.651Z",
+    "updatedAt": "2026-10-11T20:57:52.514Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-10",
     "requestedThroughDate": "2026-10-10",
@@ -441,16 +441,16 @@
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-11T18:23:22.682Z",
+        "lastAttemptAt": "2026-10-11T20:58:22.362Z",
         "status": "error"
       },
       {
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-11T18:23:22.682Z",
+        "updatedAt": "2026-10-11T20:58:22.362Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-11T18:23:22.682Z",
+        "lastAttemptAt": "2026-10-11T20:58:22.362Z",
         "status": "ok"
       }
     ]
@@ -458,7 +458,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-11T18:23:22.609Z",
+    "generatedAt": "2026-10-11T20:58:22.274Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -472,10 +472,10 @@
       {
         "date": "2026-10-11",
         "partial": true,
-        "visitors": 90,
-        "visitorsWhoClicked": 4,
-        "pageViews": 116,
-        "appStoreClicks": 7
+        "visitors": 132,
+        "visitorsWhoClicked": 5,
+        "pageViews": 171,
+        "appStoreClicks": 11
       }
     ],
     "pages": [
@@ -512,8 +512,8 @@
       {
         "date": "2026-10-11",
         "label": "/",
-        "pageViews": 93,
-        "appStoreClicks": 5
+        "pageViews": 142,
+        "appStoreClicks": 8
       },
       {
         "date": "2026-10-11",
@@ -530,8 +530,8 @@
       {
         "date": "2026-10-11",
         "label": "/download/",
-        "pageViews": 12,
-        "appStoreClicks": 2
+        "pageViews": 17,
+        "appStoreClicks": 3
       },
       {
         "date": "2026-10-11",
@@ -542,7 +542,7 @@
       {
         "date": "2026-10-11",
         "label": "/support/",
-        "pageViews": 2,
+        "pageViews": 3,
         "appStoreClicks": 0
       }
     ],
@@ -569,24 +569,36 @@
         "date": "2026-10-11",
         "label": "owned_website",
         "pageViews": 0,
-        "appStoreClicks": 6
+        "appStoreClicks": 8
       },
       {
         "date": "2026-10-11",
         "label": "paid_facebook_iphone",
-        "pageViews": 2,
+        "pageViews": 6,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-11",
+        "label": "paid_instagram_iphone",
+        "pageViews": 1,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-11",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 1,
         "appStoreClicks": 1
       },
       {
         "date": "2026-10-11",
         "label": "paid_tiktok_iphone",
-        "pageViews": 55,
+        "pageViews": 97,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-11",
         "label": "unattributed",
-        "pageViews": 59,
+        "pageViews": 66,
         "appStoreClicks": 0
       }
     ],
@@ -619,22 +631,27 @@
       {
         "date": "2026-10-11",
         "label": "Direct / unknown",
-        "pageViews": 65
+        "pageViews": 76
       },
       {
         "date": "2026-10-11",
         "label": "Facebook",
-        "pageViews": 1
+        "pageViews": 5
+      },
+      {
+        "date": "2026-10-11",
+        "label": "Instagram",
+        "pageViews": 2
       },
       {
         "date": "2026-10-11",
         "label": "TikTok",
-        "pageViews": 46
+        "pageViews": 83
       },
       {
         "date": "2026-10-11",
         "label": "X",
-        "pageViews": 2
+        "pageViews": 3
       },
       {
         "date": "2026-10-11",
