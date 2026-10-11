@@ -4,14 +4,20 @@
   "use strict";
   const ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/record-page-view";
   const PUBLIC_KEY = "sb_publishable_aHZQlUwb3hUVeyYyVi5wGg_IryIbCVH";
-  const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_youtube_iphone", "tracking_qa"]);
+  const campaigns = new Set(["owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_youtube_iphone", "paid_tiktok_iphone", "tracking_qa"]);
   const host = window.location.hostname;
   if (host !== "couplesalarm.com" && host !== "www.couplesalarm.com") return;
   const doNotTrack = window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
     navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
   if (doNotTrack) return;
   const params = new URLSearchParams(window.location.search);
-  const source = campaigns.has(params.get("ct")) ? params.get("ct") : null;
+  // Recognize only the approved TikTok ad's exact UTM tuple; never store UTM values.
+  // Explicit approved ct values take priority so QA stays excluded from reports.
+  const tiktokAlias = params.get("utm_source") === "tiktok" &&
+    params.get("utm_medium") === "paid_social" &&
+    params.get("utm_campaign") === "website_link_test_20261011";
+  const source = campaigns.has(params.get("ct")) ? params.get("ct") :
+    tiktokAlias ? "paid_tiktok_iphone" : null;
   // Keep an allowed source through the listening check and download handoff.
   // Update on click too: the listening result changes its destination at runtime.
   const carryCampaign = function (link) {

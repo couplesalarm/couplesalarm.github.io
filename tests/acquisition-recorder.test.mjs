@@ -45,6 +45,20 @@ test("invalid events and private paths are rejected; arbitrary campaign data is 
   assert.equal(stored.campaign, null);
 });
 
+test("the dedicated TikTok campaign is retained for both supported event types", async () => {
+  for (const event_type of ["page_view", "app_store_click"]) {
+    let stored;
+    const response = await handleRequest(request({ event_type, campaign: "paid_tiktok_iphone", utm_campaign: "private@example.com" }), env, async (_, options) => {
+      stored = JSON.parse(options.body);
+      return { ok: true };
+    });
+    assert.equal(response.status, 204);
+    assert.equal(stored.campaign, "paid_tiktok_iphone");
+    assert.equal(stored.event_type, event_type);
+    assert.doesNotMatch(JSON.stringify(stored), /utm_|private@example/);
+  }
+});
+
 test("database failure is observable instead of being reported as a successful event", async () => {
   assert.equal((await handleRequest(request(), env, async () => ({ ok: false }))).status, 503);
   assert.equal((await handleRequest(request(), env, async () => { throw new Error("unavailable"); })).status, 503);
