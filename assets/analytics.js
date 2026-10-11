@@ -12,6 +12,22 @@
   if (doNotTrack) return;
   const params = new URLSearchParams(window.location.search);
   const source = campaigns.has(params.get("ct")) ? params.get("ct") : null;
+  // Keep an allowed source through the listening check and download handoff.
+  // Update on click too: the listening result changes its destination at runtime.
+  const carryCampaign = function (link) {
+    if (!source || !link?.href) return;
+    try {
+      const url = new URL(link.href, "https://" + host + window.location.pathname);
+      if (url.protocol !== "https:" || url.hostname !== host) return;
+      if (!["/", "/compatibility/", "/download/", "/different-wake-times/", "/beta/android/"].includes(url.pathname)) return;
+      if (!url.searchParams.has("ct")) url.searchParams.set("ct", source);
+      link.href = url.href;
+    } catch (_) {}
+  };
+  document.querySelectorAll("a[href]").forEach(carryCampaign);
+  document.addEventListener("click", function (event) {
+    carryCampaign(event.target?.closest?.("a[href]"));
+  });
   const appLinks = document.querySelectorAll('a[href*="apps.apple.com/"]');
   appLinks.forEach(function (link) {
     try {

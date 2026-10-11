@@ -1,0 +1,34 @@
+/* Existing dawn components, with the download action before the illustration. */
+.download-hero-actions { display: flex; align-items: flex-start; flex-direction: column; gap: 0.7rem; margin-top: 1.2rem; }
+.download-hero-actions .button-link { min-height: 48px; text-align: center; }
+.platform-choice { padding-block: 0.4rem; color: var(--aqua); font-size: 0.9rem; }
+.offer-note { margin: 0.65rem 0 0; color: var(--muted); font-size: 0.85rem; }
+.download-visual { justify-self: end; }
+.iphone-qr { display: none; margin: 0; }
+.iphone-qr img { display: block; width: 224px; height: 224px; max-width: 100%; object-fit: contain; border: 8px solid white; border-radius: 0.5rem; background: white; }
+.iphone-qr figcaption { max-width: 30ch; margin-top: 0.65rem; color: var(--muted); font-size: 0.85rem; }
+.share-card p { max-width: 60ch; }
+.share-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.share-actions button { cursor: pointer; font: inherit; color: var(--ink); background: var(--panel-soft); border: 1px solid var(--border); min-height: 48px; }
+.share-actions [hidden] { display: none; }
+.share-actions label { font-size: 0.85rem; color: var(--muted); }
+.share-actions input { flex: 1 1 16rem; min-width: 0; width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 0.6rem; background: var(--night); color: var(--ink); font: inherit; }
+.share-status { min-height: 1.6em; font-size: 0.9rem; }
+.download-faq { padding: 1.7rem; border: 1px solid var(--border); border-radius: 1.25rem; background: rgb(12 22 40 / 94%); }
+.download-faq h2 { margin-top: 0; }
+.faq-answer { max-width: 72ch; }
+.faq-answer h3 { margin: 1.3rem 0 0.4rem; font-size: 1.05rem; }
+.faq-answer p { margin: 0; color: var(--muted); }
+@media (min-width: 960px) {
+  .iphone-qr { display: block; }
+  .download-visual .page-illustration { display: none; }
+}
+@media (max-width: 760px) {
+  .download-visual { justify-self: center; }
+  .install-page .page-title { padding-block: 1.2rem; }
+  .install-page .page-title h1 { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .install-page .illustrated-title .page-illustration { width: min(100%, 12rem); }
+  .download-faq { padding: 1.2rem; }
+  .share-actions { align-items: stretch; flex-direction: column; }
+  .share-actions input { flex: none; font-size: 0.9rem; }
+}
