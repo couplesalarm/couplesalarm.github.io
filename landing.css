@@ -129,6 +129,24 @@ h1 span { color: var(--signal); }
 .app-store-link:hover, .android-app-link:hover { opacity: 0.8; }
 .download-details { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
 .download-details a { display: inline-block; padding-block: 0.35rem; color: var(--aqua); text-underline-offset: 0.2em; }
+.sound-test-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: start;
+  gap: 0.5rem;
+  min-height: 44px;
+  margin-top: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgb(6 15 28 / 30%);
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+.sound-test-link:hover { border-color: var(--muted); background: rgb(255 255 255 / 6%); }
+.sound-test-link img { display: block; width: 24px; height: 24px; }
 
 .hero-media {
   position: relative;
@@ -199,27 +217,6 @@ h1 span { color: var(--signal); }
 
 .page-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; border-top: 1px solid var(--line); padding-block: clamp(0.5rem, 1.8svh, 1.35rem); }
 .footer-links { display: flex; align-items: center; gap: 0.65rem; }
-.footer-test {
-  display: flex;
-  flex-basis: 100%;
-  justify-content: center;
-}
-.footer-test-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  padding: 0.35rem 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgb(6 15 28 / 30%);
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-decoration: none;
-}
-.footer-test-link:hover { border-color: var(--muted); background: rgb(255 255 255 / 6%); }
-.footer-test-link img { display: block; width: 24px; height: 24px; }
 .morning-steps { display: grid; flex: 1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
 .morning-steps li { display: flex; align-items: center; gap: 0.85rem; }
 .step-number { color: #aebcff; font-size: 1.4rem; font-weight: 500; letter-spacing: -0.06em; }
