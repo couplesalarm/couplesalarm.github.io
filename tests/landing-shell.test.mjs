@@ -28,7 +28,7 @@ test("keeps the selected product copy with direct app download actions", () => {
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
   assert.match(html, /<a href="download\/">Details &amp; pricing<\/a>/);
-  assert.match(html, /<footer\b[\s\S]*<a class="footer-test-link" href="compatibility\/" aria-label="Try the web listening test" title="Try the web listening test">\s*<img src="assets\/soundwave\.svg" alt="" width="24" height="24" aria-hidden="true">\s*<\/a>/);
+  assert.match(html, /<footer\b[\s\S]*<a class="footer-test-link" href="compatibility\/" aria-label="Try the web listening test" title="Try the web listening test">\s*<img src="assets\/soundwave\.svg" alt="" width="24" height="24" aria-hidden="true">\s*<span>Web listening test<\/span>\s*<\/a>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.match(html, /aria-label="How Couples Alarm works"/);
 });
