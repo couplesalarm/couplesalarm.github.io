@@ -17,8 +17,8 @@ function applicationLink(html, label) {
   return match[1];
 }
 
-test("puts the primary download action before the balanced robot app options", () => {
-  assert.ok(home.indexOf('<a class="test-link"') < home.indexOf('<div class="app-badges">'));
+test("uses the balanced robot app options as the primary download actions", () => {
+  assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
   assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android beta">/);
   assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
   assert.match(home, /<strong>Android™<\/strong><small>beta<\/small>/);

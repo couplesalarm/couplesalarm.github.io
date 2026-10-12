@@ -120,30 +120,12 @@ h1 span { color: var(--signal); }
   font-size: clamp(1rem, 1.35vw, 1.2rem);
   line-height: 1.55;
 }
-.hero-actions { display: grid; width: min(100%, 27rem); margin-top: clamp(0.85rem, 2svh, 1.6rem); gap: 0; }
-.test-link {
-  display: flex;
-  min-height: 3.4rem;
-  align-items: center;
-  justify-content: center;
-  gap: 1.3rem;
-  padding: 0.7rem 1.25rem;
-  border: 1px solid rgb(255 255 255 / 25%);
-  border-radius: 3rem;
-  background: linear-gradient(105deg, #d9a1fb, #b2b6ff 54%, #8ce6f4);
-  box-shadow: 0 0.65rem 2rem rgb(133 101 216 / 20%);
-  color: #14172f;
-  text-decoration: none;
-}
-.test-link strong { font-size: 1.08rem; line-height: 1.3; }
-.cta-arrow { font-size: 1.8rem; line-height: 1; }
-.test-link:hover { filter: brightness(1.08); }
-.cta-note { margin: 0.4rem 0 clamp(0.65rem, 1.5svh, 1.2rem); text-align: center; color: #c7cddd; font-size: 0.82rem; }
+.hero-actions { display: grid; width: min(100%, 27rem); margin-top: clamp(1.25rem, 2.5svh, 1.75rem); gap: 0; }
 .app-badges { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 1rem; }
-.app-store-link { display: inline-flex; min-height: 3rem; align-items: center; }
-.app-store-link img { display: block; width: auto; height: 3rem; }
+.app-store-link { display: inline-flex; min-height: 3.5rem; align-items: center; }
+.app-store-link img { display: block; width: auto; height: 3.5rem; }
 .app-badges .app-store-link { width: auto; }
-.android-app-link { min-height: 3rem; background: rgb(6 15 28 / 60%); border-color: #83909e; }
+.android-app-link { min-height: 3.5rem; background: rgb(6 15 28 / 60%); border-color: #83909e; }
 .app-store-link:hover, .android-app-link:hover { opacity: 0.8; }
 .download-details { margin: 0.6rem 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.6; }
 .download-details a { display: inline-block; padding-block: 0.35rem; color: var(--aqua); text-underline-offset: 0.2em; }
@@ -287,10 +269,8 @@ h1 span { color: var(--signal); }
   h1 { font-size: clamp(2.3rem, 8.8vw, 3.6rem); }
   .hero-lede { font-size: 1rem; margin-top: 1.1rem; }
   .hero-actions { margin-top: 1.4rem; width: 100%; }
-  .test-link { padding-inline: 1rem; gap: 1rem; }
-  .test-link strong { font-size: 1rem; }
-  .cta-note { margin-bottom: 1.15rem; }
   .app-badges { gap: 0.65rem; }
+  .app-store-link { min-height: 3rem; }
   .app-store-link img { height: 3rem; }
   .android-app-link { width: 9.6rem; min-height: 3rem; padding: 0.35rem 0.6rem; }
   .android-badge-copy strong { font-size: 1.2rem; }
@@ -321,5 +301,5 @@ h1 span { color: var(--signal); }
   .android-badge-copy strong { font-size: 1.05rem; }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .test-link { transition: filter 180ms ease; }
+  .app-store-link, .android-app-link { transition: opacity 180ms ease; }
 }
