@@ -34,6 +34,30 @@ test('Meta reporting only exposes known ads and does not turn clicks into instal
 test('missing credentials return an explicit disconnected state without network requests',async()=>{
   assert.equal((await readMeta(()=>undefined,()=>{throw Error('unexpected request');})).status,'not_connected');
 });
+test('replacement status excludes paused originals and delivery includes both generations',async()=>{
+  const original='120252400669160695', replacement='120252403222310695';
+  const report=await readMeta(env,async(url,options)=>{
+    if (url.pathname.endsWith('/ads')) return {ok:true,json:async()=>({data:[
+      ...Object.keys(adTags).map(id=>({id,effective_status:id===original?'PAUSED':'ACTIVE'})),
+      {id:'unrelated-ad',effective_status:'ACTIVE'},
+    ]})};
+    if (url.pathname.endsWith('/insights')) return {ok:true,json:async()=>({data:[
+      {...insight,ad_id:original}, {...insight,ad_id:replacement,spend:'1.25',impressions:'50'},
+      {...insight,ad_id:'unrelated-ad',spend:'99'},
+    ]})};
+    return api(url,options);
+  },Date.parse('2026-10-12T05:00:00Z'));
+  assert.equal(report.ads.length,4);
+  assert.equal(report.ads.find(row=>row.tag===adTags[replacement]).status,'ACTIVE');
+  const selected=metaRange(report,2);
+  const asian=selected.ads.find(row=>row.tag===adTags[replacement]);
+  assert.equal(asian.spend,3.75);
+  assert.equal(asian.impressions,150);
+  assert.equal(asian.linkClicks,6);
+  assert.equal(asian.landingPageViews,4);
+  assert.equal(selected.spend,3.75);
+  assert.equal(report.attributedDownloads,null);
+});
 test('unauthorized callers and write requests never reach Meta',async()=>{
   const handle=createHandler(env,()=>{throw Error('unexpected request');});
   assert.equal((await handle(request({apikey:'bad'}))).status,401);
