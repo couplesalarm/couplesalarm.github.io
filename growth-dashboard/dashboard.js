@@ -1,4 +1,4 @@
-import { appleRange, campaignLabels, creativeComparison, dailyCsv, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard3";
+import { APPLE_ADS_ENDPOINT, BETA_ENDPOINT, appleAdsCostPerInstall, appleRange, campaignLabels, creativeComparison, dailyCsv, fetchAdditionalMetrics, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, retainReport, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard4";
 const numberFormat = new Intl.NumberFormat("en-US");
 const currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -203,9 +203,43 @@ function renderSocial(snapshot, doc, now) {
   });
   target.replaceChildren(...output);
 }
+export function sourceFreshness(report, now = Date.now()) {
+  const age = now - Date.parse(report?.updatedAt);
+  if (!Number.isFinite(age)) return {label:'Connection needed',state:'stale',live:false};
+  if (report.mode === 'api' && report.status === 'connected' && age >= -60000 && age < 15*60000) return {label:'API connected',state:'fresh',live:true};
+  if (report.mode === 'manual') return {label:age > 86400000 ? 'Saved check · stale' : 'Verified snapshot',state:'stale',live:false};
+  return {label:'Saved API report',state:'stale',live:false};
+}
+function renderAppleAds(snapshot, doc, options) {
+  const report = snapshot.appleAds, freshness = sourceFreshness(report,options.now), totals = report?.totals;
+  badge(doc,'#apple-ads-mode',freshness.label,freshness.state);
+  set(doc,'#apple-ads-spend',Number.isFinite(totals?.spend) ? currencyFormat.format(totals.spend) : '—');
+  set(doc,'#apple-ads-impressions',fmt(totals?.impressions)); set(doc,'#apple-ads-taps',fmt(totals?.taps)); set(doc,'#apple-ads-installs',fmt(totals?.installs));
+  set(doc,'#apple-ads-window',totals ? `US Search Results · ${dayLabel(report.startDate)} – ${dayLabel(report.throughDate)} (UTC) · ${String(report.campaignStatus || 'Unknown').replaceAll('_',' ').toLowerCase()} when checked.` : 'US Search Results · a report is not available yet.');
+  const cpi = appleAdsCostPerInstall(report);
+  set(doc,'#apple-ads-result',cpi !== null ? `${currencyFormat.format(cpi)} per attributed install · spend ÷ installs. ${totals.installs < 20 ? 'Small sample; too early to judge reliable acquisition cost.' : ''}` : totals ? 'Cost per install is unavailable until Apple reports an install.' : 'Missing reporting data is not zero spend or zero installs.');
+  const message = freshness.live ? `Apple Ads API · last successful read ${timeLabel(report.updatedAt)}.`
+    : report?.mode === 'manual' ? `Verified in Apple Ads ${timeLabel(report.updatedAt)}. Saved check; automatic Apple Ads access is not connected.`
+    : report?.updatedAt ? `Apple Ads API could not refresh. Last successful read ${timeLabel(report.updatedAt)}.` : 'Apple Ads API access is not connected. No results are assumed.';
+  set(doc,'#apple-ads-updated',message); set(doc,'#apple-ads-source-status',message);
+}
+function renderBeta(snapshot, doc, options) {
+  const membership = snapshot.beta?.membership, applications = snapshot.beta?.applications;
+  const groupFresh = sourceFreshness(membership,options.now), applicationsFresh = sourceFreshness(applications,options.now);
+  const live = groupFresh.live && applicationsFresh.live;
+  badge(doc,'#beta-mode',live ? 'API connected' : applicationsFresh.live ? membership?.updatedAt ? 'Applications live · group saved' : 'Applications live · group unavailable' : 'Saved checks / access needed',live ? 'fresh' : 'stale');
+  set(doc,'#beta-members',fmt(membership?.nonOwnerMembers)); set(doc,'#beta-group-total',fmt(membership?.members)); set(doc,'#beta-applications',fmt(applications?.total));
+  const groupMessage = groupFresh.live ? `Google Groups API bridge · checked ${timeLabel(membership.updatedAt)}. ${fmt(membership.owners)} owner(s) excluded from the signup count.`
+    : membership?.updatedAt ? `${membership.mode === 'manual' ? 'Google Groups · saved browser check' : 'Google Groups · saved API report'} ${timeLabel(membership.updatedAt)}. ${fmt(membership.owners)} owner(s) excluded; automatic updates ${membership.mode === 'manual' ? 'not connected' : 'unavailable'}.` : 'Google Group membership is unavailable. This does not mean zero signups.';
+  const applicationMessage = applicationsFresh.live ? `Legacy website applications · live database count · ${timeLabel(applications.updatedAt)}.`
+    : applications?.updatedAt ? `Legacy website applications · saved count from ${timeLabel(applications.updatedAt)}; refresh unavailable.` : 'Legacy website application count is unavailable.';
+  set(doc,'#beta-membership-updated',groupMessage); set(doc,'#beta-membership-source-status',groupMessage);
+  set(doc,'#beta-applications-updated',applicationMessage); set(doc,'#beta-applications-source-status',applicationMessage);
+  set(doc,'#beta-pending',Number.isFinite(membership?.pendingMembers) ? `${fmt(membership.pendingMembers)} pending members at the saved check. Pending membership is not an enrolled tester.` : 'Pending membership requests are not available through this reporting connection.');
+}
 export function renderDashboard(snapshot, doc = globalThis.document, now = Date.now(), options = {}) {
   const config = { websiteDays: 7, websiteMetric: "visitors", appleDays: 30, websiteLive: false, ...options, now };
-  renderWebsite(snapshot, doc, config); renderApple(snapshot, doc, config); renderMeta(snapshot, doc, config); renderSocial(snapshot, doc, now);
+  renderWebsite(snapshot, doc, config); renderApple(snapshot, doc, config); renderMeta(snapshot, doc, config); renderAppleAds(snapshot, doc, config); renderBeta(snapshot, doc, config); renderSocial(snapshot, doc, now);
   const status = doc.querySelector("#snapshot-status");
   const websiteFresh = config.websiteLive && now - Date.parse(snapshot.website?.generatedAt) < 3600000;
   status.textContent = `${websiteFresh ? "Website counts refreshed" : snapshot.website ? "Website saved report" : "Website unavailable"} · Apple through ${dayLabel(snapshot.apple?.throughDate)}`;
@@ -217,12 +251,18 @@ export async function readDashboardSources(fetchImpl = globalThis.fetch, previou
       if (!response.ok) throw new Error("Snapshot unavailable"); return response.json(); })(),
     fetchWebsiteMetrics(fetchImpl),
     fetchMetaMetrics(fetchImpl),
+    fetchAdditionalMetrics(APPLE_ADS_ENDPOINT,fetchImpl),
+    fetchAdditionalMetrics(BETA_ENDPOINT,fetchImpl),
   ]);
   const saved = results[0].status === "fulfilled" ? results[0].value : previous;
   const websiteLive = results[1].status === "fulfilled";
-  if (!saved && !websiteLive && !results[2].value?.daily) throw new Error("Reporting sources are unavailable");
+  if (!saved && !websiteLive && !results[2].value?.daily && !results[3].value?.totals && !results[4].value?.applications?.updatedAt && !results[4].value?.membership?.updatedAt) throw new Error("Reporting sources are unavailable");
   const meta = results[2].status === 'fulfilled' ? results[2].value : { ...(previous?.meta || {}), status:'error' };
-  const snapshot = { ...(saved || {}), website: websiteLive ? results[1].value : saved?.website, meta };
+  const incomingAds = results[3].status === 'fulfilled' ? results[3].value : null;
+  const incomingBeta = results[4].status === 'fulfilled' ? results[4].value : null;
+  const appleAds = retainReport(incomingAds,previous?.appleAds,saved?.appleAds);
+  const beta = Object.fromEntries(['applications','membership'].map(key => [key,retainReport(incomingBeta?.[key],previous?.beta?.[key],saved?.beta?.[key])]));
+  const snapshot = { ...(saved || {}), website: websiteLive ? results[1].value : saved?.website, meta, appleAds, beta };
   return { snapshot, websiteLive, warnings: [results[0].status === "rejected" ? "The published Apple snapshot could not be loaded." : "", !websiteLive ? "Live website reporting is unavailable. Any website counts shown are from the dated saved report." : ""].filter(Boolean).join(" ") };
 }
 export async function loadDashboard(fetchImpl = globalThis.fetch, doc = globalThis.document, now = Date.now()) {
@@ -244,7 +284,7 @@ if (typeof document !== "undefined") {
       set(document, "#refresh-error", result.warnings);
     } catch {
       websiteLive = false; render();
-      set(document, "#refresh-error", "Couldn’t reach either source. Previously loaded values, if any, retain their original dates.");
+      set(document, "#refresh-error", "Couldn’t refresh reporting sources. Previously loaded values, if any, retain their original dates.");
     } finally { button.disabled = false; button.textContent = "Check for updates"; }
   };
   button.addEventListener("click", run);
