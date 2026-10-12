@@ -27,7 +27,7 @@ test("keeps the selected product copy with a download-first primary action", () 
   assert.match(html, /An alarm clock designed for your wake time and your partner’s sleep\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.match(html, /<a class="test-link" href="download\/">\s*<strong>Get Couples Alarm<\/strong>/);
-  assert.match(html, /<a href="compatibility\/">Try the free listening check first<\/a>/);
+  assert.match(html, /<footer\b[\s\S]*<a class="footer-test-link" href="compatibility\/">Try the web listening test<\/a>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.match(html, /aria-label="How Couples Alarm works"/);
 });
