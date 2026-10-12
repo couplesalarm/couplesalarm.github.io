@@ -129,9 +129,10 @@ come from the US public catalog.
 
 The old four launch-post checks remain as explicitly historical, individually
 dated rows. They do not report all current social posts or paid campaigns.
-Product-page conversion, attributed campaign downloads, current paid-platform
-reports, Android installations, and retention/crash/deletion metrics remain
-unconnected and are identified on the page with their authoritative sources.
+Product-page conversion, website-campaign-attributed downloads, Android
+installations, and retention/crash/deletion metrics remain unconnected and are
+identified on the page with their authoritative sources. Meta uses a live API;
+Apple Ads and Android membership connection status is documented below.
 
 ### Validation and release
 
@@ -217,3 +218,63 @@ dashboard shows the renewal date and emphasizes it during the final seven
 days. Renew the read-only token through the same app's Marketing API Tools,
 update the encrypted token and its expiration metadata, then verify a real
 report. This connection does not silently renew its own authorization.
+
+## Apple Ads and Android beta dashboard sources
+
+The App Store ads panel is separate from Sales & Trends: Apple Ads attributed
+installs can include redownloads, are not paid unlocks, and overlap all-source
+App Store downloads. Cost per install is spend divided by attributed installs;
+zero installs means unavailable cost, never $0. Reports use the current calendar
+month in UTC, independently of the website and Sales & Trends controls.
+
+`get-apple-ads-metrics` is a fixed, read-only Apple Ads Platform API v1 query for
+campaign `2144815187`, app `6792771975`. It validates account/app/campaign IDs,
+USD, report completeness, and count types before returning aggregate metrics.
+The API adapter is deployed but authorization is **not connected**. The checked
+browser report from October 11, 2026 at 8:24 p.m. Eastern is retained in
+`growth-dashboard/data.json` as `mode: manual`, with its exact UTC source time,
+period and URL. It must not be described as automatic API data. The badge turns
+stale after 24 hours; page refreshes never advance that verification timestamp.
+
+To connect automatic Apple Ads, authorize an API Account Read Only user while
+preserving the owner's Account Admin access. Register its public key and store
+only encrypted server-side secrets: `APPLE_ADS_PRIVATE_KEY` (PKCS#8 PEM),
+`APPLE_ADS_KEY_ID`, `APPLE_ADS_TEAM_ID`, `APPLE_ADS_CLIENT_ID`, and
+`APPLE_ADS_ACCOUNT_ID`. Discover and verify the ad account using Apple's `/v1/acls`
+response; the UI account number is not assumed to be the Platform API account ID.
+The handler signs short-lived client credentials in memory and calls only
+Apple's OAuth token endpoint and `/v1/reports/apps/campaigns/query`. The API role
+and exact report must be verified before claiming the connection is live.
+See [Apple OAuth](https://developer.apple.com/documentation/apple-ads-platform-api/implementing-oauth-for-the-apple-ads-platform-api)
+and [campaign reports](https://developer.apple.com/documentation/apple-ads-platform-api/get-app-campaign-reports).
+
+`get-beta-metrics` reads an exact HEAD count of the existing private
+`couples_alarm_android_beta_applications` table. Its response contains no rows,
+emails or application answers. This legacy website application count is live;
+it is not the current enrollment route and is never added to group membership.
+The application table's RLS and grants are unchanged.
+
+Current signups join the consumer Google Group directly. The group panel retains
+the verified October 11, 2026 8:20 p.m. Eastern browser check until its API bridge
+is authorized. It counts members excluding owners separately from all members.
+No group count establishes a Google Play opt-in, install or 14-day testing period.
+Historical Google Form responses remain unconnected; browser access was blocked.
+
+The reviewed, read-only Google bridge is in
+`scripts/android-beta-group-report/Code.gs`, with its explicit Groups scope in
+`appsscript.json`. It uses Google's [Groups service](https://developers.google.com/apps-script/reference/groups/group),
+filters out banned/invited/pending roles, and emits counts only. Google accounts
+without a direct membership are not enumerated. The complete pending queue is
+not available through this API and is returned as null. Authorize the script
+as the existing group owner, store a new random `REPORT_TOKEN` in private Script
+Properties, and deploy its web app to execute as that owner. The handler rejects
+requests without that token before accessing the group. Store the same token and
+deployment URL in encrypted Supabase secrets `ANDROID_BETA_GROUP_REPORT_TOKEN`
+and `ANDROID_BETA_GROUP_REPORT_URL`. No raw membership or email leaves Google.
+
+Both read endpoints require the existing publishable key, validate allowed
+origins, reject caller-supplied query parameters and mutations, and cache for five
+minutes. Each beta source can fail independently. The browser retains the newest
+successful evidence on failure without changing its timestamp. Missing access is
+never zero. Complete authorization and verify real source responses before
+labeling either pending connection as live.

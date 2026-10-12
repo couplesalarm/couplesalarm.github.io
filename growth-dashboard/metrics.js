@@ -1,5 +1,7 @@
 export const WEBSITE_ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/get-growth-metrics";
 export const META_ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/get-meta-metrics";
+export const APPLE_ADS_ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/get-apple-ads-metrics";
+export const BETA_ENDPOINT = "https://xqdqgsbkapvlskcldmpe.supabase.co/functions/v1/get-beta-metrics";
 export const WEBSITE_PUBLIC_KEY = "sb_publishable_aHZQlUwb3hUVeyYyVi5wGg_IryIbCVH";
 export const campaignLabels = {
   unattributed: "No campaign tag", owned_website: "Website default", tracking_qa: "Tagged website tests",
@@ -83,6 +85,41 @@ export async function fetchMetaMetrics(fetchImpl = fetch) {
   if (!['connected','not_connected','error'].includes(data.status)) throw Error('Invalid Meta report');
   if (data.status === 'connected' && (!Array.isArray(data.daily) || !Array.isArray(data.ads) || !Number.isFinite(Date.parse(data.updatedAt)))) throw Error('Invalid Meta report');
   return data;
+}
+export async function fetchAdditionalMetrics(endpoint, fetchImpl = fetch) {
+  if (![APPLE_ADS_ENDPOINT,BETA_ENDPOINT].includes(endpoint)) throw Error('Unknown reporting source');
+  const response = await fetchImpl(endpoint,{headers:{apikey:WEBSITE_PUBLIC_KEY},cache:'no-store',signal:AbortSignal.timeout(30000)});
+  if (!response.ok) throw Error('Reporting unavailable');
+  const data = await response.json();
+  if (!['connected','not_connected','error'].includes(data.status)) throw Error('Invalid report status');
+  const validCount = value => Number.isSafeInteger(value) && value >= 0;
+  const validTime = value => typeof value === 'string' && Number.isFinite(Date.parse(value));
+  if (endpoint === APPLE_ADS_ENDPOINT && data.totals) {
+    if (data.campaignId !== 2144815187 || data.currency !== 'USD' || data.timezone !== 'UTC' || !validTime(data.updatedAt)
+      || !validTime(data.startDate) || !validTime(data.throughDate) || data.startDate > data.throughDate
+      || ![data.totals.impressions,data.totals.taps,data.totals.installs].every(validCount)
+      || !Number.isFinite(data.totals.spend) || data.totals.spend < 0) throw Error('Invalid Apple Ads metrics');
+  } else if (endpoint === APPLE_ADS_ENDPOINT && data.status === 'connected') throw Error('Missing Apple Ads metrics');
+  if (endpoint === BETA_ENDPOINT) {
+    for (const key of ['applications','membership']) {
+      const part = data[key];
+      if (!part || !['connected','not_connected','error'].includes(part.status)) throw Error('Invalid beta source');
+      if (part.status !== 'connected') continue;
+      const counts = key === 'applications' ? [part.total] : [part.members,part.owners,part.nonOwnerMembers];
+      if (!validTime(part.updatedAt) || !counts.every(validCount) || (key === 'membership' && part.members !== part.owners + part.nonOwnerMembers)) throw Error('Invalid beta counts');
+    }
+  }
+  return data;
+}
+// Failed reads retain the newest actual evidence without advancing its timestamp.
+export function retainReport(incoming, ...fallbacks) {
+  const candidates = [incoming,...fallbacks].filter(report => report && Number.isFinite(Date.parse(report.updatedAt)));
+  const latest = candidates.sort((a,b) => Date.parse(b.updatedAt)-Date.parse(a.updatedAt))[0];
+  return latest ? {...latest,status:incoming?.status || 'error'} : incoming || {status:'error'};
+}
+export function appleAdsCostPerInstall(report) {
+  const totals = report?.totals;
+  return Number.isFinite(totals?.spend) && totals.installs > 0 ? totals.spend / totals.installs : null;
 }
 export function dailyCsv(rows) {
   return "Date (UTC),Estimated visitors,Page views,App Store outbound clicks,Coverage\r\n" + rows.map(row =>

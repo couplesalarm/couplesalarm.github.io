@@ -8,14 +8,14 @@
   <link rel="icon" href="data:,">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://xqdqgsbkapvlskcldmpe.supabase.co; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Couples Alarm — Growth Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css?v=20261011-dashboard3">
+  <link rel="stylesheet" href="dashboard.css?v=20261011-dashboard4">
 </head>
 <body>
   <a class="skip-link" href="#website-title">Skip to website metrics</a>
   <main class="shell">
     <header class="masthead">
       <div><p class="eyebrow">Couples Alarm</p><h1>Growth Dashboard</h1>
-        <p class="lede">See which videos bring people to the website, and what Apple reports afterward.</p></div>
+        <p class="lede">Follow ad results, website activity, App Store downloads and Android beta enrollment.</p></div>
       <div class="actions">
         <p id="snapshot-status" class="status" aria-live="polite">Loading sources…</p>
         <button id="refresh-dashboard" class="refresh" type="button">Check for updates</button>
@@ -23,7 +23,7 @@
       </div>
     </header>
     <nav class="section-nav" aria-label="Dashboard sections">
-      <a href="#snooze-title">Four-couple test</a><a href="#meta-title">Ad performance</a><a href="#website-title">Website</a><a href="#apple-title">App Store</a><a href="#coverage-title">Sources</a>
+      <a href="#snooze-title">Four-couple test</a><a href="#meta-title">Meta ads</a><a href="#apple-ads-title">App Store ads</a><a href="#beta-title">Android beta</a><a href="#website-title">Website</a><a href="#apple-title">App Store</a><a href="#coverage-title">Sources</a>
       <a href="/">Open website ↗</a>
     </nav>
     <p id="refresh-error" class="error" role="status"></p>
@@ -55,6 +55,38 @@
         <p id="meta-delivery-note" class="note"></p>
         <p class="note">Reported by Meta in the ad account's time zone. Meta landing page views and our website page views use different counting methods. Neither counts downloads. Uses the selected website period length.</p>
       </div>
+    </section>
+
+    <section class="panel" aria-labelledby="apple-ads-title">
+      <div class="section-head wrap"><h2 id="apple-ads-title">App Store ads</h2><span id="apple-ads-mode" class="mode">Connecting</span></div>
+      <p id="apple-ads-window" class="muted">Loading the US Search Results campaign…</p>
+      <div class="metrics" aria-label="Apple Ads campaign results">
+        <article class="metric"><span id="apple-ads-spend" class="value">—</span><span class="label">Amount spent</span></article>
+        <article class="metric"><span id="apple-ads-impressions" class="value">—</span><span class="label">Ad appearances</span></article>
+        <article class="metric"><span id="apple-ads-taps" class="value">—</span><span class="label">Ad taps</span></article>
+        <article class="metric lead"><span id="apple-ads-installs" class="value">—</span><span class="label">Apple-attributed installs</span></article>
+      </div>
+      <p id="apple-ads-result" class="totals"></p>
+      <p id="apple-ads-updated" class="source-line"></p>
+      <p class="note">Apple-attributed installs can include redownloads and are not paid unlocks. Do not add them to App Store downloads below: those totals already include all sources. Apple Ads reporting may omit the latest three hours. This campaign's report period is independent of the website filter.</p>
+      <div class="source-links"><a href="https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187" target="_blank" rel="noopener noreferrer">Open Apple Ads report ↗</a></div>
+    </section>
+
+    <section class="panel" aria-labelledby="beta-title">
+      <div class="section-head wrap"><h2 id="beta-title">Android beta signups</h2><span id="beta-mode" class="mode">Connecting</span></div>
+      <p class="muted">Current enrollment · independent of the website date filter.</p>
+      <div class="metrics" aria-label="Android beta enrollment">
+        <article class="metric lead"><span id="beta-members" class="value">—</span><span class="label">Members excluding owners</span></article>
+        <article class="metric"><span id="beta-group-total" class="value">—</span><span class="label">Total group members</span></article>
+        <article class="metric"><span id="beta-applications" class="value">—</span><span class="label">Legacy website applications</span></article>
+        <article class="metric"><span class="value">—</span><span class="label">Google Play opt-ins · unavailable</span></article>
+      </div>
+      <p id="beta-membership-updated" class="source-line"></p>
+      <p id="beta-applications-updated" class="source-line"></p>
+      <p id="beta-pending" class="note"></p>
+      <p class="note">New signups join the Google Group directly. Legacy website applications are a separate count and must not be added to membership. A group membership does not confirm Google Play opt-in, an app install, or 14 days of testing.</p>
+      <p class="note">Historical Google Form responses are not connected; the last browser check was blocked by the network.</p>
+      <div class="source-links"><a href="https://groups.google.com/g/couples-alarm-android-beta/members" target="_blank" rel="noopener noreferrer">Open beta membership ↗</a><a href="https://play.google.com/console/" target="_blank" rel="noopener noreferrer">Open Google Play Console ↗</a></div>
     </section>
 
     <section class="pulse" aria-labelledby="website-title">
@@ -121,9 +153,12 @@
       <div class="table-scroll" tabindex="0" aria-label="Measurement coverage"><table class="coverage"><caption class="sr-only">What is connected and what is still unavailable</caption><thead><tr><th scope="col">Measurement</th><th scope="col">Status and next source</th></tr></thead><tbody>
         <tr><th scope="row">Website visits &amp; outbound clicks</th><td id="website-source-status">Connecting to first-party aggregate reporting.</td></tr>
         <tr><th scope="row">Downloads, unlocks &amp; proceeds</th><td id="apple-source-status">Reading the daily published Apple report.</td></tr>
-        <tr><th scope="row">Campaign-attributed downloads</th><td>Not connected. <a href="https://appstoreconnect.apple.com/analytics" target="_blank" rel="noopener noreferrer">App Store Connect Analytics ↗</a> is the source. Apple requires at least five first-time downloads before a campaign appears; a missing campaign is not zero downloads.</td></tr>
+        <tr><th scope="row">Website-campaign-attributed downloads</th><td>Not connected. <a href="https://appstoreconnect.apple.com/analytics" target="_blank" rel="noopener noreferrer">App Store Connect Analytics ↗</a> is the source. Apple requires at least five first-time downloads before a campaign appears; a missing campaign is not zero downloads. Apple Ads attribution above is a separate report.</td></tr>
         <tr><th scope="row">Product-page conversion</th><td>Not connected. Requires Apple's product-page views and downloads for the same period and population; website clicks cannot supply that denominator.</td></tr>
         <tr><th scope="row">Current Meta ad performance</th><td id="meta-source-status">Checking the Meta reporting API.</td></tr>
+        <tr><th scope="row">App Store ad performance</th><td id="apple-ads-source-status">Checking Apple Ads reporting access.</td></tr>
+        <tr><th scope="row">Android beta group membership</th><td id="beta-membership-source-status">Checking beta group reporting access.</td></tr>
+        <tr><th scope="row">Legacy beta website applications</th><td id="beta-applications-source-status">Connecting to the private application count.</td></tr>
         <tr><th scope="row">Android installs</th><td>Not connected. Read release-specific statistics in <a href="https://play.google.com/console/" target="_blank" rel="noopener noreferrer">Google Play Console ↗</a>.</td></tr>
         <tr><th scope="row">Retention, crashes &amp; deletions</th><td>Not connected. Apple's aggregate analytics may be available subject to consent and reporting thresholds. The app has no added tracking SDK.</td></tr>
       </tbody></table></div>
@@ -136,6 +171,6 @@
     <footer>Website days use UTC. Apple uses its own report dates. Aggregate reporting only.</footer>
     <noscript><p class="error">Enable JavaScript to load the measured data. No example counts are shown.</p></noscript>
   </main>
-  <script type="module" src="dashboard.js?v=20261011-dashboard3"></script>
+  <script type="module" src="dashboard.js?v=20261011-dashboard4"></script>
 </body>
 </html>

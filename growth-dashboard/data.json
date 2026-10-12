@@ -715,5 +715,53 @@
         "appStoreClicks": 2
       }
     ]
+  },
+  "appleAds": {
+    "schemaVersion": 1,
+    "status": "not_connected",
+    "mode": "manual",
+    "updatedAt": "2026-10-12T00:24:33.405Z",
+    "startDate": "2026-10-01",
+    "throughDate": "2026-10-12",
+    "timezone": "UTC",
+    "currency": "USD",
+    "campaignId": 2144815187,
+    "campaignStatus": "RUNNING",
+    "totals": {
+      "spend": 2.03,
+      "impressions": 42,
+      "taps": 3,
+      "installs": 2,
+      "newDownloads": null,
+      "redownloads": null
+    },
+    "source": {
+      "url": "https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187",
+      "method": "Authenticated browser report",
+      "selectedPeriod": "Current month",
+      "view": "Ad groups; totals across all three enabled groups",
+      "reportingDelay": "Latest three hours may not be included"
+    }
+  },
+  "beta": {
+    "applications": {
+      "status": "connected",
+      "mode": "api",
+      "updatedAt": "2026-10-12T00:24:27.464Z",
+      "total": 0
+    },
+    "membership": {
+      "status": "not_connected",
+      "mode": "manual",
+      "updatedAt": "2026-10-12T00:20:04.641Z",
+      "members": 1,
+      "owners": 1,
+      "nonOwnerMembers": 0,
+      "pendingMembers": 0,
+      "source": {
+        "url": "https://groups.google.com/g/couples-alarm-android-beta/members",
+        "method": "Authenticated membership list; one owner; zero pending members"
+      }
+    }
   }
 }
