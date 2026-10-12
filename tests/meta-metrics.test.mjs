@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { adTags, createHandler, projectInsights, readMeta } from '../supabase/functions/get-meta-metrics/index.ts';
 import { metaRange } from '../growth-dashboard/metrics.js';
+import { metaAccessNotice } from '../growth-dashboard/dashboard.js';
 const config = { META_ADS_READ_TOKEN:'private-test-token', META_GRAPH_VERSION:'v25.0', SUPABASE_PUBLISHABLE_KEYS:'{"default":"public-key"}' };
 const env = key => config[key];
 const request = (headers={},method='GET') => new Request('https://example.test/meta',{method,headers:{origin:'https://couplesalarm.com',apikey:'public-key',...headers}});
@@ -53,4 +54,15 @@ test('API reads are cached and a failed refresh retains its original date',async
 });
 test('incomplete paginated reports fail rather than publishing partial totals',async()=>{
   await assert.rejects(readMeta(env,async()=>({ok:true,json:async()=>({paging:{next:'https://example.test/next'}})})),/Incomplete/);
+});
+test('reporting renewal is visible before access expires without exposing a credential',async()=>{
+  const accessExpiresAt='2026-12-10T23:53:46.000Z';
+  const handle=createHandler(key=>key==='META_ADS_TOKEN_EXPIRES_AT'?accessExpiresAt:env(key),api,()=>Date.parse('2026-10-11T23:00:00Z'));
+  const report=await (await handle(request())).json();
+  assert.equal(report.accessExpiresAt,accessExpiresAt);
+  assert.doesNotMatch(JSON.stringify(report),/private-test-token/);
+  assert.equal(metaAccessNotice(report,Date.parse('2026-10-11')).needsRenewal,false);
+  assert.equal(metaAccessNotice(report,Date.parse('2026-12-05')).needsRenewal,true);
+  assert.match(metaAccessNotice(report,Date.parse('2026-12-11')).message,/expired/);
+  assert.equal(metaAccessNotice({accessExpiresAt:'invalid'}).message,'');
 });

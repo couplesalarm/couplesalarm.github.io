@@ -1,4 +1,4 @@
-import { appleRange, campaignLabels, creativeComparison, dailyCsv, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard2";
+import { appleRange, campaignLabels, creativeComparison, dailyCsv, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard3";
 const numberFormat = new Intl.NumberFormat("en-US");
 const currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -30,6 +30,14 @@ export function socialFreshness(platform, now = Date.now()) {
   if (platform.status === "error") return "Refresh failed · retained count";
   const stale = !Number.isFinite(Date.parse(platform.updatedAt)) || now - Date.parse(platform.updatedAt) > 2 * 86400000;
   return `${stale ? "Stale" : "Checked"} · ${platform.mode === "manual" ? "manual" : "public post"}`;
+}
+export function metaAccessNotice(meta, now = Date.now()) {
+  const expiry = Date.parse(meta?.accessExpiresAt || '');
+  if (!Number.isFinite(expiry)) return { message: '', needsRenewal: false };
+  const needsRenewal = expiry - now <= 7 * 86400000;
+  const message = expiry <= now ? 'Meta reporting access has expired. Renew the read-only connection to resume updates.'
+    : `Read-only reporting access expires ${dayLabel(meta.accessExpiresAt)}.${needsRenewal ? ' Renew the connection this week to keep updates running.' : ' Renewal will be needed before that date.'}`;
+  return { message, needsRenewal };
 }
 function rows(doc, selector, values) {
   const output = values.map(cells => {
@@ -172,10 +180,14 @@ function renderMeta(snapshot, doc, options) {
   doc.querySelector('#meta-results').hidden = !selected;
   const message = selected ? `${fresh ? 'Read automatically from Meta' : 'Meta could not refresh; showing the last successful report'} · ${timeLabel(meta.updatedAt)}. ${dayLabel(selected.start)} – ${dayLabel(selected.end)} · ${meta.timezone}.` : meta?.status === 'not_connected' ? 'The reporting API is ready, but Meta account authorization is still required. No spend or click totals are assumed.' : 'The Meta reporting API could not be reached. Website and Apple reporting continue independently.';
   set(doc, '#meta-updated', message); set(doc, '#meta-source-status', message);
+  const access = metaAccessNotice(meta, options.now);
+  set(doc, '#meta-access', access.message);
+  doc.querySelector('#meta-access').className = access.needsRenewal ? 'note error' : 'note';
   if (!selected) return;
   const money = value => Number.isFinite(value) ? new Intl.NumberFormat('en-US', {style:'currency',currency:meta.currency}).format(value) : '—';
   set(doc, '#meta-spend', money(selected.spend)); set(doc, '#meta-clicks', fmt(selected.linkClicks)); set(doc, '#meta-landing', fmt(selected.landingPageViews));
   rows(doc, '#meta-rows', selected.ads.map(ad => [ad.label, ad.status.replaceAll('_',' ').toLowerCase(), money(ad.spend), fmt(ad.linkClicks), fmt(ad.landingPageViews)]));
+  set(doc, '#meta-delivery-note', selected.ads.every(ad => ad.impressions === 0) ? 'No delivery results have been reported for this period yet. “Active” means the ad is enabled; it does not confirm impressions.' : 'Delivery and results are reported by Meta and may be delayed.');
 }
 function renderSocial(snapshot, doc, now) {
   const target = doc.querySelector("#social-rows");

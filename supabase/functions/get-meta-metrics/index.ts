@@ -70,7 +70,11 @@ export function createHandler(env = name => Deno.env.get(name), fetchImpl = fetc
     const headers = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', Vary: 'Origin',
       ...(origin && origins.has(origin) ? {'Access-Control-Allow-Origin':origin} : {}),
       'Access-Control-Allow-Headers':'apikey', 'Access-Control-Allow-Methods':'GET, OPTIONS' };
-    const reply = (code, body) => new Response(body ? JSON.stringify(body) : null, {status:code,headers});
+    const reply = (code, body) => {
+      const expiry = Date.parse(env('META_ADS_TOKEN_EXPIRES_AT') || '');
+      const report = code === 200 && body ? { ...body, accessExpiresAt: Number.isFinite(expiry) ? new Date(expiry).toISOString() : null } : body;
+      return new Response(report ? JSON.stringify(report) : null, {status:code,headers});
+    };
     if (origin && !origins.has(origin)) return reply(403);
     if (request.method === 'OPTIONS') return reply(204);
     if (request.method !== 'GET') return reply(405);
