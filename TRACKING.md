@@ -202,8 +202,18 @@ should continue to use `ct=tracking_qa`.
   explicitly `not_connected`, never zero spend. No token belongs in the browser,
   the repository, evidence screenshots or application logs.
 
-The Meta integration is not connected until a real authenticated response is
-verified. The prepared app is named **Couples Alarm Reporting**, uses **Measure
-ad performance data with Marketing API**, and belongs to the Couples Alarm
-business portfolio. Creation and token authorization are held for the owner's
-approval of Meta's terms and the reporting access.
+The owner approved Meta's terms and read-only reporting access on October 11,
+2026. **Couples Alarm Reporting** (app `1532997575222605`) belongs to the Couples
+Alarm business portfolio. Its token has `ads_read` plus Meta's automatic
+`public_profile` scope; it has no ad-management permission. The encrypted
+Supabase function secrets store the token and Graph API version `v26.0`.
+An authenticated read at `2026-10-11T23:57:39Z` confirmed the $80 lifetime budget,
+the active campaign and all four active ads. Meta returned no insights rows at
+that check; active status is not evidence of impressions or paid acquisition.
+
+Meta's debugger verified that this user token expires on December 10, 2026 at
+23:53:46 UTC. `META_ADS_TOKEN_EXPIRES_AT` records that non-secret metadata. The
+dashboard shows the renewal date and emphasizes it during the final seven
+days. Renew the read-only token through the same app's Marketing API Tools,
+update the encrypted token and its expiration metadata, then verify a real
+report. This connection does not silently renew its own authorization.
