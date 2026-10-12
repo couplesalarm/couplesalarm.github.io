@@ -20,13 +20,14 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
 
-test("keeps the selected product copy with a download-first primary action", () => {
+test("keeps the selected product copy with direct app download actions", () => {
   assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
   assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
   assert.match(html, /An alarm clock designed for your wake time and your partner’s sleep\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
-  assert.match(html, /<a class="test-link" href="download\/">\s*<strong>Get Couples Alarm<\/strong>/);
+  assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
+  assert.match(html, /<a href="download\/">Details &amp; pricing<\/a>/);
   assert.match(html, /<footer\b[\s\S]*<a class="footer-test-link" href="compatibility\/">Try the web listening test<\/a>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.match(html, /aria-label="How Couples Alarm works"/);
