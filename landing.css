@@ -205,14 +205,17 @@ h1 span { color: var(--signal); }
   justify-content: center;
 }
 .footer-test-link {
-  display: grid;
-  place-items: center;
-  width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   min-height: 44px;
+  padding: 0.35rem 0.85rem;
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 999px;
   background: rgb(6 15 28 / 30%);
   color: var(--muted);
+  font-size: 0.8rem;
   text-decoration: none;
 }
 .footer-test-link:hover { border-color: var(--muted); background: rgb(255 255 255 / 6%); }
