@@ -7,7 +7,13 @@ export const adTags = {
   '120252400669160695': 'paid_ig_snooze_asian_v15',
   '120252400669170695': 'paid_ig_snooze_white_v15',
   '120252400669180695': 'paid_ig_snooze_black_v15',
+  '120252403222310695': 'paid_ig_snooze_asian_v15',
+  '120252403222300695': 'paid_ig_snooze_white_v15',
+  '120252403222320695': 'paid_ig_snooze_black_v15',
 };
+// Preserve historical delivery from retired ads while showing replacement status.
+const currentAdIds = new Set(['120252400023240695', '120252403222310695',
+  '120252403222300695', '120252403222320695']);
 function count(value) {
   const number = Number(value);
   if (!Number.isSafeInteger(number) || number < 0) throw Error('Invalid count');
@@ -58,7 +64,7 @@ export async function readMeta(env, fetchImpl = fetch, now = Date.now()) {
     timezone: account.timezone_name, currency: account.currency, startDate: start, throughDate: end,
     lifetimeBudget: campaign.lifetime_budget === undefined ? null : amount(campaign.lifetime_budget) / 100,
     campaignStatus: status(campaign.effective_status),
-    ads: ads.data.filter(ad => Object.hasOwn(adTags, ad.id)).map(ad => ({ tag: adTags[ad.id], status: status(ad.effective_status) })),
+    ads: ads.data.filter(ad => currentAdIds.has(ad.id)).map(ad => ({ tag: adTags[ad.id], status: status(ad.effective_status) })),
     daily: projectInsights(insights.data), attributedDownloads: null };
 }
 // Share in-flight requests and cache for five minutes within each worker.
