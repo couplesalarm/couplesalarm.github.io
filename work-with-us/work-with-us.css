@@ -1,0 +1,13 @@
+.collaboration-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.collaboration-paths .notice { margin: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.collaboration-paths h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+.collaboration-paths button { margin-top: auto; }
+.work-page .feedback-form { width: 100%; }
+.work-page :is(input[type="email"], input[type="url"], select) { width: 100%; min-width: 0; min-height: 48px; padding: .65rem .85rem; border: 1px solid #536077; border-radius: .85rem; background: #0b1427; color: var(--ink); font: inherit; }
+.work-page select:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.work-page [hidden] { display: none !important; }
+.work-page #inquiry-error { padding: 1rem; border: 1px solid var(--signal); border-radius: .85rem; color: var(--ink); }
+.work-page #inquiry-status { margin: 0; overflow-wrap: anywhere; }
+.work-page .question { min-width: 0; }
+.work-page nav { flex-wrap: wrap; }
+@media (max-width: 700px) { .collaboration-paths { grid-template-columns: minmax(0, 1fr); } }

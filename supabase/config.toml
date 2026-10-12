@@ -27,3 +27,9 @@ verify_jwt = false
 # Guarded by MONTHLY_REPORT_TOKEN instead, so the scheduled job can call it.
 [functions.email-monthly-page-views]
 verify_jwt = false
+
+# Public submission with handler-validated existing publishable API key. The
+# key is not a JWT: gateway JWT verification stays off. Database quotas limit
+# abuse; no public inquiry reads. WORK_INQUIRIES_ENABLED=false is the emergency off switch.
+[functions.submit-work-inquiry]
+verify_jwt = false

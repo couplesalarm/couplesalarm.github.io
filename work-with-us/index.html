@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Talk with Couples Alarm about partnerships, creator collaborations and audience offers.">
+  <meta name="theme-color" content="#080f20">
+  <meta name="referrer" content="no-referrer">
+  <link rel="canonical" href="https://couplesalarm.com/work-with-us/">
+  <link rel="icon" href="../assets/app-icon.png" type="image/png">
+  <title>Work with us — Couples Alarm</title>
+  <link rel="stylesheet" href="../style.css?v=20260731-actions">
+  <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
+  <link rel="stylesheet" href="work-with-us.css?v=20261012-1">
+</head>
+<body class="dawn-page site-page feedback-page work-page">
+  <a class="skip-link" href="#content">Skip to collaboration information</a>
+  <header class="page-header site-header">
+    <a class="page-brand" href="../"><img src="../assets/app-icon.png" alt="" width="40" height="40"><span>Couples Alarm</span></a>
+    <nav aria-label="Primary navigation"><a href="../support/">Support</a><a href="../privacy/">Privacy</a><a href="./" aria-current="page">Work with us</a></nav>
+    <div class="page-title">
+      <p class="eyebrow">Better mornings, together</p>
+      <h1>Work with us</h1>
+      <p class="meta">Different wake-up times are part of everyday life for many couples. If you work with those couples or reach them through your content, we would like to hear from you.</p>
+    </div>
+  </header>
+  <main id="content">
+    <div class="collaboration-paths">
+      <section class="notice" aria-labelledby="partnership-title">
+        <p class="eyebrow">Practitioners · Communities · Businesses</p>
+        <h2 id="partnership-title">Partnerships</h2>
+        <p>Help couples explore a different approach to shared mornings. Talk with us about member offers or sharing our free sound demo.</p>
+        <p><a href="../compatibility/">Try the free sound demo together on one device</a>.</p>
+        <button type="button" data-inquiry-category="partnership" hidden>Discuss a partnership</button>
+      </section>
+      <section class="notice" aria-labelledby="creator-title">
+        <p class="eyebrow">Podcasts · Writers · Creators</p>
+        <h2 id="creator-title">Creator &amp; affiliate inquiries</h2>
+        <p>Do you discuss relationships, routines, shift work or life together? Tell us about your content and an idea for your audience.</p>
+        <p>Interested in a podcast-style audience discount code or an affiliate collaboration? We can discuss what might fit. Offers and payment terms are agreed separately before collaboration.</p>
+        <button type="button" data-inquiry-category="creator" hidden>Discuss a creator collaboration</button>
+      </section>
+    </div>
+    <form id="inquiry-form" class="feedback-form" method="post" aria-labelledby="inquiry-title">
+      <fieldset id="inquiry-fields" disabled>
+        <legend id="inquiry-title">Tell us your idea</legend>
+        <p>Required fields are marked “required.” Please do not include health or client information, mailing lists, or payment details.</p>
+        <label class="question"><span class="question-title">Name (required)</span><input name="name" type="text" maxlength="100" autocomplete="name" required></label>
+        <label class="question"><span class="question-title">Business email (required)</span><input name="email" type="email" maxlength="254" autocomplete="email" required></label>
+        <label class="question"><span class="question-title">Inquiry category (required)</span><select name="category" required><option value="">Choose a category</option><option value="partnership">Partnership</option><option value="creator">Creator / affiliate inquiry</option></select></label>
+        <label class="question"><span class="question-title">Organization or channel URL <span class="optional">(optional)</span></span><input name="channelUrl" type="url" maxlength="500" placeholder="https://" aria-describedby="url-help"><span id="url-help" class="meta">A public website or channel link, starting with https:// or http://.</span></label>
+        <label class="question"><span class="question-title">Audience description <span class="optional">(optional)</span></span><textarea name="audience" rows="3" maxlength="300" placeholder="Who do you reach? Please describe the audience without personal details."></textarea></label>
+        <label class="question"><span class="question-title">Your idea (required)</span><textarea name="idea" rows="5" maxlength="2000" required></textarea></label>
+      </fieldset>
+      <div class="contact feedback-privacy">
+        <h2>Before you send</h2>
+        <p>Submitting an inquiry starts a conversation. It does not enroll you in an affiliate program, create a discount code or subscribe you to a newsletter.</p>
+        <p>When the form is available, submitting sends these details to Couples Alarm for review and a reply. They are stored privately in Supabase. Resend notifications contain only a reference and a private review link, not your contact details or message. Inactive inquiries are deleted after 90 days without substantive contact. See <a href="../privacy/#work-inquiries">inquiry privacy information</a>.</p>
+        <p>Prefer email? Contact <a href="mailto:couplesalarm.support@gmail.com">couplesalarm.support@<wbr>gmail.com</a>.</p>
+      </div>
+      <p id="inquiry-availability">The inquiry form is not available yet. Please email us using the link above.</p>
+      <noscript><p>JavaScript is needed to submit this form. Please use the email link above.</p></noscript>
+      <div class="form-actions"><button type="submit" disabled>Send inquiry</button></div>
+      <p id="inquiry-status" class="form-status" role="status" aria-live="polite" tabindex="-1"></p>
+      <p id="inquiry-error" role="alert" tabindex="-1" hidden></p>
+    </form>
+  </main>
+  <script type="module" src="inquiry.js?v=20261012-1"></script>
+</body>
+</html>
