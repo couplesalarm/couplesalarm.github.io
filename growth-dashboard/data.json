@@ -828,8 +828,8 @@
     "schemaVersion": 1,
     "status": "not_connected",
     "mode": "manual",
-    "updatedAt": "2026-10-12T00:24:33.405Z",
-    "startDate": "2026-10-01",
+    "updatedAt": "2026-10-13T12:51:00Z",
+    "startDate": "2026-10-06",
     "throughDate": "2026-10-12",
     "timezone": "UTC",
     "currency": "USD",
@@ -837,18 +837,37 @@
     "campaignStatus": "RUNNING",
     "totals": {
       "spend": 2.03,
-      "impressions": 42,
+      "impressions": 47,
       "taps": 3,
       "installs": 2,
-      "newDownloads": null,
-      "redownloads": null
+      "newDownloads": 2,
+      "redownloads": 0
     },
     "source": {
       "url": "https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187",
       "method": "Authenticated browser report",
-      "selectedPeriod": "Current month",
-      "view": "Ad groups; totals across all three enabled groups",
-      "reportingDelay": "Latest three hours may not be included"
+      "selectedPeriod": "October 6\u201312, 2026 (UTC)",
+      "view": "Campaign report with new-download and redownload split",
+      "reportingDelay": "Latest three hours may not be included",
+      "checkedFrom": "2026-10-13T12:45:00Z",
+      "checkedThrough": "2026-10-13T12:51:00Z",
+      "settings": {
+        "url": "https://app-ads.apple.com/cm/app/24571440/campaign/2144815187",
+        "status": "RUNNING",
+        "dailyBudgetUsd": 2,
+        "endsAt": "2026-10-15T03:59:00Z",
+        "displayedEnd": "October 14, 2026 23:59 America/New_York"
+      },
+      "comparison": {
+        "startDate": "2026-10-10",
+        "throughDate": "2026-10-12",
+        "timezone": "UTC",
+        "spend": 0.69,
+        "impressions": 15,
+        "taps": 1,
+        "newDownloads": 1,
+        "redownloads": 0
+      }
     }
   },
   "beta": {

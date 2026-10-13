@@ -105,7 +105,7 @@ function renderCreatives(selected, doc) {
     const card = element(doc, "article", undefined, "creative-card");
     card.append(element(doc, "h3", creative.label), element(doc, "p", creative.version, "creative-version"));
     const counts = element(doc, "div", undefined, "creative-counts");
-    for (const [value, label] of [[creative.pageViews, "Page views"], [creative.appStoreClicks, "App Store clicks"]]) {
+    for (const [value, label] of [[creative.pageViews, "Page views"], [creative.appStoreClicks, "App Store outbound clicks"]]) {
       const count = element(doc, "div", undefined, "creative-count");
       count.append(element(doc, "strong", fmt(value)), element(doc, "span", label)); counts.append(count);
     }
@@ -137,7 +137,7 @@ function renderWebsite(snapshot, doc, options) {
   renderCreatives(selected, doc);
   const first = website.firstRecordedAt;
   set(doc, "#website-range", `${dayLabel(selected.start)} – ${dayLabel(selected.end)} (UTC). Collection began ${timeLabel(first)}${first ? `, ${first.slice(0, 4)}` : ""}; earlier days are unavailable. Partial days are muted.`);
-  set(doc, "#website-totals", `${fmt(selected.pageViews)} page views · ${fmt(selected.appStoreClicks)} App Store clicks across ${selected.daily.length} recorded ${selected.daily.length === 1 ? "day" : "days"} in this period.`);
+  set(doc, "#website-totals", `${fmt(selected.pageViews)} page views · ${fmt(selected.appStoreClicks)} App Store outbound clicks across ${selected.daily.length} recorded ${selected.daily.length === 1 ? "day" : "days"} in this period.`);
   const excluded = selected.excluded;
   set(doc, "#qa-summary", excluded ? `${fmt(excluded.reduce((total, row) => total + row.pageViews + row.appStoreClicks, 0))} test events excluded in this period · view details` : "Test separation unavailable in this saved report");
   rows(doc, "#qa-rows", excluded?.length ? excluded.map(row => [campaignLabels[row.label] || "Other approved test", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [[excluded ? "No confirmed test events in this period" : "Exclusion details unavailable", "—", "—"]]);
@@ -216,10 +216,11 @@ function renderAppleAds(snapshot, doc, options) {
   set(doc,'#apple-ads-spend',Number.isFinite(totals?.spend) ? currencyFormat.format(totals.spend) : '—');
   set(doc,'#apple-ads-impressions',fmt(totals?.impressions)); set(doc,'#apple-ads-taps',fmt(totals?.taps)); set(doc,'#apple-ads-installs',fmt(totals?.installs));
   set(doc,'#apple-ads-window',totals ? `US Search Results · ${dayLabel(report.startDate)} – ${dayLabel(report.throughDate)} (UTC) · ${String(report.campaignStatus || 'Unknown').replaceAll('_',' ').toLowerCase()} when checked.` : 'US Search Results · a report is not available yet.');
+  set(doc,'#apple-ads-new-downloads',fmt(totals?.newDownloads)); set(doc,'#apple-ads-redownloads',fmt(totals?.redownloads));
   const cpi = appleAdsCostPerInstall(report);
   set(doc,'#apple-ads-result',cpi !== null ? `${currencyFormat.format(cpi)} per attributed install · spend ÷ installs. ${totals.installs < 20 ? 'Small sample; too early to judge reliable acquisition cost.' : ''}` : totals ? 'Cost per install is unavailable until Apple reports an install.' : 'Missing reporting data is not zero spend or zero installs.');
   const message = freshness.live ? `Apple Ads API · last successful read ${timeLabel(report.updatedAt)}.`
-    : report?.mode === 'manual' ? `Verified in Apple Ads ${timeLabel(report.updatedAt)}. Saved check; automatic Apple Ads access is not connected.`
+    : report?.mode === 'manual' ? `Verified in Apple Ads ${report.source?.checkedFrom ? `${timeLabel(report.source.checkedFrom)} – ${timeLabel(report.source.checkedThrough)}` : timeLabel(report.updatedAt)}. Saved check; automatic Apple Ads access is not connected.`
     : report?.updatedAt ? `Apple Ads API could not refresh. Last successful read ${timeLabel(report.updatedAt)}.` : 'Apple Ads API access is not connected. No results are assumed.';
   set(doc,'#apple-ads-updated',message); set(doc,'#apple-ads-source-status',message);
 }

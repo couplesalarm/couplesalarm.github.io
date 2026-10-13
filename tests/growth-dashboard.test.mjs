@@ -101,3 +101,18 @@ test("Apple freshness advances only through received reports and preserves missi
   assert.equal(apple.daily[1].firstTimeDownloads, null);
   assert.equal(apple.status, "partial");
 });
+
+test('separates acquisition stages and identifies manual platform coverage without invented installs', () => {
+  for (const label of ['Site page views', 'App Store outbound clicks', 'Platform-reported visits', 'Attributed installs', 'First-time downloads']) assert.ok(html.includes(label), label);
+  assert.match(html, /not a joined visitor-to-install funnel/);
+  assert.match(html, /Missing data means unavailable, not zero/);
+  assert.match(html, /cannot be repaired retrospectively/);
+  assert.match(html, /four known Snooze War ads, not the entire account/);
+  assert.match(html, /YouTube, TikTok and X paid reporting are not live feeds/);
+  assert.match(html, /October 9–13, 2026, partial/);
+  assert.match(html, /Reporting timezone unconfirmed/);
+  assert.match(html, /129 reported “Website visits”/);
+  assert.match(html, /Attributed first-time downloads unavailable/);
+  assert.match(html, /not refreshed by “Check for updates” or changed by dashboard filters/);
+  assert.match(html, /Current spend and delivery unavailable/);
+});

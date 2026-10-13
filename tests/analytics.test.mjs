@@ -72,7 +72,7 @@ const run = ({
   return {
     sent,
     links,
-    clickStore: () => links[0]?.listeners.click?.(),
+    clickStore: () => listeners.click?.({ type: "click", target: { closest: () => links[0] } }),
     clickInternal: (href) => {
       const link = { href };
       listeners.click?.({ target: { closest: () => link } });
@@ -311,4 +311,53 @@ for (const campaign of ["paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15",
   assert.deepEqual(handoff.sent.map(row => row.body.campaign), [campaign, campaign]);
   assert.doesNotMatch(JSON.stringify([...result.sent, ...handoff.sent]), /utm_|private@example/);
   assert.equal(run({ search: "?ct=paid_instagram_iphone" }).sent[0].body.campaign, "paid_instagram_iphone");
+});
+
+const appStore = 'https://apps.apple.com/us/app/couples-alarm/id6792771975';
+test('known acquisition survives defaults, support/privacy hops and the store handoff', () => {
+  for (const campaign of ['paid_facebook_iphone', 'paid_tiktok_iphone', 'paid_ig_snooze_white_v15', 'tracking_qa']) {
+    let current = new URL('https://couplesalarm.com/?ct=' + campaign + '&email=private@example.com');
+    for (const path of ['/support/', '/privacy/', '/compatibility/', '/download/']) {
+      const page = run({ pathname: current.pathname, search: current.search });
+      current = new URL(page.clickInternal(path + '?ct=owned_website'));
+      assert.equal(current.search, '?ct=' + campaign);
+    }
+    const page = run({ pathname: current.pathname, search: current.search, hrefs: [appStore + '?ct=owned_website'] });
+    page.clickStore();
+    assert.equal(new URL(page.links[0].href).searchParams.get('ct'), campaign);
+    assert.deepEqual(page.sent.map(row => row.body.campaign), [campaign, campaign]);
+    assert.doesNotMatch(JSON.stringify(page.sent), /private@example/);
+  }
+});
+
+test('same-site public referrer recovers tags without browser storage or external inference', () => {
+  const referrer = 'https://couplesalarm.com/work-with-us/?ct=paid_facebook_iphone&email=private@example.com';
+  const page = run({ search: '?ct=owned_website', referrer });
+  page.clickStore();
+  assert.deepEqual(page.sent.map(row => row.body.campaign), ['paid_facebook_iphone', 'paid_facebook_iphone']);
+  assert.doesNotMatch(JSON.stringify(page.sent), /private@example/);
+  assert.equal(run({ search: '?ct=paid_tiktok_iphone', referrer }).sent[0].body.campaign, 'paid_tiktok_iphone');
+  for (const referrer of ['https://facebook.com/?ct=paid_facebook_iphone', 'https://couplesalarm.com/admin/?ct=paid_facebook_iphone', 'http://couplesalarm.com/?ct=paid_facebook_iphone']) {
+    assert.equal(run({ search: '', referrer }).sent[0].body.campaign, null);
+  }
+  assert.doesNotMatch(analytics, /sessionStorage|localStorage|document\.cookie/);
+});
+
+test('QA cannot be overridden by a pretagged destination or a subsequent paid tag', () => {
+  const page = run({ search: '?ct=tracking_qa', hrefs: [appStore + '?ct=paid_youtube_iphone'] });
+  page.clickStore();
+  assert.equal(page.sent[1].body.campaign, 'tracking_qa');
+  assert.equal(run({ search: '?ct=paid_tiktok_iphone', referrer: 'https://couplesalarm.com/support/?ct=tracking_qa' }).sent[0].body.campaign, 'tracking_qa');
+});
+
+test('store click reads the current URL, handles dynamic links and retains specific destination tags', () => {
+  const page = run({ search: '?ct=paid_facebook_iphone' });
+  page.links[0].href = appStore + '?ct=owned_website';
+  page.clickStore();
+  assert.equal(page.sent[1].body.campaign, 'paid_facebook_iphone');
+  const dynamic = new URL(page.clickInternal(appStore + '?ct=paid_youtube_iphone'));
+  assert.equal(dynamic.searchParams.get('ct'), 'paid_youtube_iphone');
+  assert.equal(page.sent[2].body.campaign, 'paid_youtube_iphone');
+  assert.equal(page.clickInternal('https://apps.apple.com/app/id67927719750'), 'https://apps.apple.com/app/id67927719750');
+  assert.equal(page.sent.length, 3);
 });

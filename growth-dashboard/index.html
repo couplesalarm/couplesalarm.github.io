@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://xqdqgsbkapvlskcldmpe.supabase.co; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Couples Alarm — Growth Dashboard</title>
-  <link rel="stylesheet" href="dashboard.css?v=20261011-dashboard4">
+  <link rel="stylesheet" href="dashboard.css?v=20261013-attribution-1">
 </head>
 <body>
   <a class="skip-link" href="#website-title">Skip to website metrics</a>
@@ -23,10 +23,23 @@
       </div>
     </header>
     <nav class="section-nav" aria-label="Dashboard sections">
-      <a href="#snooze-title">Four-couple test</a><a href="#meta-title">Meta ads</a><a href="#apple-ads-title">App Store ads</a><a href="#beta-title">Android beta</a><a href="#website-title">Website</a><a href="#apple-title">App Store</a><a href="#coverage-title">Sources</a>
+      <a href="#funnel-title">Measurement</a><a href="#snooze-title">Four-couple test</a><a href="#meta-title">Meta ads</a><a href="#apple-ads-title">App Store ads</a><a href="#beta-title">Android beta</a><a href="#website-title">Website</a><a href="#apple-title">App Store</a><a href="#coverage-title">Sources</a>
       <a href="/">Open website ↗</a>
     </nav>
     <p id="refresh-error" class="error" role="status"></p>
+
+    <section class="panel" aria-labelledby="funnel-title">
+      <h2 id="funnel-title">Acquisition measurement</h2>
+      <p class="muted">These stages are separate measurements, not a joined visitor-to-install funnel. Missing data means unavailable, not zero.</p>
+      <div class="table-scroll" tabindex="0" aria-label="Acquisition stages"><table class="measurement-table"><caption class="sr-only">Funnel definitions and their reporting sources</caption><thead><tr><th scope="col">Stage</th><th scope="col">What it measures</th><th scope="col">Source and period</th></tr></thead><tbody>
+        <tr><th scope="row">Site page views</th><td>Page loads on the website; repeat views count. Daily visitor estimates are not distinct people across days.</td><td>First-party aggregate counter; selected website period, UTC; refresh time below.</td></tr>
+        <tr><th scope="row">App Store outbound clicks</th><td>Website link activations, not loaded product pages or downloads. Direct-to-store ads bypass this stage.</td><td>Same website counter and UTC period; confirmed QA excluded.</td></tr>
+        <tr><th scope="row">Platform-reported visits</th><td>Meta landing-page views and YouTube “Website visits” use platform definitions; do not add them to site views.</td><td>Each platform's own period, timezone and last check; YouTube check below is manual.</td></tr>
+        <tr><th scope="row">Attributed installs</th><td>Apple Ads attribution may include redownloads. A website campaign tag alone does not verify an install.</td><td>Apple Ads panel; its independent UTC period and saved/API status.</td></tr>
+        <tr><th scope="row">First-time downloads</th><td>All-source first downloads, separate from attributed installs and paid unlocks. Campaign-level downloads remain unavailable.</td><td>Apple Sales &amp; Trends; selected Apple report dates and received-report coverage below.</td></tr>
+      </tbody></table></div>
+      <p class="note">Source preservation improved October 13, 2026. Historical default-tagged or untagged events cannot be repaired retrospectively. No source-level conversion rate is inferred from these unjoined totals.</p>
+    </section>
 
     <section class="panel campaign-panel" aria-labelledby="snooze-title">
       <div class="section-head wrap"><div><p class="eyebrow">The Snooze War</p><h2 id="snooze-title">Four couples. One shared budget.</h2></div>
@@ -49,7 +62,7 @@
         <div class="metrics meta-totals">
           <article class="metric"><span id="meta-spend" class="value">—</span><span class="label">Amount spent</span></article>
           <article class="metric"><span id="meta-clicks" class="value">—</span><span class="label">Ad link clicks</span></article>
-          <article class="metric"><span id="meta-landing" class="value">—</span><span class="label">Landing page views</span></article>
+          <article class="metric"><span id="meta-landing" class="value">—</span><span class="label">Meta-reported landing-page views</span></article>
         </div>
         <div class="table-scroll" tabindex="0" aria-label="Meta ad performance"><table><caption class="sr-only">Meta-reported performance of the four Snooze War ads</caption><thead><tr><th scope="col">Video</th><th scope="col">Delivery</th><th scope="col">Spend</th><th scope="col">Link clicks</th><th scope="col">Landing page views</th></tr></thead><tbody id="meta-rows"></tbody></table></div>
         <p id="meta-delivery-note" class="note"></p>
@@ -66,6 +79,7 @@
         <article class="metric"><span id="apple-ads-taps" class="value">—</span><span class="label">Ad taps</span></article>
         <article class="metric lead"><span id="apple-ads-installs" class="value">—</span><span class="label">Apple-attributed installs</span></article>
       </div>
+      <p class="note">Apple-reported split: <span id="apple-ads-new-downloads">—</span> new downloads · <span id="apple-ads-redownloads">—</span> redownloads. A missing split is unavailable, not zero.</p>
       <p id="apple-ads-result" class="totals"></p>
       <p id="apple-ads-updated" class="source-line"></p>
       <p class="note">Apple-attributed installs can include redownloads and are not paid unlocks. Do not add them to App Store downloads below: those totals already include all sources. Apple Ads reporting may omit the latest three hours. This campaign's report period is independent of the website filter.</p>
@@ -105,17 +119,17 @@
     <section class="panel" aria-labelledby="daily-title">
       <div class="section-head wrap"><h2 id="daily-title">Daily website activity</h2>
         <div class="controls">
-          <label>Chart <select id="website-metric"><option value="visitors">Estimated visitors</option><option value="pageViews">Page views</option><option value="appStoreClicks">App Store clicks</option></select></label>
+          <label>Chart <select id="website-metric"><option value="visitors">Estimated visitors</option><option value="pageViews">Page views</option><option value="appStoreClicks">App Store outbound clicks</option></select></label>
         </div>
       </div>
       <p id="website-range" class="muted">Waiting for website data.</p>
       <div id="daily-chart" class="chart" aria-live="polite"></div>
       <p id="website-totals" class="totals"></p>
-      <details><summary id="qa-summary">Excluded test activity</summary><p class="note">Tests remain stored for verification. Only tagged tests and individually confirmed operator events are removed; other previews and unrecognized tests may remain.</p><div class="table-scroll" tabindex="0" aria-label="Excluded test activity"><table><caption class="sr-only">Excluded test events in the selected website period</caption><thead><tr><th scope="col">Test link</th><th scope="col">Page views</th><th scope="col">App Store clicks</th></tr></thead><tbody id="qa-rows"></tbody></table></div></details>
+      <details><summary id="qa-summary">Excluded test activity</summary><p class="note">Tests remain stored for verification. Only tagged tests and individually confirmed operator events are removed; other previews and unrecognized tests may remain.</p><div class="table-scroll" tabindex="0" aria-label="Excluded test activity"><table><caption class="sr-only">Excluded test events in the selected website period</caption><thead><tr><th scope="col">Test link</th><th scope="col">Page views</th><th scope="col">App Store outbound clicks</th></tr></thead><tbody id="qa-rows"></tbody></table></div></details>
       <details><summary>Daily numbers &amp; CSV</summary>
         <div class="detail-actions"><button id="export-daily" class="refresh" disabled type="button">Download daily CSV</button></div>
         <div class="table-scroll" tabindex="0" aria-label="Daily website numbers"><table><caption class="sr-only">Website counts for the selected period, UTC</caption>
-          <thead><tr><th scope="col">Date (UTC)</th><th scope="col">Visitors, est.</th><th scope="col">Page views</th><th scope="col">App Store clicks</th><th scope="col">Coverage</th></tr></thead><tbody id="daily-rows"></tbody>
+          <thead><tr><th scope="col">Date (UTC)</th><th scope="col">Visitors, est.</th><th scope="col">Page views</th><th scope="col">App Store outbound clicks</th><th scope="col">Coverage</th></tr></thead><tbody id="daily-rows"></tbody>
         </table></div>
       </details>
     </section>
@@ -127,8 +141,8 @@
     <section class="panel" aria-labelledby="campaign-title">
       <h2 id="campaign-title">Other website traffic</h2>
       <p class="muted">Website events in the selected period. Tags describe the link used; they do not verify paid delivery or attribute a download.</p>
-      <div class="table-scroll" tabindex="0" aria-label="Campaign activity"><table><caption class="sr-only">Website events by approved campaign tag</caption><thead><tr><th scope="col">Campaign label</th><th scope="col">Page views</th><th scope="col">App Store clicks</th></tr></thead><tbody id="campaign-rows"></tbody></table></div>
-      <p class="note">“Website default” is added to untagged App Store buttons. Those clicks may follow page views counted under “No campaign tag.” Do not calculate a conversion rate between these groups. Direct-to-store ads bypass the website counter.</p>
+      <div class="table-scroll" tabindex="0" aria-label="Campaign activity"><table><caption class="sr-only">Website events by approved campaign tag</caption><thead><tr><th scope="col">Campaign label</th><th scope="col">Page views</th><th scope="col">App Store outbound clicks</th></tr></thead><tbody id="campaign-rows"></tbody></table></div>
+      <p class="note">“Website default” means no specific approved campaign was available, not a verified acquisition source. Known tags now survive public navigation and replace generic link defaults. Historical source loss cannot be repaired retrospectively. Direct-to-store ads bypass this counter; a missing campaign is not evidence of zero downloads.</p>
     </section>
 
     <section class="panel" aria-labelledby="apple-title">
@@ -150,6 +164,15 @@
 
     <section class="panel" aria-labelledby="coverage-title">
       <h2 id="coverage-title">Coverage &amp; sources</h2>
+      <p class="note">The Meta connection covers four known Snooze War ads, not the entire account. Apple Ads shows its saved/API status above. YouTube, TikTok and X paid reporting are not live feeds here.</p>
+      <details open><summary>Other paid-platform coverage · manual check October 13, 2026</summary>
+        <p class="source-line">Dated acquisition assessment; not refreshed by “Check for updates” or changed by dashboard filters. Exact check time was not recorded. These figures are not added to the live totals.</p>
+        <div class="table-scroll" tabindex="0" aria-label="Paid platform coverage"><table class="measurement-table"><caption class="sr-only">Dated platform checks and unavailable attribution</caption><thead><tr><th scope="col">Source</th><th scope="col">Period and freshness</th><th scope="col">Observed metric</th><th scope="col">Download evidence</th></tr></thead><tbody>
+          <tr><th scope="row"><a href="https://studio.youtube.com/promotion/24332922696/edit" target="_blank" rel="noopener noreferrer">YouTube promotion ↗</a></th><td>October 9–13, 2026, partial; checked October 13. Reporting timezone unconfirmed. Manual snapshot.</td><td>$15.19 USD; 129 reported “Website visits”. Direct App Store destination; not verified loaded product pages.</td><td>Attributed first-time downloads unavailable. Evaluate actual downloads before scaling; visit cost alone is not cost per install.</td></tr>
+          <tr><th scope="row"><a href="https://ads.tiktok.com/i18n/perf/campaign?aadvid=7694302494683611142" target="_blank" rel="noopener noreferrer">TikTok paid ↗</a></th><td>October 13, 2026 check failed with a network error. Current period and timezone unavailable.</td><td>Current spend and delivery unavailable; historical setup is not current performance.</td><td>Attributed first-time downloads unavailable. No scale decision supported.</td></tr>
+          <tr><th scope="row"><a href="https://x.com/couplesalarm" target="_blank" rel="noopener noreferrer">X paid ↗</a></th><td>October 13, 2026 manual check. Paid reporting period and timezone unavailable.</td><td>Ads opened onboarding; paid inventory unverified. Historical post views below are not paid totals.</td><td>Attributed first-time downloads unavailable; unverified does not mean zero.</td></tr>
+        </tbody></table></div>
+      </details>
       <div class="table-scroll" tabindex="0" aria-label="Measurement coverage"><table class="coverage"><caption class="sr-only">What is connected and what is still unavailable</caption><thead><tr><th scope="col">Measurement</th><th scope="col">Status and next source</th></tr></thead><tbody>
         <tr><th scope="row">Website visits &amp; outbound clicks</th><td id="website-source-status">Connecting to first-party aggregate reporting.</td></tr>
         <tr><th scope="row">Downloads, unlocks &amp; proceeds</th><td id="apple-source-status">Reading the daily published Apple report.</td></tr>
@@ -171,6 +194,6 @@
     <footer>Website days use UTC. Apple uses its own report dates. Aggregate reporting only.</footer>
     <noscript><p class="error">Enable JavaScript to load the measured data. No example counts are shown.</p></noscript>
   </main>
-  <script type="module" src="dashboard.js?v=20261011-dashboard4"></script>
+  <script type="module" src="dashboard.js?v=20261013-attribution-1"></script>
 </body>
 </html>

@@ -46,7 +46,7 @@ advertising identifiers. The prior monthly-email workflow is separate from this
 repair; this deployment does not send email or assert that monthly email delivery
 is configured.
 
-Website App Store badges use `owned_website`. The iPhone ad test reserves
+Website App Store badges use `owned_website` only when no specific approved source is available. The iPhone ad test reserves
 `paid_facebook_iphone`, `paid_instagram_iphone`, `paid_youtube_iphone`, and
 `paid_tiktok_iphone`, using
 the existing Apple provider token. Direct-to-store ad visits bypass the website
@@ -54,7 +54,7 @@ counter; inspect platform clicks and Apple's campaign reports for those visits.
 
 An allowlisted `ct` value is also carried through same-host acquisition links,
 including the listening-result link that changes at runtime. Other query values
-are never copied to another page. Existing destination tokens are retained;
+are never copied to another page. Specific approved destination tokens are retained; generic defaults cannot overwrite a known source;
 Do Not Track disables this behavior as well as event requests. The partner-share
 feature always shares the clean public download URL, with no campaign or personal
 data. The static desktop QR opens the canonical App Store listing directly and
@@ -278,3 +278,45 @@ minutes. Each beta source can fail independently. The browser retains the newest
 successful evidence on failure without changing its timestamp. Missing access is
 never zero. Complete authorization and verify real source responses before
 labeling either pending connection as live.
+
+## October 13, 2026 source-preservation repair
+
+The client previously skipped support/privacy routes, left generic `owned_website`
+destination tokens untouched, and captured outbound URLs at page load. These are
+reproducible attribution gaps, not proof of which sources generated the historical
+35 default-tagged clicks in the October 13 assessment. Those events cannot be
+repaired retrospectively; no raw-event backfill or inferred channel assignment runs.
+
+The client now carries allowlisted labels across public marketing routes and both
+production hostnames. An approved label on a same-site public-page referrer can
+recover a handoff through an uninstrumented public page; external referrer labels
+are never trusted. Specific incoming labels take priority over a prior label;
+`tracking_qa` on either page wins. Specific destination labels remain explicit,
+while default/invalid labels yield to the incoming source. Outbound destination
+and event label are resolved together at activation, including new/dynamic links.
+No form page is newly instrumented. Listening answers and arbitrary incoming query
+values are never copied, stored or transmitted.
+
+There are no cookies, local/session storage, new identity fields or new services.
+Attribution lasts only along these URL/referrer handoffs, not a persistent session.
+A clean/bookmarked URL, suppressed referrer, untagged external link or static QR
+can still lose the source. Do Not Track and nonproduction-host suppression remain.
+QA always overrides paid/default destination labels so test activations stay excluded.
+No database, RLS, permissions, server handler or daily-digest behavior changed.
+
+Dashboard stage definitions separate site page views, outbound clicks,
+platform-reported visits, attributed installs and first-time downloads. The manual
+YouTube/TikTok/X coverage table comes from the October 13 acquisition assessment:
+https://chatgpt.com/space/page_639caf93d8188191b261c604851e37af
+Each public row links to its underlying platform and retains its own date,
+report period, unknown timezone and missing-data caveats. It is not a live feed,
+is not changed by filters, and is not summed with connected reports. Meta coverage
+is four known Snooze War ads, not the entire account. Website source tags cannot
+supply campaign-attributed downloads while Apple's campaign report is unavailable.
+
+The Apple Ads manual snapshot was refreshed from the authorized October 13,
+12:45–12:51 UTC read: October 6–12 UTC, $2.03 / 47 impressions / 3 taps /
+2 new downloads / 0 redownloads. Its narrower October 10–12 comparison is retained
+in source metadata ($0.69 / 15 / 1 / 1 / 0). Campaign settings were Running,
+$2/day, ending October 14 at 23:59 America/New_York (October 15 at 03:59 UTC).
+These are dated observations, not campaign edits or a new automatic connection.

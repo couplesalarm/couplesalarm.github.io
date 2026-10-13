@@ -16,35 +16,49 @@
   const tiktokAlias = params.get("utm_source") === "tiktok" &&
     params.get("utm_medium") === "paid_social" &&
     params.get("utm_campaign") === "website_link_test_20261011";
-  const source = campaigns.has(params.get("ct")) ? params.get("ct") :
-    tiktokAlias ? "paid_tiktok_iphone" : null;
-  // Keep an allowed source through the listening check and download handoff.
-  // Update on click too: the listening result changes its destination at runtime.
-  const carryCampaign = function (link) {
-    if (!source || !link?.href) return;
+  const approved = value => campaigns.has(value) ? value : null;
+  const specific = value => value && value !== "owned_website";
+  const publicPaths = new Set(["/", "/compatibility/", "/download/", "/different-wake-times/", "/support/", "/privacy/", "/work-with-us/", "/beta/android/"]);
+  const publicHosts = new Set(["couplesalarm.com", "www.couplesalarm.com"]);
+  // URL-scoped only: no cookies, browser storage, identity or cross-visit session.
+  // Recover an approved tag from a same-site public-page referrer when an
+  // uninstrumented public page (e.g. the inquiry form) sits between two links.
+  let previous = null;
+  try {
+    const url = new URL(document.referrer);
+    if (url.protocol === "https:" && publicHosts.has(url.hostname) && publicPaths.has(url.pathname)) {
+      previous = approved(url.searchParams.get("ct"));
+    }
+  } catch (_) {}
+  const incoming = approved(params.get("ct"));
+  const source = incoming === "tracking_qa" || previous === "tracking_qa" ? "tracking_qa" :
+    specific(incoming) ? incoming : tiktokAlias ? "paid_tiktok_iphone" :
+    specific(previous) ? previous : incoming || previous;
+  const decorate = function (link) {
+    if (!link?.href) return null;
     try {
       const url = new URL(link.href, "https://" + host + window.location.pathname);
-      if (url.protocol !== "https:" || url.hostname !== host) return;
-      if (!["/", "/compatibility/", "/download/", "/different-wake-times/", "/beta/android/"].includes(url.pathname)) return;
-      if (!url.searchParams.has("ct")) url.searchParams.set("ct", source);
-      link.href = url.href;
-    } catch (_) {}
+      if (url.protocol !== "https:") return null;
+      const store = url.hostname === "apps.apple.com" && /(?:^|\/)id6792771975(?:\/|$)/.test(url.pathname);
+      const internal = publicHosts.has(url.hostname) && publicPaths.has(url.pathname);
+      if (!store && !internal) return null;
+      const existing = approved(url.searchParams.get("ct"));
+      // QA always wins. Preserve specific destination tags, but never let a
+      // generic/default or invalid token erase a known incoming campaign.
+      const token = source === "tracking_qa" || existing === "tracking_qa" ? "tracking_qa" :
+        specific(existing) ? existing : source || existing || (store ? "owned_website" : null);
+      if (token) url.searchParams.set("ct", token);
+      else url.searchParams.delete("ct");
+      if (store) {
+        if (!url.searchParams.has("pt")) url.searchParams.set("pt", "129195755");
+        if (!url.searchParams.has("mt")) url.searchParams.set("mt", "8");
+      }
+      // Do not rewrite untagged relative internal links unnecessarily.
+      if (store || token || link.href.includes("ct=")) link.href = url.href;
+      return store ? token : null;
+    } catch (_) { return null; }
   };
-  document.querySelectorAll("a[href]").forEach(carryCampaign);
-  document.addEventListener("click", function (event) {
-    carryCampaign(event.target?.closest?.("a[href]"));
-  });
-  const appLinks = document.querySelectorAll('a[href*="apps.apple.com/"]');
-  appLinks.forEach(function (link) {
-    try {
-      const url = new URL(link.href);
-      if (url.hostname !== "apps.apple.com" || !url.pathname.includes("id6792771975")) return;
-      if (!url.searchParams.has("pt")) url.searchParams.set("pt", "129195755");
-      if (!url.searchParams.has("ct")) url.searchParams.set("ct", source || "owned_website");
-      if (!url.searchParams.has("mt")) url.searchParams.set("mt", "8");
-      link.href = url.href;
-    } catch (_) {}
-  });
+  document.querySelectorAll("a[href]").forEach(decorate);
   let referrer = null;
   try { referrer = document.referrer ? new URL(document.referrer).hostname : null; } catch (_) {}
   const send = function (event, campaign) {
@@ -56,16 +70,15 @@
       }).catch(function () {});
     } catch (_) {}
   };
-  appLinks.forEach(function (link) {
-    try {
-      const url = new URL(link.href);
-      if (url.hostname !== "apps.apple.com" || !url.pathname.includes("id6792771975")) return;
-      link.addEventListener("click", function () {
-        const token = url.searchParams.get("ct");
-        send("app_store_click", campaigns.has(token) ? token : "owned_website");
-      });
-    } catch (_) {}
-  });
+  // Resolve the actual destination at activation, including dynamically added
+  // links. Capture updates the URL before navigation; one event per activation.
+  const activate = function (event) {
+    if (event.type === "auxclick" && event.button !== 1) return;
+    const token = decorate(event.target?.closest?.("a[href]"));
+    if (token) send("app_store_click", token);
+  };
+  document.addEventListener("click", activate, true);
+  document.addEventListener("auxclick", activate, true);
   const pageView = function () { send("page_view", source); };
   if (document.prerendering) document.addEventListener("prerenderingchange", pageView, { once: true });
   else pageView();
