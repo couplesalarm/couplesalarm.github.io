@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-12T23:38:00.834Z",
+  "generatedAt": "2026-10-13T21:51:30.674Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-12T23:37:27.448Z",
+    "updatedAt": "2026-10-13T21:50:55.073Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-11",
-    "requestedThroughDate": "2026-10-11",
+    "requestedThroughDate": "2026-10-12",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -49,7 +49,8 @@
       "2026-10-04",
       "2026-10-05",
       "2026-10-08",
-      "2026-10-09"
+      "2026-10-09",
+      "2026-10-12"
     ],
     "daily": [
       {
@@ -417,6 +418,12 @@
         "firstTimeDownloads": 1,
         "netPaidUnlocks": 0,
         "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-12",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 19,
@@ -447,16 +454,16 @@
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-12T23:37:59.316Z",
+        "lastAttemptAt": "2026-10-13T21:51:29.306Z",
         "status": "error"
       },
       {
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-12T23:37:59.316Z",
+        "updatedAt": "2026-10-13T21:51:29.306Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-12T23:37:59.316Z",
+        "lastAttemptAt": "2026-10-13T21:51:29.306Z",
         "status": "ok"
       }
     ]
@@ -464,7 +471,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-12T23:37:59.155Z",
+    "generatedAt": "2026-10-13T21:51:29.189Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -485,11 +492,19 @@
       },
       {
         "date": "2026-10-12",
-        "partial": true,
-        "visitors": 43,
+        "partial": false,
+        "visitors": 45,
         "visitorsWhoClicked": 1,
-        "pageViews": 83,
+        "pageViews": 86,
         "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-13",
+        "partial": true,
+        "visitors": 46,
+        "visitorsWhoClicked": 0,
+        "pageViews": 54,
+        "appStoreClicks": 0
       }
     ],
     "pages": [
@@ -562,7 +577,7 @@
       {
         "date": "2026-10-12",
         "label": "/",
-        "pageViews": 70,
+        "pageViews": 73,
         "appStoreClicks": 1
       },
       {
@@ -586,6 +601,36 @@
       {
         "date": "2026-10-12",
         "label": "/support/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/",
+        "pageViews": 47,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/compatibility/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/different-wake-times/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/download/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/privacy/",
         "pageViews": 2,
         "appStoreClicks": 0
       }
@@ -684,7 +729,7 @@
       {
         "date": "2026-10-12",
         "label": "paid_ig_snooze_white_v15",
-        "pageViews": 10,
+        "pageViews": 13,
         "appStoreClicks": 0
       },
       {
@@ -703,6 +748,48 @@
         "date": "2026-10-12",
         "label": "unattributed",
         "pageViews": 57,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_facebook_iphone",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_ig_snooze_asian_v15",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_ig_snooze_black_v15",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 19,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 12,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "paid_tiktok_iphone",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "unattributed",
+        "pageViews": 19,
         "appStoreClicks": 0
       }
     ],
@@ -770,7 +857,17 @@
       {
         "date": "2026-10-12",
         "label": "Instagram",
-        "pageViews": 23
+        "pageViews": 26
+      },
+      {
+        "date": "2026-10-13",
+        "label": "Direct / unknown",
+        "pageViews": 21
+      },
+      {
+        "date": "2026-10-13",
+        "label": "Instagram",
+        "pageViews": 33
       }
     ],
     "excluded": [
@@ -821,6 +918,12 @@
         "label": "tracking_qa",
         "pageViews": 10,
         "appStoreClicks": 4
+      },
+      {
+        "date": "2026-10-13",
+        "label": "tracking_qa",
+        "pageViews": 4,
+        "appStoreClicks": 1
       }
     ]
   },
@@ -846,7 +949,7 @@
     "source": {
       "url": "https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187",
       "method": "Authenticated browser report",
-      "selectedPeriod": "October 6\u201312, 2026 (UTC)",
+      "selectedPeriod": "October 6–12, 2026 (UTC)",
       "view": "Campaign report with new-download and redownload split",
       "reportingDelay": "Latest three hours may not be included",
       "checkedFrom": "2026-10-13T12:45:00Z",
