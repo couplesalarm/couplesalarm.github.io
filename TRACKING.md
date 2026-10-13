@@ -294,7 +294,9 @@ are never trusted. Specific incoming labels take priority over a prior label;
 `tracking_qa` on either page wins. Specific destination labels remain explicit,
 while default/invalid labels yield to the incoming source. Outbound destination
 and event label are resolved together at activation, including new/dynamic links.
-No form page is newly instrumented. Listening answers and arbitrary incoming query
+The shared `assets/campaign-links.js` helper also runs on the inquiry and Android
+beta pages to carry links even when a browser omits its referrer. It makes no
+requests and never reads form fields. The analytics recorder is not added there. Listening answers and arbitrary incoming query
 values are never copied, stored or transmitted.
 
 There are no cookies, local/session storage, new identity fields or new services.

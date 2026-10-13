@@ -7,6 +7,7 @@ const analytics = await readFile(
   new URL("../assets/analytics.js", import.meta.url),
   "utf8",
 );
+const campaignLinks = await readFile(new URL("../assets/campaign-links.js", import.meta.url), "utf8");
 const recorder = await readFile(
   new URL("../supabase/functions/record-page-view/index.ts", import.meta.url),
   "utf8",
@@ -37,6 +38,7 @@ const untaggedPages = [
 
 // Runs assets/analytics.js against a stub browser and reports what it sent.
 const run = ({
+  record = true,
   hostname = "couplesalarm.com",
   pathname = "/compatibility/",
   search = "?utm=x",
@@ -68,7 +70,8 @@ const run = ({
   sandbox.window = sandbox;
   sandbox.window.location = { hostname, pathname, search };
   vm.createContext(sandbox);
-  vm.runInContext(analytics, sandbox);
+  vm.runInContext(campaignLinks, sandbox);
+  if (record) vm.runInContext(analytics, sandbox);
   return {
     sent,
     links,
@@ -340,7 +343,7 @@ test('same-site public referrer recovers tags without browser storage or externa
   for (const referrer of ['https://facebook.com/?ct=paid_facebook_iphone', 'https://couplesalarm.com/admin/?ct=paid_facebook_iphone', 'http://couplesalarm.com/?ct=paid_facebook_iphone']) {
     assert.equal(run({ search: '', referrer }).sent[0].body.campaign, null);
   }
-  assert.doesNotMatch(analytics, /sessionStorage|localStorage|document\.cookie/);
+  assert.doesNotMatch(analytics + campaignLinks, /sessionStorage|localStorage|document\.cookie/);
 });
 
 test('QA cannot be overridden by a pretagged destination or a subsequent paid tag', () => {
@@ -360,4 +363,19 @@ test('store click reads the current URL, handles dynamic links and retains speci
   assert.equal(page.sent[2].body.campaign, 'paid_youtube_iphone');
   assert.equal(page.clickInternal('https://apps.apple.com/app/id67927719750'), 'https://apps.apple.com/app/id67927719750');
   assert.equal(page.sent.length, 3);
+});
+
+
+test('uninstrumented public pages carry links without requests or form access', async () => {
+  assert.doesNotMatch(campaignLinks, /\bfetch\s*\(|sendBeacon|XMLHttpRequest|querySelectorAll\(["'](?:input|form|textarea)|FormData/);
+  for (const page of ['../work-with-us/index.html', '../beta/android/index.html']) {
+    const html = await readFile(new URL(page, import.meta.url), 'utf8');
+    assert.match(html, /campaign-links\.js\?v=/);
+    assert.doesNotMatch(html, /analytics\.js/);
+  }
+  const form = run({ record: false, pathname: '/work-with-us/', search: '?ct=tracking_qa' });
+  assert.equal(form.sent.length, 0);
+  assert.equal(new URL(form.clickInternal('../compatibility/')).search, '?ct=tracking_qa');
+  form.clickStore();
+  assert.equal(form.sent.length, 0);
 });
