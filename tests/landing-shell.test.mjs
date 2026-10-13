@@ -20,17 +20,21 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
 
-test("keeps the selected product copy with direct app download actions", () => {
-  assert.match(html, /<meta name="description" content="A personalized iPhone alarm utility for couples who hear tones differently\./);
+test("keeps descriptive product copy with direct app download actions", () => {
+  assert.match(html, /<title>Couples Alarm — iPhone Alarms for Different Wake-Up Times<\/title>/);
+  assert.match(html, /Test tones together to see whether one partner can hear a tone the other can’t/);
+  assert.match(html, /One calendar month free after setup, then a one-time purchase\. No subscription\./);
+  assert.equal([...html.matchAll(/href="different-wake-times\/"/g)].length, 1);
+  assert.match(html, /<meta name="description" content="An iPhone alarm for couples with different wake-up times\./);
   assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
-  assert.match(html, /An alarm clock designed for your wake time and your partner’s sleep\./);
+  assert.match(html, /An iPhone alarm for couples with different wake-up times\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
   assert.match(html, /<a href="download\/">Details &amp; pricing<\/a>/);
   assert.match(html, /<a href="download\/">Details &amp; pricing<\/a><\/p>\s*<a class="sound-test-link" href="compatibility\/">\s*<img src="assets\/soundwave\.svg" alt="" width="24" height="24" aria-hidden="true">\s*<span>Try the free sound test<\/span>\s*<\/a>/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
-  assert.match(html, /aria-label="How Couples Alarm works"/);
+  assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
 });
 
 test("permits accessible reflow and retains user-initiated video behavior", () => {
