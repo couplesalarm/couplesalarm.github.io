@@ -26,7 +26,7 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /<meta name="description" content="An iPhone alarm for couples with different wake-up times\./);
   assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
-  assert.match(html, /An iPhone alarm for couples with different wake-up times\./);
+  assert.match(html, /<p class="hero-lede">For couples with different wake-up times\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
   assert.doesNotMatch(html, /class="download-details"|Try the free sound test/);
