@@ -135,7 +135,7 @@ body.dawn-page {
 .dawn-page .beta-video-layout { gap: 2.5rem; padding-block: 1rem; }
 .beta-guide-page .support-topics { background: rgb(12 22 40 / 94%); }
 
-/* Keep Android's recently simplified two-step enrollment compact. */
+/* Keep Android beta enrollment compact and scannable on a phone. */
 .android-beta-guide-page > :is(header, main, footer) { width: min(30rem, calc(100% - 2.5rem)); }
 .android-beta-guide-page > header { padding: 1.8rem 0; }
 .android-beta-guide-page .beta-enrollment { padding: 1.6rem; border: 1px solid var(--border); border-radius: 1.35rem; background: rgb(12 22 40 / 94%); box-shadow: 0 1rem 3rem rgb(0 0 0 / 20%); }
@@ -143,7 +143,11 @@ body.dawn-page {
 .android-beta-guide-page .enrollment-intro { margin-bottom: 1.3rem; font-size: 0.95rem; }
 .android-beta-guide-page .enrollment-actions { gap: 1.2rem; }
 .android-beta-guide-page .enrollment-actions p { font-size: 0.85rem; }
-.android-beta-guide-page .enrollment-note { margin-top: 1.3rem; font-size: 0.8rem; }
+.android-beta-guide-page .enrollment-actions .step-heading { font-size: 1rem; }
+.android-beta-guide-page .enrollment-why,
+.android-beta-guide-page .enrollment-help { margin-top: 1.2rem; }
+.android-beta-guide-page .enrollment-why h2,
+.android-beta-guide-page .enrollment-help h2 { font-size: 1.05rem; }
 .android-beta-guide-page > footer { padding-block: 0.8rem 1.5rem; }
 .android-beta-guide-page footer nav { justify-content: center; }
 
