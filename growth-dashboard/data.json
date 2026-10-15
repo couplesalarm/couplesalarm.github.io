@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-14T20:42:27.237Z",
+  "generatedAt": "2026-10-15T20:21:24.796Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-14T20:41:51.699Z",
+    "updatedAt": "2026-10-15T20:20:46.628Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-13",
-    "requestedThroughDate": "2026-10-13",
+    "requestedThroughDate": "2026-10-14",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -50,7 +50,8 @@
       "2026-10-05",
       "2026-10-08",
       "2026-10-09",
-      "2026-10-12"
+      "2026-10-12",
+      "2026-10-14"
     ],
     "daily": [
       {
@@ -430,6 +431,12 @@
         "firstTimeDownloads": 2,
         "netPaidUnlocks": 0,
         "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-14",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 21,
@@ -460,16 +467,16 @@
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-14T20:42:26.024Z",
+        "lastAttemptAt": "2026-10-15T20:21:21.960Z",
         "status": "error"
       },
       {
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-14T20:42:26.024Z",
+        "updatedAt": "2026-10-15T20:21:21.960Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-14T20:42:26.024Z",
+        "lastAttemptAt": "2026-10-15T20:21:21.960Z",
         "status": "ok"
       }
     ]
@@ -477,7 +484,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-14T20:42:25.845Z",
+    "generatedAt": "2026-10-15T20:21:21.791Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -514,11 +521,19 @@
       },
       {
         "date": "2026-10-14",
-        "partial": true,
-        "visitors": 43,
+        "partial": false,
+        "visitors": 50,
         "visitorsWhoClicked": 1,
-        "pageViews": 62,
+        "pageViews": 69,
         "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-15",
+        "partial": true,
+        "visitors": 31,
+        "visitorsWhoClicked": 0,
+        "pageViews": 38,
+        "appStoreClicks": 0
       }
     ],
     "pages": [
@@ -657,7 +672,7 @@
       {
         "date": "2026-10-14",
         "label": "/",
-        "pageViews": 57,
+        "pageViews": 64,
         "appStoreClicks": 1
       },
       {
@@ -675,6 +690,30 @@
       {
         "date": "2026-10-14",
         "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/",
+        "pageViews": 34,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/compatibility/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/support/",
         "pageViews": 1,
         "appStoreClicks": 0
       }
@@ -851,19 +890,37 @@
       {
         "date": "2026-10-14",
         "label": "paid_ig_snooze_white_v15",
-        "pageViews": 29,
+        "pageViews": 32,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-14",
         "label": "paid_instagram_snooze_v14",
-        "pageViews": 5,
+        "pageViews": 8,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-14",
         "label": "unattributed",
-        "pageViews": 27,
+        "pageViews": 28,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 16,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 12,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "unattributed",
+        "pageViews": 10,
         "appStoreClicks": 0
       }
     ],
@@ -946,7 +1003,7 @@
       {
         "date": "2026-10-14",
         "label": "Direct / unknown",
-        "pageViews": 24
+        "pageViews": 25
       },
       {
         "date": "2026-10-14",
@@ -956,7 +1013,17 @@
       {
         "date": "2026-10-14",
         "label": "Instagram",
-        "pageViews": 34
+        "pageViews": 40
+      },
+      {
+        "date": "2026-10-15",
+        "label": "Direct / unknown",
+        "pageViews": 10
+      },
+      {
+        "date": "2026-10-15",
+        "label": "Instagram",
+        "pageViews": 28
       }
     ],
     "excluded": [
@@ -1012,6 +1079,12 @@
         "date": "2026-10-13",
         "label": "tracking_qa",
         "pageViews": 4,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-15",
+        "label": "tracking_qa",
+        "pageViews": 1,
         "appStoreClicks": 1
       }
     ]
