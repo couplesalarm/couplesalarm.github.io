@@ -21,6 +21,19 @@ export const snoozeCreatives = [
 export function startDate(end, days) {
   return new Date(Date.parse(`${end}T00:00:00Z`) - (days - 1) * 86400000).toISOString().slice(0, 10);
 }
+export const deviceLabels = { apple_mobile: "Apple mobile hint", android: "Android hint", desktop: "Desktop hint", unknown: "Unknown" };
+export function diagnosticRange(website, start, end) {
+  const data = website.diagnostics;
+  if (!data || data.version !== 1 || !Array.isArray(data.rows)) return null;
+  const groups = new Map();
+  for (const row of data.rows.filter(row => row.date >= start && row.date <= end)) {
+    const key = row.campaign + ":" + row.deviceClass;
+    const total = groups.get(key) || { campaign: row.campaign, deviceClass: row.deviceClass, pageViews: 0, appStoreVisible: 0, foreground10s: 0 };
+    for (const field of ["pageViews", "appStoreVisible", "foreground10s"]) total[field] += row[field];
+    groups.set(key, total);
+  }
+  return { firstRecordedAt: data.firstRecordedAt, rows: [...groups.values()].sort((a,b) => b.pageViews-a.pageViews || a.campaign.localeCompare(b.campaign) || a.deviceClass.localeCompare(b.deviceClass)) };
+}
 export function websiteRange(website, days = 7) {
   const end = website.generatedAt.slice(0, 10);
   const start = startDate(end, days);
@@ -36,7 +49,7 @@ export function websiteRange(website, days = 7) {
     }
     return [...groups.values()].sort((a, b) => b.pageViews - a.pageViews || b.appStoreClicks - a.appStoreClicks || a.label.localeCompare(b.label));
   };
-  return { start, end, daily, pages: aggregate(website.pages), campaigns: aggregate(website.campaigns),
+  return { start, end, daily, diagnostics: diagnosticRange(website, start, end), pages: aggregate(website.pages), campaigns: aggregate(website.campaigns),
     excluded: Array.isArray(website.excluded) ? aggregate(website.excluded) : null,
     referrers: aggregate(website.referrers),
     pageViews: daily.reduce((sum, day) => sum + day.pageViews, 0),
@@ -137,6 +150,14 @@ export async function fetchWebsiteMetrics(fetchImpl = fetch) {
   if (data.daily.length > 90 || !data.daily.every(row => validDay(row) && [row.visitors, row.pageViews, row.appStoreClicks].every(count))) throw new Error("Invalid daily counts");
   for (const key of ["pages", "campaigns", "referrers", ...(data.excluded === undefined ? [] : ["excluded"])]) {
     if (!Array.isArray(data[key]) || !data[key].every(row => validDay(row) && typeof row.label === "string" && count(row.pageViews) && (key === "referrers" || count(row.appStoreClicks)))) throw new Error("Invalid grouped counts");
+  }
+  if (data.diagnostics !== undefined) {
+    const d = data.diagnostics;
+    if (!d || d.version !== 1 || !Array.isArray(d.rows) || d.rows.length > 3960 ||
+        (d.firstRecordedAt !== null && !Number.isFinite(Date.parse(d.firstRecordedAt))) ||
+        !d.rows.every(row => validDay(row) && Object.hasOwn(deviceLabels, row.deviceClass) &&
+          Object.hasOwn(campaignLabels, row.campaign) && row.campaign !== "tracking_qa" &&
+          [row.pageViews, row.appStoreVisible, row.foreground10s].every(count))) throw Error("Invalid diagnostics");
   }
   return data;
 }
