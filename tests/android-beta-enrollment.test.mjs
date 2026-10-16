@@ -51,8 +51,10 @@ test("explains group join, Play opt-in, and install in three scannable steps", (
   assert.deepEqual(stepButtons, [
     "1. Join the tester group",
     "2. Become a tester",
+    "3. Install from Google Play",
   ]);
-  assert.match(beta, /class="step-heading">3\. Install from Play<\/p>/);
+  assert.equal(applicationLink(beta, "3. Install from Google Play"), "https://play.google.com/store/apps/details?id=com.couplesalarm.android");
+  assert.match(beta, /Works after steps 1 and 2\. Can take a few minutes to appear\./);
   assert.match(beta, /Choose <strong>Join group<\/strong>, then return here/);
   assert.match(beta, /Joining the group does <strong>not<\/strong> opt you in on Google Play/);
   assert.match(beta, /choose <strong>Become a tester<\/strong>, then continue/);
@@ -73,7 +75,7 @@ test("offers self-service access to the published Google Play beta without an em
   assert.equal(applicationLink(beta, "1. Join the tester group"), "https://groups.google.com/g/couples-alarm-android-beta/about");
   assert.equal(applicationLink(beta, "2. Become a tester"), "https://play.google.com/apps/testing/com.couplesalarm.android");
   const accessLinks = [...beta.matchAll(/<a\b[^>]*href="https:\/\/(?:groups|play)\.google\.com[^>]*>/g)];
-  assert.equal(accessLinks.length, 2);
+  assert.equal(accessLinks.length, 3);
   for (const [link] of accessLinks) {
     assert.match(link, /target="_blank" rel="noopener noreferrer"/);
   }
