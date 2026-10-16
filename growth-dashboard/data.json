@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T14:26:41.781Z",
+  "generatedAt": "2026-10-16T19:58:17.272Z",
   "apple": {
     "mode": "automatic",
-    "status": "error",
-    "updatedAt": "2026-10-15T20:20:46.628Z",
+    "status": "partial",
+    "updatedAt": "2026-10-16T19:57:38.923Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-13",
-    "requestedThroughDate": "2026-10-14",
+    "requestedThroughDate": "2026-10-15",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -51,7 +51,8 @@
       "2026-10-08",
       "2026-10-09",
       "2026-10-12",
-      "2026-10-14"
+      "2026-10-14",
+      "2026-10-15"
     ],
     "daily": [
       {
@@ -437,13 +438,18 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-15",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 21,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 3,
-    "lastAttemptAt": "2026-10-16T14:21:38.866Z"
+    "usRatingCount": 3
   },
   "social": {
     "mode": "mixed",
@@ -468,16 +474,16 @@
         "mode": "automatic",
         "updatedAt": "2026-08-24T17:47:45.753Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-16T14:26:40.103Z",
+        "lastAttemptAt": "2026-10-16T19:58:13.545Z",
         "status": "error"
       },
       {
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-16T14:26:40.103Z",
+        "updatedAt": "2026-10-16T19:58:13.545Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-16T14:26:40.103Z",
+        "lastAttemptAt": "2026-10-16T19:58:13.545Z",
         "status": "ok"
       }
     ]
@@ -485,7 +491,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-16T14:26:40.033Z",
+    "generatedAt": "2026-10-16T19:58:13.490Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -539,16 +545,49 @@
       {
         "date": "2026-10-16",
         "partial": true,
-        "visitors": 18,
+        "visitors": 27,
         "visitorsWhoClicked": 1,
-        "pageViews": 21,
+        "pageViews": 93,
         "appStoreClicks": 1
       }
     ],
     "diagnostics": {
       "version": 1,
       "firstRecordedAt": "2026-10-16T14:19:17.582Z",
-      "rows": []
+      "rows": [
+        {
+          "date": "2026-10-16",
+          "campaign": "paid_ig_snooze_black_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "paid_ig_snooze_white_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 3,
+          "appStoreVisible": 3,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 7,
+          "appStoreVisible": 3,
+          "foreground10s": 2
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 61,
+          "appStoreVisible": 35,
+          "foreground10s": 0
+        }
+      ]
     },
     "pages": [
       {
@@ -734,19 +773,61 @@
       {
         "date": "2026-10-16",
         "label": "/",
-        "pageViews": 19,
+        "pageViews": 36,
         "appStoreClicks": 1
       },
       {
         "date": "2026-10-16",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
         "label": "/best-alarm-apps-for-couples/",
-        "pageViews": 1,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/compatibility/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/different-wake-times/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/download/",
+        "pageViews": 9,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-16",
         "label": "/privacy/",
-        "pageViews": 1,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/support/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Other page",
+        "pageViews": 8,
         "appStoreClicks": 0
       }
     ],
@@ -964,13 +1045,13 @@
       {
         "date": "2026-10-16",
         "label": "paid_ig_snooze_black_v15",
-        "pageViews": 1,
+        "pageViews": 2,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-16",
         "label": "paid_ig_snooze_white_v15",
-        "pageViews": 9,
+        "pageViews": 12,
         "appStoreClicks": 0
       },
       {
@@ -982,7 +1063,7 @@
       {
         "date": "2026-10-16",
         "label": "unattributed",
-        "pageViews": 8,
+        "pageViews": 76,
         "appStoreClicks": 0
       }
     ],
@@ -1090,12 +1171,17 @@
       {
         "date": "2026-10-16",
         "label": "Direct / unknown",
-        "pageViews": 7
+        "pageViews": 74
       },
       {
         "date": "2026-10-16",
         "label": "Instagram",
-        "pageViews": 14
+        "pageViews": 18
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Other referring websites",
+        "pageViews": 1
       }
     ],
     "excluded": [
@@ -1162,8 +1248,8 @@
       {
         "date": "2026-10-16",
         "label": "tracking_qa",
-        "pageViews": 8,
-        "appStoreClicks": 4
+        "pageViews": 12,
+        "appStoreClicks": 6
       }
     ]
   },
