@@ -15,7 +15,7 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="product-preview"/);
   assert.match(html, /class="app-showcase"/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
-  assert.match(html, /assets\/couples-alarm-preview-poster\.jpg\?v=20260730-social-launch/);
+  assert.match(html, /assets\/couples-alarm-preview-poster-576\.webp\?v=20261016/);
   assert.match(html, /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/);
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
