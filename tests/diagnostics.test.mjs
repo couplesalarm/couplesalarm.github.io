@@ -63,6 +63,11 @@ test('initial hidden tab, dynamic CTA and hidden observer callbacks wait until f
   assert.equal(b.types().at(-1),'app_store_visible');
   const c=browser();c.visibility('hidden');c.intersect();c.advance(15000);assert.deepEqual(c.types(),['page_view']);
 });
+test('queued callbacks from a disconnected observer cannot count a restored page',()=>{
+  const b=browser();const old=b.observers[0];b.visibility('hidden');b.visibility('visible');
+  old.callback([{target:b.links[0],intersectionRatio:1,isIntersecting:true}]);
+  assert.deepEqual(b.types(),['page_view']);b.intersect();assert.equal(b.types().at(-1),'app_store_visible');
+});
 test('foreground needs 10 accumulated seconds, pauses in background, deduplicates after BFCache',()=>{
   const b=browser();b.advance(5000);b.visibility('hidden');b.advance(60000);b.visibility('visible');b.advance(4750);
   assert.deepEqual(b.types(),['page_view']);b.advance(250);assert.deepEqual(b.types(),['page_view','foreground_10s']);

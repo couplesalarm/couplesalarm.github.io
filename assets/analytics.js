@@ -48,6 +48,7 @@
     let exposed = false, engaged = false, suspended = false;
     let elapsed = 0, lastTick = null, timer = null, observer = null, mutations = null;
     const candidates = new Map();
+    let observerGeneration = 0;
     const foreground = () => !suspended && !document.prerendering && document.visibilityState === "visible";
     const storeLink = link => {
       try {
@@ -72,6 +73,7 @@
       return area > 0 && visible / area >= 0.5;
     };
     const stopExposure = () => {
+      observerGeneration++;
       observer?.disconnect(); mutations?.disconnect();
       observer = mutations = null; candidates.clear();
     };
@@ -95,7 +97,9 @@
     };
     const observe = () => {
       if (exposed || !foreground()) return;
+      const generation = ++observerGeneration;
       observer = new IntersectionObserver(entries => {
+        if (generation !== observerGeneration) return;
         for (const entry of entries) {
           if (candidates.has(entry.target)) candidates.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
         }

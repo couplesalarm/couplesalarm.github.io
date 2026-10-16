@@ -327,7 +327,9 @@ These are dated observations, not campaign edits or a new automatic connection.
 
 Approved scope: coarse device hints, App Store link exposure and ten seconds of
 foreground page activity. No homepage copy/design, ads, budgets or Android
-onboarding changes are part of this release. `diagnostics_version = 1` marks
+onboarding changes are part of this release. PR141 merged during implementation;
+its Android enrollment changes and newly instrumented beta route are preserved.
+The shared script cache key also advances on that route. `diagnostics_version = 1` marks
 supported loads. Older rows and unsupported browsers remain unmeasured; there is
 no historical backfill or deletion. All existing campaign handoffs, click counts,
 page-view counts and `ct=tracking_qa` exclusions remain in force.
