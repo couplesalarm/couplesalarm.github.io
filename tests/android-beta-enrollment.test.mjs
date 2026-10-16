@@ -36,7 +36,7 @@ test("makes beta access available without a duplicate website form", () => {
   assert.equal(applicationLink(download, "Join the Android beta"), "../beta/android/#application");
   assert.match(beta, /id="application"/); // Existing shared links still reach enrollment.
   assert.doesNotMatch(`${download}\n${beta}`, /docs\.google\.com|<iframe/i);
-  assert.doesNotMatch(beta.replace(/<script defer src="\.\.\/\.\.\/assets\/campaign-links\.js\?v=[\w-]+"><\/script>/, ""), /<form\b|<input\b|<textarea\b|<script\b|\bhidden\b/);
+  assert.doesNotMatch(beta.replace(/<script defer src="\.\.\/\.\.\/assets\/(?:campaign-links|analytics)\.js\?v=[\w-]+"><\/script>/g, ""), /<form\b|<input\b|<textarea\b|<script\b|\bhidden\b/);
   assert.match(beta, /href="\.\.\/\.\.\/privacy\/#android-beta-group"/);
   assert.match(download, /href="\.\.\/beta\/android\/"/);
   assert.match(support, /href="\.\.\/beta\/android\/#application"/);

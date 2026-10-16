@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Join the Couples Alarm Android beta: join the tester group, become a tester on Google Play, then install the app.">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="robots" content="noindex">
   <meta name="theme-color" content="#080f20">
   <link rel="canonical" href="https://couplesalarm.com/beta/android/">
   <link rel="icon" href="../../assets/app-icon.png" type="image/png">
@@ -13,12 +13,13 @@
   <link rel="stylesheet" href="enrollment.css?v=20261015-3step-1">
   <link rel="stylesheet" href="../../assets/dawn-pages.css?v=20261015-3step-1">
   <script defer src="../../assets/campaign-links.js?v=20261015-guides-1"></script>
+  <script defer src="../../assets/analytics.js?v=20261013-source-preservation-2"></script>
 </head>
 <body class="dawn-page site-page android-beta-guide-page">
   <a class="skip-link" href="#content">Skip to Android beta signup</a>
   <header>
     <a class="page-brand" href="../../">
-      <img src="../../assets/app-icon.png" alt="" width="32" height="32">
+      <img src="../../assets/app-icon-64.png" alt="" width="32" height="32">
       <span>Couples Alarm</span>
     </a>
   </header>
@@ -29,17 +30,19 @@
       <h1 id="steps-title">Join the Android beta</h1>
       <p class="enrollment-intro">Use the <strong>same Google account</strong> for the tester group and the Play Store on your phone. Finish steps 1 and 2 before the app appears in Play.</p>
 
-      <ol class="enrollment-actions">
+      <span id="new-tab-note" class="sr-only">Opens in a new tab</span>
+        <ol class="enrollment-actions">
         <li>
-          <a class="button-link primary-link" href="https://groups.google.com/g/couples-alarm-android-beta/about" target="_blank" rel="noopener noreferrer">1. Join the tester group</a>
+          <a class="button-link primary-link" href="https://groups.google.com/g/couples-alarm-android-beta/about" target="_blank" rel="noopener noreferrer" aria-describedby="new-tab-note">1. Join the tester group</a>
           <p>Choose <strong>Join group</strong>, then return here. Joining the group does <strong>not</strong> opt you in on Google Play.</p>
         </li>
         <li>
-          <a class="button-link primary-link" href="https://play.google.com/apps/testing/com.couplesalarm.android" target="_blank" rel="noopener noreferrer">2. Become a tester</a>
+          <a class="button-link primary-link" href="https://play.google.com/apps/testing/com.couplesalarm.android" target="_blank" rel="noopener noreferrer" aria-describedby="new-tab-note">2. Become a tester</a>
           <p>Open the Play testing page, choose <strong>Become a tester</strong>, then continue.</p>
         </li>
         <li>
           <p class="step-heading">3. Install from Play</p>
+          <p class="step-todo"><strong>[TODO for Brian: add a “3. Install from Play” button. The public listing https://play.google.com/store/apps/details?id=com.couplesalarm.android returned 404 on 2026-10-16 because the app is still a closed beta.]</strong></p>
           <p>After you become a tester, open Couples Alarm in the Play Store and install it. Keep it installed and stay opted in for 14 days so the app can launch publicly.</p>
         </li>
       </ol>
