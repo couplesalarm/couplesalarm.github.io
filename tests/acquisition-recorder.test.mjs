@@ -45,6 +45,23 @@ test("invalid events and private paths are rejected; arbitrary campaign data is 
   assert.equal(stored.campaign, null);
 });
 
+for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/"]) {
+  test(`guide ${path} records views and store clicks without query data`, async () => {
+    for (const event_type of ["page_view", "app_store_click"]) {
+      let stored;
+      const response = await handleRequest(request({ path: path + "index.html?email=private@example.com", event_type, campaign: "tracking_qa" }), env, async (_, options) => {
+        stored = JSON.parse(options.body);
+        return { ok: true };
+      });
+      assert.equal(response.status, 204);
+      assert.equal(stored.path, path);
+      assert.equal(stored.event_type, event_type);
+      assert.equal(stored.campaign, "tracking_qa");
+      assert.doesNotMatch(JSON.stringify(stored), /private@example/);
+    }
+  });
+}
+
 for (const campaign of ["paid_tiktok_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15"]) test(`${campaign} is retained for both supported event types`, async () => {
   for (const event_type of ["page_view", "app_store_click"]) {
     let stored;
