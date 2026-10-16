@@ -29,6 +29,8 @@ const taggedPages = [
   ["../privacy/index.html", "../assets/analytics.js"],
   ["../beta/android/index.html", "../../assets/analytics.js"],
   ["../wake-up-without-waking-partner/index.html", "../assets/analytics.js"],
+  ["../opposite-shifts-couples-alarm/index.html", "../assets/analytics.js"],
+  ["../iphone-vibrate-only-alarm/index.html", "../assets/analytics.js"],
   ["../best-alarm-apps-for-couples/index.html", "../assets/analytics.js"],
   ["../alarm-tone-only-one-person-hears/index.html", "../assets/analytics.js"],
 ];
@@ -218,7 +220,7 @@ test("internal tagging respects explicit sources, privacy boundaries and Do Not 
 });
 
 test("new guides preserve attribution through entry, cross-links and App Store clicks", () => {
-  for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/"]) {
+  for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/", "/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/"]) {
     for (const campaign of ["paid_facebook_iphone", "tracking_qa"]) {
       const entry = run({ pathname: "/download/", search: "?ct=" + campaign });
       const next = new URL(entry.clickInternal(path));
