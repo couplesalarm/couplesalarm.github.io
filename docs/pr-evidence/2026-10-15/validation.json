@@ -197,5 +197,10 @@
     "Deploy record-page-view",
     "Merge PR 140 to publish GitHub Pages",
     "Verify live viewer routes and QA-tagged stored events"
-  ]
+  ],
+  "backendDeployment": {
+    "record-page-view": 9,
+    "get-growth-metrics": 9,
+    "migration": "20261016022054_add_seo_guide_reporting"
+  }
 }
