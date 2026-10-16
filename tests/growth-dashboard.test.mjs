@@ -79,7 +79,7 @@ test("reads public social view counts", () => {
   assert.deepEqual(snapshot.social.platforms.map(({ name, mode }) => [name, mode]), [
     ["Facebook", "manual"],
     ["Instagram", "manual"],
-    ["X", "automatic"],
+    ["X", "manual"],
     ["YouTube", "automatic"],
   ]);
 });

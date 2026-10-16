@@ -8,10 +8,10 @@ import { fetchWebsiteMetrics } from "../growth-dashboard/metrics.js";
 const snapshotPath = new URL("../growth-dashboard/data.json", import.meta.url);
 const appUnitTypes = new Set(["1", "1F", "1T", "F1"]);
 const socialSources = new Map([
-  ["X", { url: "https://x.com/couplesalarm/status/2088261204279963649", parse: parseXViews }],
   ["YouTube", { url: "https://www.youtube.com/shorts/cIhu0YqJFW4", parse: parseYouTubeViews }],
 ]);
 
+// X views are entered by hand in growth-dashboard/data.json (X no longer exposes them publicly).
 export function parseXViews(html) {
   const match = html.match(/name:"Views",userInteractionCount:(\d+)/);
   if (!match) throw new Error("X view count was not found");
