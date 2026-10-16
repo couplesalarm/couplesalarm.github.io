@@ -40,6 +40,16 @@ export async function diagnosticKey(token, secret, now = new Date()) {
   // No raw token persists; independent tokens cannot join events into a session.
   return visitorHash("diagnostic-event-v1", token, secret, now);
 }
+export function validEventDay(day) {
+  if (typeof day !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(day)) return false;
+  const parsed = new Date(day + "T00:00:00.000Z");
+  return Number.isFinite(parsed.getTime()) && parsed.toISOString().slice(0, 10) === day;
+}
+export async function eventKey(token, eventType, day, secret) {
+  // Anchor the daily HMAC to the immutable event day, not the retry receipt day.
+  // This is an independent one-event key, never a visitor or session identifier.
+  return visitorHash("event-delivery-v1:" + eventType, token.toLowerCase(), secret, new Date(day + "T00:00:00.000Z"));
+}
 export async function visitorHash(ip, userAgent, secret, now = new Date()) {
   const day = now.toISOString().slice(0, 10);
   // Domain-separated HMAC; the server key never leaves the function.
@@ -71,8 +81,12 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
     const diagnostic = ["app_store_visible", "foreground_10s"].includes(eventType);
     if (!path || !["page_view", "app_store_click", "app_store_visible", "foreground_10s"].includes(eventType)) return respond(400);
     const measured = body.diagnostics_version === 1;
-    if (diagnostic && (!measured || typeof body.event_token !== "string" ||
-        !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.event_token))) return respond(400);
+    const tokenValid = typeof body.event_token === "string" &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.event_token);
+    const reliable = body.delivery_version === 1;
+    if (body.delivery_version !== undefined && !reliable) return respond(400);
+    if (reliable && (!tokenValid || !validEventDay(body.event_day))) return respond(400);
+    if (diagnostic && (!measured || !tokenValid)) return respond(400);
     const campaign = campaigns.has(body.campaign) ? body.campaign : null;
     const projectUrl = env("SUPABASE_URL");
     const serviceKey = keys(env("SUPABASE_SECRET_KEYS"))[0] || env("SUPABASE_SERVICE_ROLE_KEY");
@@ -81,14 +95,16 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
     const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "";
     const userAgent = request.headers.get("user-agent") || "";
     const now = new Date();
+    const conflictKey = reliable ? "event_key" : diagnostic ? "diagnostic_key" : null;
     const response = await fetchImpl(projectUrl + "/rest/v1/couples_alarm_page_views" +
-      (diagnostic ? "?on_conflict=diagnostic_key" : ""), {
+      (conflictKey ? "?on_conflict=" + conflictKey : ""), {
       method: "POST",
-      headers: { apikey: serviceKey, "Content-Type": "application/json", Prefer: diagnostic ? "return=minimal,resolution=ignore-duplicates" : "return=minimal" },
+      headers: { apikey: serviceKey, "Content-Type": "application/json", Prefer: conflictKey ? "return=minimal,resolution=ignore-duplicates" : "return=minimal" },
       body: JSON.stringify({ path, referrer_host: referrerHost(body.referrer), event_type: eventType,
         campaign, visitor_hash: await visitorHash(ip, userAgent, salt, now),
         ...(measured ? { diagnostics_version: 1, device_class: deviceClass(userAgent) } : {}),
-        ...(diagnostic ? { diagnostic_key: await diagnosticKey(body.event_token, salt, now) } : {}) }),
+        ...(reliable ? { event_key: await eventKey(body.event_token, eventType, body.event_day, salt) } :
+          diagnostic ? { diagnostic_key: await diagnosticKey(body.event_token, salt, now) } : {}) }),
     });
     return respond(response.ok ? 204 : 503);
   } catch { return respond(503); }

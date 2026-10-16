@@ -365,15 +365,17 @@ page-view/click events but have no diagnostic capability marker. No polyfill,
 third-party tracker, cookie or browser storage is introduced. A document-level
 initialization guard prevents duplicate script setup. Timers and observers stop
 while hidden/page-hidden; exposure observers disconnect permanently after the
-first exposure. No unload handler, unload flush, navigation delay or retry loop
-is used. Requests retain `keepalive`, omitted credentials and failure isolation.
+first exposure. No unload handler, unload flush or navigation delay is used. The delivery
+repair below adds bounded retries. Requests retain `keepalive`, omitted credentials and failure isolation.
 
-Each diagnostic request generates an independent random event token in memory.
+In the original diagnostics protocol, each diagnostic event generates an
+independent random event token in memory.
 The recorder stores only a daily HMAC in `diagnostic_key`; uniqueness plus an
 ignore-duplicate insert makes same-day request replay idempotent. Tokens are not
 shared between the two signals, persisted in a browser, or used to join events.
 They cannot create a cross-day or cross-event visitor ID. A replay on a different
-UTC day has a different key; the client does not retry or resend on restore.
+UTC day has a different key; that original client did not retry or resend on restore. The delivery protocol
+below preserves the creation day across retries, including midnight.
 Existing daily visitor hashing remains unchanged. Diagnostics never count as
 page views, store clicks or estimated visitors, even with no corresponding view.
 The legacy acquisition and monthly summary contracts still include only their
@@ -445,3 +447,81 @@ function sources after the frontend rollback; old reporters explicitly filter
 page views and clicks. Do not reverse the schema by dropping populated columns
 or deleting diagnostics. Record exact deployed versions, commit, UTC times and
 QA receipts in the release evidence.
+
+## Tracking delivery reliability — October 16, 2026
+
+The owner approved bounded, duplicate-safe retries after a recorder 503 was
+observed at 15:56:21.004 UTC. The exact failed payload is unproven. This repair
+makes no claim about which historical event was lost and performs no backfill.
+It changes delivery of the existing events, not collected metrics or site copy.
+
+### Protocol and bounds
+
+- Every new logical event (page view, each actual store-click activation,
+  App Store exposure, foreground threshold) gets an independent secure random
+  `event_token`, `delivery_version: 1`, and its creation-day `event_day` in UTC.
+  The entire JSON payload is frozen before the first attempt and reused byte
+  for byte on retries. Tokens are not shared between events or persisted.
+- The recorder validates the protocol, UUID and calendar day. It derives a
+  domain-separated HMAC from event type, token and that immutable day, and stores
+  only `event_key`. Raw token/day are discarded. The day is solely a hashing
+  input, not a reporting date; accepting valid skewed client dates avoids losing
+  events due to a wrong device clock. Reports continue to use server receipt time.
+- A unique database constraint and PostgREST `resolution=ignore-duplicates` insert
+  provide atomic deduplication, including concurrent requests and a commit whose
+  acknowledgement is lost. The first stored row wins. Midnight does not change a
+  retry's key. Distinct clicks still have distinct tokens and count normally.
+- Maximum **3 attempts total**, with delays of **1 second, then 3 seconds**;
+  maximum **15 seconds** from event creation while the page is active, with a
+  **4-second timeout per request**, shortened by the remaining budget. HTTP 408,
+  425, 429 and 5xx, network rejections and timeouts can retry. Success and other
+  HTTP statuses stop. `Retry-After` can lengthen a wait but never extend the budget.
+  At most 20 delayed retries can be queued per document; overflow stops retrying.
+- Page exit cancels waiting retries and request-abort timers, without aborting
+  an in-flight keepalive request or flushing an event during unload. An old
+  request cannot restart retries after BFCache restore. New events after restore
+  still work. Navigation never awaits analytics. DNT is checked again before
+  retrying. Without secure UUID/cancellation/lifecycle support, a browser retains
+  a single legacy attempt; unsafe retries are never enabled.
+
+The request budget is bounded while JavaScript runs. Browser suspension can
+prevent timers from running; when execution resumes, an expired retry is dropped.
+An in-flight keepalive request may finish after navigation. Delivery is still
+best effort: an exit before recovery, permanent blocking, prolonged outage,
+queue limits or exhaustion can lose an event. There is no persistent queue,
+service worker, cross-page resend, session identifier, replay or new user ID.
+Retries are delivery attempts for one event, not additional visits. Existing
+QA exclusions, DNT, origin/key checks, raw-table privacy and all reports remain.
+No extra personal data, new provider, access grant or consent purpose is added.
+The existing privacy notice's in-memory event-token/daily-hash description remains
+accurate; no product copy changes are part of this repair.
+
+The server continues accepting old page-view/click payloads without retry keys
+and the v1 diagnostic-only `diagnostic_key` protocol. Those old clients are not
+retrofitted with retries. Historical events and old keys remain unchanged.
+
+### Repair release and rollback
+
+Run `node --test tests/*.test.mjs`, the local-only fixture
+`psql -h 127.0.0.1 -p 55439 -d reliability_release_test -f tests/sql/reliability.sql`
+on a fresh isolated database, and
+`EVENT_DELIVERY_PG_TEST=1 node --test tests/reliability-postgres.test.mjs`.
+The integration test calls the real recorder through a PostgreSQL adapter and
+checks six concurrent replays per type after a lost acknowledgement. The browser
+check is `PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node
+tests/browser/reliability.mjs`; it mocks failures without hosted writes.
+
+Release only after tests succeed: apply `add_event_delivery_idempotency`, deploy
+**only the recorder**, verify all four event types and duplicate delivery using
+`tracking_qa`, then merge the frontend/cache-key change. Do not redeploy the prior
+diagnostics migration or reporting function. Verify live script bytes and tagged
+retries after publication; retain receipts. No report-schema or snapshot refresh
+is needed for this delivery-only change.
+
+Rollback the frontend first to stop new retries. Keep the additive schema and
+recorder accepting both protocols; this is the safest rollback. Do not restore
+the old recorder while retry-enabled pages can still be open or cached: that
+recorder ignores the new idempotency protocol for page views/clicks and could
+inflate counts. There is no need to drop columns, remove history or backfill rows.
+Keep the verified current-main recorder source (including later guide routes)
+with the release evidence; never roll back to the morning's earlier allowlist.
