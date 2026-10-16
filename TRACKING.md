@@ -525,3 +525,12 @@ recorder ignores the new idempotency protocol for page views/clicks and could
 inflate counts. There is no need to drop columns, remove history or backfill rows.
 Keep the verified current-main recorder source (including later guide routes)
 with the release evidence; never roll back to the morning's earlier allowlist.
+
+## Count paid campaigns — October 16, 2026
+
+`count_paid_campaigns_only_exclude_tracking_qa` redefines all three reporting
+RPCs so only `campaign = 'tracking_qa'` is filtered out. Events classified with
+`qa_reason = 'operator_cta_check'` (the 15 Oct 11 operator launch checks tagged
+with paid Instagram campaign labels) now count toward totals and their campaign
+lines. The column and rows are unchanged; future smoke checks must use
+`ct=tracking_qa`. Apply the migration, then redeploy `get-growth-metrics`.

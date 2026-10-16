@@ -48,6 +48,7 @@ export function publicMetrics(data) {
     ...(data.diagnostics === undefined ? {} : { diagnostics: publicDiagnostics(data.diagnostics) }),
     pages: grouped(data.pages, pages), campaigns: grouped(data.campaigns, campaigns),
     referrers: grouped(data.referrers, referrers, false),
+    // Only campaign tracking_qa is excluded (SQL RPC); paid campaigns count in totals.
     // Older saved reports have no exclusion ledger. Do not imply a verified zero.
     ...(Array.isArray(data.excluded) ? { excluded: grouped(data.excluded, new Set([...campaigns, "tracking_qa"])) } : {}),
   };
