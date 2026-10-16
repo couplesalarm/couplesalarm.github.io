@@ -40,9 +40,9 @@ test("explains tester-group privacy and self-service Android access", () => {
   assert.match(privacy, /Couples Alarm Android Beta Google Group/);
   assert.match(privacy, /member email addresses and the member directory are not visible to other members/);
   assert.match(privacy, /does not send your partner names, listening answers, alarms, or app setup/);
-  assert.match(support, /Follow the two steps on the/);
+  assert.match(support, /Follow the three steps on the/);
   assert.match(support, /Joining the group does not automatically opt you in on Google Play/);
-  assert.match(support, /join the tester group, then choose Become a tester on Google Play to download the app/);
+  assert.match(support, /join the tester group, choose Become a tester on Google Play, then install from the Play Store/);
   assert.match(support, /No organizer approval or confirmation email is needed/);
   assert.match(privacy, /website does not automatically join the group or opt you in on Google Play/);
   assert.match(privacy, /website does not ask you to submit an email address or other signup information/);

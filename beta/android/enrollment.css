@@ -49,6 +49,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  counter-reset: none;
 }
 
 .enrollment-actions .button-link {
@@ -63,10 +64,58 @@
   font-size: 0.9rem;
 }
 
-.enrollment-note {
+.enrollment-actions .step-heading {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.enrollment-why {
   margin: 1.75rem 0 0;
-  color: var(--muted);
-  font-size: 0.85rem;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--signal, #ffa58a);
+  border-radius: 1rem;
+  background: rgb(17 28 48 / 88%);
+}
+
+.enrollment-why h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--ink);
+}
+
+.enrollment-why p {
+  margin: 0.55rem 0 0;
+  color: var(--soft-ink);
+  font-size: 0.9rem;
+}
+
+.enrollment-help {
+  margin: 1.35rem 0 0;
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: rgb(12 22 40 / 72%);
+}
+
+.enrollment-help h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.enrollment-help ul {
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--soft-ink);
+  font-size: 0.9rem;
+}
+
+.enrollment-help li + li {
+  margin-top: 0.55rem;
 }
 
 .android-beta-guide-page > footer {

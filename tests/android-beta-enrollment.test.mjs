@@ -46,16 +46,21 @@ test("makes beta access available without a duplicate website form", () => {
   }
 });
 
-test("explains self-service group joining and Google Play download in two steps", () => {
-  const steps = [...beta.matchAll(/<li>\s*<a[^>]+>([^<]+)<\/a>/g)].map(([, text]) => text);
-  assert.deepEqual(steps, [
+test("explains group join, Play opt-in, and install in three scannable steps", () => {
+  const stepButtons = [...beta.matchAll(/<li>\s*<a[^>]+>([^<]+)<\/a>/g)].map(([, text]) => text);
+  assert.deepEqual(stepButtons, [
     "1. Join the tester group",
-    "2. Get the beta",
+    "2. Become a tester",
   ]);
+  assert.match(beta, /class="step-heading">3\. Install from Play<\/p>/);
   assert.match(beta, /Choose <strong>Join group<\/strong>, then return here/);
-  assert.match(beta, /Choose <strong>Become a tester<\/strong>, then download/);
-  assert.match(beta, /Use the same Google account as the Play Store on your phone/);
+  assert.match(beta, /Joining the group does <strong>not<\/strong> opt you in on Google Play/);
+  assert.match(beta, /choose <strong>Become a tester<\/strong>, then continue/);
+  assert.match(beta, /open Couples Alarm in the Play Store and install it/);
+  assert.match(beta, /same Google account/);
   assert.match(beta, /Stay enrolled for 14 days/);
+  assert.match(beta, /so the app can launch publicly|before Couples Alarm can go live on Play/);
+  assert.match(beta, /Play says .not found. or you’re not eligible|not found/);
   assert.match(support, /Already a group member\? Go straight to step 2/);
   assert.match(support, /If already installed, use Update when it appears/);
 });
@@ -66,15 +71,15 @@ test("offers self-service access to the published Google Play beta without an em
   assert.match(download, /The Google Play closed beta is published\./);
   assert.doesNotMatch(`${download}\n${beta}`, /not open yet|when the closed release is available/);
   assert.equal(applicationLink(beta, "1. Join the tester group"), "https://groups.google.com/g/couples-alarm-android-beta/about");
-  assert.equal(applicationLink(beta, "2. Get the beta"), "https://play.google.com/apps/testing/com.couplesalarm.android");
+  assert.equal(applicationLink(beta, "2. Become a tester"), "https://play.google.com/apps/testing/com.couplesalarm.android");
   const accessLinks = [...beta.matchAll(/<a\b[^>]*href="https:\/\/(?:groups|play)\.google\.com[^>]*>/g)];
   assert.equal(accessLinks.length, 2);
   for (const [link] of accessLinks) {
     assert.match(link, /target="_blank" rel="noopener noreferrer"/);
   }
-  assert.ok(beta.indexOf('>1. Join the tester group</a>') < beta.indexOf('>2. Get the beta</a>'));
+  assert.ok(beta.indexOf('>1. Join the tester group</a>') < beta.indexOf('>2. Become a tester</a>'));
   assert.match(support, /No organizer approval or confirmation email is needed/);
-  assert.match(beta, /Choose <strong>Become a tester<\/strong>/);
+  assert.match(beta, /choose <strong>Become a tester<\/strong>/);
   assert.doesNotMatch(beta, /We’ll email your access instructions|after you receive your access instructions/);
   assert.match(support, /Your 14-day test period starts when you opt in/);
   for (const html of [home, download, support]) {
