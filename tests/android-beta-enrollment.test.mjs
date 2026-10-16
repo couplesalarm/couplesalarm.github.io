@@ -54,7 +54,7 @@ test("explains group join, Play opt-in, and install in three scannable steps", (
     "3. Install from Google Play",
   ]);
   assert.equal(applicationLink(beta, "3. Install from Google Play"), "https://play.google.com/store/apps/details?id=com.couplesalarm.android");
-  assert.match(beta, /Works after steps 1 and 2\. Can take a few minutes to appear\./);
+  assert.match(beta, /Works after steps 1 and 2\. Use the same Google account for all three steps\. Can take a few minutes to appear\./);
   assert.match(beta, /Choose <strong>Join group<\/strong>, then return here/);
   assert.match(beta, /Joining the group does <strong>not<\/strong> opt you in on Google Play/);
   assert.match(beta, /choose <strong>Become a tester<\/strong>, then continue/);
