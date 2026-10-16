@@ -85,12 +85,29 @@
       void attempt(0);
     } catch (_) {}
   };
+  // Android beta page step buttons: tester group, Google Play opt-in, install.
+  // Counted like App Store clicks, only on /beta/android/ and only by step type.
+  const betaStep = function (link) {
+    if (window.location.pathname !== "/beta/android/" || !link?.href) return null;
+    try {
+      const url = new URL(link.href);
+      if (url.protocol !== "https:") return null;
+      if (url.hostname === "groups.google.com" && url.pathname.startsWith("/g/couples-alarm-android-beta")) return "beta_group_click";
+      if (url.hostname === "play.google.com" && url.pathname === "/apps/testing/com.couplesalarm.android") return "beta_optin_click";
+      if (url.hostname === "play.google.com" && url.pathname === "/store/apps/details" &&
+          url.searchParams.get("id") === "com.couplesalarm.android") return "beta_play_click";
+    } catch (_) {}
+    return null;
+  };
   // Resolve the actual destination at activation, including dynamically added
   // links. Capture updates the URL before navigation; one event per activation.
   const activate = function (event) {
     if (event.type === "auxclick" && event.button !== 1) return;
-    const token = decorate(event.target?.closest?.("a[href]"));
+    const link = event.target?.closest?.("a[href]");
+    const token = decorate(link);
     if (token) send("app_store_click", token);
+    const beta = betaStep(link);
+    if (beta) send(beta, source);
   };
   document.addEventListener("click", activate, true);
   document.addEventListener("auxclick", activate, true);

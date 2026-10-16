@@ -146,6 +146,13 @@
       <section class="panel" aria-labelledby="pages-title"><h2 id="pages-title">Pages viewed</h2><p class="muted">Uses the selected website period.</p><div id="pages-breakdown"></div></section>
       <section class="panel" aria-labelledby="referrers-title"><h2 id="referrers-title">Referring websites</h2><p class="muted">Direct / unknown also includes apps that omit a referrer.</p><div id="referrers-breakdown"></div></section>
     </div>
+    <section class="panel" aria-labelledby="beta-funnel-title">
+      <h2 id="beta-funnel-title">Android beta page</h2>
+      <p class="muted">Visits to the Android beta page and clicks on its three step buttons in the selected website period. Tagged tests are excluded.</p>
+      <div class="table-scroll" tabindex="0" aria-label="Android beta page funnel"><table><caption class="sr-only">Android beta page visits and step button clicks, UTC</caption><thead><tr><th scope="col">Line</th><th scope="col">Count</th></tr></thead><tbody id="beta-funnel-rows"></tbody></table></div>
+      <p class="note">A click opens Google’s page; it does not confirm a group join, Play opt-in or install. Step clicks are counted only from when this tracking went live; earlier days show zero clicks.</p>
+    </section>
+
     <section class="panel" aria-labelledby="campaign-title">
       <h2 id="campaign-title">Other website traffic</h2>
       <p class="muted">Website events in the selected period. Tags describe the link used; they do not verify paid delivery or attribute a download.</p>

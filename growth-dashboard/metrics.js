@@ -34,6 +34,15 @@ export function diagnosticRange(website, start, end) {
   }
   return { firstRecordedAt: data.firstRecordedAt, rows: [...groups.values()].sort((a,b) => b.pageViews-a.pageViews || a.campaign.localeCompare(b.campaign) || a.deviceClass.localeCompare(b.deviceClass)) };
 }
+export function betaAndroidRange(website, start, end) {
+  const data = website.betaAndroid;
+  if (!data || data.version !== 1 || !Array.isArray(data.daily)) return null;
+  const total = { pageViews: 0, groupClicks: 0, optInClicks: 0, playClicks: 0, firstClickRecordedAt: data.firstClickRecordedAt };
+  for (const row of data.daily.filter(row => row.date >= start && row.date <= end)) {
+    for (const field of ["pageViews", "groupClicks", "optInClicks", "playClicks"]) total[field] += row[field];
+  }
+  return total;
+}
 export function websiteRange(website, days = 7) {
   const end = website.generatedAt.slice(0, 10);
   const start = startDate(end, days);
@@ -52,6 +61,7 @@ export function websiteRange(website, days = 7) {
   return { start, end, daily, diagnostics: diagnosticRange(website, start, end), pages: aggregate(website.pages), campaigns: aggregate(website.campaigns),
     excluded: Array.isArray(website.excluded) ? aggregate(website.excluded) : null,
     referrers: aggregate(website.referrers),
+    betaAndroid: betaAndroidRange(website, start, end),
     pageViews: daily.reduce((sum, day) => sum + day.pageViews, 0),
     appStoreClicks: daily.reduce((sum, day) => sum + day.appStoreClicks, 0) };
 }
@@ -150,6 +160,11 @@ export async function fetchWebsiteMetrics(fetchImpl = fetch) {
   if (data.daily.length > 90 || !data.daily.every(row => validDay(row) && [row.visitors, row.pageViews, row.appStoreClicks].every(count))) throw new Error("Invalid daily counts");
   for (const key of ["pages", "campaigns", "referrers", ...(data.excluded === undefined ? [] : ["excluded"])]) {
     if (!Array.isArray(data[key]) || !data[key].every(row => validDay(row) && typeof row.label === "string" && count(row.pageViews) && (key === "referrers" || count(row.appStoreClicks)))) throw new Error("Invalid grouped counts");
+  }
+  if (data.betaAndroid !== undefined) {
+    const b = data.betaAndroid;
+    if (!b || b.version !== 1 || !Array.isArray(b.daily) || b.daily.length > 90 ||
+        !b.daily.every(row => validDay(row) && [row.pageViews, row.groupClicks, row.optInClicks, row.playClicks].every(count))) throw Error("Invalid beta funnel");
   }
   if (data.diagnostics !== undefined) {
     const d = data.diagnostics;

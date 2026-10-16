@@ -79,7 +79,10 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
     const path = normalizePath(body.path);
     const eventType = body.event_type || "page_view";
     const diagnostic = ["app_store_visible", "foreground_10s"].includes(eventType);
-    if (!path || !["page_view", "app_store_click", "app_store_visible", "foreground_10s"].includes(eventType)) return respond(400);
+    const betaClick = ["beta_group_click", "beta_optin_click", "beta_play_click"].includes(eventType);
+    if (!path || !["page_view", "app_store_click", "app_store_visible", "foreground_10s"].includes(eventType) && !betaClick) return respond(400);
+    // Android beta step clicks are only meaningful from the beta page itself.
+    if (betaClick && path !== "/beta/android/") return respond(400);
     const measured = body.diagnostics_version === 1;
     const tokenValid = typeof body.event_token === "string" &&
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.event_token);
