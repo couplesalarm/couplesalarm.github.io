@@ -1,0 +1,206 @@
+{
+  "checkedDate": "2026-10-15",
+  "unitTests": {
+    "passed": 177,
+    "failed": 0,
+    "skipped": 1,
+    "skip": "Unrelated optional work-inquiry PostgreSQL integration test"
+  },
+  "databaseTest": "Isolated PostgreSQL 17 on localhost; tests/sql/seo-guide-reporting.sql passed distinct paths, view/click counts, QA exclusion, private-path projection and role access checks",
+  "internalLinks": {
+    "checked": 102,
+    "broken": 0
+  },
+  "browserChecks": [
+    {
+      "title": "How to Wake Up Without Waking Your Partner (iPhone Guide) | Couples Alarm",
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/wake-up-without-waking-partner/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 308,
+          "scrollWidth": 608
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Best Alarm Apps for Couples With Different Wake-Up Times (2026) | Couples Alarm",
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/best-alarm-apps-for-couples/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 308,
+          "scrollWidth": 608
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Can an Alarm Wake You but Not Your Partner? Finding a Tone Only You Hear | Couples Alarm",
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/alarm-tone-only-one-person-hears/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [],
+      "placeholders": false
+    },
+    {
+      "title": "How to Wake Up Without Waking Your Partner (iPhone Guide) | Couples Alarm",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/wake-up-without-waking-partner/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 839,
+          "scrollWidth": 839
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Best Alarm Apps for Couples With Different Wake-Up Times (2026) | Couples Alarm",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/best-alarm-apps-for-couples/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 839,
+          "scrollWidth": 839
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Can an Alarm Wake You but Not Your Partner? Finding a Tone Only You Hear | Couples Alarm",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/alarm-tone-only-one-person-hears/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [],
+      "placeholders": false
+    },
+    {
+      "title": "How to Wake Up Without Waking Your Partner (iPhone Guide) | Couples Alarm",
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/wake-up-without-waking-partner/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 246,
+          "scrollWidth": 608
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Best Alarm Apps for Couples With Different Wake-Up Times (2026) | Couples Alarm",
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/best-alarm-apps-for-couples/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [
+        {
+          "width": 246,
+          "scrollWidth": 608
+        }
+      ],
+      "placeholders": false
+    },
+    {
+      "title": "Can an Alarm Wake You but Not Your Partner? Finding a Tone Only You Hear | Couples Alarm",
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": 1,
+      "canonical": "https://couplesalarm.com/alarm-tone-only-one-person-hears/",
+      "schemas": [
+        "Article",
+        "FAQPage"
+      ],
+      "missingAnchors": [],
+      "table": [],
+      "placeholders": false
+    }
+  ],
+  "competitorSources": [
+    {
+      "app": "Silent Wake",
+      "url": "https://apps.apple.com/us/app/silent-wake-vibrate-alarm/id6755125344"
+    },
+    {
+      "app": "VibeAlarm",
+      "url": "https://apps.apple.com/us/app/vibealarm-silent-haptic-alarm/id6761872731"
+    },
+    {
+      "app": "Sleep Cycle",
+      "url": "https://apps.apple.com/us/app/sleep-cycle-tracker-sounds/id320606217"
+    },
+    {
+      "app": "Sleep for Two",
+      "url": "https://sleepfortwo.com/",
+      "availability": "Developer website offers beta invitations; public App Store listing unverified; subscription price unpublished"
+    }
+  ],
+  "sourceLimitations": "Competitor descriptions are attributed to listings, not hands-on tests. No inferred Silent Mode guarantees. AVA removed because a specific supported listing was not established.",
+  "screenshotSource": "/Users/BrianM/couplesalarm/marketing/app-store/03-one-listen-each.png; existing real-app App Store capture, copied unchanged",
+  "backendTarget": "xqdqgsbkapvlskcldmpe / db.xqdqgsbkapvlskcldmpe.supabase.co",
+  "deploymentOrder": [
+    "Deploy get-growth-metrics to accept the new labels",
+    "Apply add_seo_guide_reporting migration",
+    "Deploy record-page-view",
+    "Merge PR 140 to publish GitHub Pages",
+    "Verify live viewer routes and QA-tagged stored events"
+  ],
+  "backendDeployment": {
+    "record-page-view": 9,
+    "get-growth-metrics": 9,
+    "migration": "20261016022054_add_seo_guide_reporting"
+  }
+}

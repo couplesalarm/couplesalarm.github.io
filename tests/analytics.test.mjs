@@ -27,6 +27,9 @@ const taggedPages = [
   ["../download/index.html", "../assets/analytics.js"],
   ["../support/index.html", "../assets/analytics.js"],
   ["../privacy/index.html", "../assets/analytics.js"],
+  ["../wake-up-without-waking-partner/index.html", "../assets/analytics.js"],
+  ["../best-alarm-apps-for-couples/index.html", "../assets/analytics.js"],
+  ["../alarm-tone-only-one-person-hears/index.html", "../assets/analytics.js"],
 ];
 
 const untaggedPages = [
@@ -210,6 +213,23 @@ test("internal tagging respects explicit sources, privacy boundaries and Do Not 
   }
   for (const options of [{ dnt: "1", search: "?ct=paid_facebook_iphone" }, { search: "?ct=private@example.com" }]) {
     assert.equal(run(options).clickInternal("../download/"), "../download/");
+  }
+});
+
+test("new guides preserve attribution through entry, cross-links and App Store clicks", () => {
+  for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/"]) {
+    for (const campaign of ["paid_facebook_iphone", "tracking_qa"]) {
+      const entry = run({ pathname: "/download/", search: "?ct=" + campaign });
+      const next = new URL(entry.clickInternal(path));
+      assert.equal(next.searchParams.get("ct"), campaign);
+      const page = run({ pathname: path, search: next.search });
+      page.clickStore();
+      assert.deepEqual(page.sent.map(row => [row.body.path, row.body.event_type, row.body.campaign]), [
+        [path, "page_view", campaign], [path, "app_store_click", campaign],
+      ]);
+      const recovery = run({ pathname: "/download/", search: "", referrer: "https://couplesalarm.com" + path + next.search });
+      assert.equal(recovery.sent[0].body.campaign, campaign);
+    }
   }
 });
 

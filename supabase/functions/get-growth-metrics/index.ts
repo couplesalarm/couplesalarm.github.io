@@ -1,6 +1,6 @@
 const allowedOrigins = new Set(["https://couplesalarm.com", "https://www.couplesalarm.com", "http://127.0.0.1:4179"]);
 const campaigns = new Set(["unattributed", "owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15", "paid_youtube_iphone", "paid_tiktok_iphone"]);
-const pages = new Set(["/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/", "Other page"]);
+const pages = new Set(["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/", "/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/", "Other page"]);
 const referrers = new Set(["Direct / unknown", "Facebook", "Instagram", "TikTok", "YouTube", "X", "Google", "Bing", "Other referring websites"]);
 function keys(value) {
   try { return Object.values(JSON.parse(value || "{}")).filter(key => typeof key === "string"); }
