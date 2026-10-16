@@ -470,12 +470,11 @@
       },
       {
         "name": "X",
-        "views": 3,
-        "mode": "automatic",
-        "updatedAt": "2026-08-24T17:47:45.753Z",
+        "views": 11,
+        "mode": "manual",
+        "updatedAt": "2026-10-16T21:30:00Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-16T19:58:13.545Z",
-        "status": "error"
+        "status": "ok"
       },
       {
         "name": "YouTube",
@@ -1275,7 +1274,7 @@
     "source": {
       "url": "https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187",
       "method": "Authenticated browser report",
-      "selectedPeriod": "October 6–12, 2026 (UTC)",
+      "selectedPeriod": "October 6\u201312, 2026 (UTC)",
       "view": "Campaign report with new-download and redownload split",
       "reportingDelay": "Latest three hours may not be included",
       "checkedFrom": "2026-10-13T12:45:00Z",
