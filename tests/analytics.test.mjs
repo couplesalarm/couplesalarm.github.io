@@ -27,6 +27,7 @@ const taggedPages = [
   ["../download/index.html", "../assets/analytics.js"],
   ["../support/index.html", "../assets/analytics.js"],
   ["../privacy/index.html", "../assets/analytics.js"],
+  ["../beta/android/index.html", "../../assets/analytics.js"],
   ["../wake-up-without-waking-partner/index.html", "../assets/analytics.js"],
   ["../best-alarm-apps-for-couples/index.html", "../assets/analytics.js"],
   ["../alarm-tone-only-one-person-hears/index.html", "../assets/analytics.js"],
@@ -388,7 +389,7 @@ test('store click reads the current URL, handles dynamic links and retains speci
 
 test('uninstrumented public pages carry links without requests or form access', async () => {
   assert.doesNotMatch(campaignLinks, /\bfetch\s*\(|sendBeacon|XMLHttpRequest|querySelectorAll\(["'](?:input|form|textarea)|FormData/);
-  for (const page of ['../work-with-us/index.html', '../beta/android/index.html']) {
+  for (const page of ['../work-with-us/index.html']) {
     const html = await readFile(new URL(page, import.meta.url), 'utf8');
     assert.match(html, /campaign-links\.js\?v=/);
     assert.doesNotMatch(html, /analytics\.js/);

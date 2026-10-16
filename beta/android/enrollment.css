@@ -131,3 +131,28 @@
   color: var(--soft-ink);
   font-size: 0.85rem;
 }
+
+body.android-beta-guide-page .eyebrow {
+  font-size: 0.75rem;
+}
+
+.android-beta-guide-page footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.enrollment-actions a[target="_blank"]::after {
+  content: " ↗";
+}
