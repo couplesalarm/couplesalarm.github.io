@@ -18,6 +18,16 @@ function timestamp(value) {
   if (typeof value !== "string" || !Number.isFinite(Date.parse(value))) throw new Error("Invalid timestamp");
   return new Date(value).toISOString();
 }
+const deviceClasses = new Set(["apple_mobile", "android", "desktop", "unknown"]);
+export function publicDiagnostics(data) {
+  if (!data || data.version !== 1 || !Array.isArray(data.rows) || data.rows.length > 90 * campaigns.size * deviceClasses.size) throw Error("Invalid diagnostics");
+  return { version: 1, firstRecordedAt: data.firstRecordedAt === null ? null : timestamp(data.firstRecordedAt),
+    rows: data.rows.map(row => {
+      if (!campaigns.has(row.campaign) || !deviceClasses.has(row.deviceClass)) throw Error("Invalid diagnostic label");
+      return { date: date(row.date), campaign: row.campaign, deviceClass: row.deviceClass,
+        pageViews: count(row.pageViews), appStoreVisible: count(row.appStoreVisible), foreground10s: count(row.foreground10s) };
+    }) };
+}
 // Explicit projection prevents future SQL additions from leaking private fields.
 export function publicMetrics(data) {
   if (data.schemaVersion !== 1 || data.timezone !== "UTC" || !Array.isArray(data.daily) || data.daily.length > 90) throw new Error("Invalid metrics");
@@ -35,6 +45,7 @@ export function publicMetrics(data) {
     daily: data.daily.map(row => ({ date: date(row.date), partial: row.partial === true,
       visitors: count(row.visitors), visitorsWhoClicked: count(row.visitorsWhoClicked),
       pageViews: count(row.pageViews), appStoreClicks: count(row.appStoreClicks) })),
+    ...(data.diagnostics === undefined ? {} : { diagnostics: publicDiagnostics(data.diagnostics) }),
     pages: grouped(data.pages, pages), campaigns: grouped(data.campaigns, campaigns),
     referrers: grouped(data.referrers, referrers, false),
     // Older saved reports have no exclusion ledger. Do not imply a verified zero.

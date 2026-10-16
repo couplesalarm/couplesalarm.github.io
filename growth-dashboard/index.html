@@ -125,6 +125,14 @@
       <p id="website-range" class="muted">Waiting for website data.</p>
       <div id="daily-chart" class="chart" aria-live="polite"></div>
       <p id="website-totals" class="totals"></p>
+      <details open><summary>Device and page diagnostics</summary>
+        <p id="diagnostic-coverage" class="note">Diagnostics are loading.</p>
+        <div class="table-scroll" tabindex="0" aria-label="Website diagnostics"><table><caption class="sr-only">Diagnostics in the selected website period, UTC</caption>
+          <thead><tr><th scope="col">Page source</th><th scope="col">Device hint</th><th scope="col">Measured page views</th><th scope="col">App Store visible</th><th scope="col">10s foreground</th></tr></thead><tbody id="diagnostic-rows"></tbody>
+        </table></div>
+        <p class="note">App Store visible: at least half of a rendered App Store link intersects the viewport while the page is visible; covering elements may not be detected. 10s foreground: accumulated visible-page time, pausing in hidden tabs. Each signal is counted at most once per page load. Neither proves attention, motivation, compatibility or an install. Device labels are broad browser hints; desktop-mode tablets can be misclassified.</p>
+        <p class="note">These are separate event totals, not matched visitors or conversion rates. Missing events can mean blocking, unsupported browsers, a quick exit or delivery loss. Events use their receipt date, so midnight can separate a view and its later signal. Earlier data is unavailable, not zero. The daily CSV retains its existing page-view and click columns.</p>
+      </details>
       <details><summary id="qa-summary">Excluded test activity</summary><p class="note">Tests remain stored for verification. Only tagged tests and individually confirmed operator events are removed; other previews and unrecognized tests may remain.</p><div class="table-scroll" tabindex="0" aria-label="Excluded test activity"><table><caption class="sr-only">Excluded test events in the selected website period</caption><thead><tr><th scope="col">Test link</th><th scope="col">Page views</th><th scope="col">App Store outbound clicks</th></tr></thead><tbody id="qa-rows"></tbody></table></div></details>
       <details><summary>Daily numbers &amp; CSV</summary>
         <div class="detail-actions"><button id="export-daily" class="refresh" disabled type="button">Download daily CSV</button></div>
@@ -194,6 +202,6 @@
     <footer>Website days use UTC. Apple uses its own report dates. Aggregate reporting only.</footer>
     <noscript><p class="error">Enable JavaScript to load the measured data. No example counts are shown.</p></noscript>
   </main>
-  <script type="module" src="dashboard.js?v=20261013-attribution-1"></script>
+  <script type="module" src="dashboard.js?v=20261016-diagnostics-1"></script>
 </body>
 </html>

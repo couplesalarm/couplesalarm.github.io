@@ -322,3 +322,124 @@ The Apple Ads manual snapshot was refreshed from the authorized October 13,
 in source metadata ($0.69 / 15 / 1 / 1 / 0). Campaign settings were Running,
 $2/day, ending October 14 at 23:59 America/New_York (October 15 at 03:59 UTC).
 These are dated observations, not campaign edits or a new automatic connection.
+
+## Coarse website diagnostics — October 16, 2026
+
+Approved scope: coarse device hints, App Store link exposure and ten seconds of
+foreground page activity. No homepage copy/design, ads, budgets or Android
+onboarding changes are part of this release. `diagnostics_version = 1` marks
+supported loads. Older rows and unsupported browsers remain unmeasured; there is
+no historical backfill or deletion. All existing campaign handoffs, click counts,
+page-view counts and `ct=tracking_qa` exclusions remain in force.
+
+### Exact definitions
+
+- **Device hint:** the recorder maps the ordinary request user-agent to
+  `apple_mobile`, `android`, `desktop` or `unknown`, only for version-1 events.
+  It stores no raw agent, model, OS version, screen dimensions, client hints or
+  location. Apple mobile is a browser-family hint, not iOS compatibility or
+  App Store eligibility. Desktop-mode iPads, disguised agents and bots can be
+  misclassified. Empty, unrecognized and recognized bot agents use unknown.
+- **`app_store_visible`:** the first observation in a document where at least
+  50% of any HTTPS Couples Alarm App Store link's area intersects the viewport,
+  the document is visible (not prerendered or suspended), and the link/ancestors
+  are rendered without `display:none`, hidden visibility or zero opacity.
+  Intersection Observer accounts for clipping; a current viewport rectangle and
+  CSS checks reject stale/offscreen/hidden links. This is one qualifying snapshot,
+  with no minimum dwell. Covering elements, filters and browser UI occlusion are
+  not reliably detected. Multiple badges, scrolling and BFCache returns do not
+  add another event. There is no negative “hidden CTA” event: absence is unknown.
+- **`foreground_10s`:** one event after at least 10,000 accumulated milliseconds
+  while `document.visibilityState === "visible"`. A 250ms timer uses a monotonic
+  clock, pauses while hidden/page-hidden, and resumes the same document after
+  BFCache. The final fraction under 250ms before each pause may be discarded.
+  Scheduling gaps over 1,000ms are discarded to avoid counting sleep/freeze or
+  long stalls. Prerender time is excluded. Visible does not mean keyboard focus,
+  interaction, reading, attention or motivation. No input/activity stream is read.
+
+Diagnostics require Intersection Observer, Mutation Observer, Page Visibility,
+`performance.now` and `crypto.randomUUID`. Unsupported browsers still record old
+page-view/click events but have no diagnostic capability marker. No polyfill,
+third-party tracker, cookie or browser storage is introduced. A document-level
+initialization guard prevents duplicate script setup. Timers and observers stop
+while hidden/page-hidden; exposure observers disconnect permanently after the
+first exposure. No unload handler, unload flush, navigation delay or retry loop
+is used. Requests retain `keepalive`, omitted credentials and failure isolation.
+
+Each diagnostic request generates an independent random event token in memory.
+The recorder stores only a daily HMAC in `diagnostic_key`; uniqueness plus an
+ignore-duplicate insert makes same-day request replay idempotent. Tokens are not
+shared between the two signals, persisted in a browser, or used to join events.
+They cannot create a cross-day or cross-event visitor ID. A replay on a different
+UTC day has a different key; the client does not retry or resend on restore.
+Existing daily visitor hashing remains unchanged. Diagnostics never count as
+page views, store clicks or estimated visitors, even with no corresponding view.
+The legacy acquisition and monthly summary contracts still include only their
+original event types. Raw diagnostics remain behind existing RLS/service access.
+
+### Reporting and interpretation
+
+`couples_alarm_growth_metrics()` and `get-growth-metrics` retain schemaVersion 1
+and add an optional `diagnostics` object, version 1. It exposes only bounded daily
+UTC totals by approved page-source campaign and device hint: measured page views,
+App Store visible events and foreground-10s events. QA tags and individually
+classified test rows are excluded. The first diagnostic receipt time includes QA
+so rollout coverage is visible even before organic traffic arrives.
+
+The existing dashboard period filter controls a small diagnostic table in the
+daily website section. Unmeasured page views are shown separately. Old snapshots
+without the object show unavailable; they do not imply zero. Saved fallback data
+retains its actual timestamp. The existing daily CSV remains page views/clicks.
+
+These are **unjoined event totals**, not a visitor funnel, conversion rate or
+proof of why paid visitors leave. A page's source labels both diagnostics; a
+badge's `owned_website` default can still label its click differently. The server
+uses receipt dates, so a long-lived page crossing midnight or a failed request
+can separate a view from its signal. Blocking, DNT, unsupported browsers, short
+visits, rendering limits and delivery loss all produce undercounting. No signal
+establishes an install or exact device eligibility.
+
+### Privacy/consent review
+
+The release remains limited to the three approved first-party statistical
+signals, through the existing Supabase processor and private event table. There
+are no new services, agreements, access grants, ad identifiers, profiling,
+cross-site joins, persistent identifiers, session replay, form data or location.
+The privacy notice now discloses the exact signals and limits. Do Not Track still
+suppresses all browser counting/tagging; the recorder also honors a DNT header.
+The old “no cookies, therefore no banner” implication was removed: absence of
+cookies alone does not establish a universal consent exemption.
+
+Reviewed [ICO storage/access guidance](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/what-are-the-exceptions/): statistical exceptions have purpose, disclosure and objection conditions; this engineering review does not certify every jurisdiction. The implementation retains the existing DNT approach and the owner-approved statistical purpose. Any later identity joining, ad personalization, persistent storage or broader collection needs a separate decision before release.
+
+### Verification and safe release
+
+1. Run `node --test tests/*.test.mjs`. For the isolated local PostgreSQL cluster
+   ONLY on `127.0.0.1:55439`, run `psql -h 127.0.0.1 -p 55439 -d diagnostics_test
+   -f tests/sql/diagnostics.sql` on a fresh database. It includes legacy reporting,
+   role/privacy checks, same-day deduplication, QA exclusions and diagnostic-only
+   traffic that must leave every old metric unchanged. Never run this fixture on
+   the hosted project.
+2. Run `PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node
+   tests/browser/diagnostics.mjs`. It serves source through intercepted browser
+   requests and mocks the recorder: no production traffic. It checks actual CTA
+   rendering, 10 seconds, DNT, duplicate initialization, navigation and old/new
+   dashboard states. Unit tests cover background timing, prerender/BFCache,
+   long stalls, dynamic/hidden CTA, device fallback and failed requests.
+3. Confirm main/concurrent PRs and project `xqdqgsbkapvlskcldmpe` again. Apply
+   `20261016140552_add_coarse_website_diagnostics.sql`, then deploy both
+   `record-page-view` and `get-growth-metrics` with existing API-key authentication
+   and `verify_jwt=false`. These are compatible with the old website.
+4. Merge the reviewed website PR, verify the GitHub Pages commit/build and public
+   asset version `20261016-diagnostics-1`, dispatch the existing snapshot workflow,
+   then use only `?ct=tracking_qa` for live visible/10s/click checks. Read back raw
+   QA receipts and verify they remain excluded. Preserve the receipts.
+
+Rollback: revert this release's frontend/reporting commit through a PR (or stop
+loading this diagnostic script version) to stop the new signals. Keep additive
+columns, constraints and all stored events. The extended recorder/report accepts
+old clients. If an edge rollback is necessary, redeploy the captured pre-release
+function sources after the frontend rollback; old reporters explicitly filter
+page views and clicks. Do not reverse the schema by dropping populated columns
+or deleting diagnostics. Record exact deployed versions, commit, UTC times and
+QA receipts in the release evidence.
