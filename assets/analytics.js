@@ -16,16 +16,73 @@
   const diagnosticTypes = new Set(["app_store_visible", "foreground_10s"]);
   let referrer = null;
   try { referrer = document.referrer ? new URL(document.referrer).hostname : null; } catch (_) {}
+  const safeDelivery = typeof window.crypto?.randomUUID === "function" &&
+    typeof AbortController === "function" && typeof window.addEventListener === "function";
+  const requestTimers = new Set(), retryTimers = new Set();
+  let deliveryGeneration = 0, pageLeaving = false;
+  const doNotTrack = () => window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
+    navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1";
+  const clock = () => window.performance?.now ? window.performance.now() : Date.now();
+  const cancelTimer = (timers, id) => { clearTimeout(id); timers.delete(id); };
+  const later = (timers, callback, delay) => {
+    const id = setTimeout(() => { timers.delete(id); callback(); }, delay);
+    timers.add(id);
+    return id;
+  };
+  if (safeDelivery) {
+    window.addEventListener("pagehide", () => {
+      pageLeaving = true; deliveryGeneration++;
+      for (const timers of [requestTimers, retryTimers]) {
+        for (const id of timers) clearTimeout(id);
+        timers.clear();
+      }
+      // Do not abort an in-flight keepalive click or send an unload flush.
+    });
+    window.addEventListener("pageshow", () => { pageLeaving = false; });
+  }
   const send = function (event, campaign) {
     try {
-      fetch(ENDPOINT, {
-        method: "POST", headers: { "Content-Type": "application/json", apikey: PUBLIC_KEY },
-        body: JSON.stringify({ path: window.location.pathname, referrer, event_type: event, campaign,
-          ...(diagnostics ? { diagnostics_version: 1 } : {}),
-          // Independent event token: never reused to join events or identify a visit.
-          ...(diagnosticTypes.has(event) ? { event_token: window.crypto.randomUUID() } : {}) }),
-        keepalive: true, mode: "cors", credentials: "omit", cache: "no-store"
-      }).catch(function () {});
+      if (doNotTrack() || pageLeaving) return;
+      // Freeze the complete payload once: every retry represents this event,
+      // even if the link, path, day, visibility or source changes afterwards.
+      const body = JSON.stringify({ path: window.location.pathname, referrer, event_type: event, campaign,
+        ...(diagnostics ? { diagnostics_version: 1 } : {}),
+        ...(safeDelivery ? { delivery_version: 1, event_token: window.crypto.randomUUID(),
+          event_day: new Date().toISOString().slice(0, 10) } :
+          diagnosticTypes.has(event) ? { event_token: window.crypto.randomUUID() } : {}) });
+      const options = { method: "POST", headers: { "Content-Type": "application/json", apikey: PUBLIC_KEY },
+        body, keepalive: true, mode: "cors", credentials: "omit", cache: "no-store" };
+      // Without secure event tokens + cancellation support, preserve a single
+      // legacy attempt. Never enable retries that the server cannot deduplicate.
+      if (!safeDelivery) { fetch(ENDPOINT, options).catch(function () {}); return; }
+      const generation = deliveryGeneration, deadline = clock() + 15000;
+      const active = () => !pageLeaving && generation === deliveryGeneration && !doNotTrack() && clock() < deadline;
+      const retryDelay = (response, attempt) => {
+        let delay = [1000, 3000][attempt];
+        const value = response?.headers?.get?.("Retry-After");
+        if (value) {
+          const after = /^\d+$/.test(value) ? Number(value) * 1000 : Date.parse(value) - Date.now();
+          if (Number.isFinite(after)) delay = Math.max(delay, after);
+        }
+        return delay;
+      };
+      const attempt = async number => {
+        if (!active()) return;
+        const controller = new AbortController();
+        const timeout = later(requestTimers, () => controller.abort(), Math.min(4000, deadline - clock()));
+        let response, retry = false;
+        try {
+          response = await fetch(ENDPOINT, { ...options, signal: controller.signal });
+          retry = !response.ok && ([408, 425, 429].includes(response.status) ||
+            (response.status >= 500 && response.status <= 599));
+        } catch (_) { retry = true; }
+        finally { cancelTimer(requestTimers, timeout); }
+        if (!retry || number >= 2 || !active() || retryTimers.size >= 20) return;
+        const delay = retryDelay(response, number);
+        if (clock() + delay >= deadline) return;
+        later(retryTimers, () => { void attempt(number + 1); }, delay);
+      };
+      void attempt(0);
     } catch (_) {}
   };
   // Resolve the actual destination at activation, including dynamically added
