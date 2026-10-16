@@ -402,3 +402,20 @@ test('uninstrumented public pages carry links without requests or form access', 
   form.clickStore();
   assert.equal(form.sent.length, 0);
 });
+
+test("counts Android beta step button clicks by step, only on /beta/android/", () => {
+  const steps = [
+    ["https://groups.google.com/g/couples-alarm-android-beta/about", "beta_group_click"],
+    ["https://play.google.com/apps/testing/com.couplesalarm.android", "beta_optin_click"],
+    ["https://play.google.com/store/apps/details?id=com.couplesalarm.android", "beta_play_click"],
+  ];
+  for (const [href, type] of steps) {
+    const result = run({ pathname: "/beta/android/", hrefs: [] });
+    result.clickInternal(href);
+    assert.equal(result.sent.at(-1).body.event_type, type);
+    assert.equal(result.sent.at(-1).body.path, "/beta/android/");
+    const elsewhere = run({ pathname: "/", hrefs: [] });
+    elsewhere.clickInternal(href);
+    assert.ok(elsewhere.sent.every(call => !call.body.event_type?.startsWith("beta_")));
+  }
+});

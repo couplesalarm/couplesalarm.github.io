@@ -28,6 +28,12 @@ export function publicDiagnostics(data) {
         pageViews: count(row.pageViews), appStoreVisible: count(row.appStoreVisible), foreground10s: count(row.foreground10s) };
     }) };
 }
+export function publicBetaAndroid(data) {
+  if (!data || data.version !== 1 || !Array.isArray(data.daily) || data.daily.length > 90) throw Error("Invalid beta funnel");
+  return { version: 1, firstClickRecordedAt: data.firstClickRecordedAt === null ? null : timestamp(data.firstClickRecordedAt),
+    daily: data.daily.map(row => ({ date: date(row.date), pageViews: count(row.pageViews),
+      groupClicks: count(row.groupClicks), optInClicks: count(row.optInClicks), playClicks: count(row.playClicks) })) };
+}
 // Explicit projection prevents future SQL additions from leaking private fields.
 export function publicMetrics(data) {
   if (data.schemaVersion !== 1 || data.timezone !== "UTC" || !Array.isArray(data.daily) || data.daily.length > 90) throw new Error("Invalid metrics");
@@ -75,7 +81,16 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
       body: "{}", signal: AbortSignal.timeout(12_000),
     });
     if (!result.ok) return respond(503);
-    return respond(200, publicMetrics(await result.json()));
+    const metrics = publicMetrics(await result.json());
+    // Android beta funnel is optional: a failure here never hides website totals.
+    try {
+      const beta = await fetchImpl(`${projectUrl}/rest/v1/rpc/couples_alarm_beta_android_metrics`, {
+        method: "POST", headers: { apikey: serviceKey, "Content-Type": "application/json" },
+        body: "{}", signal: AbortSignal.timeout(8_000),
+      });
+      if (beta.ok) metrics.betaAndroid = publicBetaAndroid(await beta.json());
+    } catch {}
+    return respond(200, metrics);
   } catch { return respond(503); }
 }
 if (typeof Deno !== "undefined") Deno.serve(request => handleRequest(request));

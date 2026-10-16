@@ -154,6 +154,13 @@ function renderWebsite(snapshot, doc, options) {
   doc.querySelector("#export-daily").disabled = !selected.daily.length;
   bars(doc, "#pages-breakdown", selected.pages.filter(row => row.pageViews > 0));
   bars(doc, "#referrers-breakdown", selected.referrers);
+  const beta = selected.betaAndroid;
+  rows(doc, "#beta-funnel-rows", beta ? [
+    ["Android beta page visits (/beta/android/)", fmt(beta.pageViews)],
+    ["Step 1 clicks · Join the tester group", fmt(beta.groupClicks)],
+    ["Step 2 clicks · Become a tester (Google Play opt-in)", fmt(beta.optInClicks)],
+    ["Step 3 clicks · Install from Google Play", fmt(beta.playClicks)],
+  ] : [["Android beta page counts unavailable in this report", "—"]]);
   const otherCampaigns = selected.campaigns.filter(row => !snoozeCreatives.some(creative => creative.tag === row.label));
   rows(doc, "#campaign-rows", otherCampaigns.length ? otherCampaigns.map(row => [campaignLabels[row.label] || "Other approved campaign", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [["No other recorded events", "—", "—"]]);
   set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public marketing pages only; beta, feedback and dashboard pages are excluded. Do Not Track is respected.`);
