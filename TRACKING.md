@@ -149,14 +149,15 @@ published Apple report in the actual dashboard.
 
 `couples_alarm_growth_metrics()` reports each page under its normalized path when
 that path is in the private table `public.couples_alarm_report_pages`; everything
-else is "Other page". The table was seeded with every path `record-page-view`
+else is grouped under the single label "Other page". The table was seeded with every path `record-page-view`
 accepts, and an insert trigger on `couples_alarm_page_views` registers any new,
 plainly shaped path (lowercase slugs, up to four levels, at most 100 characters)
 the first time it is stored. A new page therefore only needs the
 `record-page-view` allowlist change and a redeploy; no migration and no change to
 `get-growth-metrics`, which validates page labels by the same shape. Rows stored
-before the allowlist existed (before 2026-10-10) are never registered and stay
-"Other page". Test with `tests/sql/report-pages.sql` in an isolated local
+before the allowlist existed (before 2026-10-10) never register new paths; they count under a page only if they normalize to an already registered path, otherwise under
+"Other page". Test with `tests/sql/report-pages.sql` and
+`tests/sql/report-pages-trigger-safety.sql`, each in its own isolated local
 database only.
 
 ## Four-couple Snooze War test

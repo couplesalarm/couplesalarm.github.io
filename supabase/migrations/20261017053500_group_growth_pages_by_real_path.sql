@@ -66,16 +66,19 @@ create or replace function public.couples_alarm_register_report_page()
 returns trigger language plpgsql security definer
 set search_path = '' as $$
 declare
-  normalized text := public.couples_alarm_normalize_page_path(new.path);
+  normalized text;
 begin
-  if normalized is not null then
-    begin
+  -- Normalization runs inside the exception block too, so a missing, renamed or
+  -- failing normalize function can never fail the visit insert.
+  begin
+    normalized := public.couples_alarm_normalize_page_path(new.path);
+    if normalized is not null then
       insert into public.couples_alarm_report_pages (path) values (normalized)
       on conflict (path) do nothing;
-    exception when others then
-      null;
-    end;
-  end if;
+    end if;
+  exception when others then
+    null;
+  end;
   return null;
 end;
 $$;
