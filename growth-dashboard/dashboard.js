@@ -163,7 +163,7 @@ function renderWebsite(snapshot, doc, options) {
   ] : [["Android beta page counts unavailable in this report", "—"]]);
   const otherCampaigns = selected.campaigns.filter(row => !snoozeCreatives.some(creative => creative.tag === row.label));
   rows(doc, "#campaign-rows", otherCampaigns.length ? otherCampaigns.map(row => [campaignLabels[row.label] || "Other approved campaign", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [["No other recorded events", "—", "—"]]);
-  set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public marketing pages only; beta, feedback and dashboard pages are excluded. Do Not Track is respected.`);
+  set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public website pages only; feedback and dashboard pages are excluded. Do Not Track is respected.`);
 }
 function renderApple(snapshot, doc, options) {
   const apple = snapshot.apple;
