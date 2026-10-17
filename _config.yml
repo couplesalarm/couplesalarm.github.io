@@ -1,0 +1,20 @@
+# GitHub Pages (Jekyll) settings for couplesalarm.com.
+# The site is plain static HTML/CSS/JS with no front matter, so Jekyll copies
+# every page verbatim. This file only stops non-site repo files (backend source,
+# migrations, tests, PR evidence, internal notes) from being published.
+# Do not add .nojekyll: that would disable these excludes.
+exclude:
+  - supabase/
+  - docs/
+  - tests/
+  - scripts/
+  - evidence/
+  - TRACKING.md
+  - design-qa.md
+  - "*.md"
+  - package.json
+  - package-lock.json
+  - node_modules/
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
