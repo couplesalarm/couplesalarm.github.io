@@ -2,13 +2,17 @@
 -- Fixtures cover distinct guide labels, both events and QA/private-path boundaries.
 begin;
 insert into public.couples_alarm_page_views (path, viewed_at, visitor_hash, event_type, campaign)
-select path, now(), 'seo-fixture', event_type, null
+select path, now(), md5('seo-fixture'), event_type, null
 from unnest(array['/wake-up-without-waking-partner/', '/best-alarm-apps-for-couples/', '/alarm-tone-only-one-person-hears/']) as path
 cross join unnest(array['page_view', 'app_store_click']) as event_type;
 insert into public.couples_alarm_page_views (path, viewed_at, visitor_hash, event_type, campaign, qa_reason) values
-('/best-alarm-apps-for-couples/', now(), 'qa', 'page_view', 'tracking_qa', null),
-('/best-alarm-apps-for-couples/', now(), 'operator', 'app_store_click', 'paid_facebook_iphone', 'operator_cta_check'),
-('/unlisted-private-path/', now(), 'private', 'page_view', null, null);
+('/best-alarm-apps-for-couples/', now(), md5('qa'), 'page_view', 'tracking_qa', null),
+('/best-alarm-apps-for-couples/', now(), md5('operator'), 'app_store_click', 'paid_facebook_iphone', 'operator_cta_check');
+-- A pre-allowlist (before 2026-10-10) row: stored without page self-registration.
+alter table public.couples_alarm_page_views disable trigger user;
+insert into public.couples_alarm_page_views (path, viewed_at, visitor_hash, event_type, campaign, qa_reason) values
+('/unlisted-private-path/', now(), md5('private'), 'page_view', null, null);
+alter table public.couples_alarm_page_views enable trigger user;
 set local role service_role;
 do $$
 declare report jsonb := public.couples_alarm_growth_metrics();
@@ -21,7 +25,7 @@ begin
   if (select sum((e->>'pageViews')::int + (e->>'appStoreClicks')::int) from jsonb_array_elements(report->'excluded') e) <> 2 then
     raise exception 'QA events are not excluded';
   end if;
-  if report::text like '%unlisted-private-path%' or report::text like '%seo-fixture%' then
+  if report::text like '%unlisted-private-path%' or report::text like '%' || md5('seo-fixture') || '%' then
     raise exception 'Private path or visitor identifier leaked';
   end if;
   if has_function_privilege('anon', 'public.couples_alarm_growth_metrics()', 'EXECUTE')

@@ -23,6 +23,20 @@ test("SEO guides keep distinct page labels through public reporting", () => {
   assert.deepEqual(selected.pages.map(row => row.label).sort(), data.pages.map(row => row.label).sort());
   assert.ok(selected.pages.every(row => row.pageViews === 1 && row.appStoreClicks === 1));
 });
+test("any real page path from the database is reported under its own label; junk labels are rejected", () => {
+  const data = structuredClone(report);
+  const paths = ["/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/beta/android/", "/alarm-without-smartwatch/",
+    "/vibration-alarm-app-alternative/", "/early-riser-alarm/", "/a-guide-added-next-month/", "Other page"];
+  data.pages = paths.map(label => ({ date: "2026-10-11", label, pageViews: 2, appStoreClicks: 1 }));
+  assert.deepEqual(publicMetrics(data).pages.map(row => row.label), paths);
+  for (const label of ["/Upper/", "/no-trailing-slash", "/guide/?utm=x", "/a/b/c/d/e/", "/" + "x".repeat(120) + "/", "/me@example.com/", "", null]) {
+    const bad = structuredClone(report); bad.pages[0].label = label;
+    assert.throws(() => publicMetrics(bad), /Invalid label/, String(label));
+  }
+  const tooMany = structuredClone(report);
+  tooMany.pages = Array.from({ length: 90 * 100 + 1 }, (_, i) => ({ date: "2026-10-11", label: "/", pageViews: i, appStoreClicks: 0 }));
+  assert.throws(() => publicMetrics(tooMany), /Invalid groups/);
+});
 test("projects only aggregate allowlisted fields", () => {
   const data = structuredClone(report); data.rawEvents = [{ visitor_hash: "sensitive" }]; data.daily[0].visitor_hash = "sensitive";
   assert.doesNotMatch(JSON.stringify(publicMetrics(data)), /sensitive|visitor_hash|rawEvents/);
