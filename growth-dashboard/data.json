@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T19:58:17.272Z",
+  "generatedAt": "2026-10-17T19:25:30.508Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-16T19:57:38.923Z",
+    "updatedAt": "2026-10-17T19:24:53.890Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-13",
-    "requestedThroughDate": "2026-10-15",
+    "requestedThroughDate": "2026-10-16",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -52,7 +52,8 @@
       "2026-10-09",
       "2026-10-12",
       "2026-10-14",
-      "2026-10-15"
+      "2026-10-15",
+      "2026-10-16"
     ],
     "daily": [
       {
@@ -444,6 +445,12 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-16",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 21,
@@ -480,9 +487,9 @@
         "name": "YouTube",
         "views": 20,
         "mode": "automatic",
-        "updatedAt": "2026-10-16T19:58:13.545Z",
+        "updatedAt": "2026-10-17T19:25:28.910Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-16T19:58:13.545Z",
+        "lastAttemptAt": "2026-10-17T19:25:28.910Z",
         "status": "ok"
       }
     ]
@@ -490,7 +497,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-16T19:58:13.490Z",
+    "generatedAt": "2026-10-17T19:25:28.542Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -543,11 +550,19 @@
       },
       {
         "date": "2026-10-16",
-        "partial": true,
-        "visitors": 27,
+        "partial": false,
+        "visitors": 36,
         "visitorsWhoClicked": 1,
-        "pageViews": 93,
+        "pageViews": 102,
         "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-17",
+        "partial": true,
+        "visitors": 30,
+        "visitorsWhoClicked": 0,
+        "pageViews": 44,
+        "appStoreClicks": 0
       }
     ],
     "diagnostics": {
@@ -566,24 +581,48 @@
           "date": "2026-10-16",
           "campaign": "paid_ig_snooze_white_v15",
           "deviceClass": "apple_mobile",
-          "pageViews": 3,
-          "appStoreVisible": 3,
-          "foreground10s": 3
+          "pageViews": 10,
+          "appStoreVisible": 10,
+          "foreground10s": 6
         },
         {
           "date": "2026-10-16",
           "campaign": "unattributed",
           "deviceClass": "desktop",
-          "pageViews": 7,
-          "appStoreVisible": 3,
-          "foreground10s": 2
+          "pageViews": 8,
+          "appStoreVisible": 4,
+          "foreground10s": 3
         },
         {
           "date": "2026-10-16",
           "campaign": "unattributed",
           "deviceClass": "unknown",
-          "pageViews": 61,
+          "pageViews": 62,
           "appStoreVisible": 35,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "paid_ig_snooze_white_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 27,
+          "appStoreVisible": 27,
+          "foreground10s": 12
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 3,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 14,
+          "appStoreVisible": 10,
           "foreground10s": 0
         }
       ]
@@ -772,7 +811,7 @@
       {
         "date": "2026-10-16",
         "label": "/",
-        "pageViews": 36,
+        "pageViews": 44,
         "appStoreClicks": 1
       },
       {
@@ -808,7 +847,7 @@
       {
         "date": "2026-10-16",
         "label": "/privacy/",
-        "pageViews": 4,
+        "pageViews": 5,
         "appStoreClicks": 0
       },
       {
@@ -827,6 +866,48 @@
         "date": "2026-10-16",
         "label": "Other page",
         "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/",
+        "pageViews": 29,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/best-alarm-apps-for-couples/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Other page",
+        "pageViews": 4,
         "appStoreClicks": 0
       }
     ],
@@ -1050,7 +1131,7 @@
       {
         "date": "2026-10-16",
         "label": "paid_ig_snooze_white_v15",
-        "pageViews": 12,
+        "pageViews": 19,
         "appStoreClicks": 0
       },
       {
@@ -1062,7 +1143,19 @@
       {
         "date": "2026-10-16",
         "label": "unattributed",
-        "pageViews": 76,
+        "pageViews": 78,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 27,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "unattributed",
+        "pageViews": 17,
         "appStoreClicks": 0
       }
     ],
@@ -1170,17 +1263,27 @@
       {
         "date": "2026-10-16",
         "label": "Direct / unknown",
-        "pageViews": 74
+        "pageViews": 76
       },
       {
         "date": "2026-10-16",
         "label": "Instagram",
-        "pageViews": 18
+        "pageViews": 25
       },
       {
         "date": "2026-10-16",
         "label": "Other referring websites",
         "pageViews": 1
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Direct / unknown",
+        "pageViews": 17
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Instagram",
+        "pageViews": 27
       }
     ],
     "excluded": [
@@ -1250,7 +1353,20 @@
         "pageViews": 12,
         "appStoreClicks": 6
       }
-    ]
+    ],
+    "betaAndroid": {
+      "version": 1,
+      "firstClickRecordedAt": "2026-10-16T23:44:33.766Z",
+      "daily": [
+        {
+          "date": "2026-10-16",
+          "pageViews": 8,
+          "groupClicks": 0,
+          "optInClicks": 0,
+          "playClicks": 0
+        }
+      ]
+    }
   },
   "appleAds": {
     "schemaVersion": 1,
@@ -1274,7 +1390,7 @@
     "source": {
       "url": "https://app-ads.apple.com/cm/app/24571440/report/campaign/2144815187",
       "method": "Authenticated browser report",
-      "selectedPeriod": "October 6\u201312, 2026 (UTC)",
+      "selectedPeriod": "October 6–12, 2026 (UTC)",
       "view": "Campaign report with new-download and redownload split",
       "reportingDelay": "Latest three hours may not be included",
       "checkedFrom": "2026-10-13T12:45:00Z",
