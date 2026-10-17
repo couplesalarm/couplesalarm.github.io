@@ -16,7 +16,7 @@
     params.get("utm_campaign") === "website_link_test_20261011";
   const approved = value => campaigns.has(value) ? value : null;
   const specific = value => value && value !== "owned_website";
-  const publicPaths = new Set(["/wake-up-without-waking-partner/", "/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/", "/", "/compatibility/", "/download/", "/different-wake-times/", "/support/", "/privacy/", "/work-with-us/", "/beta/android/"]);
+  const publicPaths = new Set(["/wake-up-without-waking-partner/", "/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/alarm-without-smartwatch/", "/vibration-alarm-app-alternative/", "/early-riser-alarm/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/", "/", "/compatibility/", "/download/", "/different-wake-times/", "/support/", "/privacy/", "/work-with-us/", "/beta/android/"]);
   const publicHosts = new Set(["couplesalarm.com", "www.couplesalarm.com"]);
   // URL-scoped only: no cookies, browser storage, identity or cross-visit session.
   // Recover an approved tag from a same-site public-page referrer when an
