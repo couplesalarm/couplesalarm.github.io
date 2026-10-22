@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-21T20:39:00.235Z",
+  "generatedAt": "2026-10-22T20:34:23.714Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-21T20:38:14.269Z",
+    "updatedAt": "2026-10-22T20:33:43.528Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-10-20",
-    "requestedThroughDate": "2026-10-20",
+    "throughDate": "2026-10-21",
+    "requestedThroughDate": "2026-10-21",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -477,6 +477,12 @@
         "firstTimeDownloads": 1,
         "netPaidUnlocks": 0,
         "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-21",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
       }
     ],
     "firstTimeDownloads": 22,
@@ -511,11 +517,11 @@
       },
       {
         "name": "YouTube",
-        "views": 20,
+        "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-10-21T20:38:58.709Z",
+        "updatedAt": "2026-10-22T20:34:21.355Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-21T20:38:58.709Z",
+        "lastAttemptAt": "2026-10-22T20:34:21.355Z",
         "status": "ok"
       }
     ]
@@ -523,7 +529,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-21T20:38:57.907Z",
+    "generatedAt": "2026-10-22T20:34:20.583Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -616,10 +622,18 @@
       },
       {
         "date": "2026-10-21",
-        "partial": true,
+        "partial": false,
         "visitors": 3,
         "visitorsWhoClicked": 0,
         "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "partial": true,
+        "visitors": 4,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
         "appStoreClicks": 0
       }
     ],
@@ -745,6 +759,14 @@
           "deviceClass": "unknown",
           "pageViews": 2,
           "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-22",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 2,
           "foreground10s": 0
         }
       ]
@@ -1067,6 +1089,24 @@
         "label": "/privacy/",
         "pageViews": 1,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 1,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -1351,6 +1391,12 @@
         "label": "unattributed",
         "pageViews": 3,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -1508,6 +1554,11 @@
         "date": "2026-10-21",
         "label": "Direct / unknown",
         "pageViews": 3
+      },
+      {
+        "date": "2026-10-22",
+        "label": "Direct / unknown",
+        "pageViews": 4
       }
     ],
     "excluded": [
