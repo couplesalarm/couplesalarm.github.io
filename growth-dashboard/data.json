@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-22T20:34:23.714Z",
+  "generatedAt": "2026-10-23T20:27:43.682Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-22T20:33:43.528Z",
+    "updatedAt": "2026-10-23T20:27:01.390Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-10-21",
-    "requestedThroughDate": "2026-10-21",
+    "throughDate": "2026-10-22",
+    "requestedThroughDate": "2026-10-22",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -483,6 +483,12 @@
         "firstTimeDownloads": 0,
         "netPaidUnlocks": 0,
         "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-22",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
       }
     ],
     "firstTimeDownloads": 22,
@@ -519,9 +525,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-10-22T20:34:21.355Z",
+        "updatedAt": "2026-10-23T20:27:42.545Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-22T20:34:21.355Z",
+        "lastAttemptAt": "2026-10-23T20:27:42.545Z",
         "status": "ok"
       }
     ]
@@ -529,7 +535,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-22T20:34:20.583Z",
+    "generatedAt": "2026-10-23T20:27:42.120Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -630,10 +636,18 @@
       },
       {
         "date": "2026-10-22",
-        "partial": true,
+        "partial": false,
         "visitors": 4,
         "visitorsWhoClicked": 0,
         "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "partial": true,
+        "visitors": 5,
+        "visitorsWhoClicked": 0,
+        "pageViews": 5,
         "appStoreClicks": 0
       }
     ],
@@ -767,6 +781,22 @@
           "deviceClass": "unknown",
           "pageViews": 4,
           "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-23",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 4,
+          "appStoreVisible": 3,
+          "foreground10s": 1
+        },
+        {
+          "date": "2026-10-23",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 0,
           "foreground10s": 0
         }
       ]
@@ -1107,6 +1137,36 @@
         "label": "/wake-up-without-waking-partner/",
         "pageViews": 1,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -1397,6 +1457,12 @@
         "label": "unattributed",
         "pageViews": 4,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "unattributed",
+        "pageViews": 5,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -1559,6 +1625,11 @@
         "date": "2026-10-22",
         "label": "Direct / unknown",
         "pageViews": 4
+      },
+      {
+        "date": "2026-10-23",
+        "label": "Direct / unknown",
+        "pageViews": 5
       }
     ],
     "excluded": [
@@ -1627,6 +1698,12 @@
         "label": "tracking_qa",
         "pageViews": 12,
         "appStoreClicks": 6
+      },
+      {
+        "date": "2026-10-23",
+        "label": "tracking_qa",
+        "pageViews": 2,
+        "appStoreClicks": 2
       }
     ],
     "betaAndroid": {
