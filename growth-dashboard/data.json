@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-28T21:39:58.880Z",
+  "generatedAt": "2026-10-29T21:49:26.629Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-28T21:39:17.370Z",
+    "updatedAt": "2026-10-29T21:48:42.507Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-10-27",
-    "requestedThroughDate": "2026-10-27",
+    "requestedThroughDate": "2026-10-28",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -57,7 +57,8 @@
       "2026-10-17",
       "2026-10-19",
       "2026-10-24",
-      "2026-10-26"
+      "2026-10-26",
+      "2026-10-28"
     ],
     "daily": [
       {
@@ -521,6 +522,12 @@
         "firstTimeDownloads": 2,
         "netPaidUnlocks": 0,
         "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-28",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 25,
@@ -557,9 +564,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-10-28T21:39:57.635Z",
+        "updatedAt": "2026-10-29T21:49:25.022Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-28T21:39:57.635Z",
+        "lastAttemptAt": "2026-10-29T21:49:25.022Z",
         "status": "ok"
       }
     ]
@@ -567,7 +574,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-28T21:39:57.068Z",
+    "generatedAt": "2026-10-29T21:49:24.680Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -716,8 +723,16 @@
       },
       {
         "date": "2026-10-28",
-        "partial": true,
+        "partial": false,
         "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "partial": true,
+        "visitors": 6,
         "visitorsWhoClicked": 0,
         "pageViews": 6,
         "appStoreClicks": 0
@@ -916,6 +931,30 @@
           "campaign": "unattributed",
           "deviceClass": "unknown",
           "pageViews": 6,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "paid_tiktok_iphone",
+          "deviceClass": "apple_mobile",
+          "pageViews": 2,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 1
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
           "appStoreVisible": 0,
           "foreground10s": 0
         }
@@ -1323,6 +1362,18 @@
         "label": "/privacy/",
         "pageViews": 6,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -1649,6 +1700,18 @@
         "label": "unattributed",
         "pageViews": 6,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "paid_tiktok_iphone",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -1841,6 +1904,16 @@
         "date": "2026-10-28",
         "label": "Direct / unknown",
         "pageViews": 6
+      },
+      {
+        "date": "2026-10-29",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-10-29",
+        "label": "TikTok",
+        "pageViews": 2
       }
     ],
     "excluded": [
