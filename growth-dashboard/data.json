@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T21:12:00.006Z",
+  "generatedAt": "2026-11-02T23:53:29.541Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-11-01T21:11:17.056Z",
+    "updatedAt": "2026-11-02T23:52:43.173Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-10-29",
-    "requestedThroughDate": "2026-10-31",
+    "throughDate": "2026-11-01",
+    "requestedThroughDate": "2026-11-01",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -548,6 +548,12 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-01",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
       }
     ],
     "firstTimeDownloads": 25,
@@ -584,9 +590,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-11-01T21:11:58.846Z",
+        "updatedAt": "2026-11-02T23:53:27.991Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-11-01T21:11:58.846Z",
+        "lastAttemptAt": "2026-11-02T23:53:27.991Z",
         "status": "ok"
       }
     ]
@@ -594,7 +600,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-11-01T21:11:58.236Z",
+    "generatedAt": "2026-11-02T23:53:27.462Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -775,10 +781,18 @@
       },
       {
         "date": "2026-11-01",
-        "partial": true,
-        "visitors": 4,
+        "partial": false,
+        "visitors": 6,
         "visitorsWhoClicked": 0,
-        "pageViews": 5,
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "partial": true,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
         "appStoreClicks": 0
       }
     ],
@@ -1030,12 +1044,28 @@
           "date": "2026-11-01",
           "campaign": "unattributed",
           "deviceClass": "desktop",
-          "pageViews": 2,
-          "appStoreVisible": 2,
-          "foreground10s": 2
+          "pageViews": 3,
+          "appStoreVisible": 3,
+          "foreground10s": 3
         },
         {
           "date": "2026-11-01",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 5,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-02",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-02",
           "campaign": "unattributed",
           "deviceClass": "unknown",
           "pageViews": 3,
@@ -1474,13 +1504,25 @@
       {
         "date": "2026-11-01",
         "label": "/",
-        "pageViews": 3,
+        "pageViews": 4,
         "appStoreClicks": 0
       },
       {
         "date": "2026-11-01",
         "label": "/privacy/",
-        "pageViews": 2,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "/privacy/",
+        "pageViews": 3,
         "appStoreClicks": 0
       }
     ],
@@ -1836,7 +1878,13 @@
       {
         "date": "2026-11-01",
         "label": "unattributed",
-        "pageViews": 5,
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "unattributed",
+        "pageViews": 4,
         "appStoreClicks": 0
       }
     ],
@@ -2054,7 +2102,12 @@
       {
         "date": "2026-11-01",
         "label": "Direct / unknown",
-        "pageViews": 5
+        "pageViews": 8
+      },
+      {
+        "date": "2026-11-02",
+        "label": "Direct / unknown",
+        "pageViews": 4
       }
     ],
     "excluded": [
@@ -2128,6 +2181,12 @@
         "date": "2026-10-23",
         "label": "tracking_qa",
         "pageViews": 2,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-02",
+        "label": "tracking_qa",
+        "pageViews": 4,
         "appStoreClicks": 2
       }
     ],
