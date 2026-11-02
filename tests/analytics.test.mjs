@@ -417,8 +417,24 @@ test("counts Android beta step button clicks by step, only on /beta/android/", (
     result.clickInternal(href);
     assert.equal(result.sent.at(-1).body.event_type, type);
     assert.equal(result.sent.at(-1).body.path, "/beta/android/");
-    const elsewhere = run({ pathname: "/", hrefs: [] });
+    const elsewhere = run({ pathname: "/compatibility/", hrefs: [] });
     elsewhere.clickInternal(href);
     assert.ok(elsewhere.sent.every(call => !call.body.event_type?.startsWith("beta_")));
+  }
+});
+
+test("counts the home page Google Play badge once, and only that link", () => {
+  const listing = "https://play.google.com/store/apps/details?id=com.couplesalarm.android";
+  for (const pathname of ["/", "/index.html"]) {
+    const result = run({ pathname, hrefs: [] });
+    result.clickInternal(listing);
+    const clicks = result.sent.filter(call => call.body.event_type === "beta_play_click");
+    assert.equal(clicks.length, 1);
+    assert.equal(clicks[0].body.path, pathname);
+    for (const href of ["https://groups.google.com/g/couples-alarm-android-beta/about", "https://play.google.com/apps/testing/com.couplesalarm.android"]) {
+      const other = run({ pathname, hrefs: [] });
+      other.clickInternal(href);
+      assert.ok(other.sent.every(call => !call.body.event_type?.startsWith("beta_")));
+    }
   }
 });

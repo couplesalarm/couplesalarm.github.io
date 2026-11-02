@@ -87,13 +87,17 @@
   };
   // Android beta page step buttons: tester group, Google Play opt-in, install.
   // Counted like App Store clicks, only on /beta/android/ and only by step type.
+  // The home page Google Play badge has no first-party landing page, so its
+  // listing click is counted here too. The payload path keeps the two apart.
   const betaStep = function (link) {
-    if (window.location.pathname !== "/beta/android/" || !link?.href) return null;
+    const betaPage = window.location.pathname === "/beta/android/";
+    const homePage = window.location.pathname === "/" || window.location.pathname === "/index.html";
+    if ((!betaPage && !homePage) || !link?.href) return null;
     try {
       const url = new URL(link.href);
       if (url.protocol !== "https:") return null;
-      if (url.hostname === "groups.google.com" && url.pathname.startsWith("/g/couples-alarm-android-beta")) return "beta_group_click";
-      if (url.hostname === "play.google.com" && url.pathname === "/apps/testing/com.couplesalarm.android") return "beta_optin_click";
+      if (betaPage && url.hostname === "groups.google.com" && url.pathname.startsWith("/g/couples-alarm-android-beta")) return "beta_group_click";
+      if (betaPage && url.hostname === "play.google.com" && url.pathname === "/apps/testing/com.couplesalarm.android") return "beta_optin_click";
       if (url.hostname === "play.google.com" && url.pathname === "/store/apps/details" &&
           url.searchParams.get("id") === "com.couplesalarm.android") return "beta_play_click";
     } catch (_) {}

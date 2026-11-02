@@ -19,9 +19,9 @@ function applicationLink(html, label) {
 
 test("uses the balanced robot app options as the primary download actions", () => {
   assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
-  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="beta\/android\/" aria-label="Couples Alarm Android beta">/);
+  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android" aria-label="Couples Alarm for Android, Google Play">/);
   assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
-  assert.match(home, /<strong>Android™<\/strong><small>beta<\/small>/);
+  assert.match(home, /<strong>Android™<\/strong><small>Google Play<\/small>/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
   assert.match(home, /<div class="android-brand-attribution">[\s\S]*?Android is a trademark of Google LLC\./);
   assert.match(home, /The Android robot is reproduced or modified from work created and shared by/);
@@ -84,8 +84,11 @@ test("offers self-service access to the published Google Play beta without an em
   assert.match(beta, /choose <strong>Become a tester<\/strong>/);
   assert.doesNotMatch(beta, /We’ll email your access instructions|after you receive your access instructions/);
   assert.match(support, /Your 14-day test period starts when you opt in/);
-  for (const html of [home, download, support]) {
-    assert.doesNotMatch(html, /href="https:\/\/play\.google\.com\//);
+  // Only the home badge goes straight to the public listing; download and support keep the beta routes.
+  const playLinks = (html) => [...html.matchAll(/href="(https:\/\/play\.google\.com\/[^"]*)"/g)].map(([, href]) => href);
+  assert.deepEqual(playLinks(home), ["https://play.google.com/store/apps/details?id=com.couplesalarm.android"]);
+  for (const html of [download, support]) {
+    assert.deepEqual(playLinks(html), []);
   }
   assert.match(support, /at least 12 testers to stay opted in continuously for 14 days/);
   assert.match(support, /https:\/\/support\.google\.com\/googleplay\/android-developer\/answer\/14151465\?hl=en/);

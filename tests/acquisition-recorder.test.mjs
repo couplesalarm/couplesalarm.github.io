@@ -92,3 +92,15 @@ test("public preflight is allowed without granting anonymous access to stored da
   assert.equal(response.status, 204);
   assert.match(response.headers.get("Access-Control-Allow-Headers"), /apikey/);
 });
+
+test("home page accepts only the Google Play listing click; beta steps stay on the beta page", async () => {
+  const send = async () => ({ ok: true });
+  const status = async body => (await handleRequest(request(body), env, send)).status;
+  for (const path of ["/", "/index.html"]) {
+    assert.equal(await status({ path, event_type: "beta_play_click" }), 204);
+    assert.equal(await status({ path, event_type: "beta_group_click" }), 400);
+    assert.equal(await status({ path, event_type: "beta_optin_click" }), 400);
+  }
+  assert.equal(await status({ path: "/support/", event_type: "beta_play_click" }), 400);
+  assert.equal(await status({ path: "/beta/android/", event_type: "beta_optin_click" }), 204);
+});
