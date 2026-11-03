@@ -8,7 +8,7 @@
   const share = {
     title: "Couples Alarm",
     text: "Different wake times? Let's try the listening check together.",
-    url: "https://couplesalarm.com/download/"
+    url: "https://couplesalarm.com/"
   };
   button.hidden = false;
   button.addEventListener("click", async function () {
