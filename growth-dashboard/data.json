@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-05T22:41:19.249Z",
+  "generatedAt": "2026-11-06T22:08:11.720Z",
   "apple": {
     "mode": "automatic",
-    "status": "error",
-    "updatedAt": "2026-11-04T22:37:55.571Z",
+    "status": "partial",
+    "updatedAt": "2026-11-06T22:07:19.289Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-11-02",
-    "requestedThroughDate": "2026-11-03",
+    "throughDate": "2026-11-04",
+    "requestedThroughDate": "2026-11-05",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -61,7 +61,8 @@
       "2026-10-28",
       "2026-10-30",
       "2026-10-31",
-      "2026-11-03"
+      "2026-11-03",
+      "2026-11-05"
     ],
     "daily": [
       {
@@ -567,13 +568,24 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-04",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-05",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 25,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 3,
-    "lastAttemptAt": "2026-11-05T22:40:43.905Z"
+    "usRatingCount": 3
   },
   "social": {
     "mode": "mixed",
@@ -604,9 +616,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-11-05T22:41:17.131Z",
+        "updatedAt": "2026-11-06T22:08:10.433Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-11-05T22:41:17.131Z",
+        "lastAttemptAt": "2026-11-06T22:08:10.433Z",
         "status": "ok"
       }
     ]
@@ -614,7 +626,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-11-05T22:41:16.741Z",
+    "generatedAt": "2026-11-06T22:08:10.090Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -827,10 +839,18 @@
       },
       {
         "date": "2026-11-05",
-        "partial": true,
-        "visitors": 5,
+        "partial": false,
+        "visitors": 6,
         "visitorsWhoClicked": 0,
-        "pageViews": 5,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "partial": true,
+        "visitors": 1,
+        "visitorsWhoClicked": 0,
+        "pageViews": 1,
         "appStoreClicks": 0
       }
     ],
@@ -1146,7 +1166,15 @@
           "date": "2026-11-05",
           "campaign": "unattributed",
           "deviceClass": "unknown",
-          "pageViews": 3,
+          "pageViews": 4,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-06",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
           "appStoreVisible": 1,
           "foreground10s": 0
         }
@@ -1642,7 +1670,13 @@
       {
         "date": "2026-11-05",
         "label": "/privacy/",
-        "pageViews": 2,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "label": "/",
+        "pageViews": 1,
         "appStoreClicks": 0
       }
     ],
@@ -2028,7 +2062,13 @@
       {
         "date": "2026-11-05",
         "label": "unattributed",
-        "pageViews": 5,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "label": "unattributed",
+        "pageViews": 1,
         "appStoreClicks": 0
       }
     ],
@@ -2281,12 +2321,17 @@
       {
         "date": "2026-11-05",
         "label": "Direct / unknown",
-        "pageViews": 3
+        "pageViews": 4
       },
       {
         "date": "2026-11-05",
         "label": "Facebook",
         "pageViews": 2
+      },
+      {
+        "date": "2026-11-06",
+        "label": "Facebook",
+        "pageViews": 1
       }
     ],
     "excluded": [
