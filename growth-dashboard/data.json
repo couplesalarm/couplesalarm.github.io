@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-10T00:42:19.423Z",
+  "generatedAt": "2026-11-10T22:23:50.755Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-11-10T00:41:26.042Z",
+    "updatedAt": "2026-11-10T22:22:49.023Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-11-08",
+    "throughDate": "2026-11-09",
     "requestedThroughDate": "2026-11-09",
     "missingDates": [
       "2026-08-15",
@@ -63,8 +63,7 @@
       "2026-10-31",
       "2026-11-03",
       "2026-11-05",
-      "2026-11-07",
-      "2026-11-09"
+      "2026-11-07"
     ],
     "daily": [
       {
@@ -603,9 +602,9 @@
       },
       {
         "date": "2026-11-09",
-        "firstTimeDownloads": null,
-        "netPaidUnlocks": null,
-        "estimatedProceedsUsd": null
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
       }
     ],
     "firstTimeDownloads": 27,
@@ -642,9 +641,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-11-10T00:42:17.898Z",
+        "updatedAt": "2026-11-10T22:23:48.842Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-11-10T00:42:17.898Z",
+        "lastAttemptAt": "2026-11-10T22:23:48.842Z",
         "status": "ok"
       }
     ]
@@ -652,7 +651,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-11-10T00:42:17.301Z",
+    "generatedAt": "2026-11-10T22:23:48.508Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -906,10 +905,10 @@
       {
         "date": "2026-11-10",
         "partial": true,
-        "visitors": 0,
-        "visitorsWhoClicked": 0,
-        "pageViews": 0,
-        "appStoreClicks": 0
+        "visitors": 5,
+        "visitorsWhoClicked": 1,
+        "pageViews": 9,
+        "appStoreClicks": 2
       }
     ],
     "diagnostics": {
@@ -1286,6 +1285,22 @@
         },
         {
           "date": "2026-11-09",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-10",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-10",
           "campaign": "unattributed",
           "deviceClass": "unknown",
           "pageViews": 4,
@@ -1852,6 +1867,18 @@
         "label": "/privacy/",
         "pageViews": 4,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-10",
+        "label": "/",
+        "pageViews": 5,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-10",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -2280,6 +2307,18 @@
         "label": "unattributed",
         "pageViews": 9,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-10",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-10",
+        "label": "unattributed",
+        "pageViews": 9,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -2587,6 +2626,21 @@
         "date": "2026-11-09",
         "label": "YouTube",
         "pageViews": 1
+      },
+      {
+        "date": "2026-11-10",
+        "label": "Direct / unknown",
+        "pageViews": 6
+      },
+      {
+        "date": "2026-11-10",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-10",
+        "label": "YouTube",
+        "pageViews": 2
       }
     ],
     "excluded": [
