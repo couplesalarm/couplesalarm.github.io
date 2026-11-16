@@ -29,7 +29,7 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /<p class="hero-lede">For couples with different wake-up times\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
-  assert.match(html, /<p class="download-details">Free setup and fit test · One-time purchase, no subscription<br><a href="download\/">Details &amp; pricing<\/a><\/p>/);
+  assert.match(html, /<p class="download-details">Free setup and bedside fit check · One-time purchase, no subscription<br><a href="download\/">Details &amp; pricing<\/a><\/p>/);
   assert.equal(html.match(/class="download-details"/g).length, 1);
   assert.match(html, /<div class="footer-links">\s*<a href="alarm-tone-only-one-person-hears\/">How it works<\/a>/);
   assert.match(html, /class="sound-test-link" href="compatibility\/">\s*<img src="assets\/speaker\.svg"[^>]*>\s*<span>Try the free tone test<\/span>/);

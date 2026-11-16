@@ -396,7 +396,7 @@
     setText(
       "[data-result-limit]",
       hasRange
-        ? "Confirm this range with a bedside alarm before relying on it."
+        ? "This is a starting point. In the app you each take a listening turn on your phone, preview a suggested tone and confirm it with a bedside fit check."
         : responses.every((response) => response === null)
           ? "Neither partner heard the sweep. Try another device with the same comfortable volume."
           : "Your responses are too close for a useful range on this device.",
