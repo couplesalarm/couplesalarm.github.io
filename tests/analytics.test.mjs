@@ -424,9 +424,9 @@ test("counts Android beta step button clicks by step, only on /beta/android/", (
   }
 });
 
-test("counts the home page Google Play badge once, and only that link", () => {
+test("counts the home and How It Works Google Play badge once, and only that link", () => {
   const listing = "https://play.google.com/store/apps/details?id=com.couplesalarm.android";
-  for (const pathname of ["/", "/index.html"]) {
+  for (const pathname of ["/", "/index.html", "/how-it-works/", "/how-it-works/index.html"]) {
     const result = run({ pathname, hrefs: [] });
     result.clickInternal(listing);
     const clicks = result.sent.filter(call => call.body.event_type === "beta_play_click");

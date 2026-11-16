@@ -87,11 +87,11 @@
   };
   // Android beta page step buttons: tester group, Google Play opt-in, install.
   // Counted like App Store clicks, only on /beta/android/ and only by step type.
-  // The home page Google Play badge has no first-party landing page, so its
+  // Home and How It Works Google Play badges have no first-party landing page, so each
   // listing click is counted here too. The payload path keeps the two apart.
   const betaStep = function (link) {
     const betaPage = window.location.pathname === "/beta/android/";
-    const homePage = window.location.pathname === "/" || window.location.pathname === "/index.html";
+    const homePage = ["/", "/index.html", "/how-it-works/", "/how-it-works/index.html"].includes(window.location.pathname);
     if ((!betaPage && !homePage) || !link?.href) return null;
     try {
       const url = new URL(link.href);

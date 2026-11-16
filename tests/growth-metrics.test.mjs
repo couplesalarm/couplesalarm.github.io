@@ -25,7 +25,7 @@ test("SEO guides keep distinct page labels through public reporting", () => {
 });
 test("any real page path from the database is reported under its own label; junk labels are rejected", () => {
   const data = structuredClone(report);
-  const paths = ["/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/beta/android/", "/alarm-without-smartwatch/",
+  const paths = ["/how-it-works/", "/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/beta/android/", "/alarm-without-smartwatch/",
     "/vibration-alarm-app-alternative/", "/early-riser-alarm/", "/a-guide-added-next-month/", "Other page"];
   data.pages = paths.map(label => ({ date: "2026-10-11", label, pageViews: 2, appStoreClicks: 1 }));
   assert.deepEqual(publicMetrics(data).pages.map(row => row.label), paths);
