@@ -16,14 +16,14 @@ test("retains the original story and app artwork in the dawn landing", () => {
   assert.match(html, /class="app-showcase"/);
   assert.match(html, /assets\/setup-together\.png\?v=20260730/);
   assert.match(html, /assets\/couples-alarm-preview-poster-576\.webp\?v=20261016/);
-  assert.match(html, /assets\/couples-alarm-preview\.mp4\?v=20260730-social-launch/);
+  assert.match(html, /assets\/couples-alarm-preview\.mp4\?v=20261116-720p/);
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
 });
 
 test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /<title>Couples Alarm — iPhone Alarms for Different Wake-Up Times<\/title>/);
   assert.match(html, /Test tones together to see whether one partner can hear a tone the other can’t/);
-  assert.match(html, /<meta name="description" content="An iPhone alarm for couples with different wake-up times\./);
+  assert.match(html, /<meta name="description" content="An iPhone and Android alarm for couples with different wake-up times\./);
   assert.doesNotMatch(html, /class="eyebrow"/);
   assert.match(html, /Your alarm doesn’t<br><span>have to be theirs\.<\/span>/);
   assert.match(html, /<p class="hero-lede">For couples with different wake-up times\./);
