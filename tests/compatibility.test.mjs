@@ -31,7 +31,7 @@ test("keeps one prominent listening response and a separate pause without a star
 test("keeps copy concise and avoids a hearing diagnosis or waking guarantee", () => {
   assert.doesNotMatch(html, /Stop if uncomfortable|This is not a hearing test/);
   assert.match(html, /Designed for the partner who hears higher pitches/);
-  assert.match(html, /Confirm this range with a bedside alarm before relying on it/);
+  assert.match(html, /preview a suggested tone and confirm it with a bedside fit check/);
   assert.doesNotMatch(`${html}\n${script}`, /should wake|not disturb|promising match/i);
   assert.match(html, /data-result-for/);
   assert.match(html, /href="\.\.\/download\/" data-result-next/);
