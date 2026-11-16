@@ -82,8 +82,8 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
     const betaClick = ["beta_group_click", "beta_optin_click", "beta_play_click"].includes(eventType);
     if (!path || !["page_view", "app_store_click", "app_store_visible", "foreground_10s"].includes(eventType) && !betaClick) return respond(400);
     // Android beta step clicks are only meaningful from the beta page itself.
-    // The home page Google Play badge also sends the listing click.
-    const homeListingClick = eventType === "beta_play_click" && path === "/";
+    // Home and How It Works Google Play badges also send the listing click.
+    const homeListingClick = eventType === "beta_play_click" && ["/", "/how-it-works/"].includes(path);
     if (betaClick && path !== "/beta/android/" && !homeListingClick) return respond(400);
     const measured = body.diagnostics_version === 1;
     const tokenValid = typeof body.event_token === "string" &&
