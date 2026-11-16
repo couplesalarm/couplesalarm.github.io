@@ -129,3 +129,18 @@ test("keeps the saved-sound handoff in customer language", async () => {
   assert.match(html, /real bedside alarm check/);
   assert.doesNotMatch(html, /AlarmKit/);
 });
+
+test("serves a branded not-found page and a root favicon", async () => {
+  const notFound = await readFile(new URL("../404.html", import.meta.url), "utf8");
+  assert.match(notFound, /<meta name="robots" content="noindex">/);
+  assert.match(notFound, /We couldn’t find that page/);
+  // GitHub Pages serves 404.html at any depth, so every reference must be root-relative.
+  for (const [, ref] of notFound.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    assert.match(ref, /^(?:\/|#)/, ref);
+  }
+  for (const path of ["/", "/download/", "/compatibility/", "/support/", "/privacy/"]) {
+    assert.ok(notFound.includes(`href="${path}"`), path);
+  }
+  const icon = await readFile(new URL("../favicon.ico", import.meta.url));
+  assert.deepEqual([...icon.subarray(0, 4)], [0, 0, 1, 0]);
+});
