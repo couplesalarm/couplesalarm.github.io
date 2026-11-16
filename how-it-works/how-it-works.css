@@ -1,0 +1,104 @@
+/* How it works: the app's own illustrations and screens carry the page; type and icons annotate them. */
+.how-page { --how-surface: rgb(12 22 40 / 94%); --how-wake: #ffa58a; --how-sleep: #b2b6ff; }
+.how-page .how-header { padding-bottom: 0.5rem; }
+.how-page main { display: grid; gap: clamp(4rem, 9vw, 7rem); padding-bottom: 4.5rem; }
+.how-page h1, .how-page h2, .how-page h3 { margin: 0; text-wrap: balance; }
+.how-page h2 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; }
+.how-page p { margin: 0; }
+.how-page figure { margin: 0; }
+:where(.how-page) img { display: block; max-width: 100%; height: auto; }
+.how-page li { max-width: none; }
+
+/* Hero */
+.how-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); padding-top: clamp(1rem, 3vw, 2.5rem); }
+.how-hero h1 { font-size: clamp(2.3rem, 5.2vw, 4rem); font-weight: 850; line-height: 1.02; letter-spacing: -0.03em; }
+.how-lede { max-width: 34rem; margin-top: 1.2rem !important; color: var(--muted); font-size: clamp(1.05rem, 1.5vw, 1.2rem); line-height: 1.6; }
+.how-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 1.7rem; }
+.how-page .button-link { display: inline-flex; min-height: 3.25rem; align-items: center; padding: 0.8rem 1.6rem; font-weight: 750; text-decoration: none; }
+.how-text-link { display: inline-flex; min-height: 44px; align-items: center; gap: 0.45rem; color: var(--ink); font-weight: 650; text-underline-offset: 0.25em; }
+.how-text-link .icon { width: 1.1rem; height: 1.1rem; transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1); }
+.how-text-link:hover .icon { transform: translateX(4px); }
+.how-facts { display: flex; flex-wrap: wrap; gap: 0.65rem 1.4rem; margin: 2rem 0 0; padding: 0; list-style: none; color: #dfe4ef; font-size: 0.92rem; font-weight: 600; }
+.how-facts li { display: inline-flex; align-items: center; gap: 0.5rem; }
+.how-facts .icon { color: var(--aqua); }
+.how-hero-art img, .how-idea-art img, .step-scene img, .step-aside img { border-radius: 1.5rem; box-shadow: 0 1.6rem 3.5rem rgb(0 0 0 / 42%); }
+.how-hero-art { position: relative; }
+.how-hero-art::after { position: absolute; inset: 0; border: 1px solid rgb(255 255 255 / 12%); border-radius: 1.5rem; content: ""; pointer-events: none; }
+
+/* The idea */
+.how-idea { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); }
+.how-idea-copy > p { max-width: 36rem; margin-top: 1rem; color: var(--muted); }
+.pitch-diagram { max-width: 35rem; margin-top: 1.8rem !important; }
+.pitch-diagram svg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
+.pitch-track { fill: rgb(255 255 255 / 9%); }
+.pitch-range-wake { fill: var(--how-wake); }
+.pitch-range-sleep { fill: var(--how-sleep); }
+.pitch-gap { fill: rgb(164 232 240 / 12%); stroke: rgb(164 232 240 / 60%); stroke-width: 1.25; stroke-dasharray: 5 5; }
+.pitch-gap-label { fill: var(--aqua); font-size: 15px; font-weight: 750; }
+.pitch-who { fill: #e6e9f2; font-size: 15px; font-weight: 650; }
+.pitch-dot { fill: #fff; stroke: var(--night); stroke-width: 3; transform-box: fill-box; transform-origin: center; }
+.pitch-axis { stroke: rgb(255 255 255 / 22%); stroke-width: 1; }
+.pitch-axis-label { fill: var(--quiet); font-size: 13px; }
+.pitch-diagram figcaption { margin-top: 0.6rem; color: var(--quiet); font-size: 0.85rem; }
+.how-condition { display: flex; gap: 0.8rem; max-width: 36rem; margin-top: 1.6rem !important; padding: 1rem 1.15rem; border: 1px solid var(--border); border-radius: 1rem; background: var(--how-surface); color: #eef0f6 !important; font-weight: 600; line-height: 1.5; }
+.how-condition .icon { margin-top: 0.1rem; color: var(--how-wake); }
+
+/* Steps */
+.how-steps > h2 { max-width: 60rem; margin-inline: auto; }
+.step-list { display: grid; gap: clamp(3rem, 7vw, 5.5rem); max-width: 60rem; margin: clamp(2.2rem, 5vw, 3.5rem) auto 0; padding: 0; list-style: none; }
+.step { display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 6vw, 5rem); }
+.step:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 17rem); }
+.step:nth-child(even) .step-media { order: 2; }
+.step-wide, .step-wide:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+.step-screen img { width: 100%; border-radius: 2.1rem; filter: drop-shadow(0 1.5rem 2.2rem rgb(0 0 0 / 45%)); }
+.step-copy { max-width: 33rem; }
+.step:nth-child(even) .step-copy { justify-self: end; }
+.step-number { display: grid; width: 2.6rem; height: 2.6rem; place-items: center; border-radius: 50%; background: var(--dawn-action); color: #14172f; font-size: 1.15rem; font-weight: 850; }
+.step h3 { margin-top: 1rem; font-size: clamp(1.45rem, 2.6vw, 2rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.015em; }
+.step-copy > p { margin-top: 0.75rem; color: var(--muted); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
+.chip-row li { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.5rem; padding: 0.35rem 0.9rem 0.35rem 0.7rem; border: 1px solid var(--border); border-radius: 2rem; background: rgb(17 28 48 / 85%); color: #e8ebf3; font-size: 0.88rem; font-weight: 600; }
+.chip-row .icon { width: 1.2rem; height: 1.2rem; color: var(--aqua); }
+.step-aside { margin-top: 1.6rem !important; }
+.step-aside img { border-radius: 1.1rem; }
+
+/* Prove it */
+.how-proof { display: grid; grid-template-columns: minmax(0, 21rem) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 5vw, 4rem); padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--border); border-radius: 1.75rem; background: linear-gradient(120deg, rgb(28 22 52 / 92%), rgb(12 30 46 / 92%)); box-shadow: 0 1.2rem 3rem rgb(0 0 0 / 28%); }
+.how-proof-art img { border-radius: 1.15rem; }
+.how-proof-copy > p { max-width: 33rem; margin-top: 0.9rem; color: #d3d9e6; }
+.how-proof .how-facts { margin-top: 1.3rem; }
+.how-proof .button-link { margin-top: 1.7rem; }
+
+/* Limits */
+.limit-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3rem; margin: 1.6rem 0 0; padding: 0; list-style: none; }
+.limit-list li { display: flex; gap: 1rem; padding: 1.15rem 0; border-top: 1px solid var(--border); }
+.limit-list .icon { width: 1.6rem; height: 1.6rem; margin-top: 0.15rem; color: var(--how-wake); }
+.limit-list strong { display: block; font-size: 1.05rem; }
+.limit-list span { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.95rem; }
+
+/* Price and download */
+.how-get { text-align: center; }
+.how-get h2 { margin-inline: auto; }
+.how-fine { margin: 1.2rem auto 0 !important; color: var(--quiet); font-size: 0.88rem; }
+.how-fine a { color: var(--aqua); text-underline-offset: 0.2em; }
+.how-trademarks { margin: 0; color: var(--quiet); font-size: 0.75rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .pitch-dot { animation: pitch-pulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite; }
+  @keyframes pitch-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.35); } }
+}
+
+@media (max-width: 900px) {
+  .how-hero, .how-idea, .how-proof { grid-template-columns: minmax(0, 1fr); }
+  .how-hero-art { order: -1; }
+  .how-idea-art { max-width: 30rem; }
+  .how-proof-art { max-width: 19rem; margin-inline: auto !important; }
+  .step, .step:nth-child(even), .step-wide, .step-wide:nth-child(even) { grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
+  .step:nth-child(even) .step-media { order: 0; }
+  .step:nth-child(even) .step-copy { justify-self: start; }
+  .step-screen { width: min(100%, 15rem); margin-inline: auto !important; }
+  .limit-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 620px) {
+  .how-page .how-actions .button-link { width: 100%; justify-content: center; }
+}

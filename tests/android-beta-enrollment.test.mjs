@@ -32,7 +32,7 @@ test("uses the official store badges as the primary download actions", () => {
 });
 
 test("offers direct Android downloads without a website enrollment form", () => {
-  assert.equal(applicationLink(download, "Get it on Google Play"), "https://play.google.com/store/apps/details?id=com.couplesalarm.android");
+  assert.match(download, /<a class="store-badge google-play-badge" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android">\s*<img [^>]*alt="Get it on Google Play"/);
   assert.doesNotMatch(download, /beta|tester|enrollment|groups\.google\.com|apps\/testing\//i);
   assert.match(beta, /id="application"/); // Existing shared links still land on a useful page.
   assert.doesNotMatch(`${download}\n${beta}`, /docs\.google\.com|<iframe/i);
