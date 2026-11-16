@@ -9,6 +9,7 @@ const [home, download, support, beta] = await Promise.all([
   "support/index.html",
   "beta/android/index.html",
 ].map((path) => readFile(new URL(path, root), "utf8")));
+const css = await readFile(new URL("landing.css", root), "utf8");
 
 function applicationLink(html, label) {
   const links = [...html.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
@@ -17,19 +18,17 @@ function applicationLink(html, label) {
   return match[1];
 }
 
-test("uses the balanced robot app options as the primary download actions", () => {
+test("uses the official store badges as the primary download actions", () => {
   assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
-  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="android-app-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android" aria-label="Couples Alarm for Android, Google Play">/);
-  assert.match(home, /<img src="assets\/android-head_flat\.svg" alt="" width="40" height="24" aria-hidden="true">/);
-  assert.match(home, /<strong>Android™<\/strong><small>Google Play<\/small>/);
+  assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="google-play-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android">/);
+  assert.match(home, /<img src="https:\/\/play\.google\.com\/intl\/en_us\/badges\/static\/images\/badges\/en_badge_web_generic\.png" alt="Get it on Google Play" width="646" height="250">/);
+  assert.doesNotMatch(home, /android-head_flat|android-badge-copy|Android™/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
-  assert.match(home, /<div class="android-brand-attribution">[\s\S]*?Android is a trademark of Google LLC\./);
-  assert.match(home, /The Android robot is reproduced or modified from work created and shared by/);
-  assert.match(home, /href="https:\/\/developer\.android\.com\/distribute\/marketing-tools\/brand-guidelines"/);
-  assert.match(home, /href="https:\/\/creativecommons\.org\/licenses\/by\/3\.0\/"/);
+  assert.match(home, /Google Play and the Google Play logo are trademarks of Google LLC\./);
+  assert.match(css, /\.google-play-link img \{[^}]*height: calc\(var\(--badge-height\) \* 250 \/ 168\)/);
   assert.doesNotMatch(home, /eligibility|consent|testing/i);
   assert.doesNotMatch(home, /Apply for the Android beta/i);
-  assert.doesNotMatch(home, /Get it on Google Play|Pre-register on Google Play/);
+  assert.doesNotMatch(home, /Pre-register on Google Play/);
 });
 
 test("offers direct Android downloads without a website enrollment form", () => {
