@@ -29,10 +29,12 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /<p class="hero-lede">For couples with different wake-up times\./);
   assert.doesNotMatch(html, /Wake up\.|Let them sleep|designed to wake one partner/);
   assert.doesNotMatch(html, /Get Couples Alarm|class="test-link"|class="cta-note"/);
-  assert.match(html, /<p class="download-details">Free setup and bedside fit check · One-time purchase, no subscription<br><a href="download\/">Details &amp; pricing<\/a><\/p>/);
-  assert.equal(html.match(/class="download-details"/g).length, 1);
-  assert.match(html, /<div class="footer-links">\s*<a href="alarm-tone-only-one-person-hears\/">How it works<\/a>/);
-  assert.match(html, /class="sound-test-link" href="compatibility\/">\s*<img src="assets\/speaker\.svg"[^>]*>\s*<span>Try the free tone test<\/span>/);
+  assert.doesNotMatch(html, /class="download-details"/);
+  assert.match(html, /<footer class="page-bottom">\s*<p class="footer-pricing">Free setup and bedside fit check · One-time purchase, no subscription · <a href="download\/#pricing">Details &amp; pricing<\/a><\/p>/);
+  assert.match(html, /<div class="footer-links">\s*<a href="how-it-works\/">How it works<\/a>/);
+  assert.match(html, /<a class="tone-test-cta" href="compatibility\/">/);
+  assert.match(html, /<strong>Prove it to yourselves first<\/strong>/);
+  assert.match(html, /Take the free 2-minute tone test in your browser\. Each of you listens once to see if there’s a tone only one of you hears\./);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
 });

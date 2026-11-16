@@ -25,6 +25,7 @@ const taggedPages = [
   ["../compatibility/index.html", "../assets/analytics.js"],
   ["../different-wake-times/index.html", "../assets/analytics.js"],
   ["../download/index.html", "../assets/analytics.js"],
+  ["../how-it-works/index.html", "../assets/analytics.js"],
   ["../support/index.html", "../assets/analytics.js"],
   ["../privacy/index.html", "../assets/analytics.js"],
   ["../beta/android/index.html", "../../assets/analytics.js"],
