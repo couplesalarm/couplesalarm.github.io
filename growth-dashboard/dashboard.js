@@ -1,4 +1,4 @@
-import { APPLE_ADS_ENDPOINT, BETA_ENDPOINT, appleAdsCostPerInstall, appleRange, campaignLabels, creativeComparison, dailyCsv, fetchAdditionalMetrics, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, retainReport, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261011-dashboard4";
+import { APPLE_ADS_ENDPOINT, BETA_ENDPOINT, appleAdsCostPerInstall, appleRange, campaignLabels, deviceLabels, creativeComparison, dailyCsv, fetchAdditionalMetrics, fetchMetaMetrics, fetchWebsiteMetrics, metaRange, retainReport, snoozeCreatives, startDate, websiteRange } from "./metrics.js?v=20261016-diagnostics-1";
 const numberFormat = new Intl.NumberFormat("en-US");
 const currencyFormat = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
 const dateFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
@@ -135,6 +135,14 @@ function renderWebsite(snapshot, doc, options) {
   set(doc, "#website-updated", `${fresh ? "Read from website counter" : "Saved website counts"} · ${timeLabel(website.generatedAt)}`);
   const selected = websiteRange(website, options.websiteDays);
   renderCreatives(selected, doc);
+  const diagnostics = selected.diagnostics;
+  const measuredViews = diagnostics?.rows.reduce((sum, row) => sum + row.pageViews, 0);
+  set(doc, "#diagnostic-coverage", diagnostics ?
+    `First diagnostic receipt: ${diagnostics.firstRecordedAt ? timeLabel(diagnostics.firstRecordedAt) : "not yet received"}. Selected period: ${fmt(measuredViews)} page views with diagnostics; ${fmt(Math.max(0, selected.pageViews - measuredViews))} older or unsupported page views unmeasured. QA excluded.` :
+    "Diagnostics unavailable in this saved report. Earlier visits were not measured.");
+  rows(doc, "#diagnostic-rows", diagnostics?.rows.length ? diagnostics.rows.map(row =>
+    [campaignLabels[row.campaign], deviceLabels[row.deviceClass], fmt(row.pageViews), fmt(row.appStoreVisible), fmt(row.foreground10s)]) :
+    [[diagnostics ? "No measured events in this period" : "Diagnostics unavailable", "—", "—", "—", "—"]]);
   const first = website.firstRecordedAt;
   set(doc, "#website-range", `${dayLabel(selected.start)} – ${dayLabel(selected.end)} (UTC). Collection began ${timeLabel(first)}${first ? `, ${first.slice(0, 4)}` : ""}; earlier days are unavailable. Partial days are muted.`);
   set(doc, "#website-totals", `${fmt(selected.pageViews)} page views · ${fmt(selected.appStoreClicks)} App Store outbound clicks across ${selected.daily.length} recorded ${selected.daily.length === 1 ? "day" : "days"} in this period.`);
@@ -146,9 +154,16 @@ function renderWebsite(snapshot, doc, options) {
   doc.querySelector("#export-daily").disabled = !selected.daily.length;
   bars(doc, "#pages-breakdown", selected.pages.filter(row => row.pageViews > 0));
   bars(doc, "#referrers-breakdown", selected.referrers);
+  const beta = selected.betaAndroid;
+  rows(doc, "#beta-funnel-rows", beta ? [
+    ["Android beta page visits (/beta/android/)", fmt(beta.pageViews)],
+    ["Step 1 clicks · Join the tester group", fmt(beta.groupClicks)],
+    ["Step 2 clicks · Become a tester (Google Play opt-in)", fmt(beta.optInClicks)],
+    ["Step 3 clicks · Install from Google Play", fmt(beta.playClicks)],
+  ] : [["Android beta page counts unavailable in this report", "—"]]);
   const otherCampaigns = selected.campaigns.filter(row => !snoozeCreatives.some(creative => creative.tag === row.label));
   rows(doc, "#campaign-rows", otherCampaigns.length ? otherCampaigns.map(row => [campaignLabels[row.label] || "Other approved campaign", fmt(row.pageViews), fmt(row.appStoreClicks)]) : [["No other recorded events", "—", "—"]]);
-  set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public marketing pages only; beta, feedback and dashboard pages are excluded. Do Not Track is respected.`);
+  set(doc, "#website-source-status", `First-party counter · ${fresh ? "live" : "saved"} report checked ${timeLabel(website.generatedAt)}. Up to 90 UTC days, beginning ${dayLabel(first)}. Public website pages only; feedback and dashboard pages are excluded. Do Not Track is respected.`);
 }
 function renderApple(snapshot, doc, options) {
   const apple = snapshot.apple;

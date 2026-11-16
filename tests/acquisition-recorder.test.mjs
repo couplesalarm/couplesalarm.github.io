@@ -45,6 +45,23 @@ test("invalid events and private paths are rejected; arbitrary campaign data is 
   assert.equal(stored.campaign, null);
 });
 
+for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/"]) {
+  test(`guide ${path} records views and store clicks without query data`, async () => {
+    for (const event_type of ["page_view", "app_store_click"]) {
+      let stored;
+      const response = await handleRequest(request({ path: path + "index.html?email=private@example.com", event_type, campaign: "tracking_qa" }), env, async (_, options) => {
+        stored = JSON.parse(options.body);
+        return { ok: true };
+      });
+      assert.equal(response.status, 204);
+      assert.equal(stored.path, path);
+      assert.equal(stored.event_type, event_type);
+      assert.equal(stored.campaign, "tracking_qa");
+      assert.doesNotMatch(JSON.stringify(stored), /private@example/);
+    }
+  });
+}
+
 for (const campaign of ["paid_tiktok_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15"]) test(`${campaign} is retained for both supported event types`, async () => {
   for (const event_type of ["page_view", "app_store_click"]) {
     let stored;
@@ -74,4 +91,16 @@ test("public preflight is allowed without granting anonymous access to stored da
   const response = await handleRequest(new Request("https://example.test", { method: "OPTIONS", headers: { origin: "https://couplesalarm.com" } }), env);
   assert.equal(response.status, 204);
   assert.match(response.headers.get("Access-Control-Allow-Headers"), /apikey/);
+});
+
+test("home page accepts only the Google Play listing click; beta steps stay on the beta page", async () => {
+  const send = async () => ({ ok: true });
+  const status = async body => (await handleRequest(request(body), env, send)).status;
+  for (const path of ["/", "/index.html"]) {
+    assert.equal(await status({ path, event_type: "beta_play_click" }), 204);
+    assert.equal(await status({ path, event_type: "beta_group_click" }), 400);
+    assert.equal(await status({ path, event_type: "beta_optin_click" }), 400);
+  }
+  assert.equal(await status({ path: "/support/", event_type: "beta_play_click" }), 400);
+  assert.equal(await status({ path: "/beta/android/", event_type: "beta_optin_click" }), 204);
 });

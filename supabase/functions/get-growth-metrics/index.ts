@@ -1,6 +1,11 @@
 const allowedOrigins = new Set(["https://couplesalarm.com", "https://www.couplesalarm.com", "http://127.0.0.1:4179"]);
 const campaigns = new Set(["unattributed", "owned_website", "paid_facebook_iphone", "paid_instagram_iphone", "paid_instagram_snooze_v14", "paid_ig_snooze_asian_v15", "paid_ig_snooze_white_v15", "paid_ig_snooze_black_v15", "paid_youtube_iphone", "paid_tiktok_iphone"]);
-const pages = new Set(["/", "/compatibility/", "/different-wake-times/", "/download/", "/support/", "/privacy/", "Other page"]);
+// Page labels are real page paths from the database (couples_alarm_report_pages),
+// so a new guide needs no change here. Only plain lowercase page paths pass; the
+// SQL applies the same shape check and reports anything else as "Other page".
+const pagePath = /^\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/){0,4}$/;
+const maxPages = 100;
+const pages = { size: maxPages, has: label => label === "Other page" || (typeof label === "string" && label.length <= 100 && pagePath.test(label)) };
 const referrers = new Set(["Direct / unknown", "Facebook", "Instagram", "TikTok", "YouTube", "X", "Google", "Bing", "Other referring websites"]);
 function keys(value) {
   try { return Object.values(JSON.parse(value || "{}")).filter(key => typeof key === "string"); }
@@ -17,6 +22,22 @@ function date(value) {
 function timestamp(value) {
   if (typeof value !== "string" || !Number.isFinite(Date.parse(value))) throw new Error("Invalid timestamp");
   return new Date(value).toISOString();
+}
+const deviceClasses = new Set(["apple_mobile", "android", "desktop", "unknown"]);
+export function publicDiagnostics(data) {
+  if (!data || data.version !== 1 || !Array.isArray(data.rows) || data.rows.length > 90 * campaigns.size * deviceClasses.size) throw Error("Invalid diagnostics");
+  return { version: 1, firstRecordedAt: data.firstRecordedAt === null ? null : timestamp(data.firstRecordedAt),
+    rows: data.rows.map(row => {
+      if (!campaigns.has(row.campaign) || !deviceClasses.has(row.deviceClass)) throw Error("Invalid diagnostic label");
+      return { date: date(row.date), campaign: row.campaign, deviceClass: row.deviceClass,
+        pageViews: count(row.pageViews), appStoreVisible: count(row.appStoreVisible), foreground10s: count(row.foreground10s) };
+    }) };
+}
+export function publicBetaAndroid(data) {
+  if (!data || data.version !== 1 || !Array.isArray(data.daily) || data.daily.length > 90) throw Error("Invalid beta funnel");
+  return { version: 1, firstClickRecordedAt: data.firstClickRecordedAt === null ? null : timestamp(data.firstClickRecordedAt),
+    daily: data.daily.map(row => ({ date: date(row.date), pageViews: count(row.pageViews),
+      groupClicks: count(row.groupClicks), optInClicks: count(row.optInClicks), playClicks: count(row.playClicks) })) };
 }
 // Explicit projection prevents future SQL additions from leaking private fields.
 export function publicMetrics(data) {
@@ -35,6 +56,7 @@ export function publicMetrics(data) {
     daily: data.daily.map(row => ({ date: date(row.date), partial: row.partial === true,
       visitors: count(row.visitors), visitorsWhoClicked: count(row.visitorsWhoClicked),
       pageViews: count(row.pageViews), appStoreClicks: count(row.appStoreClicks) })),
+    ...(data.diagnostics === undefined ? {} : { diagnostics: publicDiagnostics(data.diagnostics) }),
     pages: grouped(data.pages, pages), campaigns: grouped(data.campaigns, campaigns),
     referrers: grouped(data.referrers, referrers, false),
     // Older saved reports have no exclusion ledger. Do not imply a verified zero.
@@ -64,7 +86,16 @@ export async function handleRequest(request, env = name => Deno.env.get(name), f
       body: "{}", signal: AbortSignal.timeout(12_000),
     });
     if (!result.ok) return respond(503);
-    return respond(200, publicMetrics(await result.json()));
+    const metrics = publicMetrics(await result.json());
+    // Android beta funnel is optional: a failure here never hides website totals.
+    try {
+      const beta = await fetchImpl(`${projectUrl}/rest/v1/rpc/couples_alarm_beta_android_metrics`, {
+        method: "POST", headers: { apikey: serviceKey, "Content-Type": "application/json" },
+        body: "{}", signal: AbortSignal.timeout(8_000),
+      });
+      if (beta.ok) metrics.betaAndroid = publicBetaAndroid(await beta.json());
+    } catch {}
+    return respond(200, metrics);
   } catch { return respond(503); }
 }
 if (typeof Deno !== "undefined") Deno.serve(request => handleRequest(request));

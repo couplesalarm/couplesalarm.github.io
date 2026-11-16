@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-13T21:51:30.674Z",
+  "generatedAt": "2026-11-15T21:51:14.255Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-10-13T21:50:55.073Z",
+    "updatedAt": "2026-11-15T21:50:25.973Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-10-11",
-    "requestedThroughDate": "2026-10-12",
+    "throughDate": "2026-11-13",
+    "requestedThroughDate": "2026-11-14",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -50,7 +50,24 @@
       "2026-10-05",
       "2026-10-08",
       "2026-10-09",
-      "2026-10-12"
+      "2026-10-12",
+      "2026-10-14",
+      "2026-10-15",
+      "2026-10-16",
+      "2026-10-17",
+      "2026-10-19",
+      "2026-10-24",
+      "2026-10-26",
+      "2026-10-28",
+      "2026-10-30",
+      "2026-10-31",
+      "2026-11-03",
+      "2026-11-05",
+      "2026-11-07",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12",
+      "2026-11-14"
     ],
     "daily": [
       {
@@ -424,12 +441,210 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-13",
+        "firstTimeDownloads": 2,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-14",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-15",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-16",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-17",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-18",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-19",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-20",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-21",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-22",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-23",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-24",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-25",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-26",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-27",
+        "firstTimeDownloads": 2,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-28",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-29",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-10-30",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-10-31",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-01",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-02",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-03",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-04",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-05",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-06",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-07",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-08",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-09",
+        "firstTimeDownloads": 0,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-10",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-11",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-12",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-13",
+        "firstTimeDownloads": 2,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
+      },
+      {
+        "date": "2026-11-14",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
-    "firstTimeDownloads": 19,
+    "firstTimeDownloads": 29,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
-    "usRatingCount": 2
+    "usRatingCount": 3
   },
   "social": {
     "mode": "mixed",
@@ -450,20 +665,19 @@
       },
       {
         "name": "X",
-        "views": 3,
-        "mode": "automatic",
-        "updatedAt": "2026-08-24T17:47:45.753Z",
+        "views": 11,
+        "mode": "manual",
+        "updatedAt": "2026-10-16T21:30:00Z",
         "url": "https://x.com/couplesalarm/status/2088261204279963649",
-        "lastAttemptAt": "2026-10-13T21:51:29.306Z",
-        "status": "error"
+        "status": "ok"
       },
       {
         "name": "YouTube",
-        "views": 20,
+        "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-10-13T21:51:29.306Z",
+        "updatedAt": "2026-11-15T21:51:13.027Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-10-13T21:51:29.306Z",
+        "lastAttemptAt": "2026-11-15T21:51:13.027Z",
         "status": "ok"
       }
     ]
@@ -471,7 +685,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-10-13T21:51:29.189Z",
+    "generatedAt": "2026-11-15T21:51:12.058Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -500,13 +714,763 @@
       },
       {
         "date": "2026-10-13",
-        "partial": true,
-        "visitors": 46,
+        "partial": false,
+        "visitors": 50,
         "visitorsWhoClicked": 0,
-        "pageViews": 54,
+        "pageViews": 62,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "partial": false,
+        "visitors": 50,
+        "visitorsWhoClicked": 1,
+        "pageViews": 69,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-15",
+        "partial": false,
+        "visitors": 43,
+        "visitorsWhoClicked": 0,
+        "pageViews": 56,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "partial": false,
+        "visitors": 36,
+        "visitorsWhoClicked": 1,
+        "pageViews": 102,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-17",
+        "partial": false,
+        "visitors": 43,
+        "visitorsWhoClicked": 0,
+        "pageViews": 57,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-18",
+        "partial": false,
+        "visitors": 14,
+        "visitorsWhoClicked": 0,
+        "pageViews": 14,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-19",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-20",
+        "partial": false,
+        "visitors": 1,
+        "visitorsWhoClicked": 0,
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-21",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "partial": false,
+        "visitors": 4,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "partial": false,
+        "visitors": 5,
+        "visitorsWhoClicked": 0,
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-24",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-25",
+        "partial": false,
+        "visitors": 2,
+        "visitorsWhoClicked": 0,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-26",
+        "partial": false,
+        "visitors": 2,
+        "visitorsWhoClicked": 0,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-27",
+        "partial": false,
+        "visitors": 4,
+        "visitorsWhoClicked": 0,
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-28",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "partial": false,
+        "visitors": 6,
+        "visitorsWhoClicked": 0,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-30",
+        "partial": false,
+        "visitors": 1,
+        "visitorsWhoClicked": 0,
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-31",
+        "partial": false,
+        "visitors": 2,
+        "visitorsWhoClicked": 0,
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-01",
+        "partial": false,
+        "visitors": 6,
+        "visitorsWhoClicked": 0,
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-03",
+        "partial": false,
+        "visitors": 3,
+        "visitorsWhoClicked": 2,
+        "pageViews": 18,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-04",
+        "partial": false,
+        "visitors": 2,
+        "visitorsWhoClicked": 0,
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-05",
+        "partial": false,
+        "visitors": 6,
+        "visitorsWhoClicked": 0,
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "partial": false,
+        "visitors": 1,
+        "visitorsWhoClicked": 0,
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "partial": false,
+        "visitors": 6,
+        "visitorsWhoClicked": 1,
+        "pageViews": 11,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-08",
+        "partial": false,
+        "visitors": 9,
+        "visitorsWhoClicked": 2,
+        "pageViews": 11,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-09",
+        "partial": false,
+        "visitors": 5,
+        "visitorsWhoClicked": 1,
+        "pageViews": 9,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-10",
+        "partial": false,
+        "visitors": 6,
+        "visitorsWhoClicked": 1,
+        "pageViews": 10,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-11",
+        "partial": false,
+        "visitors": 16,
+        "visitorsWhoClicked": 1,
+        "pageViews": 22,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-12",
+        "partial": false,
+        "visitors": 7,
+        "visitorsWhoClicked": 2,
+        "pageViews": 14,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-13",
+        "partial": false,
+        "visitors": 11,
+        "visitorsWhoClicked": 1,
+        "pageViews": 20,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-14",
+        "partial": false,
+        "visitors": 10,
+        "visitorsWhoClicked": 1,
+        "pageViews": 16,
+        "appStoreClicks": 3
+      },
+      {
+        "date": "2026-11-15",
+        "partial": true,
+        "visitors": 14,
+        "visitorsWhoClicked": 1,
+        "pageViews": 22,
+        "appStoreClicks": 4
       }
     ],
+    "diagnostics": {
+      "version": 1,
+      "firstRecordedAt": "2026-10-16T14:19:17.582Z",
+      "rows": [
+        {
+          "date": "2026-10-16",
+          "campaign": "paid_ig_snooze_black_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "paid_ig_snooze_white_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 10,
+          "appStoreVisible": 10,
+          "foreground10s": 6
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 8,
+          "appStoreVisible": 4,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-10-16",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 62,
+          "appStoreVisible": 35,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "paid_ig_snooze_white_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 38,
+          "appStoreVisible": 38,
+          "foreground10s": 14
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 5,
+          "appStoreVisible": 4,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-17",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 14,
+          "appStoreVisible": 10,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-18",
+          "campaign": "paid_ig_snooze_white_v15",
+          "deviceClass": "apple_mobile",
+          "pageViews": 11,
+          "appStoreVisible": 10,
+          "foreground10s": 4
+        },
+        {
+          "date": "2026-10-18",
+          "campaign": "paid_instagram_snooze_v14",
+          "deviceClass": "apple_mobile",
+          "pageViews": 2,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-18",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-19",
+          "campaign": "unattributed",
+          "deviceClass": "apple_mobile",
+          "pageViews": 1,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-19",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-20",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-21",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-21",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 2,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-22",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-23",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 4,
+          "appStoreVisible": 3,
+          "foreground10s": 1
+        },
+        {
+          "date": "2026-10-23",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-24",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-25",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-26",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-27",
+          "campaign": "unattributed",
+          "deviceClass": "apple_mobile",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-27",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-28",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 6,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "paid_tiktok_iphone",
+          "deviceClass": "apple_mobile",
+          "pageViews": 2,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 1
+        },
+        {
+          "date": "2026-10-29",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-30",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-31",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-10-31",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 1
+        },
+        {
+          "date": "2026-11-01",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 3,
+          "appStoreVisible": 3,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-01",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 5,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-02",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-02",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-03",
+          "campaign": "unattributed",
+          "deviceClass": "apple_mobile",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-03",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 13,
+          "appStoreVisible": 12,
+          "foreground10s": 6
+        },
+        {
+          "date": "2026-11-04",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-05",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 2,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-05",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-06",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 1,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-07",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 2
+        },
+        {
+          "date": "2026-11-07",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 6,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-08",
+          "campaign": "unattributed",
+          "deviceClass": "apple_mobile",
+          "pageViews": 1,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-08",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 4,
+          "appStoreVisible": 4,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-08",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 6,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-09",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 4
+        },
+        {
+          "date": "2026-11-09",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-10",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-10",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 5,
+          "appStoreVisible": 0,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-11",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 18,
+          "appStoreVisible": 14,
+          "foreground10s": 10
+        },
+        {
+          "date": "2026-11-11",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 4,
+          "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-12",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 11,
+          "appStoreVisible": 10,
+          "foreground10s": 9
+        },
+        {
+          "date": "2026-11-12",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 3,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-13",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 1,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-13",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 13,
+          "appStoreVisible": 13,
+          "foreground10s": 7
+        },
+        {
+          "date": "2026-11-13",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 6,
+          "appStoreVisible": 2,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-14",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 11,
+          "appStoreVisible": 7,
+          "foreground10s": 4
+        },
+        {
+          "date": "2026-11-14",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 5,
+          "appStoreVisible": 4,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-15",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 10,
+          "appStoreVisible": 8,
+          "foreground10s": 7
+        },
+        {
+          "date": "2026-11-15",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 12,
+          "appStoreVisible": 10,
+          "foreground10s": 0
+        }
+      ]
+    },
     "pages": [
       {
         "date": "2026-10-10",
@@ -607,13 +1571,13 @@
       {
         "date": "2026-10-13",
         "label": "/",
-        "pageViews": 47,
+        "pageViews": 51,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-13",
         "label": "/compatibility/",
-        "pageViews": 2,
+        "pageViews": 3,
         "appStoreClicks": 0
       },
       {
@@ -625,13 +1589,559 @@
       {
         "date": "2026-10-13",
         "label": "/download/",
-        "pageViews": 2,
+        "pageViews": 4,
         "appStoreClicks": 0
       },
       {
         "date": "2026-10-13",
         "label": "/privacy/",
         "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-13",
+        "label": "/support/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "/",
+        "pageViews": 64,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-14",
+        "label": "/compatibility/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "/download/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/",
+        "pageViews": 51,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/compatibility/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "/support/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/",
+        "pageViews": 44,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/best-alarm-apps-for-couples/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/compatibility/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/different-wake-times/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/download/",
+        "pageViews": 9,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/privacy/",
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/support/",
+        "pageViews": 7,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Other page",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/",
+        "pageViews": 42,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/best-alarm-apps-for-couples/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Other page",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-18",
+        "label": "/",
+        "pageViews": 14,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-19",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-19",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-20",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-21",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-21",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-24",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-25",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-26",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-27",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-27",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-28",
+        "label": "/privacy/",
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-30",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-31",
+        "label": "/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-01",
+        "label": "/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-01",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-03",
+        "label": "/",
+        "pageViews": 9,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-03",
+        "label": "/download/",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-03",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-04",
+        "label": "/different-wake-times/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-04",
+        "label": "/privacy/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-05",
+        "label": "/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-05",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "label": "/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "label": "/",
+        "pageViews": 5,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-07",
+        "label": "/different-wake-times/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "label": "/support/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "label": "/wake-up-without-waking-partner/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-08",
+        "label": "/",
+        "pageViews": 7,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-08",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-08",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-09",
+        "label": "/",
+        "pageViews": 5,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-09",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-10",
+        "label": "/",
+        "pageViews": 5,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-10",
+        "label": "/privacy/",
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-11",
+        "label": "/",
+        "pageViews": 19,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-11",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-12",
+        "label": "/",
+        "pageViews": 11,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-12",
+        "label": "/privacy/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-12",
+        "label": "/support/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-13",
+        "label": "/",
+        "pageViews": 16,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-13",
+        "label": "/privacy/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-14",
+        "label": "/",
+        "pageViews": 11,
+        "appStoreClicks": 3
+      },
+      {
+        "date": "2026-11-14",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-14",
+        "label": "/privacy/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-14",
+        "label": "/support/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/",
+        "pageViews": 15,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/compatibility/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/different-wake-times/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/download/",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/privacy/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "/support/",
+        "pageViews": 1,
         "appStoreClicks": 0
       }
     ],
@@ -753,7 +2263,7 @@
       {
         "date": "2026-10-13",
         "label": "paid_facebook_iphone",
-        "pageViews": 1,
+        "pageViews": 2,
         "appStoreClicks": 0
       },
       {
@@ -771,7 +2281,7 @@
       {
         "date": "2026-10-13",
         "label": "paid_ig_snooze_white_v15",
-        "pageViews": 19,
+        "pageViews": 21,
         "appStoreClicks": 0
       },
       {
@@ -789,7 +2299,349 @@
       {
         "date": "2026-10-13",
         "label": "unattributed",
+        "pageViews": 24,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-14",
+        "label": "paid_ig_snooze_black_v15",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 32,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-14",
+        "label": "unattributed",
+        "pageViews": 28,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "paid_ig_snooze_white_v15",
         "pageViews": 19,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 17,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-15",
+        "label": "unattributed",
+        "pageViews": 20,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-16",
+        "label": "paid_ig_snooze_black_v15",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 19,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-16",
+        "label": "unattributed",
+        "pageViews": 78,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 38,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-17",
+        "label": "unattributed",
+        "pageViews": 19,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-18",
+        "label": "paid_ig_snooze_white_v15",
+        "pageViews": 11,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-18",
+        "label": "paid_instagram_snooze_v14",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-18",
+        "label": "unattributed",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-19",
+        "label": "unattributed",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-20",
+        "label": "unattributed",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-21",
+        "label": "unattributed",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-22",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-23",
+        "label": "unattributed",
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-24",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-25",
+        "label": "unattributed",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-26",
+        "label": "unattributed",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-27",
+        "label": "unattributed",
+        "pageViews": 5,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-28",
+        "label": "unattributed",
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "paid_tiktok_iphone",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-29",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-30",
+        "label": "unattributed",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-10-31",
+        "label": "unattributed",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-01",
+        "label": "unattributed",
+        "pageViews": 8,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-02",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-03",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-03",
+        "label": "unattributed",
+        "pageViews": 18,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-04",
+        "label": "unattributed",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-05",
+        "label": "unattributed",
+        "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-06",
+        "label": "unattributed",
+        "pageViews": 1,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-07",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-07",
+        "label": "unattributed",
+        "pageViews": 11,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-08",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-08",
+        "label": "unattributed",
+        "pageViews": 11,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-09",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-09",
+        "label": "unattributed",
+        "pageViews": 9,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-10",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-10",
+        "label": "unattributed",
+        "pageViews": 10,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-11",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-11",
+        "label": "unattributed",
+        "pageViews": 22,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-12",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-12",
+        "label": "unattributed",
+        "pageViews": 14,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-13",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-13",
+        "label": "unattributed",
+        "pageViews": 20,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-14",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 3
+      },
+      {
+        "date": "2026-11-14",
+        "label": "unattributed",
+        "pageViews": 16,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-15",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-15",
+        "label": "unattributed",
+        "pageViews": 22,
         "appStoreClicks": 0
       }
     ],
@@ -862,12 +2714,372 @@
       {
         "date": "2026-10-13",
         "label": "Direct / unknown",
-        "pageViews": 21
+        "pageViews": 27
       },
       {
         "date": "2026-10-13",
         "label": "Instagram",
-        "pageViews": 33
+        "pageViews": 35
+      },
+      {
+        "date": "2026-10-14",
+        "label": "Direct / unknown",
+        "pageViews": 25
+      },
+      {
+        "date": "2026-10-14",
+        "label": "Google",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-10-14",
+        "label": "Instagram",
+        "pageViews": 40
+      },
+      {
+        "date": "2026-10-15",
+        "label": "Direct / unknown",
+        "pageViews": 18
+      },
+      {
+        "date": "2026-10-15",
+        "label": "Instagram",
+        "pageViews": 38
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Direct / unknown",
+        "pageViews": 76
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Instagram",
+        "pageViews": 25
+      },
+      {
+        "date": "2026-10-16",
+        "label": "Other referring websites",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Direct / unknown",
+        "pageViews": 18
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Facebook",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-17",
+        "label": "Instagram",
+        "pageViews": 38
+      },
+      {
+        "date": "2026-10-18",
+        "label": "Direct / unknown",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-18",
+        "label": "Instagram",
+        "pageViews": 13
+      },
+      {
+        "date": "2026-10-19",
+        "label": "Direct / unknown",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-10-20",
+        "label": "Direct / unknown",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-21",
+        "label": "Direct / unknown",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-10-22",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-10-23",
+        "label": "Direct / unknown",
+        "pageViews": 5
+      },
+      {
+        "date": "2026-10-24",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-10-25",
+        "label": "Direct / unknown",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-10-26",
+        "label": "Direct / unknown",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-10-27",
+        "label": "Direct / unknown",
+        "pageViews": 5
+      },
+      {
+        "date": "2026-10-28",
+        "label": "Direct / unknown",
+        "pageViews": 6
+      },
+      {
+        "date": "2026-10-29",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-10-29",
+        "label": "TikTok",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-10-30",
+        "label": "Direct / unknown",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-10-31",
+        "label": "Direct / unknown",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-01",
+        "label": "Direct / unknown",
+        "pageViews": 8
+      },
+      {
+        "date": "2026-11-02",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-11-03",
+        "label": "Direct / unknown",
+        "pageViews": 15
+      },
+      {
+        "date": "2026-11-03",
+        "label": "Facebook",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-03",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-03",
+        "label": "X",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-04",
+        "label": "Direct / unknown",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-11-05",
+        "label": "Direct / unknown",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-11-05",
+        "label": "Facebook",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-06",
+        "label": "Facebook",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-07",
+        "label": "Direct / unknown",
+        "pageViews": 7
+      },
+      {
+        "date": "2026-11-07",
+        "label": "Instagram",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-07",
+        "label": "YouTube",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-08",
+        "label": "Direct / unknown",
+        "pageViews": 9
+      },
+      {
+        "date": "2026-11-08",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-08",
+        "label": "YouTube",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-09",
+        "label": "Direct / unknown",
+        "pageViews": 6
+      },
+      {
+        "date": "2026-11-09",
+        "label": "Instagram",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-09",
+        "label": "YouTube",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-10",
+        "label": "Direct / unknown",
+        "pageViews": 7
+      },
+      {
+        "date": "2026-11-10",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-10",
+        "label": "YouTube",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-11",
+        "label": "Direct / unknown",
+        "pageViews": 13
+      },
+      {
+        "date": "2026-11-11",
+        "label": "Instagram",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-11",
+        "label": "Other referring websites",
+        "pageViews": 4
+      },
+      {
+        "date": "2026-11-11",
+        "label": "X",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-11",
+        "label": "YouTube",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-12",
+        "label": "Direct / unknown",
+        "pageViews": 8
+      },
+      {
+        "date": "2026-11-12",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-12",
+        "label": "Other referring websites",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-12",
+        "label": "X",
+        "pageViews": 3
+      },
+      {
+        "date": "2026-11-12",
+        "label": "YouTube",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-13",
+        "label": "Direct / unknown",
+        "pageViews": 14
+      },
+      {
+        "date": "2026-11-13",
+        "label": "Instagram",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-13",
+        "label": "Other referring websites",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-13",
+        "label": "X",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-13",
+        "label": "YouTube",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-14",
+        "label": "Direct / unknown",
+        "pageViews": 13
+      },
+      {
+        "date": "2026-11-14",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-14",
+        "label": "X",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-14",
+        "label": "YouTube",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-15",
+        "label": "Direct / unknown",
+        "pageViews": 19
+      },
+      {
+        "date": "2026-11-15",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-15",
+        "label": "X",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-15",
+        "label": "YouTube",
+        "pageViews": 1
       }
     ],
     "excluded": [
@@ -924,8 +3136,51 @@
         "label": "tracking_qa",
         "pageViews": 4,
         "appStoreClicks": 1
+      },
+      {
+        "date": "2026-10-15",
+        "label": "tracking_qa",
+        "pageViews": 2,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-10-16",
+        "label": "tracking_qa",
+        "pageViews": 12,
+        "appStoreClicks": 6
+      },
+      {
+        "date": "2026-10-23",
+        "label": "tracking_qa",
+        "pageViews": 2,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-02",
+        "label": "tracking_qa",
+        "pageViews": 4,
+        "appStoreClicks": 2
+      },
+      {
+        "date": "2026-11-03",
+        "label": "tracking_qa",
+        "pageViews": 6,
+        "appStoreClicks": 0
       }
-    ]
+    ],
+    "betaAndroid": {
+      "version": 1,
+      "firstClickRecordedAt": "2026-10-16T23:44:33.766Z",
+      "daily": [
+        {
+          "date": "2026-10-16",
+          "pageViews": 8,
+          "groupClicks": 0,
+          "optInClicks": 0,
+          "playClicks": 0
+        }
+      ]
+    }
   },
   "appleAds": {
     "schemaVersion": 1,

@@ -29,28 +29,31 @@ test("discloses Android delivery storage and platform-specific deletion", () => 
   }
 });
 
-test("keeps Android testing separate from public availability", () => {
-  assert.match(support, /Android is currently in a Google Play closed beta/);
-  assert.match(privacy, /does not announce its availability on Google Play/);
+test("presents Android as publicly available and routes installs through the download page", () => {
+  assert.match(support, /Couples Alarm is available for iPhone and Android/);
+  assert.match(support, /The earlier closed beta has ended/);
+  assert.match(support, /href="\.\.\/download\/"/);
+  assert.match(privacy, /now available to everyone on Google Play, and the closed beta has ended/);
+  assert.doesNotMatch(`${privacy}\n${support}`, /currently in a Google Play closed beta|still in testing|test builds?|Join the Android beta/);
+  assert.doesNotMatch(`${privacy}\n${support}`, /href="[^"]*beta\/android/);
+  // Store links stay on the home, download and former-beta pages, where clicks are recorded.
   assert.doesNotMatch(`${privacy}\n${support}`, /href="https:\/\/play\.google\.com\/store\/apps/);
 });
 
-test("explains tester-group privacy and self-service Android access", () => {
+test("keeps the earlier beta's tester-group and application disclosures", () => {
   assert.match(privacy, /id="android-beta-group"/);
   assert.match(privacy, /Couples Alarm Android Beta Google Group/);
   assert.match(privacy, /member email addresses and the member directory are not visible to other members/);
   assert.match(privacy, /does not send your partner names, listening answers, alarms, or app setup/);
-  assert.match(support, /Follow the two steps on the/);
-  assert.match(support, /Joining the group does not automatically opt you in on Google Play/);
-  assert.match(support, /join the tester group, then choose Become a tester on Google Play to download the app/);
-  assert.match(support, /No organizer approval or confirmation email is needed/);
-  assert.match(privacy, /website does not automatically join the group or opt you in on Google Play/);
-  assert.match(privacy, /website does not ask you to submit an email address or other signup information/);
+  assert.match(privacy, /did not ask for an email address or other signup information/);
+  assert.match(privacy, /website did not join the group or opt anyone in on Google Play/);
+  assert.match(privacy, /you can leave the group at any time in Google Groups/);
   assert.match(privacy, /Earlier website applications remain stored privately in Supabase/);
   assert.match(privacy, /Earlier applications submitted through the previous Google Form remain stored in Google Forms/);
   assert.match(privacy, /to request deletion of an earlier application/);
-  assert.doesNotMatch(support, /Sign up with your email/);
-  assert.match(support, /same Google account you use in the Play Store/);
+  assert.match(support, /you no longer need to join a tester group/);
+  assert.match(support, /same Google account and choose Update when it appears/);
+  assert.doesNotMatch(support, /Sign up with your email|Become a tester|14 days/);
 });
 
 test("discloses Android review handling", () => {

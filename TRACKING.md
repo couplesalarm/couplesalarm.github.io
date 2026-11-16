@@ -145,6 +145,21 @@ against the hosted project. Deploy the recorded migration and the
 PR, dispatch the existing daily refresh, and verify both live counts and the
 published Apple report in the actual dashboard.
 
+### Page labels on the growth dashboard
+
+`couples_alarm_growth_metrics()` reports each page under its normalized path when
+that path is in the private table `public.couples_alarm_report_pages`; everything
+else is grouped under the single label "Other page". The table was seeded with every path `record-page-view`
+accepts, and an insert trigger on `couples_alarm_page_views` registers any new,
+plainly shaped path (lowercase slugs, up to four levels, at most 100 characters)
+the first time it is stored. A new page therefore only needs the
+`record-page-view` allowlist change and a redeploy; no migration and no change to
+`get-growth-metrics`, which validates page labels by the same shape. Rows stored
+before the allowlist existed (before 2026-10-10) never register new paths; they count under a page only if they normalize to an already registered path, otherwise under
+"Other page". Test with `tests/sql/report-pages.sql` and
+`tests/sql/report-pages-trigger-safety.sql`, each in its own isolated local
+database only.
+
 ## Four-couple Snooze War test
 
 The shared $80 Instagram campaign keeps the young V14 label and adds
@@ -322,3 +337,206 @@ The Apple Ads manual snapshot was refreshed from the authorized October 13,
 in source metadata ($0.69 / 15 / 1 / 1 / 0). Campaign settings were Running,
 $2/day, ending October 14 at 23:59 America/New_York (October 15 at 03:59 UTC).
 These are dated observations, not campaign edits or a new automatic connection.
+
+## Coarse website diagnostics — October 16, 2026
+
+Approved scope: coarse device hints, App Store link exposure and ten seconds of
+foreground page activity. No homepage copy/design, ads, budgets or Android
+onboarding changes are part of this release. PR141 merged during implementation;
+its Android enrollment changes and newly instrumented beta route are preserved.
+The shared script cache key also advances on that route. `diagnostics_version = 1` marks
+supported loads. Older rows and unsupported browsers remain unmeasured; there is
+no historical backfill or deletion. All existing campaign handoffs, click counts,
+page-view counts and `ct=tracking_qa` exclusions remain in force.
+
+### Exact definitions
+
+- **Device hint:** the recorder maps the ordinary request user-agent to
+  `apple_mobile`, `android`, `desktop` or `unknown`, only for version-1 events.
+  It stores no raw agent, model, OS version, screen dimensions, client hints or
+  location. Apple mobile is a browser-family hint, not iOS compatibility or
+  App Store eligibility. Desktop-mode iPads, disguised agents and bots can be
+  misclassified. Empty, unrecognized and recognized bot agents use unknown.
+- **`app_store_visible`:** the first observation in a document where at least
+  50% of any HTTPS Couples Alarm App Store link's area intersects the viewport,
+  the document is visible (not prerendered or suspended), and the link/ancestors
+  are rendered without `display:none`, hidden visibility or zero opacity.
+  Intersection Observer accounts for clipping; a current viewport rectangle and
+  CSS checks reject stale/offscreen/hidden links. This is one qualifying snapshot,
+  with no minimum dwell. Covering elements, filters and browser UI occlusion are
+  not reliably detected. Multiple badges, scrolling and BFCache returns do not
+  add another event. There is no negative “hidden CTA” event: absence is unknown.
+- **`foreground_10s`:** one event after at least 10,000 accumulated milliseconds
+  while `document.visibilityState === "visible"`. A 250ms timer uses a monotonic
+  clock, pauses while hidden/page-hidden, and resumes the same document after
+  BFCache. The final fraction under 250ms before each pause may be discarded.
+  Scheduling gaps over 1,000ms are discarded to avoid counting sleep/freeze or
+  long stalls. Prerender time is excluded. Visible does not mean keyboard focus,
+  interaction, reading, attention or motivation. No input/activity stream is read.
+
+Diagnostics require Intersection Observer, Mutation Observer, Page Visibility,
+`performance.now` and `crypto.randomUUID`. Unsupported browsers still record old
+page-view/click events but have no diagnostic capability marker. No polyfill,
+third-party tracker, cookie or browser storage is introduced. A document-level
+initialization guard prevents duplicate script setup. Timers and observers stop
+while hidden/page-hidden; exposure observers disconnect permanently after the
+first exposure. No unload handler, unload flush or navigation delay is used. The delivery
+repair below adds bounded retries. Requests retain `keepalive`, omitted credentials and failure isolation.
+
+In the original diagnostics protocol, each diagnostic event generates an
+independent random event token in memory.
+The recorder stores only a daily HMAC in `diagnostic_key`; uniqueness plus an
+ignore-duplicate insert makes same-day request replay idempotent. Tokens are not
+shared between the two signals, persisted in a browser, or used to join events.
+They cannot create a cross-day or cross-event visitor ID. A replay on a different
+UTC day has a different key; that original client did not retry or resend on restore. The delivery protocol
+below preserves the creation day across retries, including midnight.
+Existing daily visitor hashing remains unchanged. Diagnostics never count as
+page views, store clicks or estimated visitors, even with no corresponding view.
+The legacy acquisition and monthly summary contracts still include only their
+original event types. Raw diagnostics remain behind existing RLS/service access.
+
+### Reporting and interpretation
+
+`couples_alarm_growth_metrics()` and `get-growth-metrics` retain schemaVersion 1
+and add an optional `diagnostics` object, version 1. It exposes only bounded daily
+UTC totals by approved page-source campaign and device hint: measured page views,
+App Store visible events and foreground-10s events. QA tags and individually
+classified test rows are excluded. The first diagnostic receipt time includes QA
+so rollout coverage is visible even before organic traffic arrives.
+
+The existing dashboard period filter controls a small diagnostic table in the
+daily website section. Unmeasured page views are shown separately. Old snapshots
+without the object show unavailable; they do not imply zero. Saved fallback data
+retains its actual timestamp. The existing daily CSV remains page views/clicks.
+
+These are **unjoined event totals**, not a visitor funnel, conversion rate or
+proof of why paid visitors leave. A page's source labels both diagnostics; a
+badge's `owned_website` default can still label its click differently. The server
+uses receipt dates, so a long-lived page crossing midnight or a failed request
+can separate a view from its signal. Blocking, DNT, unsupported browsers, short
+visits, rendering limits and delivery loss all produce undercounting. No signal
+establishes an install or exact device eligibility.
+
+### Privacy/consent review
+
+The release remains limited to the three approved first-party statistical
+signals, through the existing Supabase processor and private event table. There
+are no new services, agreements, access grants, ad identifiers, profiling,
+cross-site joins, persistent identifiers, session replay, form data or location.
+The privacy notice now discloses the exact signals and limits. Do Not Track still
+suppresses all browser counting/tagging; the recorder also honors a DNT header.
+The old “no cookies, therefore no banner” implication was removed: absence of
+cookies alone does not establish a universal consent exemption.
+
+Reviewed [ICO storage/access guidance](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/what-are-the-exceptions/): statistical exceptions have purpose, disclosure and objection conditions; this engineering review does not certify every jurisdiction. The implementation retains the existing DNT approach and the owner-approved statistical purpose. Any later identity joining, ad personalization, persistent storage or broader collection needs a separate decision before release.
+
+### Verification and safe release
+
+1. Run `node --test tests/*.test.mjs`. For the isolated local PostgreSQL cluster
+   ONLY on `127.0.0.1:55439`, run `psql -h 127.0.0.1 -p 55439 -d diagnostics_test
+   -f tests/sql/diagnostics.sql` on a fresh database. It includes legacy reporting,
+   role/privacy checks, same-day deduplication, QA exclusions and diagnostic-only
+   traffic that must leave every old metric unchanged. Never run this fixture on
+   the hosted project.
+2. Run `PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node
+   tests/browser/diagnostics.mjs`. It serves source through intercepted browser
+   requests and mocks the recorder: no production traffic. It checks actual CTA
+   rendering, 10 seconds, DNT, duplicate initialization, navigation and old/new
+   dashboard states. Unit tests cover background timing, prerender/BFCache,
+   long stalls, dynamic/hidden CTA, device fallback and failed requests.
+3. Confirm main/concurrent PRs and project `xqdqgsbkapvlskcldmpe` again. Apply
+   `20261016140552_add_coarse_website_diagnostics.sql`, then deploy both
+   `record-page-view` and `get-growth-metrics` with existing API-key authentication
+   and `verify_jwt=false`. These are compatible with the old website.
+4. Merge the reviewed website PR, verify the GitHub Pages commit/build and public
+   asset version `20261016-diagnostics-1`, dispatch the existing snapshot workflow,
+   then use only `?ct=tracking_qa` for live visible/10s/click checks. Read back raw
+   QA receipts and verify they remain excluded. Preserve the receipts.
+
+Rollback: revert this release's frontend/reporting commit through a PR (or stop
+loading this diagnostic script version) to stop the new signals. Keep additive
+columns, constraints and all stored events. The extended recorder/report accepts
+old clients. If an edge rollback is necessary, redeploy the captured pre-release
+function sources after the frontend rollback; old reporters explicitly filter
+page views and clicks. Do not reverse the schema by dropping populated columns
+or deleting diagnostics. Record exact deployed versions, commit, UTC times and
+QA receipts in the release evidence.
+
+## Tracking delivery reliability — October 16, 2026
+
+The owner approved bounded, duplicate-safe retries after a recorder 503 was
+observed at 15:56:21.004 UTC. The exact failed payload is unproven. This repair
+makes no claim about which historical event was lost and performs no backfill.
+It changes delivery of the existing events, not collected metrics or site copy.
+
+### Protocol and bounds
+
+- Every new logical event (page view, each actual store-click activation,
+  App Store exposure, foreground threshold) gets an independent secure random
+  `event_token`, `delivery_version: 1`, and its creation-day `event_day` in UTC.
+  The entire JSON payload is frozen before the first attempt and reused byte
+  for byte on retries. Tokens are not shared between events or persisted.
+- The recorder validates the protocol, UUID and calendar day. It derives a
+  domain-separated HMAC from event type, token and that immutable day, and stores
+  only `event_key`. Raw token/day are discarded. The day is solely a hashing
+  input, not a reporting date; accepting valid skewed client dates avoids losing
+  events due to a wrong device clock. Reports continue to use server receipt time.
+- A unique database constraint and PostgREST `resolution=ignore-duplicates` insert
+  provide atomic deduplication, including concurrent requests and a commit whose
+  acknowledgement is lost. The first stored row wins. Midnight does not change a
+  retry's key. Distinct clicks still have distinct tokens and count normally.
+- Maximum **3 attempts total**, with delays of **1 second, then 3 seconds**;
+  maximum **15 seconds** from event creation while the page is active, with a
+  **4-second timeout per request**, shortened by the remaining budget. HTTP 408,
+  425, 429 and 5xx, network rejections and timeouts can retry. Success and other
+  HTTP statuses stop. `Retry-After` can lengthen a wait but never extend the budget.
+  At most 20 delayed retries can be queued per document; overflow stops retrying.
+- Page exit cancels waiting retries and request-abort timers, without aborting
+  an in-flight keepalive request or flushing an event during unload. An old
+  request cannot restart retries after BFCache restore. New events after restore
+  still work. Navigation never awaits analytics. DNT is checked again before
+  retrying. Without secure UUID/cancellation/lifecycle support, a browser retains
+  a single legacy attempt; unsafe retries are never enabled.
+
+The request budget is bounded while JavaScript runs. Browser suspension can
+prevent timers from running; when execution resumes, an expired retry is dropped.
+An in-flight keepalive request may finish after navigation. Delivery is still
+best effort: an exit before recovery, permanent blocking, prolonged outage,
+queue limits or exhaustion can lose an event. There is no persistent queue,
+service worker, cross-page resend, session identifier, replay or new user ID.
+Retries are delivery attempts for one event, not additional visits. Existing
+QA exclusions, DNT, origin/key checks, raw-table privacy and all reports remain.
+No extra personal data, new provider, access grant or consent purpose is added.
+The existing privacy notice's in-memory event-token/daily-hash description remains
+accurate; no product copy changes are part of this repair.
+
+The server continues accepting old page-view/click payloads without retry keys
+and the v1 diagnostic-only `diagnostic_key` protocol. Those old clients are not
+retrofitted with retries. Historical events and old keys remain unchanged.
+
+### Repair release and rollback
+
+Run `node --test tests/*.test.mjs`, the local-only fixture
+`psql -h 127.0.0.1 -p 55439 -d reliability_release_test -f tests/sql/reliability.sql`
+on a fresh isolated database, and
+`EVENT_DELIVERY_PG_TEST=1 node --test tests/reliability-postgres.test.mjs`.
+The integration test calls the real recorder through a PostgreSQL adapter and
+checks six concurrent replays per type after a lost acknowledgement. The browser
+check is `PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node
+tests/browser/reliability.mjs`; it mocks failures without hosted writes.
+
+Release only after tests succeed: apply `add_event_delivery_idempotency`, deploy
+**only the recorder**, verify all four event types and duplicate delivery using
+`tracking_qa`, then merge the frontend/cache-key change. Do not redeploy the prior
+diagnostics migration or reporting function. Verify live script bytes and tagged
+retries after publication; retain receipts. No report-schema or snapshot refresh
+is needed for this delivery-only change.
+
+Rollback the frontend first to stop new retries. Keep the additive schema and
+recorder accepting both protocols; this is the safest rollback. Do not restore
+the old recorder while retry-enabled pages can still be open or cached: that
+recorder ignores the new idempotency protocol for page views/clicks and could
+inflate counts. There is no need to drop columns, remove history or backfill rows.
+Keep the verified current-main recorder source (including later guide routes)
+with the release evidence; never roll back to the morning's earlier allowlist.

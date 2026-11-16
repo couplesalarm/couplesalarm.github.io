@@ -16,6 +16,27 @@ const report = {
 const environment = { SUPABASE_URL: "https://example.test", SUPABASE_PUBLISHABLE_KEYS: '{"default":"public-test-key"}', SUPABASE_SECRET_KEYS: '{"default":"server-test-key"}' };
 const env = key => environment[key];
 const request = (headers = {}, method = "GET") => new Request("https://example.test/metrics", { method, headers: { origin: "https://couplesalarm.com", apikey: "public-test-key", ...headers } });
+test("SEO guides keep distinct page labels through public reporting", () => {
+  const data = structuredClone(report);
+  data.pages = ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/"].map(label => ({ date: "2026-10-11", label, pageViews: 1, appStoreClicks: 1 }));
+  const selected = websiteRange(publicMetrics(data), 1);
+  assert.deepEqual(selected.pages.map(row => row.label).sort(), data.pages.map(row => row.label).sort());
+  assert.ok(selected.pages.every(row => row.pageViews === 1 && row.appStoreClicks === 1));
+});
+test("any real page path from the database is reported under its own label; junk labels are rejected", () => {
+  const data = structuredClone(report);
+  const paths = ["/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/beta/android/", "/alarm-without-smartwatch/",
+    "/vibration-alarm-app-alternative/", "/early-riser-alarm/", "/a-guide-added-next-month/", "Other page"];
+  data.pages = paths.map(label => ({ date: "2026-10-11", label, pageViews: 2, appStoreClicks: 1 }));
+  assert.deepEqual(publicMetrics(data).pages.map(row => row.label), paths);
+  for (const label of ["/Upper/", "/no-trailing-slash", "/guide/?utm=x", "/a/b/c/d/e/", "/" + "x".repeat(120) + "/", "/me@example.com/", "", null]) {
+    const bad = structuredClone(report); bad.pages[0].label = label;
+    assert.throws(() => publicMetrics(bad), /Invalid label/, String(label));
+  }
+  const tooMany = structuredClone(report);
+  tooMany.pages = Array.from({ length: 90 * 100 + 1 }, (_, i) => ({ date: "2026-10-11", label: "/", pageViews: i, appStoreClicks: 0 }));
+  assert.throws(() => publicMetrics(tooMany), /Invalid groups/);
+});
 test("projects only aggregate allowlisted fields", () => {
   const data = structuredClone(report); data.rawEvents = [{ visitor_hash: "sensitive" }]; data.daily[0].visitor_hash = "sensitive";
   assert.doesNotMatch(JSON.stringify(publicMetrics(data)), /sensitive|visitor_hash|rawEvents/);

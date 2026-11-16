@@ -27,6 +27,15 @@ const taggedPages = [
   ["../download/index.html", "../assets/analytics.js"],
   ["../support/index.html", "../assets/analytics.js"],
   ["../privacy/index.html", "../assets/analytics.js"],
+  ["../beta/android/index.html", "../../assets/analytics.js"],
+  ["../wake-up-without-waking-partner/index.html", "../assets/analytics.js"],
+  ["../opposite-shifts-couples-alarm/index.html", "../assets/analytics.js"],
+  ["../iphone-vibrate-only-alarm/index.html", "../assets/analytics.js"],
+  ["../alarm-without-smartwatch/index.html", "../assets/analytics.js"],
+  ["../vibration-alarm-app-alternative/index.html", "../assets/analytics.js"],
+  ["../early-riser-alarm/index.html", "../assets/analytics.js"],
+  ["../best-alarm-apps-for-couples/index.html", "../assets/analytics.js"],
+  ["../alarm-tone-only-one-person-hears/index.html", "../assets/analytics.js"],
 ];
 
 const untaggedPages = [
@@ -213,6 +222,23 @@ test("internal tagging respects explicit sources, privacy boundaries and Do Not 
   }
 });
 
+test("new guides preserve attribution through entry, cross-links and App Store clicks", () => {
+  for (const path of ["/wake-up-without-waking-partner/", "/best-alarm-apps-for-couples/", "/alarm-tone-only-one-person-hears/", "/opposite-shifts-couples-alarm/", "/iphone-vibrate-only-alarm/", "/alarm-without-smartwatch/", "/vibration-alarm-app-alternative/", "/early-riser-alarm/"]) {
+    for (const campaign of ["paid_facebook_iphone", "tracking_qa"]) {
+      const entry = run({ pathname: "/download/", search: "?ct=" + campaign });
+      const next = new URL(entry.clickInternal(path));
+      assert.equal(next.searchParams.get("ct"), campaign);
+      const page = run({ pathname: path, search: next.search });
+      page.clickStore();
+      assert.deepEqual(page.sent.map(row => [row.body.path, row.body.event_type, row.body.campaign]), [
+        [path, "page_view", campaign], [path, "app_store_click", campaign],
+      ]);
+      const recovery = run({ pathname: "/download/", search: "", referrer: "https://couplesalarm.com" + path + next.search });
+      assert.equal(recovery.sent[0].body.campaign, campaign);
+    }
+  }
+});
+
 test("Do Not Track also suppresses click counting and campaign tagging", () => {
   const result = run({ dnt: "1" });
   result.clickStore();
@@ -368,7 +394,7 @@ test('store click reads the current URL, handles dynamic links and retains speci
 
 test('uninstrumented public pages carry links without requests or form access', async () => {
   assert.doesNotMatch(campaignLinks, /\bfetch\s*\(|sendBeacon|XMLHttpRequest|querySelectorAll\(["'](?:input|form|textarea)|FormData/);
-  for (const page of ['../work-with-us/index.html', '../beta/android/index.html']) {
+  for (const page of ['../work-with-us/index.html']) {
     const html = await readFile(new URL(page, import.meta.url), 'utf8');
     assert.match(html, /campaign-links\.js\?v=/);
     assert.doesNotMatch(html, /analytics\.js/);
@@ -378,4 +404,37 @@ test('uninstrumented public pages carry links without requests or form access', 
   assert.equal(new URL(form.clickInternal('../compatibility/')).search, '?ct=tracking_qa');
   form.clickStore();
   assert.equal(form.sent.length, 0);
+});
+
+test("counts Android beta step button clicks by step, only on /beta/android/", () => {
+  const steps = [
+    ["https://groups.google.com/g/couples-alarm-android-beta/about", "beta_group_click"],
+    ["https://play.google.com/apps/testing/com.couplesalarm.android", "beta_optin_click"],
+    ["https://play.google.com/store/apps/details?id=com.couplesalarm.android", "beta_play_click"],
+  ];
+  for (const [href, type] of steps) {
+    const result = run({ pathname: "/beta/android/", hrefs: [] });
+    result.clickInternal(href);
+    assert.equal(result.sent.at(-1).body.event_type, type);
+    assert.equal(result.sent.at(-1).body.path, "/beta/android/");
+    const elsewhere = run({ pathname: "/compatibility/", hrefs: [] });
+    elsewhere.clickInternal(href);
+    assert.ok(elsewhere.sent.every(call => !call.body.event_type?.startsWith("beta_")));
+  }
+});
+
+test("counts the home page Google Play badge once, and only that link", () => {
+  const listing = "https://play.google.com/store/apps/details?id=com.couplesalarm.android";
+  for (const pathname of ["/", "/index.html"]) {
+    const result = run({ pathname, hrefs: [] });
+    result.clickInternal(listing);
+    const clicks = result.sent.filter(call => call.body.event_type === "beta_play_click");
+    assert.equal(clicks.length, 1);
+    assert.equal(clicks[0].body.path, pathname);
+    for (const href of ["https://groups.google.com/g/couples-alarm-android-beta/about", "https://play.google.com/apps/testing/com.couplesalarm.android"]) {
+      const other = run({ pathname, hrefs: [] });
+      other.clickInternal(href);
+      assert.ok(other.sent.every(call => !call.body.event_type?.startsWith("beta_")));
+    }
+  }
 });

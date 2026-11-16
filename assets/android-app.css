@@ -61,7 +61,8 @@
 }
 
 .android-brand-attribution p { margin: 0; }
-.android-brand-attribution a { text-underline-offset: 0.15em; }
+.android-brand-attribution a { position: relative; text-underline-offset: 0.15em; }
+.android-brand-attribution a::after { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: 44px; transform: translate(-50%, -50%); }
 
 @media (max-width: 720px) {
   .android-brand-attribution { width: calc(100% - 1.25rem); }

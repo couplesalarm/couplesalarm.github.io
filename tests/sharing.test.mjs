@@ -20,7 +20,7 @@ test("sharing waits for a visitor click and sends only the canonical public link
   assert.equal(page.button.hidden, false);
   assert.equal(sent.length, 0);
   await page.click();
-  assert.equal(sent[0].url, "https://couplesalarm.com/download/");
+  assert.equal(sent[0].url, "https://couplesalarm.com/");
   assert.doesNotMatch(JSON.stringify(sent), /ct=|email=|referrer|response/);
 });
 
@@ -36,7 +36,7 @@ test("unsupported sharing copies the public link and blocked clipboard offers ma
   let copied;
   const page = setup({ clipboard: { writeText: async text => { copied = text; } } });
   await page.click();
-  assert.equal(copied, "https://couplesalarm.com/download/");
+  assert.equal(copied, "https://couplesalarm.com/");
   assert.match(page.status.textContent, /Link copied/);
   const blocked = setup({ clipboard: { writeText: async () => { throw Error("blocked"); } } });
   await blocked.click();
