@@ -36,7 +36,7 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /Partner with us<\/a>\s*<a href="how-it-works\/">How it works<\/a>/);
   assert.match(html, /<h2 id="tone-test-title">Will it work for both of you\?<\/h2>/);
   assert.match(html, /Find out before you install anything\. Our free tone test takes about two minutes and runs right in your browser\./);
-  assert.match(html, /class="tone-test-primary" href="compatibility\/">Start the tone test/);
+  assert.match(html, /class="tone-test-primary" href="compatibility\/">[\s\S]*?<span>Start the tone test<\/span>/);
   assert.match(html, /assets\/how-it-works\/tone-test-480.webp/);
   assert.match(css, /\.tone-test-content p \{ max-width: 62ch;/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
@@ -67,4 +67,11 @@ test("permits accessible reflow and retains user-initiated video behavior", () =
  test("proof card is compact with a single focused action", () => {
   assert.match(css, /width: min\(100%, 42rem\)/);
   assert.doesNotMatch(html, /See how it works/);
+});
+
+test("soundwave CTA keeps accessible name, contrast and reduced-motion defaults", () => {
+  assert.match(html, /class="tone-test-wave"[^>]*alt="" aria-hidden="true"/);
+  assert.match(css, /background: #7c3aed; color: #fff/);
+  assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*\.tone-test-wave \{ animation: tone-wave-breathe 4.5s ease-in-out 1;/);
+  assert.match(css, /tone-test-primary:focus-visible \{ outline: 3px/);
 });
