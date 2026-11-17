@@ -78,4 +78,5 @@ test("soundwave CTA keeps accessible name, contrast and reduced-motion defaults"
   assert.match(css, /tone-test-primary:focus-visible \{ outline: 3px/);
 });
 
-test("wave can be paused without changing the test link", () => { assert.match(html, /Pause sound-wave animation/); assert.match(css, /animation-play-state: paused/); });
+
+test("tone invitation has no unwanted motion control", () => { assert.doesNotMatch(html, /wave-toggle|Pause animation|Resume animation/); assert.doesNotMatch(css, /wave-toggle/); });

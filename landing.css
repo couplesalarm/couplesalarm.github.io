@@ -301,10 +301,7 @@ h1 span { color: var(--signal); }
   0%, 100% { transform: scaleY(1); }
   50% { transform: scaleY(0.35); }
 }
-/* Motion is opt-in by system preference and can be paused independently. */
-.wave-toggle { display: none; min-height: 44px; padding: 0.5rem 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 0.75rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+/* Respect the system reduced-motion preference without adding visible motion controls. */
 @media (prefers-reduced-motion: no-preference) {
   .tone-test-wave { animation: tone-wave-breathe 2.4s ease-in-out infinite; }
-  .wave-toggle { display: inline-block; }
-  .wave-paused .tone-test-wave { animation-play-state: paused; }
-}
+  }
