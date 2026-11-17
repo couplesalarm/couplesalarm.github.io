@@ -37,7 +37,7 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /<h2 id="tone-test-title">Will it work for both of you\?<\/h2>/);
   assert.match(html, /Try the free two-minute sound test\./);
   assert.match(html, /class="tone-test-primary" href="compatibility\/">[\s\S]*?<span>Hear it for yourself<\/span>/);
-  assert.match(html, /assets\/how-it-works\/tone-test-480.webp/);
+  assert.doesNotMatch(html, /class="tone-test-art"/);
   assert.match(css, /\.tone-test-content p \{ max-width: 62ch;/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
@@ -61,7 +61,7 @@ test("permits accessible reflow and retains user-initiated video behavior", () =
   assert.doesNotMatch(ruleBody(".product-preview video"), /max-height/);
   assert.match(css, /@media \(prefers-reduced-motion: no-preference\)/);
   assert.doesNotMatch(html, /motion-toggle|Pause background motion/);
-  assert.doesNotMatch(css, /dawn-drift|animation-play-state/);
+  assert.doesNotMatch(css, /dawn-drift/);
 });
 
  test("proof card is compact with a single focused action", () => {
@@ -74,6 +74,8 @@ test("permits accessible reflow and retains user-initiated video behavior", () =
 test("soundwave CTA keeps accessible name, contrast and reduced-motion defaults", () => {
   assert.match(html, /class="tone-test-wave"[^>]*alt="" aria-hidden="true"/);
   assert.match(css, /background: #a4e8f0; color: #080f20/);
-  assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*\.tone-test-wave \{ animation: tone-wave-breathe 4.5s ease-in-out 1;/);
+  assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*\.tone-test-wave \{ animation: tone-wave-breathe 2.4s ease-in-out infinite;/);
   assert.match(css, /tone-test-primary:focus-visible \{ outline: 3px/);
 });
+
+test("wave can be paused without changing the test link", () => { assert.match(html, /Pause sound-wave animation/); assert.match(css, /animation-play-state: paused/); });
