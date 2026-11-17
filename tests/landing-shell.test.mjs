@@ -63,3 +63,8 @@ test("permits accessible reflow and retains user-initiated video behavior", () =
   assert.doesNotMatch(html, /motion-toggle|Pause background motion/);
   assert.doesNotMatch(css, /dawn-drift|animation-play-state/);
 });
+
+ test("proof card is compact with a single focused action", () => {
+  assert.match(css, /width: min\(100%, 42rem\)/);
+  assert.doesNotMatch(html, /See how it works/);
+});
