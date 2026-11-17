@@ -24,7 +24,7 @@ test("keeps beta routes out of public navigation", async () => {
       ([, label]) => label,
     );
     const partnershipMenu = ["../index.html", "../support/index.html", "../privacy/index.html"].includes(page);
-    assert.deepEqual(labels, partnershipMenu ? ["Support", "Privacy", "Partner with us"] : ["Support", "Privacy"]);
+    assert.deepEqual(labels, page === "../index.html" ? ["Support", "Privacy", "Partner with us", "How it works", "Details &amp; pricing"] : partnershipMenu ? ["Support", "Privacy", "Partner with us"] : ["Support", "Privacy"]);
     assert.doesNotMatch(primary, /beta|testflight|install/i);
     assert.equal(footer, undefined, `${page} avoids duplicate navigation`);
   }

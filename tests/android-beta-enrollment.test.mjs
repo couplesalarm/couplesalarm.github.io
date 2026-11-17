@@ -18,14 +18,13 @@ function applicationLink(html, label) {
   return match[1];
 }
 
-test("uses the official store badges as the primary download actions", () => {
+test("keeps direct store access without the removed Google Play logo", () => {
   assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
   assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="google-play-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android">/);
-  assert.match(home, /<img src="https:\/\/play\.google\.com\/intl\/en_us\/badges\/static\/images\/badges\/en_badge_web_generic\.png" alt="Get it on Google Play" width="646" height="250">/);
+  assert.doesNotMatch(home, /en_badge_web_generic|Google Play and the Google Play logo/);
+  assert.match(home, />\s*Get it on Google Play\s*<\/a>/);
   assert.doesNotMatch(home, /android-head_flat|android-badge-copy|Android™/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
-  assert.match(home, /Google Play and the Google Play logo are trademarks of Google LLC\./);
-  assert.match(css, /\.google-play-link img \{[^}]*height: calc\(var\(--badge-height\) \* 250 \/ 168\)/);
   assert.doesNotMatch(home, /eligibility|consent|testing/i);
   assert.doesNotMatch(home, /Apply for the Android beta/i);
   assert.doesNotMatch(home, /Pre-register on Google Play/);
