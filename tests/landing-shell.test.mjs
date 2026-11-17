@@ -38,6 +38,7 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(html, /Prove it to yourselves before you install anything\. The free tone test runs in your browser and takes about two minutes\./);
   assert.match(html, /class="tone-test-primary" href="compatibility\/">Start the tone test/);
   assert.match(html, /assets\/how-it-works\/tone-test-480.webp/);
+  assert.match(css, /\.tone-test-content p \{ max-width: 62ch;/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
 });
