@@ -18,11 +18,11 @@ function applicationLink(html, label) {
   return match[1];
 }
 
-test("keeps direct store access without the removed Google Play logo", () => {
+test("restores both store badges while keeping the footer free of trademark text", () => {
   assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
   assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="google-play-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android">/);
-  assert.doesNotMatch(home, /en_badge_web_generic|Google Play and the Google Play logo/);
-  assert.match(home, />\s*Get it on Google Play\s*<\/a>/);
+  assert.doesNotMatch(home, /Google Play and the Google Play logo/);
+  assert.match(home, /<img[^>]+en_badge_web_generic.png" alt="Get it on Google Play"/);
   assert.doesNotMatch(home, /android-head_flat|android-badge-copy|Android™/);
   assert.doesNotMatch(home, /android-app-callout|android-app-title|View app details/);
   assert.doesNotMatch(home, /eligibility|consent|testing/i);
