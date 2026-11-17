@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-15T21:51:14.255Z",
+  "generatedAt": "2026-11-17T00:49:15.375Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-11-15T21:50:25.973Z",
+    "updatedAt": "2026-11-17T00:48:23.150Z",
     "startDate": "2026-08-12",
     "throughDate": "2026-11-13",
-    "requestedThroughDate": "2026-11-14",
+    "requestedThroughDate": "2026-11-16",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -67,7 +67,9 @@
       "2026-11-10",
       "2026-11-11",
       "2026-11-12",
-      "2026-11-14"
+      "2026-11-14",
+      "2026-11-15",
+      "2026-11-16"
     ],
     "daily": [
       {
@@ -639,6 +641,18 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-15",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-16",
+        "firstTimeDownloads": null,
+        "netPaidUnlocks": null,
+        "estimatedProceedsUsd": null
       }
     ],
     "firstTimeDownloads": 29,
@@ -675,9 +689,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-11-15T21:51:13.027Z",
+        "updatedAt": "2026-11-17T00:49:14.381Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-11-15T21:51:13.027Z",
+        "lastAttemptAt": "2026-11-17T00:49:14.381Z",
         "status": "ok"
       }
     ]
@@ -685,7 +699,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-11-15T21:51:12.058Z",
+    "generatedAt": "2026-11-17T00:49:13.774Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -978,11 +992,27 @@
       },
       {
         "date": "2026-11-15",
-        "partial": true,
+        "partial": false,
         "visitors": 14,
         "visitorsWhoClicked": 1,
         "pageViews": 22,
         "appStoreClicks": 4
+      },
+      {
+        "date": "2026-11-16",
+        "partial": false,
+        "visitors": 9,
+        "visitorsWhoClicked": 1,
+        "pageViews": 32,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-17",
+        "partial": true,
+        "visitors": 0,
+        "visitorsWhoClicked": 0,
+        "pageViews": 0,
+        "appStoreClicks": 0
       }
     ],
     "diagnostics": {
@@ -1467,6 +1497,38 @@
           "deviceClass": "unknown",
           "pageViews": 12,
           "appStoreVisible": 10,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-16",
+          "campaign": "unattributed",
+          "deviceClass": "android",
+          "pageViews": 5,
+          "appStoreVisible": 4,
+          "foreground10s": 2
+        },
+        {
+          "date": "2026-11-16",
+          "campaign": "unattributed",
+          "deviceClass": "apple_mobile",
+          "pageViews": 5,
+          "appStoreVisible": 5,
+          "foreground10s": 3
+        },
+        {
+          "date": "2026-11-16",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 20,
+          "appStoreVisible": 15,
+          "foreground10s": 10
+        },
+        {
+          "date": "2026-11-16",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 2,
+          "appStoreVisible": 1,
           "foreground10s": 0
         }
       ]
@@ -2143,6 +2205,42 @@
         "label": "/support/",
         "pageViews": 1,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/",
+        "pageViews": 17,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/alarm-tone-only-one-person-hears/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/compatibility/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/download/",
+        "pageViews": 4,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/privacy/",
+        "pageViews": 2,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "/support/",
+        "pageViews": 2,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -2643,6 +2741,18 @@
         "label": "unattributed",
         "pageViews": 22,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "owned_website",
+        "pageViews": 0,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-16",
+        "label": "unattributed",
+        "pageViews": 32,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -3080,6 +3190,21 @@
         "date": "2026-11-15",
         "label": "YouTube",
         "pageViews": 1
+      },
+      {
+        "date": "2026-11-16",
+        "label": "Direct / unknown",
+        "pageViews": 30
+      },
+      {
+        "date": "2026-11-16",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-16",
+        "label": "YouTube",
+        "pageViews": 1
       }
     ],
     "excluded": [
@@ -3165,6 +3290,18 @@
         "date": "2026-11-03",
         "label": "tracking_qa",
         "pageViews": 6,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-16",
+        "label": "tracking_qa",
+        "pageViews": 6,
+        "appStoreClicks": 1
+      },
+      {
+        "date": "2026-11-17",
+        "label": "tracking_qa",
+        "pageViews": 8,
         "appStoreClicks": 0
       }
     ],
