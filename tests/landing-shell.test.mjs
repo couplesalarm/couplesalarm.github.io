@@ -34,8 +34,8 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(footer, /class="social-nav"/);
   assert.doesNotMatch(footer, /Partner with us|How it works|pricing|Google Play|Free setup/);
   assert.match(html, /Partner with us<\/a>\s*<a href="how-it-works\/">How it works<\/a>/);
-  assert.match(html, /<h2 id="tone-test-title">Not sure it will work for you two\?<\/h2>/);
-  assert.match(html, /Prove it to yourselves before you install anything\. The free tone test runs in your browser and takes about two minutes\./);
+  assert.match(html, /<h2 id="tone-test-title">Will it work for both of you\?<\/h2>/);
+  assert.match(html, /Find out before you install anything\. Our free tone test takes about two minutes and runs right in your browser\./);
   assert.match(html, /class="tone-test-primary" href="compatibility\/">Start the tone test/);
   assert.match(html, /assets\/how-it-works\/tone-test-480.webp/);
   assert.match(css, /\.tone-test-content p \{ max-width: 62ch;/);
