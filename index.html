@@ -16,7 +16,7 @@
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — iPhone Alarms for Different Wake-Up Times</title>
   <link rel="stylesheet" href="assets/android-app.css?v=20261006-test-first-4">
-  <link rel="stylesheet" href="landing.css?v=20261117-ice-compact-1">
+  <link rel="stylesheet" href="landing.css?v=20261117-visible-wave-1">
   <link rel="preload" as="image" href="assets/dawn-bedroom.webp">
   <script type="application/ld+json">
     {
@@ -85,12 +85,12 @@
               </a>
             </div>
       <section class="tone-test-card" aria-labelledby="tone-test-title">
-        <img class="tone-test-art" src="assets/how-it-works/tone-test-480.webp" width="480" height="600" decoding="async" alt="A couple leaning over a laptop as a wave of sound arcs between them">
         <div class="tone-test-content">
           <h2 id="tone-test-title">Will it work for both of you?</h2>
           <p>Try the free two-minute sound test.</p>
           <div class="tone-test-actions">
             <a class="tone-test-primary" href="compatibility/"><img class="tone-test-wave" src="assets/soundwave.svg" width="24" height="24" alt="" aria-hidden="true"><span>Hear it for yourself</span></a>
+            <button class="wave-toggle" type="button" aria-pressed="false" aria-label="Pause sound-wave animation">Pause animation</button>
           </div>
         </div>
       </section>
@@ -161,6 +161,17 @@
     };
     video.onended = showPosterState;
     showPosterState();
+  </script>
+<script>
+    const waveToggle = document.querySelector('.wave-toggle');
+    const waveArea = document.querySelector('.tone-test-card');
+    waveToggle.addEventListener('click', () => {
+      const paused = waveToggle.getAttribute('aria-pressed') !== 'true';
+      waveToggle.setAttribute('aria-pressed', String(paused));
+      waveToggle.setAttribute('aria-label', paused ? 'Resume sound-wave animation' : 'Pause sound-wave animation');
+      waveToggle.textContent = paused ? 'Resume animation' : 'Pause animation';
+      waveArea.classList.toggle('wave-paused', paused);
+    });
   </script>
 </body>
 </html>
