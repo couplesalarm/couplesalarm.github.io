@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T23:51:47.593Z",
+  "generatedAt": "2026-11-18T23:24:30.639Z",
   "apple": {
     "mode": "automatic",
     "status": "partial",
-    "updatedAt": "2026-11-17T23:50:53.601Z",
+    "updatedAt": "2026-11-18T23:23:36.774Z",
     "startDate": "2026-08-12",
-    "throughDate": "2026-11-13",
-    "requestedThroughDate": "2026-11-16",
+    "throughDate": "2026-11-17",
+    "requestedThroughDate": "2026-11-17",
     "missingDates": [
       "2026-08-15",
       "2026-08-16",
@@ -653,9 +653,15 @@
         "firstTimeDownloads": null,
         "netPaidUnlocks": null,
         "estimatedProceedsUsd": null
+      },
+      {
+        "date": "2026-11-17",
+        "firstTimeDownloads": 1,
+        "netPaidUnlocks": 0,
+        "estimatedProceedsUsd": 0
       }
     ],
-    "firstTimeDownloads": 29,
+    "firstTimeDownloads": 30,
     "netPaidUnlocks": 0,
     "estimatedProceedsUsd": 0,
     "usRatingCount": 3
@@ -689,9 +695,9 @@
         "name": "YouTube",
         "views": 21,
         "mode": "automatic",
-        "updatedAt": "2026-11-17T23:51:45.889Z",
+        "updatedAt": "2026-11-18T23:24:29.472Z",
         "url": "https://www.youtube.com/shorts/cIhu0YqJFW4",
-        "lastAttemptAt": "2026-11-17T23:51:45.889Z",
+        "lastAttemptAt": "2026-11-18T23:24:29.472Z",
         "status": "ok"
       }
     ]
@@ -699,7 +705,7 @@
   "website": {
     "schemaVersion": 1,
     "timezone": "UTC",
-    "generatedAt": "2026-11-17T23:51:45.142Z",
+    "generatedAt": "2026-11-18T23:24:29.133Z",
     "firstRecordedAt": "2026-10-10T05:14:53.728Z",
     "daily": [
       {
@@ -1008,11 +1014,19 @@
       },
       {
         "date": "2026-11-17",
-        "partial": true,
+        "partial": false,
         "visitors": 8,
         "visitorsWhoClicked": 2,
         "pageViews": 32,
         "appStoreClicks": 3
+      },
+      {
+        "date": "2026-11-18",
+        "partial": true,
+        "visitors": 3,
+        "visitorsWhoClicked": 0,
+        "pageViews": 4,
+        "appStoreClicks": 0
       }
     ],
     "diagnostics": {
@@ -1553,6 +1567,22 @@
           "deviceClass": "unknown",
           "pageViews": 5,
           "appStoreVisible": 1,
+          "foreground10s": 0
+        },
+        {
+          "date": "2026-11-18",
+          "campaign": "unattributed",
+          "deviceClass": "desktop",
+          "pageViews": 3,
+          "appStoreVisible": 3,
+          "foreground10s": 2
+        },
+        {
+          "date": "2026-11-18",
+          "campaign": "unattributed",
+          "deviceClass": "unknown",
+          "pageViews": 1,
+          "appStoreVisible": 0,
           "foreground10s": 0
         }
       ]
@@ -2301,6 +2331,18 @@
         "label": "/support/",
         "pageViews": 1,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-18",
+        "label": "/",
+        "pageViews": 3,
+        "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-18",
+        "label": "/privacy/",
+        "pageViews": 1,
+        "appStoreClicks": 0
       }
     ],
     "campaigns": [
@@ -2825,6 +2867,12 @@
         "label": "unattributed",
         "pageViews": 32,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-18",
+        "label": "unattributed",
+        "pageViews": 4,
+        "appStoreClicks": 0
       }
     ],
     "referrers": [
@@ -3297,6 +3345,21 @@
         "date": "2026-11-17",
         "label": "YouTube",
         "pageViews": 1
+      },
+      {
+        "date": "2026-11-18",
+        "label": "Direct / unknown",
+        "pageViews": 2
+      },
+      {
+        "date": "2026-11-18",
+        "label": "Instagram",
+        "pageViews": 1
+      },
+      {
+        "date": "2026-11-18",
+        "label": "YouTube",
+        "pageViews": 1
       }
     ],
     "excluded": [
@@ -3395,6 +3458,12 @@
         "label": "tracking_qa",
         "pageViews": 18,
         "appStoreClicks": 0
+      },
+      {
+        "date": "2026-11-18",
+        "label": "tracking_qa",
+        "pageViews": 1,
+        "appStoreClicks": 2
       }
     ],
     "betaAndroid": {
