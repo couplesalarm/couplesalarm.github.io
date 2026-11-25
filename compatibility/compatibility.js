@@ -4,6 +4,7 @@
   const progressSteps = [...document.querySelectorAll(".progress-step")];
   const errorMessage = document.querySelector("[data-error-message]");
   const listeningStage = document.querySelector(".listening-stage");
+  const cancelRedo = document.querySelector("[data-cancel-redo]");
 
   const startFrequency = 17500;
   const endFrequency = 8500;
@@ -15,8 +16,6 @@
     navigator.audioSession.type = "playback";
   }
 
-  const wakingPartner = 0;
-  const listeningOrder = [0, 1];
   let turn = 0;
   let responses = [undefined, undefined];
   let audioContext;
@@ -108,7 +107,7 @@
   const setProgress = (currentIndex) => {
     progressSteps.forEach((step, index) => {
       step.classList.toggle("is-current", index === currentIndex);
-      step.classList.toggle("is-complete", index < currentIndex);
+      step.classList.toggle("is-complete", index !== currentIndex && responses[index] !== undefined);
       if (index === currentIndex) {
         step.setAttribute("aria-current", "step");
       } else {
@@ -241,8 +240,12 @@
   };
 
   const prepareTurn = () => {
-    setText("[data-listening-partner]", partnerLabels[listeningOrder[turn]]);
-    setText("[data-turn-number]", String(turn + 1));
+    const isRedo = responses[turn] !== undefined;
+    setText("[data-listening-partner]", partnerLabels[turn]);
+    setText("[data-turn-context]", isRedo ? "Redoing turn" : `${turn + 1} of 2`);
+    cancelRedo.hidden = !isRedo;
+    cancelRedo.textContent = responses[1] === undefined ? "Back to handoff" : "Back to result";
+    setProgress(turn);
     setListeningState("idle");
     resetSweepProgress();
     setReadout(startFrequency);
@@ -333,16 +336,12 @@
     }
   };
 
-  const finishTurn = (heardFrequency) => {
-    responses[listeningOrder[turn]] = heardFrequency;
+  const showTurnOutcome = () => {
     stopTone();
     phase = "idle";
 
-    if (turn === 0) {
-      const nextPartner = partnerLabels[listeningOrder[1]];
-      setText("[data-next-partner]", nextPartner);
-      setText("[data-first-result-label]", partnerLabels[listeningOrder[turn]]);
-      setText("[data-first-result]", responseText(heardFrequency));
+    if (responses[1] === undefined) {
+      setText("[data-first-result]", responseText(responses[0]));
       setProgress(1);
       showScreen("handoff");
       return;
@@ -351,32 +350,26 @@
     showResult();
   };
 
-  const showResult = () => {
-    const sleepingPartner = wakingPartner === 0 ? 1 : 0;
-    const wakingResponse = responses[wakingPartner];
-    const sleepingResponse = responses[sleepingPartner];
-    const requestedMatch =
-      wakingResponse !== null &&
-      wakingResponse - (sleepingResponse ?? endFrequency) >= minimumMatchGap;
-    const reverseMatch =
-      sleepingResponse !== null &&
-      sleepingResponse - (wakingResponse ?? endFrequency) >= minimumMatchGap;
-    const matchedPartner = requestedMatch
-      ? wakingPartner
-      : reverseMatch
-        ? sleepingPartner
-        : undefined;
+  const finishTurn = (heardFrequency) => {
+    responses[turn] = heardFrequency;
+    showTurnOutcome();
+  };
 
-    const hasRange = matchedPartner !== undefined;
+  const showResult = () => {
+    const matchedPartner = responses.findIndex((response, partner) =>
+      response !== null && response - (responses[1 - partner] ?? endFrequency) >= minimumMatchGap,
+    );
+    const hasRange = matchedPartner >= 0;
+    const otherPartner = 1 - matchedPartner;
     setText("[data-result-for]", hasRange
-      ? `A range to try for ${partnerLabels[matchedPartner]}`
-      : "No useful range found on this device");
+      ? `Based on your answers, ${partnerLabels[matchedPartner]} is more likely to hear a tone in this range than ${partnerLabels[otherPartner]}.`
+      : "This test found no tone to suggest for either partner on this device.");
     const nextLink = document.querySelector("[data-result-next]");
     nextLink.textContent = hasRange ? "Get Couples Alarm" : "About Couples Alarm";
     nextLink.setAttribute("href", hasRange ? "../download/" : "../");
     setText(
       "[data-result-title]",
-      hasRange ? "A possible match" : "No clear match",
+      hasRange ? `Suggested tone for ${partnerLabels[matchedPartner]}` : "No clear match",
     );
     setText(
       "[data-result-limit]",
@@ -427,7 +420,6 @@
         `${resultDescription}. No clear alarm sweet spot.`,
       );
     } else {
-      const otherPartner = matchedPartner === 0 ? 1 : 0;
       const highFrequency = responses[matchedPartner] - sweetSpotMargin;
       const lowFrequency =
         (responses[otherPartner] ?? endFrequency) + sweetSpotMargin;
@@ -492,12 +484,24 @@
     startTone(event);
   });
 
+  for (const button of document.querySelectorAll("[data-redo-turn]")) {
+    button.addEventListener("click", () => {
+      const partner = Number(button.dataset.redoTurn);
+      if (currentScreen === "listen" || responses[partner] === undefined) return;
+      turn = partner;
+      prepareTurn();
+      showScreen("listen");
+    });
+  }
+  cancelRedo.addEventListener("click", () => {
+    if (currentScreen === "listen" && responses[turn] !== undefined) showTurnOutcome();
+  });
+
   document.querySelector("[data-restart]").addEventListener("click", () => {
     stopTone();
     phase = "idle";
     turn = 0;
     responses = [undefined, undefined];
-    setProgress(0);
     prepareTurn();
     showScreen("listen");
   });
@@ -520,6 +524,5 @@
   window.addEventListener("beforeunload", closeAudio);
 
   updateDeviceCopy();
-  setProgress(0);
   prepareTurn();
 })();

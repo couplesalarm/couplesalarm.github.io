@@ -47,6 +47,12 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
   for (const match of html.matchAll(/\b(data-[\w-]+)(?:="[^"]*")?/g)) {
     nodes.set(`[${match[1]}]`, new Element());
   }
+  const redoButtons = [...html.matchAll(/data-redo-turn="([01])"/g)].map(([, partner]) => {
+    const button = new Element();
+    button.dataset.redoTurn = partner;
+    nodes.set(`[data-redo-turn="${partner}"]`, button);
+    return button;
+  });
   nodes.set(".listening-stage", new Element());
   nodes.set(".test-downloads", new Element());
   const screens = ["listen", "handoff", "result"].map((name) => {
@@ -61,7 +67,12 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
   Object.defineProperty(document, "activeElement", { get: () => focused });
   document.hidden = false;
   document.querySelector = el;
-  document.querySelectorAll = (selector) => selector === "[data-screen]" ? screens : selector === ".progress-step" ? steps : [el(selector)];
+  document.querySelectorAll = (selector) => {
+    if (selector === "[data-screen]") return screens;
+    if (selector === ".progress-step") return steps;
+    if (selector === "[data-redo-turn]") return redoButtons;
+    return [el(selector)];
+  };
   const parameter = () => ({
     events: [],
     setValueAtTime(value, at) { this.events.push(["set", value, at]); },
@@ -247,12 +258,88 @@ for (const heardPartner of [0, 1]) {
     if (heardPartner === 0) { p.advance(2); await heard(p); } else await unheard(p);
     await next(p);
     if (heardPartner === 1) { p.advance(2); await heard(p); } else await unheard(p);
-    assert.equal(p.el("[data-result-title]").textContent, "A possible match");
-    assert.match(p.el("[data-result-for]").textContent, heardPartner === 0 ? /Partner One/ : /Partner Two/);
+    const partners = ["Partner One", "Partner Two"];
+    assert.equal(p.el("[data-result-title]").textContent, `Suggested tone for ${partners[heardPartner]}`);
+    assert.equal(
+      p.el("[data-result-for]").textContent,
+      `Based on your answers, ${partners[heardPartner]} is more likely to hear a tone in this range than ${partners[1 - heardPartner]}.`,
+    );
     assert.ok(parseFloat(p.el("[data-sweet-spot-band]").style.width) > 0);
     assert.equal(p.el("[data-result-next]").attributes.href, "../download/");
   });
 }
+
+test("redoing Partner One from handoff replaces only their answer and returns to handoff", async () => {
+  const p = preview(); await start(p); p.advance(2); await heard(p);
+  const first = p.el("[data-first-result]").textContent;
+  await p.click('[data-redo-turn="0"]');
+  assert.equal(p.screen, "listen");
+  assert.equal(p.el("[data-listening-partner]").textContent, "Partner One");
+  assert.equal(p.el("[data-turn-context]").textContent, "Redoing turn");
+  assert.equal(p.el("[data-cancel-redo]").textContent, "Back to handoff");
+  assert.equal(p.steps[0].getAttribute("aria-current"), "step");
+  assert.equal(p.voices.length, 1, "retake waits for Start");
+  await p.click("[data-cancel-redo]");
+  assert.equal(p.screen, "handoff");
+  assert.equal(p.el("[data-first-result]").textContent, first);
+
+  await p.click('[data-redo-turn="0"]'); await start(p); p.advance(10); await heard(p);
+  assert.equal(p.screen, "handoff");
+  assert.notEqual(p.el("[data-first-result]").textContent, first);
+  await next(p);
+  assert.equal(p.el("[data-listening-partner]").textContent, "Partner Two");
+  assert.equal(p.el("[data-turn-context]").textContent, "2 of 2");
+  assert.equal(p.el("[data-cancel-redo]").hidden, true);
+});
+
+test("redoing either partner recalculates the result with the other answer intact", async () => {
+  const p = preview();
+  await start(p); p.advance(1); await heard(p);
+  await next(p); p.advance(7); await heard(p);
+  const second = p.el("[data-result-partner-two]").textContent;
+  assert.equal(p.el("[data-result-title]").textContent, "Suggested tone for Partner One");
+
+  await p.click('[data-redo-turn="0"]');
+  assert.equal(p.steps[0].getAttribute("aria-current"), "step");
+  assert.ok(p.steps[1].classes.has("is-complete"));
+  await start(p); p.advance(14); await heard(p);
+  assert.equal(p.screen, "result");
+  assert.equal(p.el("[data-result-partner-two]").textContent, second);
+  assert.equal(p.el("[data-result-title]").textContent, "Suggested tone for Partner Two");
+  const first = p.el("[data-result-partner-one]").textContent;
+
+  await p.click('[data-redo-turn="1"]');
+  assert.equal(p.el("[data-listening-partner]").textContent, "Partner Two");
+  assert.ok(p.steps[0].classes.has("is-complete"));
+  await start(p); p.advance(18); await heard(p);
+  assert.equal(p.screen, "result");
+  assert.equal(p.el("[data-result-partner-one]").textContent, first);
+  assert.equal(p.el("[data-result-title]").textContent, "Suggested tone for Partner One");
+  assert.equal(p.voices.length, 4);
+});
+
+test("leaving a retake stops audio and restores the previous result including a no-tone answer", async () => {
+  const p = preview();
+  await start(p); p.advance(1); await heard(p);
+  await next(p); await unheard(p);
+  const range = p.el("[data-sweet-spot-value]").textContent;
+
+  await p.click('[data-redo-turn="1"]');
+  assert.equal(p.el("[data-turn-context]").textContent, "Redoing turn");
+  assert.equal(p.el("[data-cancel-redo]").textContent, "Back to result");
+  await start(p); p.advance(3); await p.click("[data-cancel-redo]");
+  assert.equal(p.voices.at(-1).disconnected, true);
+  p.advance(25);
+  assert.equal(p.screen, "result");
+  assert.equal(p.el("[data-result-partner-two]").textContent, "Did not hear it");
+  assert.equal(p.el("[data-sweet-spot-value]").textContent, range);
+
+  await p.click('[data-redo-turn="0"]'); await start(p); await unheard(p);
+  assert.equal(p.screen, "result");
+  assert.equal(p.el("[data-result-title]").textContent, "No clear match");
+  assert.equal(p.el("[data-result-partner-two]").textContent, "Did not hear it");
+  assert.equal(p.el("[data-sweet-spot-band]").hidden, true);
+});
 
 for (const kind of ["neither", "same", "late-and-unheard"]) {
   test(`no misleading range for ${kind}`, async () => {
@@ -262,6 +349,7 @@ for (const kind of ["neither", "same", "late-and-unheard"]) {
     await next(p);
     if (kind === "same") { p.advance(4); await heard(p); } else await unheard(p);
     assert.equal(p.el("[data-result-title]").textContent, "No clear match");
+    assert.match(p.el("[data-result-for]").textContent, /no tone to suggest for either partner/);
     assert.equal(p.el("[data-sweet-spot-band]").hidden, true);
     await p.click("[data-restart]"); assert.equal(p.screen, "listen");
     await start(p); assert.equal(p.el("[data-listening-partner]").textContent, "Partner One");
