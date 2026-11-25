@@ -8,7 +8,7 @@
   let autoplayBlocked = false;
 
   const canPreview = () =>
-    inView && !document.hidden && !dialog.open && !autoplayBlocked && !preview.ended;
+    inView && !document.hidden && !dialog.open && !autoplayBlocked;
 
   function syncPreview() {
     if (!canPreview()) {
@@ -60,6 +60,20 @@
   }
 
   close.addEventListener("click", closePlayer);
+  const isBackdrop = event => {
+    if (event.target !== dialog) return false;
+    const bounds = dialog.getBoundingClientRect();
+    return event.clientX < bounds.left || event.clientX > bounds.right ||
+      event.clientY < bounds.top || event.clientY > bounds.bottom;
+  };
+  let pointerStartedOnBackdrop = false;
+  dialog.addEventListener("pointerdown", event => {
+    pointerStartedOnBackdrop = isBackdrop(event);
+  });
+  dialog.addEventListener("click", event => {
+    if (pointerStartedOnBackdrop && isBackdrop(event)) closePlayer();
+    pointerStartedOnBackdrop = false;
+  });
   dialog.addEventListener("cancel", event => {
     event.preventDefault();
     closePlayer();

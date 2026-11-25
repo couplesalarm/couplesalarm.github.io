@@ -45,8 +45,8 @@ test("permits responsive reflow and keeps controls in the video player", () => {
   assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
   assert.match(css, /button:focus-visible/);
   assert.match(css, /\.site-header nav a \{[\s\S]*min-height: 44px/);
-  assert.match(html, /<a class="video-open" href="assets\/couples-alarm-preview\.mp4[^"]*"[^>]*>\s*<video id="product-preview" preload="none" muted playsinline/);
-  assert.match(html, /<dialog class="video-dialog" aria-labelledby="video-title">[\s\S]*<button class="video-close" type="button" autofocus>/);
+  assert.match(html, /<a class="video-open" href="assets\/couples-alarm-preview\.mp4[^"]*"[^>]*>\s*<video id="product-preview" preload="none" muted playsinline loop/);
+  assert.match(html, /<dialog class="video-dialog" aria-labelledby="video-title">[\s\S]*<button class="video-close" type="button" aria-label="Close video" autofocus><span aria-hidden="true">×<\/span><\/button>/);
   assert.match(html, /<video id="story-player" controls playsinline preload="none" aria-labelledby="video-title"><\/video>/);
   assert.doesNotMatch(html, /<video id="(?:product-preview|story-player)"[^>]*\bautoplay\b/);
   assert.match(ruleBody(".product-preview video"), /height:\s*auto/);

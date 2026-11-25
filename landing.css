@@ -219,13 +219,17 @@ h1 span { color: var(--signal); }
 }
 .video-play-icon img { width: 1.9rem; height: 1.9rem; margin-left: 0.18rem; }
 .video-close {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
   min-height: 44px;
-  padding: 0.4rem 0.75rem;
+  padding: 0;
   border: 1px solid rgb(244 241 233 / 55%);
   border-radius: 0.65rem;
   background: rgb(3 8 12 / 90%);
   color: var(--ink);
-  font-size: 0.8rem;
+  font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
 }
 .video-close:hover { border-color: #fff; }

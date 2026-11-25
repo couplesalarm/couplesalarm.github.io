@@ -41,22 +41,6 @@
   const frequencyPosition = (hz) =>
     ((hz - endFrequency) / (startFrequency - endFrequency)) * 100;
 
-  const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const motionButton = document.querySelector("[data-motion-toggle]");
-  let motionChoice;
-  const updateMotion = () => {
-    const enabled = motionChoice ?? !motionQuery.matches;
-    listeningStage.classList.toggle("motion-paused", !enabled);
-    motionButton.setAttribute("aria-pressed", String(enabled));
-    motionButton.textContent = enabled ? "Motion on" : "Motion off";
-  };
-  motionButton.addEventListener("click", () => {
-    motionChoice = motionButton.getAttribute("aria-pressed") !== "true";
-    updateMotion();
-  });
-  motionQuery.addEventListener("change", updateMotion);
-  updateMotion();
-
   const setReadout = (hz) => {
     setText("[data-frequency-readout]", kilohertzText(hz));
     // Colour follows the actual pitch; decorative motion never drives audio.
@@ -216,10 +200,11 @@
       "[data-pause-tone]": phase === "starting" || phase === "playing",
       "[data-retry-turn]": phase === "finished",
     };
-    Object.entries(controls).forEach(([selector, visible]) => {
+    Object.entries(controls).forEach(([selector, enabled]) => {
       const button = document.querySelector(selector);
-      button.hidden = !visible;
-      button.disabled = !visible;
+      // Reserve the previous answer's position at timeout without accepting it.
+      button.hidden = !enabled && !(selector === "[data-heard]" && phase === "finished");
+      button.disabled = !enabled;
     });
     listeningStage.classList.toggle("is-idle", !["playing", "finished"].includes(phase));
     setText("[data-start-tone]", phase === "idle" ? "Start" : "Retry this turn");
@@ -246,6 +231,14 @@
     if (moveFocus) document.querySelector("[data-start-tone]").focus({ preventScroll: true });
   };
 
+  const finishSweep = () => {
+    const responseHadFocus = document.activeElement === document.querySelector("[data-heard]");
+    stopTone();
+    setListeningState("finished");
+    setReadout(endFrequency);
+    if (responseHadFocus) document.querySelector("[data-audio-status]").focus({ preventScroll: true });
+  };
+
   const prepareTurn = () => {
     setText("[data-listening-partner]", partnerLabels[listeningOrder[turn]]);
     setText("[data-turn-number]", String(turn + 1));
@@ -261,7 +254,6 @@
     errorMessage.hidden = true;
     const startToneButton = document.querySelector("[data-start-tone]");
     const heardButton = document.querySelector("[data-heard]");
-    const notHeardButton = document.querySelector("[data-not-heard]");
     startToneButton.hidden = true;
     startToneButton.disabled = true;
     setListeningState("starting");
@@ -305,10 +297,6 @@
       sweepStartedAt = now;
       setListeningState("playing");
 
-      heardButton.hidden = false;
-      heardButton.disabled = false;
-      notHeardButton.hidden = true;
-      notHeardButton.disabled = true;
       heardButton.focus({ preventScroll: true });
       setText("[data-audio-status]", "Playing");
       listeningStage.classList.remove("is-idle");
@@ -323,14 +311,7 @@
           sweepTimer = window.setTimeout(completeSweep, remaining * 1000);
           return;
         }
-        stopTone();
-        setListeningState("finished");
-        heardButton.hidden = true;
-        heardButton.disabled = true;
-        notHeardButton.hidden = false;
-        notHeardButton.disabled = false;
-        notHeardButton.focus({ preventScroll: true });
-        setReadout(endFrequency);
+        finishSweep();
       };
       sweepTimer = window.setTimeout(completeSweep, sweepDuration);
     } catch {
@@ -466,15 +447,20 @@
   document.querySelector("[data-retry-turn]").addEventListener("click", startTone);
   document.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
 
-  document.querySelector("[data-heard]").addEventListener("click", () => {
+  for (const selector of ["[data-heard]", "[data-not-heard]"]) {
+    document.querySelector(selector).addEventListener("keydown", event => {
+      // A held Enter can outlive the Start button as focus moves to a response.
+      if (event.key === "Enter" && event.repeat) event.preventDefault();
+    });
+  }
+
+  document.querySelector("[data-heard]").addEventListener("click", event => {
+    if (event.detail > 1) return;
     if (currentScreen !== "listen" || !sweepPlaying || audioContext.state !== "running") return;
     const progress = ((audioContext.currentTime - sweepStartedAt) * 1000) / sweepDuration;
     if (progress > 1) {
       // A delayed timer must not let a late tap invent an end-of-sweep response.
-      stopTone();
-      setListeningState("finished");
-      setReadout(endFrequency);
-      document.querySelector("[data-not-heard]").focus({ preventScroll: true });
+      finishSweep();
       return;
     }
     finishTurn(frequencyAt(progress));
