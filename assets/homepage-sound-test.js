@@ -1,4 +1,5 @@
 import { mountSoundTest } from "../compatibility/compatibility.js?v=20261125-modal";
+import { dismissOnBackdrop } from "./dialog-backdrop.js?v=20261125";
 
 const trigger = document.querySelector(".tone-test-primary");
 const triggerLabel = trigger.querySelector("span");
@@ -66,6 +67,7 @@ if (typeof dialog.showModal === "function") {
   });
 
   dialog.querySelector(".sound-test-close").addEventListener("click", closeTest);
+  dismissOnBackdrop(dialog, closeTest);
   dialog.addEventListener("cancel", event => {
     event.preventDefault();
     closeTest();
