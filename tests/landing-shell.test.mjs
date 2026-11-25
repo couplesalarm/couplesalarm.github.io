@@ -43,23 +43,21 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
 });
 
-test("permits accessible reflow and retains user-initiated video behavior", () => {
+test("permits accessible reflow and keeps preview and player controls separate", () => {
   assert.match(ruleBody("body"), /overflow-y:\s*auto/);
   assert.doesNotMatch(ruleBody("html"), /overflow:\s*hidden/);
   assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
   assert.match(css, /button:focus-visible/);
   assert.match(css, /\.site-header nav a \{[\s\S]*min-height: 44px/);
-  assert.match(html, /<video id="product-preview" preload="metadata"/);
-  assert.doesNotMatch(html, /<video[^>]*(?:autoplay|playsinline)/);
-  assert.match(html, /video\.webkitEnterFullscreen/);
-  assert.match(html, /video\.requestFullscreen/);
-  assert.match(html, /video\.onclick = \(\) => \{/);
-  assert.match(html, /video\.controls = true/);
-  assert.match(css, /video:fullscreen,[\s\S]*video:-webkit-full-screen\s*\{[^}]*object-fit:\s*contain/);
+  assert.match(html, /<a class="video-open" href="assets\/couples-alarm-preview\.mp4[^"]*"[^>]*>\s*<video id="product-preview" preload="none" muted playsinline/);
+  assert.match(html, /<\/a>\s*<button class="preview-toggle" type="button" aria-controls="product-preview" hidden>Pause preview<\/button>/);
+  assert.match(html, /<dialog class="video-dialog" aria-labelledby="video-title">[\s\S]*<button class="video-close" type="button" autofocus>/);
+  assert.match(html, /<video id="story-player" controls playsinline preload="none" aria-labelledby="video-title"><\/video>/);
+  assert.doesNotMatch(html, /<video[^>]*\bautoplay\b/);
   assert.match(ruleBody(".product-preview video"), /height:\s*auto/);
   assert.match(ruleBody(".product-preview video"), /object-fit:\s*contain/);
   assert.doesNotMatch(ruleBody(".product-preview video"), /max-height/);
-  assert.match(css, /@media \(prefers-reduced-motion: no-preference\)/);
+  assert.match(css, /@media \(hover: hover\) and \(pointer: fine\) and \(prefers-reduced-motion: no-preference\)/);
   assert.doesNotMatch(html, /motion-toggle|Pause background motion/);
   assert.doesNotMatch(css, /dawn-drift/);
 });
