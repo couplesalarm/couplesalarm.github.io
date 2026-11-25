@@ -214,7 +214,7 @@ export function mountSoundTest(root, { scrollContainer = root.ownerDocument.defa
     listeningStage.classList.toggle("is-idle", !["playing", "finished"].includes(phase));
     setText("[data-start-tone]", phase === "idle" ? "Start" : "Retry this turn");
     const copy = {
-      idle: ["Ready when you are", "Take turns on one device. Tap “I hear it” when you hear the tone."],
+      idle: ["", "Take turns on one device. Tap “I hear it” when you hear the tone."],
       starting: ["Starting…", "Tap as soon as you hear it."],
       playing: ["Playing", "Tap as soon as you hear it."],
       finished: ["Tone finished", "Didn’t hear it? Confirm or listen again."],
@@ -442,10 +442,10 @@ export function mountSoundTest(root, { scrollContainer = root.ownerDocument.defa
   root.querySelector("[data-retry-turn]").addEventListener("click", startTone);
   root.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
   const downloads = root.querySelector(".test-downloads");
-  downloads.addEventListener("click", event => {
+  downloads?.addEventListener("click", event => {
     if (event.target.closest("a")) pauseTurn(false);
   });
-  downloads.addEventListener("auxclick", event => {
+  downloads?.addEventListener("auxclick", event => {
     if (event.button === 1 && event.target.closest("a")) pauseTurn(false);
   });
 
@@ -496,14 +496,14 @@ export function mountSoundTest(root, { scrollContainer = root.ownerDocument.defa
     if (currentScreen === "listen" && responses[turn] !== undefined) showTurnOutcome();
   });
 
-  root.querySelector("[data-restart]").addEventListener("click", () => {
+  const restart = () => {
     stopTone();
-    phase = "idle";
     turn = 0;
     responses = [undefined, undefined];
     prepareTurn();
     showScreen("listen");
-  });
+  };
+  root.querySelector("[data-restart]").addEventListener("click", restart);
 
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) pauseTurn(false);
@@ -526,7 +526,7 @@ export function mountSoundTest(root, { scrollContainer = root.ownerDocument.defa
 
   return {
     pause: () => pauseTurn(false),
-    hasProgress: () => phase !== "idle" || responses.some(response => response !== undefined),
+    restart,
     focusStep,
   };
 }

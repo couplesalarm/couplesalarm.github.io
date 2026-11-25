@@ -1,13 +1,11 @@
-import { mountSoundTest } from "../compatibility/compatibility.js?v=20261125-modal";
+import { mountSoundTest } from "../compatibility/compatibility.js?v=20261125-fresh-test";
 import { dismissOnBackdrop } from "./dialog-backdrop.js?v=20261125";
 
 const trigger = document.querySelector(".tone-test-primary");
-const triggerLabel = trigger.querySelector("span");
 const dialog = document.querySelector(".sound-test-dialog");
 const story = document.querySelector(".video-dialog");
 const scrollContainer = dialog.querySelector(".sound-test-scroll");
 const content = dialog.querySelector(".sound-test-content");
-const stores = dialog.querySelector(".sound-test-stores");
 const loading = dialog.querySelector(".sound-test-loading");
 const fallback = dialog.querySelector(".sound-test-fallback");
 let test;
@@ -18,25 +16,21 @@ async function loadTest() {
   fallback.hidden = true;
   try {
     const url = new URL(trigger.href);
-    url.searchParams.set("v", "20261125-modal");
+    url.searchParams.set("v", "20261125-fresh-test");
     const response = await fetch(url, { mode: "same-origin" });
     if (!response.ok) throw new Error("Could not load sound test");
     const page = new DOMParser().parseFromString(await response.text(), "text/html");
     const testBody = page.querySelector("[data-test-body]");
-    const testStores = page.querySelector(".test-downloads");
-    if (!testBody || !testStores) throw new Error("Sound test markup unavailable");
+    if (!testBody) throw new Error("Sound test markup unavailable");
 
     // The standalone route owns the markup. Its page scripts and styles stay there.
     content.replaceChildren(...testBody.children);
-    stores.replaceChildren(...testStores.children);
     test = mountSoundTest(dialog, { scrollContainer });
-    stores.hidden = false;
     if (dialog.open && document.activeElement === dialog.querySelector(".sound-test-close")) {
       test.focusStep();
     }
   } catch {
     content.replaceChildren();
-    stores.replaceChildren();
     fallback.querySelector("a").href = trigger.href;
     fallback.hidden = false;
   } finally {
@@ -59,8 +53,7 @@ if (typeof dialog.showModal === "function") {
     if (dialog.open || story.open) return;
     dialog.showModal();
     if (test) {
-      scrollContainer.scrollTo(0, 0);
-      test.focusStep();
+      test.restart();
     } else {
       load ??= loadTest();
     }
@@ -75,7 +68,6 @@ if (typeof dialog.showModal === "function") {
   dialog.addEventListener("close", () => {
     if (dialog.open) return;
     test?.pause();
-    triggerLabel.textContent = test?.hasProgress() ? "Resume sound test" : "Try the sound test";
     trigger.focus({ preventScroll: true });
   });
 }
