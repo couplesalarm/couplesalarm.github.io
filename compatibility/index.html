@@ -16,7 +16,7 @@
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Couples Alarm Tone Test: Find a Sound Only One of You Hears</title>
   <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
-  <link rel="stylesheet" href="compatibility.css?v=20261125-store-links">
+  <link rel="stylesheet" href="compatibility.css?v=20261125-retakes">
   <script defer src="../assets/campaign-links.js?v=20261015-guides-1"></script>
   <script defer src="../assets/analytics.js?v=20261016-retry-1"></script>
 </head>
@@ -54,8 +54,8 @@
 
       <section class="screen listen-screen" data-screen="listen" aria-labelledby="listen-title">
         <div class="listen-copy">
-          <p class="eyebrow"><span data-listening-partner>Partner One</span> · <span data-turn-number>1</span> of 2</p>
-          <h1 id="listen-title">Find your <em>tone.</em></h1>
+          <p class="eyebrow" id="listen-partner"><span data-listening-partner>Partner One</span> · <span data-turn-context>1 of 2</span></p>
+          <h1 id="listen-title" aria-describedby="listen-partner">Find your <em>tone.</em></h1>
           <p id="listen-instruction" data-listen-instruction>Start, then tap “I hear it.”</p>
           <p class="preview-limit" id="speaker-instruction"><span data-speaker-title>Device speaker</span> · No headphones · Comfortable volume</p>
         </div>
@@ -94,6 +94,7 @@
         </div>
 
         <p class="hearing-note">Designed for the partner who hears higher pitches.</p>
+        <button class="text-action" type="button" data-cancel-redo hidden>Back to result</button>
       </section>
 
       <section class="screen handoff-screen" data-screen="handoff" aria-labelledby="handoff-title" hidden>
@@ -102,13 +103,13 @@
         </figure>
         <div>
           <p class="eyebrow">One turn complete</p>
-          <h2 id="handoff-title">Pass the device to <span data-next-partner>Partner Two</span>.</h2>
+          <h2 id="handoff-title">Pass the device to <span>Partner Two</span>.</h2>
           <div class="handoff-result">
             <span class="handoff-result-graphic" aria-hidden="true">
               <img src="../assets/soundwave.svg" alt="">
             </span>
             <p>
-              <span class="handoff-result-label"><span data-first-result-label>Partner One</span> result</span>
+              <span class="handoff-result-label">Partner One’s result</span>
               <strong data-first-result>—</strong>
             </p>
           </div>
@@ -116,17 +117,18 @@
           <p class="start-notice" id="next-notice">Sound starts when Partner Two taps below.</p>
           <button class="primary-action" type="button" data-next-turn aria-describedby="next-notice">
             <img src="../assets/play-fill.svg" alt="">
-            <span>Start <b data-next-partner>Partner Two</b>’s turn</span>
+            <span>Start <b>Partner Two</b>’s turn</span>
           </button>
+          <button class="text-action" type="button" data-redo-turn="0">Redo Partner One’s turn</button>
         </div>
       </section>
 
       <section class="screen result-screen" data-screen="result" aria-labelledby="result-title" hidden>
         <div class="result-glow" aria-hidden="true"></div>
         <p class="eyebrow">Your test result</p>
-        <h2 id="result-title" data-result-title>A possible match</h2>
-        <p class="result-for" data-result-for></p>
+        <h2 id="result-title" data-result-title>Your tone comparison</h2>
         <strong class="result-range" data-sweet-spot-value>No clear range</strong>
+        <p class="result-for" data-result-for></p>
         <div class="result-spectrum" data-result-spectrum role="img" aria-label="Partner frequency comparison">
           <div class="result-spectrum-track" aria-hidden="true">
             <span class="sweet-spot-band" data-sweet-spot-band hidden></span>
@@ -152,7 +154,11 @@
         <p class="result-limit" data-result-limit>This is a starting point. In the app you each take a listening turn on your phone, preview a suggested tone and confirm it with a bedside fit check.</p>
         <div class="result-actions">
           <a class="primary-action" href="../download/" data-result-next>Get Couples Alarm</a>
-          <button class="text-action" type="button" data-restart>Try again</button>
+          <div class="result-turn-actions">
+            <button class="text-action" type="button" data-redo-turn="0">Redo Partner One’s turn</button>
+            <button class="text-action" type="button" data-redo-turn="1">Redo Partner Two’s turn</button>
+            <button class="text-action" type="button" data-restart>Start over</button>
+          </div>
         </div>
       </section>
 
@@ -160,6 +166,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20261125-listening-input"></script>
+  <script src="compatibility.js?v=20261125-retakes"></script>
 </body>
 </html>
