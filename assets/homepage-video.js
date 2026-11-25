@@ -4,11 +4,13 @@
   const dialog = document.querySelector(".video-dialog");
   const player = document.querySelector("#story-player");
   const close = document.querySelector(".video-close");
+  const soundTest = document.querySelector(".sound-test-dialog");
+  const walkthrough = document.querySelector(".showcase-phone video");
   let inView = !("IntersectionObserver" in window);
   let autoplayBlocked = false;
 
   const canPreview = () =>
-    inView && !document.hidden && !dialog.open && !autoplayBlocked;
+    inView && !document.hidden && !dialog.open && !soundTest?.open && !autoplayBlocked;
 
   function syncPreview() {
     if (!canPreview()) {
@@ -27,6 +29,17 @@
   });
   document.addEventListener("visibilitychange", syncPreview);
 
+  if (soundTest) {
+    new MutationObserver(() => {
+      syncPreview();
+      if (soundTest.open) walkthrough.pause();
+      else if (!document.hidden) walkthrough.play().catch(() => {});
+    }).observe(soundTest, { attributes: true, attributeFilter: ["open"] });
+    walkthrough.addEventListener("play", () => {
+      if (soundTest.open) walkthrough.pause();
+    });
+  }
+
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
@@ -41,6 +54,7 @@
   trigger.addEventListener("click", event => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    if (soundTest?.open) return;
     dialog.showModal();
     preview.pause();
     if (!player.hasAttribute("src")) {

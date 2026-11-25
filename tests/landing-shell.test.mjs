@@ -60,6 +60,13 @@ test("puts the sound test directly before the store badges", () => {
   assert.doesNotMatch(html, /About 2 minutes|free two-minute sound test|Hear it for yourself/i);
 });
 
+test("provides a native sound-test dialog with a visible close and the standalone fallback", () => {
+  assert.match(html, /<dialog class="sound-test-dialog compatibility-page" id="sound-test-dialog" aria-label="Sound test">/);
+  assert.match(html, /<button class="sound-test-close" type="button" aria-label="Close sound test" autofocus>/);
+  assert.match(html, /sound-test-fallback" hidden><a href="compatibility\/">Open the standalone sound test<\/a>/);
+  assert.match(html, /<script type="module" src="assets\/homepage-sound-test\.js\?v=/);
+});
+
 test("sound test button has a visible boundary and animated waveform", () => {
   assert.match(ruleBody(".tone-test-primary"), /min-height: 54px/);
   assert.match(ruleBody(".tone-test-primary"), /border: 1px solid/);

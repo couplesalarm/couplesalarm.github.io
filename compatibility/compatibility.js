@@ -1,10 +1,13 @@
-(() => {
+export function mountSoundTest(root, { scrollContainer = root.ownerDocument.defaultView } = {}) {
+  const document = root.ownerDocument;
+  const window = document.defaultView;
+  const navigator = window.navigator;
   const partnerLabels = ["Partner One", "Partner Two"];
-  const screens = [...document.querySelectorAll("[data-screen]")];
-  const progressSteps = [...document.querySelectorAll(".progress-step")];
-  const errorMessage = document.querySelector("[data-error-message]");
-  const listeningStage = document.querySelector(".listening-stage");
-  const cancelRedo = document.querySelector("[data-cancel-redo]");
+  const screens = [...root.querySelectorAll("[data-screen]")];
+  const progressSteps = [...root.querySelectorAll(".progress-step")];
+  const errorMessage = root.querySelector("[data-error-message]");
+  const listeningStage = root.querySelector(".listening-stage");
+  const cancelRedo = root.querySelector("[data-cancel-redo]");
 
   const startFrequency = 17500;
   const endFrequency = 8500;
@@ -91,7 +94,7 @@
 
   const updateDeviceCopy = () => {
     const deviceCopy = currentDeviceCopy();
-    document.querySelectorAll("[data-speaker-title]").forEach((element) => {
+    root.querySelectorAll("[data-speaker-title]").forEach((element) => {
       element.textContent = deviceCopy.title;
     });
   };
@@ -99,15 +102,17 @@
   phoneQuery.addEventListener("change", updateDeviceCopy);
 
   const setText = (selector, value) => {
-    document.querySelectorAll(selector).forEach((element) => {
+    root.querySelectorAll(selector).forEach((element) => {
       element.textContent = value;
     });
   };
 
   const setProgress = (currentIndex) => {
     progressSteps.forEach((step, index) => {
+      const complete = index !== currentIndex && responses[index] !== undefined;
       step.classList.toggle("is-current", index === currentIndex);
-      step.classList.toggle("is-complete", index !== currentIndex && responses[index] !== undefined);
+      step.classList.toggle("is-complete", complete);
+      step.querySelector("b").textContent = complete ? "✓" : String(index + 1);
       if (index === currentIndex) {
         step.setAttribute("aria-current", "step");
       } else {
@@ -116,20 +121,20 @@
     });
   };
 
-  const showScreen = (name) => {
-    currentScreen = name;
-    let visibleScreen;
-    screens.forEach((screen) => {
-      screen.hidden = screen.dataset.screen !== name;
-      if (!screen.hidden) visibleScreen = screen;
-    });
-    errorMessage.hidden = true;
-    window.scrollTo(0, 0);
-    const heading = visibleScreen?.querySelector("h1, h2");
+  const focusStep = () => {
+    const heading = screens.find(screen => !screen.hidden)?.querySelector("h1, h2");
     if (heading) {
       heading.tabIndex = -1;
       heading.focus({ preventScroll: true });
     }
+  };
+
+  const showScreen = (name) => {
+    currentScreen = name;
+    screens.forEach(screen => { screen.hidden = screen.dataset.screen !== name; });
+    errorMessage.hidden = true;
+    scrollContainer.scrollTo(0, 0);
+    focusStep();
   };
 
   const showError = (message) => {
@@ -201,7 +206,7 @@
       "[data-retry-turn]": phase === "finished",
     };
     Object.entries(controls).forEach(([selector, enabled]) => {
-      const button = document.querySelector(selector);
+      const button = root.querySelector(selector);
       // Reserve the previous answer's position at timeout without accepting it.
       button.hidden = !enabled && !(selector === "[data-heard]" && phase === "finished");
       button.disabled = !enabled;
@@ -209,11 +214,11 @@
     listeningStage.classList.toggle("is-idle", !["playing", "finished"].includes(phase));
     setText("[data-start-tone]", phase === "idle" ? "Start" : "Retry this turn");
     const copy = {
-      idle: ["Ready when you are", "Start, then tap “I hear it.”"],
+      idle: ["Ready when you are", "Take turns on one device. Tap “I hear it” when you hear the tone."],
       starting: ["Starting…", "Tap as soon as you hear it."],
       playing: ["Playing", "Tap as soon as you hear it."],
       finished: ["Tone finished", "Didn’t hear it? Confirm or listen again."],
-      paused: ["Paused", "Nothing saved. Retry when you’re ready."],
+      paused: ["Paused", "This attempt is paused. Retry when you’re ready."],
       error: ["Sound unavailable", "Check your audio, then retry."],
     }[phase];
     if (copy) {
@@ -228,15 +233,15 @@
     setListeningState("paused");
     resetSweepProgress();
     setReadout(startFrequency);
-    if (moveFocus) document.querySelector("[data-start-tone]").focus({ preventScroll: true });
+    if (moveFocus) root.querySelector("[data-start-tone]").focus({ preventScroll: true });
   };
 
   const finishSweep = () => {
-    const responseHadFocus = document.activeElement === document.querySelector("[data-heard]");
+    const responseHadFocus = document.activeElement === root.querySelector("[data-heard]");
     stopTone();
     setListeningState("finished");
     setReadout(endFrequency);
-    if (responseHadFocus) document.querySelector("[data-audio-status]").focus({ preventScroll: true });
+    if (responseHadFocus) root.querySelector("[data-audio-status]").focus({ preventScroll: true });
   };
 
   const prepareTurn = () => {
@@ -259,8 +264,8 @@
     stopTone();
     const run = toneRun;
     errorMessage.hidden = true;
-    const startToneButton = document.querySelector("[data-start-tone]");
-    const heardButton = document.querySelector("[data-heard]");
+    const startToneButton = root.querySelector("[data-start-tone]");
+    const heardButton = root.querySelector("[data-heard]");
     startToneButton.hidden = true;
     startToneButton.disabled = true;
     setListeningState("starting");
@@ -341,7 +346,6 @@
     phase = "idle";
 
     if (responses[1] === undefined) {
-      setText("[data-first-result]", responseText(responses[0]));
       setProgress(1);
       showScreen("handoff");
       return;
@@ -364,7 +368,7 @@
     setText("[data-result-for]", hasRange
       ? `Based on your answers, ${partnerLabels[matchedPartner]} is more likely to hear a tone in this range than ${partnerLabels[otherPartner]}.`
       : "This test found no tone to suggest for either partner on this device.");
-    const nextLink = document.querySelector("[data-result-next]");
+    const nextLink = root.querySelector("[data-result-next]");
     nextLink.textContent = hasRange ? "Get Couples Alarm" : "About Couples Alarm";
     nextLink.setAttribute("href", hasRange ? "../download/" : "../");
     setText(
@@ -384,23 +388,18 @@
     setText("[data-result-partner-one]", responseText(responses[0]));
     setText("[data-result-partner-two]", responseText(responses[1]));
 
-    const sweetSpotBand = document.querySelector("[data-sweet-spot-band]");
-    const resultSpectrum = document.querySelector("[data-result-spectrum]");
-    const endpointOne = document.querySelector("[data-result-endpoint-one]");
-    const endpointTwo = document.querySelector("[data-result-endpoint-two]");
-    const lowPartner =
-      (responses[0] ?? endFrequency) <= (responses[1] ?? endFrequency) ? 0 : 1;
-
+    const sweetSpotBand = root.querySelector("[data-sweet-spot-band]");
+    const resultSpectrum = root.querySelector("[data-result-spectrum]");
+    const endpointOne = root.querySelector("[data-result-endpoint-one]");
+    const endpointTwo = root.querySelector("[data-result-endpoint-two]");
     responses.forEach((response, index) => {
-      const marker = document.querySelector(
+      const marker = root.querySelector(
         index === 0 ? "[data-result-marker-one]" : "[data-result-marker-two]",
       );
       marker.hidden = response === null;
       if (response !== null) marker.style.left = `${frequencyPosition(response)}%`;
     });
 
-    endpointOne.style.order = lowPartner === 0 ? "0" : "1";
-    endpointTwo.style.order = lowPartner === 1 ? "0" : "1";
     endpointOne.classList.toggle("is-missing", responses[0] === null);
     endpointTwo.classList.toggle("is-missing", responses[1] === null);
     resultSpectrum.classList.toggle("has-range", hasRange);
@@ -439,10 +438,10 @@
     showScreen("result");
   };
 
-  document.querySelector("[data-start-tone]").addEventListener("click", startTone);
-  document.querySelector("[data-retry-turn]").addEventListener("click", startTone);
-  document.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
-  const downloads = document.querySelector(".test-downloads");
+  root.querySelector("[data-start-tone]").addEventListener("click", startTone);
+  root.querySelector("[data-retry-turn]").addEventListener("click", startTone);
+  root.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
+  const downloads = root.querySelector(".test-downloads");
   downloads.addEventListener("click", event => {
     if (event.target.closest("a")) pauseTurn(false);
   });
@@ -451,13 +450,13 @@
   });
 
   for (const selector of ["[data-heard]", "[data-not-heard]"]) {
-    document.querySelector(selector).addEventListener("keydown", event => {
+    root.querySelector(selector).addEventListener("keydown", event => {
       // A held Enter can outlive the Start button as focus moves to a response.
       if (event.key === "Enter" && event.repeat) event.preventDefault();
     });
   }
 
-  document.querySelector("[data-heard]").addEventListener("click", event => {
+  root.querySelector("[data-heard]").addEventListener("click", event => {
     // Touch browsers can report the second tap as a new click when Start becomes the answer.
     if (event.detail > 0 && startPointer && event.timeStamp - startPointer.time < 300 &&
         Math.hypot(event.clientX - startPointer.x, event.clientY - startPointer.y) < 24) return;
@@ -471,12 +470,12 @@
     finishTurn(frequencyAt(progress));
   });
 
-  document.querySelector("[data-not-heard]").addEventListener("click", () => {
+  root.querySelector("[data-not-heard]").addEventListener("click", () => {
     if (currentScreen !== "listen" || phase !== "finished") return;
     finishTurn(null);
   });
 
-  document.querySelector("[data-next-turn]").addEventListener("click", event => {
+  root.querySelector("[data-next-turn]").addEventListener("click", event => {
     if (currentScreen !== "handoff") return;
     turn = 1;
     prepareTurn();
@@ -484,7 +483,7 @@
     startTone(event);
   });
 
-  for (const button of document.querySelectorAll("[data-redo-turn]")) {
+  for (const button of root.querySelectorAll("[data-redo-turn]")) {
     button.addEventListener("click", () => {
       const partner = Number(button.dataset.redoTurn);
       if (currentScreen === "listen" || responses[partner] === undefined) return;
@@ -497,7 +496,7 @@
     if (currentScreen === "listen" && responses[turn] !== undefined) showTurnOutcome();
   });
 
-  document.querySelector("[data-restart]").addEventListener("click", () => {
+  root.querySelector("[data-restart]").addEventListener("click", () => {
     stopTone();
     phase = "idle";
     turn = 0;
@@ -521,8 +520,16 @@
   };
 
   window.addEventListener("pagehide", closeAudio);
-  window.addEventListener("beforeunload", closeAudio);
 
   updateDeviceCopy();
   prepareTurn();
-})();
+
+  return {
+    pause: () => pauseTurn(false),
+    hasProgress: () => phase !== "idle" || responses.some(response => response !== undefined),
+    focusStep,
+  };
+}
+
+const standalone = typeof document !== "undefined" && document.querySelector("[data-sound-test]");
+if (standalone) mountSoundTest(standalone);
