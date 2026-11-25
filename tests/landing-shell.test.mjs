@@ -11,11 +11,11 @@ const ruleBody = (selector) => {
   return css.slice(at, css.indexOf("}", at));
 };
 
-test("retains the original story and app artwork in the dawn landing", () => {
+test("retains the story and animates the app showcase in the dawn landing", () => {
   assert.match(html, /class="hero-copy"/);
   assert.match(html, /class="product-preview"/);
-  assert.match(html, /class="app-showcase"/);
-  assert.match(html, /assets\/setup-together\.png\?v=20260730/);
+  assert.match(html, /class="app-showcase" aria-label="Couples Alarm walkthrough/);
+  assert.match(html, /<video autoplay muted loop playsinline[^>]*poster="assets\/setup-together-300\.webp[^"]*"[^>]*>\s*<source src="assets\/couples-alarm-walkthrough\.mp4" type="video\/mp4">/);
   assert.match(html, /assets\/couples-alarm-preview-poster-576\.webp\?v=20261016/);
   assert.match(html, /assets\/couples-alarm-preview\.mp4\?v=20261116-720p/);
   assert.match(html, /class="dawn-scene" aria-hidden="true"/);
@@ -48,7 +48,7 @@ test("permits responsive reflow and keeps controls in the video player", () => {
   assert.match(html, /<a class="video-open" href="assets\/couples-alarm-preview\.mp4[^"]*"[^>]*>\s*<video id="product-preview" preload="none" muted playsinline/);
   assert.match(html, /<dialog class="video-dialog" aria-labelledby="video-title">[\s\S]*<button class="video-close" type="button" autofocus>/);
   assert.match(html, /<video id="story-player" controls playsinline preload="none" aria-labelledby="video-title"><\/video>/);
-  assert.doesNotMatch(html, /<video[^>]*\bautoplay\b/);
+  assert.doesNotMatch(html, /<video id="(?:product-preview|story-player)"[^>]*\bautoplay\b/);
   assert.match(ruleBody(".product-preview video"), /height:\s*auto/);
   assert.match(ruleBody(".product-preview video"), /object-fit:\s*contain/);
   assert.doesNotMatch(ruleBody(".product-preview video"), /max-height/);
