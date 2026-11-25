@@ -48,7 +48,7 @@ test("keeps copy concise and avoids a hearing diagnosis or waking guarantee", ()
 test("focuses each step heading and exposes state and failures", () => {
   assert.equal([...html.matchAll(/<h1\b/g)].length, 1);
   assert.equal([...html.matchAll(/<h2\b/g)].length, 2);
-  assert.match(script, /visibleScreen\?\.querySelector\("h1, h2"\)/);
+  assert.match(script, /\?\.querySelector\("h1, h2"\)/);
   assert.match(script, /heading\.focus\(\{ preventScroll: true \}\)/);
   assert.match(html, /aria-live="polite"/);
   assert.match(html, /role="alert"/);
@@ -86,4 +86,12 @@ test("keeps responsive controls reachable in document flow", () => {
   assert.doesNotMatch(css, /overflow-y:\s*hidden|[;{]\s*height:\s*100svh/);
   assert.match(html, /assets\/compatibility-flow-couple\.png/);
 
+});
+
+test("handoff confirms the answer and result retakes are next to the partner readings", () => {
+  const handoff = html.match(/data-screen="handoff"[\s\S]*?<\/section>/)?.[0];
+  assert.match(handoff, /Partner One’s answer saved/);
+  assert.doesNotMatch(handoff, /data-first-result|kHz/);
+  assert.match(html, /data-result-partner-one>[^<]*<\/strong>\s*<button[^>]*aria-label="Redo turn for Partner One"/);
+  assert.match(html, /data-result-partner-two>[^<]*<\/strong>\s*<button[^>]*aria-label="Redo turn for Partner Two"/);
 });

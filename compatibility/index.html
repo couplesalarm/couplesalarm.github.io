@@ -16,14 +16,14 @@
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Couples Alarm Tone Test: Find a Sound Only One of You Hears</title>
   <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
-  <link rel="stylesheet" href="compatibility.css?v=20261125-retakes">
+  <link rel="stylesheet" href="compatibility.css?v=20261125-modal">
   <script defer src="../assets/campaign-links.js?v=20261015-guides-1"></script>
   <script defer src="../assets/analytics.js?v=20261016-retry-1"></script>
 </head>
 <body class="dawn-page compatibility-page">
   <a class="skip-link" href="#test-content">Skip to the Couples Alarm test</a>
 
-  <div class="test-shell">
+  <div class="test-shell" data-sound-test>
     <header class="site-header">
       <a class="brand" href="../" aria-label="Couples Alarm home">
         <img src="../assets/app-icon-64.png" alt="" width="42" height="42">
@@ -45,7 +45,7 @@
       </a>
     </aside>
 
-    <main id="test-content" tabindex="-1">
+    <main id="test-content" tabindex="-1" data-test-body>
       <div class="progress" aria-label="Couples Alarm test progress">
         <span class="progress-step is-current" data-progress="partner-one" aria-current="step"><b>1</b>Partner One</span>
         <span class="progress-step" data-progress="partner-two"><b>2</b>Partner Two</span>
@@ -56,7 +56,7 @@
         <div class="listen-copy">
           <p class="eyebrow" id="listen-partner"><span data-listening-partner>Partner One</span> · <span data-turn-context>1 of 2</span></p>
           <h1 id="listen-title" aria-describedby="listen-partner">Find your <em>tone.</em></h1>
-          <p id="listen-instruction" data-listen-instruction>Start, then tap “I hear it.”</p>
+          <p id="listen-instruction" data-listen-instruction>Take turns on one device. Tap “I hear it” when you hear the tone.</p>
           <p class="preview-limit" id="speaker-instruction"><span data-speaker-title>Device speaker</span> · No headphones · Comfortable volume</p>
         </div>
 
@@ -73,6 +73,7 @@
               <circle class="orbit-progress" cx="110" cy="110" r="101" pathLength="1"/>
             </svg>
             <div class="orbit-core">
+              <img class="tone-ready-wave" src="../assets/soundwave.svg" alt="">
               <p class="tone-readout" aria-hidden="true"><span data-frequency-readout>17.5</span><small>kHz</small></p>
             </div>
             <span class="orbit-spark"></span>
@@ -105,13 +106,8 @@
           <p class="eyebrow">One turn complete</p>
           <h2 id="handoff-title">Pass the device to <span>Partner Two</span>.</h2>
           <div class="handoff-result">
-            <span class="handoff-result-graphic" aria-hidden="true">
-              <img src="../assets/soundwave.svg" alt="">
-            </span>
-            <p>
-              <span class="handoff-result-label">Partner One’s result</span>
-              <strong data-first-result>—</strong>
-            </p>
+            <span class="handoff-result-graphic" aria-hidden="true">✓</span>
+            <p>Partner One’s answer saved</p>
           </div>
           <p class="handoff-volume">Same device. Same position and volume.</p>
           <p class="start-notice" id="next-notice">Sound starts when Partner Two taps below.</p>
@@ -140,25 +136,23 @@
             <strong>Possible match</strong>
             <span>Higher pitch</span>
           </div>
-          <div class="result-partners" aria-label="Partner frequency results">
-            <div data-result-endpoint-one>
-              <span data-result-partner-one-label>Partner One</span>
-              <strong data-result-partner-one>—</strong>
-            </div>
-            <div data-result-endpoint-two>
-              <span data-result-partner-two-label>Partner Two</span>
-              <strong data-result-partner-two>—</strong>
-            </div>
+        </div>
+        <div class="result-partners" role="group" aria-label="Partner frequency results">
+          <div data-result-endpoint-one>
+            <span data-result-partner-one-label>Partner One</span>
+            <strong data-result-partner-one>—</strong>
+            <button class="text-action" type="button" data-redo-turn="0" aria-label="Redo turn for Partner One">Redo turn</button>
+          </div>
+          <div data-result-endpoint-two>
+            <span data-result-partner-two-label>Partner Two</span>
+            <strong data-result-partner-two>—</strong>
+            <button class="text-action" type="button" data-redo-turn="1" aria-label="Redo turn for Partner Two">Redo turn</button>
           </div>
         </div>
         <p class="result-limit" data-result-limit>This is a starting point. In the app you each take a listening turn on your phone, preview a suggested tone and confirm it with a bedside fit check.</p>
         <div class="result-actions">
           <a class="primary-action" href="../download/" data-result-next>Get Couples Alarm</a>
-          <div class="result-turn-actions">
-            <button class="text-action" type="button" data-redo-turn="0">Redo Partner One’s turn</button>
-            <button class="text-action" type="button" data-redo-turn="1">Redo Partner Two’s turn</button>
-            <button class="text-action" type="button" data-restart>Start over</button>
-          </div>
+          <button class="text-action" type="button" data-restart>Start over</button>
         </div>
       </section>
 
@@ -166,6 +160,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20261125-retakes"></script>
+  <script type="module" src="compatibility.js?v=20261125-modal"></script>
 </body>
 </html>

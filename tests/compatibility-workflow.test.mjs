@@ -1,10 +1,9 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import vm from "node:vm";
+import { mountSoundTest } from "../compatibility/compatibility.js";
 import test from "node:test";
 
 const html = await readFile(new URL("../compatibility/index.html", import.meta.url), "utf8");
-const script = await readFile(new URL("../compatibility/compatibility.js", import.meta.url), "utf8");
 
 // Exercise the shipped controller with deterministic audio and timer clocks.
 // The DOM double resolves only selectors actually present in the page.
@@ -112,10 +111,16 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     setInterval: (fn) => { intervals.set(++timerId, fn); return timerId; },
     clearInterval: (id) => intervals.delete(id),
   });
-  vm.runInNewContext(script, { document, window, navigator: { userAgent: "test", audioSession: {} } });
+  window.navigator = { userAgent: "test", audioSession: {} };
+  document.defaultView = window;
+  const controller = mountSoundTest({
+    ownerDocument: document,
+    querySelector: el,
+    querySelectorAll: document.querySelectorAll,
+  });
   const flush = async () => { await Promise.resolve(); await Promise.resolve(); };
   return {
-    el, voices, gains, steps,
+    el, voices, gains, steps, controller,
     get context() { return context; },
     get focused() { return focused; },
     get screen() { return screens.find((screen) => !screen.hidden).dataset.screen; },
@@ -140,6 +145,7 @@ const start = (p) => p.click("[data-start-tone]");
 const heard = (p) => p.click("[data-heard]");
 const next = (p) => p.click("[data-next-turn]");
 async function unheard(p) { p.advance(20); await p.click("[data-not-heard]"); }
+const heardPitch = seconds => `${(17.5 * (8.5 / 17.5) ** (seconds / 20)).toFixed(1)} kHz`;
 
 test("one click starts each partner; repeated start clicks cannot duplicate audio", async () => {
   const p = preview();
@@ -167,8 +173,8 @@ test("preserves the 20-second sweep and gain envelope", async () => {
 
 test("records against the audio clock, even if wall time has advanced farther", async () => {
   const p = preview(); await start(p); p.advance(12, 5); await heard(p);
-  const expected = (Math.round(17500 * (8500 / 17500) ** .25 / 100) / 10).toFixed(1);
-  assert.equal(p.el("[data-first-result]").textContent, `${expected} kHz`);
+  await next(p); await unheard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, heardPitch(5));
 });
 
 test("pause silences audio without recording and retries the same partner", async () => {
@@ -197,7 +203,7 @@ test("a paused pending resume cannot start a stale oscillator", async () => {
 
 test("backgrounding interrupts without advancing and preserves the first response", async () => {
   const p = preview(); await start(p); p.advance(2); await heard(p);
-  const first = p.el("[data-first-result]").textContent;
+  const first = heardPitch(2);
   await next(p); await p.hide(); await p.show();
   assert.equal(p.el("[data-audio-status]").textContent, "Paused");
   assert.equal(p.voices.length, 2);
@@ -224,7 +230,8 @@ test("natural end requires a response, supports replay and survives backgroundin
   await p.hide(); await p.show();
   assert.equal(p.el("[data-audio-status]").textContent, "Tone finished");
   await p.click("[data-retry-turn]"); assert.equal(p.voices.length, 2);
-  await unheard(p); assert.equal(p.el("[data-first-result]").textContent, "Did not hear it");
+  await unheard(p); await next(p); await unheard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, "Did not hear it");
 });
 
 test("an early wall timer does not finish an incomplete audio sweep", async () => {
@@ -271,7 +278,6 @@ for (const heardPartner of [0, 1]) {
 
 test("redoing Partner One from handoff replaces only their answer and returns to handoff", async () => {
   const p = preview(); await start(p); p.advance(2); await heard(p);
-  const first = p.el("[data-first-result]").textContent;
   await p.click('[data-redo-turn="0"]');
   assert.equal(p.screen, "listen");
   assert.equal(p.el("[data-listening-partner]").textContent, "Partner One");
@@ -281,15 +287,15 @@ test("redoing Partner One from handoff replaces only their answer and returns to
   assert.equal(p.voices.length, 1, "retake waits for Start");
   await p.click("[data-cancel-redo]");
   assert.equal(p.screen, "handoff");
-  assert.equal(p.el("[data-first-result]").textContent, first);
 
   await p.click('[data-redo-turn="0"]'); await start(p); p.advance(10); await heard(p);
   assert.equal(p.screen, "handoff");
-  assert.notEqual(p.el("[data-first-result]").textContent, first);
   await next(p);
   assert.equal(p.el("[data-listening-partner]").textContent, "Partner Two");
   assert.equal(p.el("[data-turn-context]").textContent, "2 of 2");
   assert.equal(p.el("[data-cancel-redo]").hidden, true);
+  await unheard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, heardPitch(10));
 });
 
 test("redoing either partner recalculates the result with the other answer intact", async () => {
@@ -367,7 +373,8 @@ test("a late click cannot invent a threshold while the end timer is delayed", as
 test("a response at the exact endpoint is accepted before the completion callback", async () => {
   const p = preview(); await start(p); p.advance(20, 20, false); await heard(p);
   assert.equal(p.screen, "handoff");
-  assert.equal(p.el("[data-first-result]").textContent, "8.5 kHz");
+  await next(p); await unheard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, "8.5 kHz");
 });
 
 
@@ -404,7 +411,7 @@ test("a repeat tap from Start does not count as hearing a tone", async () => {
 
 test("opening a store interrupts the current tone without recording a response", async () => {
   const p = preview(); await start(p); p.advance(2); await heard(p);
-  const first = p.el("[data-first-result]").textContent;
+  const first = heardPitch(2);
   await next(p);
   await p.click(".test-downloads", { target: { closest: () => true } });
   assert.equal(p.el("[data-audio-status]").textContent, "Paused");
@@ -412,4 +419,31 @@ test("opening a store interrupts the current tone without recording a response",
   await start(p); p.advance(8); await heard(p);
   assert.equal(p.el("[data-result-partner-one]").textContent, first);
   assert.equal(p.screen, "result");
+});
+
+test("the embedded controller pauses on dismissal and keeps completed answers in memory", async () => {
+  const p = preview();
+  assert.equal(p.controller.hasProgress(), false);
+  await start(p); p.advance(4); await heard(p);
+  assert.equal(p.controller.hasProgress(), true);
+  await next(p);
+  p.controller.pause();
+  assert.equal(p.voices.at(-1).disconnected, true);
+  assert.equal(p.el("[data-listening-partner]").textContent, "Partner Two");
+  assert.equal(p.el("[data-start-tone]").textContent, "Retry this turn");
+  p.controller.focusStep();
+  assert.equal(p.voices.length, 2);
+  await start(p); await unheard(p);
+  assert.equal(p.screen, "result");
+  assert.equal(p.el("[data-result-partner-one]").textContent, heardPitch(4));
+});
+
+test("dismissing before the browser starts audio leaves a silent retry", async () => {
+  const p = preview({ pendingResume: true });
+  await start(p);
+  p.controller.pause();
+  await p.resolve();
+  assert.equal(p.voices.length, 0);
+  assert.equal(p.el("[data-audio-status]").textContent, "Paused");
+  assert.equal(p.controller.hasProgress(), true);
 });
