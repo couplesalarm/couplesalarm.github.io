@@ -8,7 +8,7 @@ const script = await readFile(new URL("../compatibility/compatibility.js", impor
 
 // Exercise the shipped controller with deterministic audio and timer clocks.
 // The DOM double resolves only selectors actually present in the page.
-function preview({ pendingResume = false, failResume = false, unsupported = false, reducedMotion = false } = {}) {
+function preview({ pendingResume = false, failResume = false, unsupported = false } = {}) {
   let wallTime = 0;
   let audioTime = 0;
   let timerId = 0;
@@ -39,7 +39,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     getAttribute(key) { return this.attributes[key]; }
     removeAttribute(key) { delete this.attributes[key]; }
     addEventListener(type, fn) { (this.events[type] ||= []).push(fn); }
-    emit(type) { return Promise.all((this.events[type] || []).map((fn) => fn())); }
+    emit(type, event) { return Promise.all((this.events[type] || []).map((fn) => fn(event))); }
     focus() { focused = this; }
     querySelector() { return this.heading ||= new Element(); }
   }
@@ -48,6 +48,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     nodes.set(`[${match[1]}]`, new Element());
   }
   nodes.set(".listening-stage", new Element());
+  nodes.set(".test-downloads", new Element());
   const screens = ["listen", "handoff", "result"].map((name) => {
     const element = new Element(); element.dataset.screen = name; element.hidden = name !== "listen"; return element;
   });
@@ -57,6 +58,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     return nodes.get(selector);
   };
   const document = new Element();
+  Object.defineProperty(document, "activeElement", { get: () => focused });
   document.hidden = false;
   document.querySelector = el;
   document.querySelectorAll = (selector) => selector === "[data-screen]" ? screens : selector === ".progress-step" ? steps : [el(selector)];
@@ -93,7 +95,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
   Object.assign(window, {
     AudioContext: unsupported ? undefined : AudioContext,
     scrollTo() {},
-    matchMedia: () => ({ matches: reducedMotion, addEventListener() {} }),
+    matchMedia: () => ({ matches: false, addEventListener() {} }),
     setTimeout: (fn, delay) => { timers.set(++timerId, { fn, at: wallTime + delay }); return timerId; },
     clearTimeout: (id) => timers.delete(id),
     setInterval: (fn) => { intervals.set(++timerId, fn); return timerId; },
@@ -106,7 +108,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     get context() { return context; },
     get focused() { return focused; },
     get screen() { return screens.find((screen) => !screen.hidden).dataset.screen; },
-    async click(selector) { void el(selector).emit("click"); await flush(); },
+    async click(selector, event = {}) { void el(selector).emit("click", event); await flush(); },
     async resolve() { pendingResume = false; resolveResume(); await flush(); },
     async allowAudio() { failResume = false; window.AudioContext = AudioContext; },
     async hide() { document.hidden = true; await document.emit("visibilitychange"); },
@@ -205,7 +207,9 @@ test("natural end requires a response, supports replay and survives backgroundin
   await p.click("[data-not-heard]"); assert.equal(p.screen, "listen");
   p.advance(20);
   assert.equal(p.el("[data-audio-status]").textContent, "Tone finished");
-  assert.equal(p.focused, p.el("[data-not-heard]"));
+  assert.equal(p.focused, p.el("[data-audio-status]"));
+  assert.equal(p.el("[data-heard]").hidden, false);
+  assert.equal(p.el("[data-heard]").disabled, true);
   await p.hide(); await p.show();
   assert.equal(p.el("[data-audio-status]").textContent, "Tone finished");
   await p.click("[data-retry-turn]"); assert.equal(p.voices.length, 2);
@@ -289,26 +293,35 @@ test("opens directly on the first listening turn without starting audio", () => 
 });
 
 
-test("turning off decorative motion leaves the audio clock and response working", async () => {
-  const p = preview(); await start(p); p.advance(2);
-  await p.click("[data-motion-toggle]");
-  assert.equal(p.el("[data-motion-toggle]").getAttribute("aria-pressed"), "false");
-  assert.ok(p.el(".listening-stage").classes.has("motion-paused"));
-  assert.equal(p.el("[data-audio-status]").textContent, "Playing");
-  assert.equal(p.voices[0].disconnected, false);
-  const before = p.el("[data-frequency-readout]").textContent;
-  p.advance(3);
-  assert.notEqual(p.el("[data-frequency-readout]").textContent, before);
-  await heard(p);
+test("blocks repeated Enter on listening answers and permits a fresh press", async () => {
+  const p = preview();
+  for (const selector of ["[data-heard]", "[data-not-heard]"]) {
+    const prevented = [];
+    for (const repeat of [true, false]) {
+      await p.el(selector).emit("keydown", { key: "Enter", repeat, preventDefault: () => prevented.push(repeat) });
+    }
+    assert.deepEqual(prevented, [true]);
+  }
+});
+
+test("a repeat tap from Start does not count as hearing a tone", async () => {
+  const p = preview();
+  const point = { detail: 1, clientX: 160, clientY: 400 };
+  await p.click("[data-start-tone]", { ...point, timeStamp: 100 });
+  await p.click("[data-heard]", { ...point, timeStamp: 180 });
+  assert.equal(p.screen, "listen");
+  await p.click("[data-heard]", { ...point, timeStamp: 450 });
   assert.equal(p.screen, "handoff");
 });
 
-test("reduced motion starts paused and can be explicitly enabled without starting sound", async () => {
-  const p = preview({ reducedMotion: true });
-  assert.ok(p.el(".listening-stage").classes.has("motion-paused"));
-  assert.equal(p.el("[data-motion-toggle]").textContent, "Motion off");
-  await p.click("[data-motion-toggle]");
-  assert.equal(p.el(".listening-stage").classes.has("motion-paused"), false);
-  assert.equal(p.el("[data-motion-toggle]").textContent, "Motion on");
-  assert.equal(p.voices.length, 0);
+test("opening a store interrupts the current tone without recording a response", async () => {
+  const p = preview(); await start(p); p.advance(2); await heard(p);
+  const first = p.el("[data-first-result]").textContent;
+  await next(p);
+  await p.click(".test-downloads", { target: { closest: () => true } });
+  assert.equal(p.el("[data-audio-status]").textContent, "Paused");
+  assert.equal(p.voices[1].disconnected, true);
+  await start(p); p.advance(8); await heard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, first);
+  assert.equal(p.screen, "result");
 });

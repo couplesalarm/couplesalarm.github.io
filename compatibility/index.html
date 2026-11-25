@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#080f20">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Couples Alarm Tone Test: Find a Sound Only One of You Hears">
-  <meta property="og:description" content="A free two-person tone test before you download. Find out whether different alarm tones could work for you.">
+  <meta property="og:description" content="Take a two-person tone test to see whether different alarm tones could work for you.">
   <meta property="og:url" content="https://couplesalarm.com/compatibility/">
   <meta property="og:image" content="https://couplesalarm.com/assets/compatibility-flow-couple.png?v=20260730">
   <meta name="twitter:card" content="summary_large_image">
@@ -16,7 +16,7 @@
   <link rel="icon" href="../assets/app-icon.png" type="image/png">
   <title>Couples Alarm Tone Test: Find a Sound Only One of You Hears</title>
   <link rel="stylesheet" href="../assets/dawn-pages.css?v=20261008-1">
-  <link rel="stylesheet" href="compatibility.css?v=20261008-aurora-1">
+  <link rel="stylesheet" href="compatibility.css?v=20261125-store-links">
   <script defer src="../assets/campaign-links.js?v=20261015-guides-1"></script>
   <script defer src="../assets/analytics.js?v=20261016-retry-1"></script>
 </head>
@@ -36,6 +36,15 @@
       </nav>
     </header>
 
+    <aside class="test-downloads" aria-label="Download Couples Alarm">
+      <a class="test-app-store" href="https://apps.apple.com/us/app/couples-alarm/id6792771975" target="_blank" rel="noopener" aria-label="Download on the App Store (opens in a new tab)">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" width="120" height="40">
+      </a>
+      <a class="test-google-play" href="https://play.google.com/store/apps/details?id=com.couplesalarm.android" target="_blank" rel="noopener" aria-label="Get it on Google Play (opens in a new tab)">
+        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="646" height="250">
+      </a>
+    </aside>
+
     <main id="test-content" tabindex="-1">
       <div class="progress" aria-label="Couples Alarm test progress">
         <span class="progress-step is-current" data-progress="partner-one" aria-current="step"><b>1</b>Partner One</span>
@@ -48,6 +57,7 @@
           <p class="eyebrow"><span data-listening-partner>Partner One</span> · <span data-turn-number>1</span> of 2</p>
           <h1 id="listen-title">Find your <em>tone.</em></h1>
           <p id="listen-instruction" data-listen-instruction>Start, then tap “I hear it.”</p>
+          <p class="preview-limit" id="speaker-instruction"><span data-speaker-title>Device speaker</span> · No headphones · Comfortable volume</p>
         </div>
 
         <div class="listening-stage">
@@ -68,25 +78,21 @@
             <span class="orbit-spark"></span>
           </div>
           <div class="listening-status" aria-live="polite">
-            <strong data-audio-status>Ready</strong>
-
+            <strong data-audio-status tabindex="-1">Ready</strong>
           </div>
           <div class="listening-controls">
             <button class="primary-action listening-action" type="button" data-heard hidden disabled>
               <span class="listening-action-main">I hear it</span>
-
             </button>
-            <button class="primary-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
-            <button class="primary-action listening-action" type="button" data-start-tone aria-describedby="listen-instruction">Start</button>
+            <button class="primary-action listening-action" type="button" data-start-tone aria-describedby="listen-instruction speaker-instruction">Start</button>
             <div class="secondary-controls">
               <button class="text-action" type="button" data-pause-tone hidden disabled>Pause sound</button>
+              <button class="text-action no-tone-action" type="button" data-not-heard hidden disabled>I didn’t hear it</button>
               <button class="text-action" type="button" data-retry-turn hidden>Listen again</button>
-              <button class="text-action motion-toggle" type="button" data-motion-toggle aria-label="Animation" aria-pressed="true">Motion on</button>
             </div>
           </div>
         </div>
 
-        <p class="preview-limit"><span data-speaker-title>Device speaker</span> · No headphones · Comfortable volume</p>
         <p class="hearing-note">Designed for the partner who hears higher pitches.</p>
       </section>
 
@@ -146,7 +152,6 @@
         <p class="result-limit" data-result-limit>This is a starting point. In the app you each take a listening turn on your phone, preview a suggested tone and confirm it with a bedside fit check.</p>
         <div class="result-actions">
           <a class="primary-action" href="../download/" data-result-next>Get Couples Alarm</a>
-          <a class="text-action" href="https://apps.apple.com/us/app/couples-alarm/id6792771975">View Couples Alarm on the App Store</a>
           <button class="text-action" type="button" data-restart>Try again</button>
         </div>
       </section>
@@ -155,6 +160,6 @@
     </main>
   </div>
 
-  <script src="compatibility.js?v=20261116-next-step-1"></script>
+  <script src="compatibility.js?v=20261125-listening-input"></script>
 </body>
 </html>

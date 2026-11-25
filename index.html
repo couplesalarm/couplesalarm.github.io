@@ -16,7 +16,7 @@
   <link rel="icon" href="assets/app-icon.png" type="image/png">
   <title>Couples Alarm — iPhone Alarms for Different Wake-Up Times</title>
   <link rel="stylesheet" href="assets/android-app.css?v=20261006-test-first-4">
-  <link rel="stylesheet" href="landing.css?v=20261125-app-walkthrough">
+  <link rel="stylesheet" href="landing.css?v=20261125-video-dismiss">
   <link rel="preload" as="image" href="assets/dawn-bedroom.webp">
   <script type="application/ld+json">
     {
@@ -94,7 +94,7 @@
         <div class="hero-media">
           <figure class="product-preview">
             <a class="video-open" href="assets/couples-alarm-preview.mp4?v=20261116-720p" aria-label="Play the Couples Alarm video">
-              <video id="product-preview" preload="none" muted playsinline width="720" height="1280" poster="assets/couples-alarm-preview-poster-576.webp?v=20261016" aria-hidden="true"></video>
+              <video id="product-preview" preload="none" muted playsinline loop width="720" height="1280" poster="assets/couples-alarm-preview-poster-576.webp?v=20261016" aria-hidden="true"></video>
               <span class="video-play-icon" aria-hidden="true"><img src="assets/play-fill.svg" alt=""></span>
             </a>
           </figure>
@@ -128,10 +128,10 @@
   <dialog class="video-dialog" aria-labelledby="video-title">
     <div class="video-dialog-header">
       <h2 id="video-title">Couples Alarm video</h2>
-      <button class="video-close" type="button" autofocus>Close</button>
+      <button class="video-close" type="button" aria-label="Close video" autofocus><span aria-hidden="true">×</span></button>
     </div>
     <video id="story-player" controls playsinline preload="none" aria-labelledby="video-title"></video>
   </dialog>
-  <script src="assets/homepage-video.js?v=20261125-hero-actions" defer></script>
+  <script src="assets/homepage-video.js?v=20261125-video-dismiss" defer></script>
 </body>
 </html>

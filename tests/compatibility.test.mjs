@@ -18,7 +18,15 @@ test("opens on the test with concise setup and one explicit Start", () => {
   assert.match(html, /data-screen="listen" aria-labelledby="listen-title">/);
   assert.match(html, /No headphones/);
   assert.match(html, /Comfortable volume/);
-  assert.match(html, /data-start-tone aria-describedby="listen-instruction">Start/);
+  assert.match(html, /id="speaker-instruction"[\s\S]*data-start-tone aria-describedby="listen-instruction speaker-instruction">Start/);
+});
+
+test("keeps direct store links outside the changing test screens and removes the Motion button", () => {
+  const downloads = html.match(/<aside class="test-downloads"[\s\S]*?<\/aside>(?=\s*<main)/)?.[0];
+  assert.ok(downloads);
+  assert.match(downloads, /href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975" target="_blank" rel="noopener"/);
+  assert.match(downloads, /href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android" target="_blank" rel="noopener"/);
+  assert.doesNotMatch(html + script, /data-motion-toggle|Motion (?:on|off)/);
 });
 
 test("keeps one prominent listening response and a separate pause without a start overlay", () => {
