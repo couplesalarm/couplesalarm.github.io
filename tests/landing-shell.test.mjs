@@ -66,6 +66,7 @@ test("provides a native sound-test dialog with a visible close and the standalon
   assert.match(html, /<button class="sound-test-close" type="button" aria-label="Close sound test" autofocus>/);
   assert.match(html, /sound-test-fallback" hidden><a href="compatibility\/">Open the standalone sound test<\/a>/);
   assert.match(html, /<script type="module" src="assets\/homepage-sound-test\.js\?v=/);
+  assert.doesNotMatch(html.match(/<dialog class="sound-test-dialog[\s\S]*?<\/dialog>/)[0], /App Store|Google Play|test-downloads/);
 });
 
 test("backdrop dismissal needs an uninterrupted primary click that starts and ends outside", () => {

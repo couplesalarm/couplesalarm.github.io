@@ -384,6 +384,7 @@ test("opens directly on the first listening turn without starting audio", () => 
   assert.equal(p.voices.length, 0);
   assert.equal(p.el("[data-start-tone]").hidden, false);
   assert.equal(p.el("[data-start-tone]").textContent, "Start");
+  assert.equal(p.el("[data-audio-status]").textContent, "");
   assert.equal(p.el("[data-frequency-readout]").textContent, "17.5");
 });
 
@@ -421,29 +422,33 @@ test("opening a store interrupts the current tone without recording a response",
   assert.equal(p.screen, "result");
 });
 
-test("the embedded controller pauses on dismissal and keeps completed answers in memory", async () => {
+test("the embedded controller stops on dismissal and starts a fresh test on reopening", async () => {
   const p = preview();
-  assert.equal(p.controller.hasProgress(), false);
   await start(p); p.advance(4); await heard(p);
-  assert.equal(p.controller.hasProgress(), true);
   await next(p);
   p.controller.pause();
   assert.equal(p.voices.at(-1).disconnected, true);
-  assert.equal(p.el("[data-listening-partner]").textContent, "Partner Two");
-  assert.equal(p.el("[data-start-tone]").textContent, "Retry this turn");
-  p.controller.focusStep();
+  p.controller.restart();
+  assert.equal(p.el("[data-listening-partner]").textContent, "Partner One");
+  assert.equal(p.el("[data-start-tone]").textContent, "Start");
+  assert.equal(p.el("[data-audio-status]").textContent, "");
+  assert.equal(p.steps[0].getAttribute("aria-current"), "step");
+  assert.equal(p.steps[1].classes.has("is-complete"), false);
   assert.equal(p.voices.length, 2);
-  await start(p); await unheard(p);
+  await start(p); p.advance(7); await heard(p);
+  assert.equal(p.screen, "handoff");
+  await next(p); await unheard(p);
   assert.equal(p.screen, "result");
-  assert.equal(p.el("[data-result-partner-one]").textContent, heardPitch(4));
+  assert.equal(p.el("[data-result-partner-one]").textContent, heardPitch(7));
 });
 
-test("dismissing before the browser starts audio leaves a silent retry", async () => {
+test("dismissing before the browser starts audio leaves a silent fresh start", async () => {
   const p = preview({ pendingResume: true });
   await start(p);
   p.controller.pause();
+  p.controller.restart();
   await p.resolve();
   assert.equal(p.voices.length, 0);
-  assert.equal(p.el("[data-audio-status]").textContent, "Paused");
-  assert.equal(p.controller.hasProgress(), true);
+  assert.equal(p.el("[data-audio-status]").textContent, "");
+  assert.equal(p.el("[data-start-tone]").textContent, "Start");
 });

@@ -263,6 +263,8 @@ body.compatibility-page [data-test-body] { padding: .6rem 0 1rem; }
 .listening-stage.is-sweeping .orbit-spark { animation: orbit-breathe 3s ease-in-out infinite; }
 @keyframes orbit-breathe { 50% { opacity: .4; } }
 .listening-status { display: flex; justify-content: center; align-items: center; gap: .6rem; min-height: 1.4rem; }
+.listening-status:has(> strong:empty) { position: absolute; min-height: 0; }
+.listening-status strong:empty { display: none; }
 .listening-status strong { font-size: .8rem; font-weight: 600; }
 .listening-status span { font-size: .73rem; }
 .listening-status span:empty { display: none; }

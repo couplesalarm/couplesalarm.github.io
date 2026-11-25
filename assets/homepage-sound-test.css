@@ -12,14 +12,14 @@ body:has(.sound-test-dialog[open]) { overflow: hidden; }
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 1.65rem;
-  background: linear-gradient(145deg, rgb(24 33 62 / 94%), rgb(10 19 36 / 96%));
+  background: linear-gradient(145deg, rgb(24 33 62 / 85%), rgb(10 19 36 / 89%));
   color: var(--ink);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(16px);
   box-shadow: 0 1.25rem 5rem rgb(0 0 0 / 48%), inset 0 1px rgb(228 217 255 / 15%);
 }
 .sound-test-dialog[open] {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr);
 }
 .sound-test-dialog:not([open]) { display: none; }
 .sound-test-dialog::backdrop { background: rgb(4 9 19 / 46%); }
@@ -43,7 +43,7 @@ body:has(.sound-test-dialog[open]) { overflow: hidden; }
 
 .sound-test-scroll {
   min-height: 0;
-  padding: .25rem clamp(.9rem, 4vw, 1.6rem) .5rem;
+  padding: .25rem clamp(.9rem, 4vw, 1.6rem) max(.8rem, env(safe-area-inset-bottom));
   overflow: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -73,18 +73,11 @@ body:has(.sound-test-dialog[open]) { overflow: hidden; }
   color: #14172f;
   border: 1px solid rgb(255 255 255 / 25%);
 }
-.sound-test-dialog .sound-test-stores {
-  padding: .3rem .9rem max(.55rem, env(safe-area-inset-bottom));
-  border-top: 1px solid rgb(194 182 250 / 13%);
-}
-.sound-test-stores .test-app-store img { height: 32px; }
-.sound-test-stores .test-google-play img { height: 48px; }
-
 @media (max-width: 42rem) {
   .sound-test-dialog {
     width: 100%;
     max-width: none;
-    min-height: min(42rem, calc(100dvh - .8rem));
+    min-height: min(37rem, calc(100dvh - .8rem));
     max-height: calc(100dvh - .8rem);
     margin: auto 0 0;
     border-radius: 1.55rem 1.55rem 0 0;

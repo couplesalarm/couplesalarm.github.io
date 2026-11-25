@@ -180,7 +180,7 @@ h1 span { color: var(--signal); }
 }
 .hero-media::after { inset: 17% 6%; border-color: rgb(255 193 154 / 14%); }
 .product-preview {
-  width: min(100%, 30svh, 23rem);
+  width: min(100%, 35svh, 26rem);
   margin: 0 0 0 auto;
 }
 .video-open {
@@ -310,7 +310,12 @@ h1 span { color: var(--signal); }
   .android-app-link { width: 9.6rem; min-height: 3rem; padding: 0.35rem 0.6rem; }
   .android-badge-copy strong { font-size: 1.2rem; }
   .android-app-link img { width: 2rem; }
-  .hero-media { width: min(calc(100% - 1rem), 30rem); margin-inline: auto; gap: 1.2rem; }
+  .hero-media {
+    width: min(100%, 32rem);
+    margin-inline: auto;
+    gap: .9rem;
+    grid-template-columns: minmax(0, 1.32fr) minmax(0, .68fr);
+  }
   .product-preview, .app-showcase { width: 100%; }
   .video-open { border-radius: 1.05rem; }
   .showcase-phone { border-radius: 1.3rem; padding: 0.2rem; }
