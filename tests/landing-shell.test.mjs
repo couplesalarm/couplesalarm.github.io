@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { dismissOnBackdrop } from "../assets/dialog-backdrop.js";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../landing.css", import.meta.url), "utf8");
@@ -65,6 +66,28 @@ test("provides a native sound-test dialog with a visible close and the standalon
   assert.match(html, /<button class="sound-test-close" type="button" aria-label="Close sound test" autofocus>/);
   assert.match(html, /sound-test-fallback" hidden><a href="compatibility\/">Open the standalone sound test<\/a>/);
   assert.match(html, /<script type="module" src="assets\/homepage-sound-test\.js\?v=/);
+});
+
+test("backdrop dismissal needs an uninterrupted primary click that starts and ends outside", () => {
+  const dialog = new EventTarget();
+  dialog.open = true;
+  dialog.getBoundingClientRect = () => ({ left: 10, right: 90, top: 10, bottom: 90 });
+  let dismissals = 0;
+  dismissOnBackdrop(dialog, () => { dismissals++; });
+  const send = (type, clientX) => {
+    dialog.dispatchEvent(Object.assign(new Event(type), { clientX, clientY: 50, button: 0, isPrimary: true }));
+  };
+  send("pointerdown", 50);
+  send("click", 5);
+  send("pointerdown", 5);
+  send("click", 50);
+  send("pointerdown", 5);
+  send("pointercancel", 5);
+  send("click", 5);
+  assert.equal(dismissals, 0);
+  send("pointerdown", 5);
+  send("click", 5);
+  assert.equal(dismissals, 1);
 });
 
 test("sound test button has a visible boundary and animated waveform", () => {
