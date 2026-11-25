@@ -172,6 +172,7 @@ h1 span { color: var(--signal); }
 .product-preview {
   position: relative;
   width: min(100%, 30svh, 23rem);
+  padding-bottom: 3.25rem;
   margin: 0 0 0 auto;
 }
 .video-open {
@@ -220,7 +221,7 @@ h1 span { color: var(--signal); }
   cursor: pointer;
 }
 .preview-toggle:hover, .video-close:hover { border-color: #fff; }
-.preview-toggle { position: absolute; top: 0.65rem; right: 0.65rem; }
+.preview-toggle { position: absolute; right: 0; bottom: 0; }
 .video-dialog {
   width: min(26rem, calc(100% - 1.5rem));
   max-height: calc(100dvh - 1.5rem);
