@@ -4,6 +4,7 @@ import test from "node:test";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 const css = await readFile(new URL("../landing.css", import.meta.url), "utf8");
+const videoScript = await readFile(new URL("../assets/homepage-video.js", import.meta.url), "utf8");
 const ruleBody = (selector) => {
   const at = css.indexOf(`\n${selector} {`);
   assert.notEqual(at, -1, `expected a ${selector} rule`);
@@ -34,47 +35,39 @@ test("keeps descriptive product copy with direct app download actions", () => {
   assert.match(footer, /class="social-nav"/);
   assert.doesNotMatch(footer, /Partner with us|How it works|pricing|Google Play|Free setup/);
   assert.match(html, /Partner with us<\/a>\s*<a href="how-it-works\/">How it works<\/a>/);
-  assert.match(html, /<h2 id="tone-test-title">Will it work for both of you\?<\/h2>/);
-  assert.match(html, /Try the free two-minute sound test\./);
-  assert.match(html, /class="tone-test-primary" href="compatibility\/">[\s\S]*?<span>Hear it for yourself<\/span>/);
-  assert.doesNotMatch(html, /class="tone-test-art"/);
-  assert.match(css, /\.tone-test-content p \{ max-width: 62ch;/);
   assert.match(html, /<a class="app-store-link" href="https:\/\/apps\.apple\.com\/us\/app\/couples-alarm\/id6792771975">[\s\S]*alt="Download on the App Store"/);
   assert.doesNotMatch(html, /morning-steps|aria-label="How Couples Alarm works"/);
 });
 
-test("permits accessible reflow and keeps preview and player controls separate", () => {
+test("permits responsive reflow and keeps controls in the video player", () => {
   assert.match(ruleBody("body"), /overflow-y:\s*auto/);
   assert.doesNotMatch(ruleBody("html"), /overflow:\s*hidden/);
   assert.match(ruleBody(".site-shell"), /min-height:\s*100svh/);
   assert.match(css, /button:focus-visible/);
   assert.match(css, /\.site-header nav a \{[\s\S]*min-height: 44px/);
   assert.match(html, /<a class="video-open" href="assets\/couples-alarm-preview\.mp4[^"]*"[^>]*>\s*<video id="product-preview" preload="none" muted playsinline/);
-  assert.match(html, /<\/a>\s*<button class="preview-toggle" type="button" aria-controls="product-preview" hidden>Pause preview<\/button>/);
   assert.match(html, /<dialog class="video-dialog" aria-labelledby="video-title">[\s\S]*<button class="video-close" type="button" autofocus>/);
   assert.match(html, /<video id="story-player" controls playsinline preload="none" aria-labelledby="video-title"><\/video>/);
   assert.doesNotMatch(html, /<video[^>]*\bautoplay\b/);
   assert.match(ruleBody(".product-preview video"), /height:\s*auto/);
   assert.match(ruleBody(".product-preview video"), /object-fit:\s*contain/);
   assert.doesNotMatch(ruleBody(".product-preview video"), /max-height/);
-  assert.match(css, /@media \(hover: hover\) and \(pointer: fine\) and \(prefers-reduced-motion: no-preference\)/);
-  assert.doesNotMatch(html, /motion-toggle|Pause background motion/);
-  assert.doesNotMatch(css, /dawn-drift/);
+  assert.match(css, /@media \(hover: hover\) and \(pointer: fine\) \{\s*\.video-open \{[^}]*\}\s*\.video-open:hover \{ transform: translateY\(-3px\)/);
 });
 
- test("proof card is compact with a single focused action", () => {
-  assert.match(ruleBody(".tone-test-card"), /background: none/);
-  assert.match(ruleBody(".tone-test-card"), /border: 0/);
-  assert.ok(html.indexOf('class="tone-test-card"') < html.indexOf('class="hero-media"'));
-  assert.doesNotMatch(html, /See how it works/);
+test("puts the sound test directly before the store badges", () => {
+  assert.match(html, /class="hero-lede"[^>]*>[^<]*<\/p>\s*<div class="hero-actions">\s*<a class="tone-test-primary" href="compatibility\/">\s*<img class="tone-test-wave"[^>]*alt="" aria-hidden="true">\s*<span>Try the sound test<\/span>\s*<\/a>\s*<div class="app-badges">/);
+  assert.doesNotMatch(html, /About 2 minutes|free two-minute sound test|Hear it for yourself/i);
 });
 
-test("soundwave CTA keeps accessible name, contrast and reduced-motion defaults", () => {
-  assert.match(html, /class="tone-test-wave"[^>]*alt="" aria-hidden="true"/);
-  assert.match(css, /background: #a4e8f0; color: #080f20/);
-  assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*\.tone-test-wave \{ animation: tone-wave-breathe 2.4s ease-in-out infinite;/);
+test("sound test button has a visible boundary and animated waveform", () => {
+  assert.match(ruleBody(".tone-test-primary"), /min-height: 54px/);
+  assert.match(ruleBody(".tone-test-primary"), /border: 1px solid/);
+  assert.match(ruleBody(".tone-test-wave"), /animation: tone-wave-breathe 2.4s ease-in-out infinite/);
   assert.match(css, /tone-test-primary:focus-visible \{ outline: 3px/);
 });
 
-
-test("tone invitation has no unwanted motion control", () => { assert.doesNotMatch(html, /wave-toggle|Pause animation|Resume animation/); assert.doesNotMatch(css, /wave-toggle/); });
+test("homepage media has no separate motion controls or gating", () => {
+  const source = [html, css, videoScript].join("\n");
+  assert.doesNotMatch(source, /preview-toggle|Pause preview|Resume preview|wave-toggle|prefers-reduced-motion/);
+});

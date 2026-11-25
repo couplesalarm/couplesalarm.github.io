@@ -19,7 +19,6 @@ function applicationLink(html, label) {
 }
 
 test("restores both store badges while keeping the footer free of trademark text", () => {
-  assert.match(home, /<div class="hero-actions">\s*<div class="app-badges">/);
   assert.match(home, /<div class="app-badges">[\s\S]*?<a class="app-store-link"[\s\S]*?<a class="google-play-link" href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.couplesalarm\.android">/);
   assert.doesNotMatch(home, /Google Play and the Google Play logo/);
   assert.match(home, /<img[^>]+en_badge_web_generic.png" alt="Get it on Google Play"/);
