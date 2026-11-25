@@ -154,7 +154,7 @@ h1 span { color: var(--signal); }
 .hero-media {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  grid-template-columns: minmax(0, 1.23fr) minmax(0, 0.77fr);
   align-items: center;
   gap: clamp(1.2rem, 2.5vw, 2.6rem);
   isolation: isolate;
@@ -171,8 +171,17 @@ h1 span { color: var(--signal); }
 .hero-media::after { inset: 17% 6%; border-color: rgb(255 193 154 / 14%); }
 .product-preview {
   position: relative;
-  width: min(100%, 27svh, 22rem);
+  width: min(100%, 30svh, 23rem);
+  padding-bottom: 3.25rem;
   margin: 0 0 0 auto;
+}
+.video-open {
+  position: relative;
+  display: block;
+  border: 1px solid #777886;
+  border-radius: 1.55rem;
+  background: #05070c;
+  box-shadow: 0 1.8rem 3.5rem rgb(0 0 0 / 38%), 0 0 0 0.25rem rgb(255 255 255 / 4%);
 }
 .product-preview video {
   display: block;
@@ -180,33 +189,70 @@ h1 span { color: var(--signal); }
   height: auto;
   aspect-ratio: 9 / 16;
   object-fit: contain;
-  border: 1px solid #777886;
-  border-radius: 1.55rem;
-  background: #05070c;
-  box-shadow: 0 1.8rem 3.5rem rgb(0 0 0 / 38%), 0 0 0 0.25rem rgb(255 255 255 / 4%);
-  cursor: pointer;
+  border-radius: inherit;
+  pointer-events: none;
 }
-.product-preview video:fullscreen,
-.product-preview video:-webkit-full-screen { object-fit: contain; border: 0; border-radius: 0; }
-.video-play-button {
+.video-play-icon {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 50% auto auto 50%;
   display: grid;
   place-items: center;
-  width: 4.5rem;
+  width: 4.1rem;
   aspect-ratio: 1;
-  padding: 0;
   border: 1px solid rgb(244 241 233 / 80%);
   border-radius: 50%;
-  background: rgb(3 8 12 / 82%);
+  background: rgb(3 8 12 / 78%);
   box-shadow: 0 0.8rem 2rem rgb(0 0 0 / 35%);
-  cursor: pointer;
   transform: translate(-50%, -50%);
 }
-.video-play-button:hover { background: #11182a; border-color: #fff; }
-.video-play-button[hidden] { display: none; }
-.video-play-button img { width: 1.9rem; height: 1.9rem; margin-left: 0.18rem; }
+.video-open:hover .video-play-icon, .video-open:focus-visible .video-play-icon {
+  background: #11182a;
+  border-color: #fff;
+}
+.video-play-icon img { width: 1.9rem; height: 1.9rem; margin-left: 0.18rem; }
+.preview-toggle, .video-close {
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgb(244 241 233 / 55%);
+  border-radius: 0.65rem;
+  background: rgb(3 8 12 / 90%);
+  color: var(--ink);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.preview-toggle:hover, .video-close:hover { border-color: #fff; }
+.preview-toggle { position: absolute; right: 0; bottom: 0; }
+.video-dialog {
+  width: min(26rem, calc(100% - 1.5rem));
+  max-height: calc(100dvh - 1.5rem);
+  padding: 0.75rem;
+  border: 1px solid #777886;
+  border-radius: 1.1rem;
+  background: var(--night);
+  color: var(--ink);
+}
+.video-dialog:not([open]) { display: none; }
+.video-dialog::backdrop { background: rgb(3 8 16 / 84%); }
+.video-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+.video-dialog-header h2 { margin: 0; font-size: 1rem; }
+.video-dialog video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: calc(100dvh - 7rem);
+  object-fit: contain;
+  background: #05070c;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .video-open { transition: transform 220ms ease-out; }
+  .video-open:hover { transform: translateY(-3px); }
+}
 .app-showcase { width: min(100%, 22svh, 17rem); margin: 0; }
 .showcase-phone {
   padding: 0.3rem;
@@ -255,11 +301,11 @@ h1 span { color: var(--signal); }
   .android-app-link img { width: 2rem; }
   .hero-media { width: min(calc(100% - 1rem), 30rem); margin-inline: auto; gap: 1.2rem; }
   .product-preview, .app-showcase { width: 100%; }
-  .product-preview video { border-radius: 1.05rem; }
+  .video-open { border-radius: 1.05rem; }
   .showcase-phone { border-radius: 1.3rem; padding: 0.2rem; }
   .showcase-phone img { border-radius: 1.1rem; }
-  .video-play-button { width: 3.6rem; }
-  .video-play-button img { width: 1.5rem; height: 1.5rem; }
+  .video-play-icon { width: 3.6rem; }
+  .video-play-icon img { width: 1.5rem; height: 1.5rem; }
   .page-bottom { padding-block: 1.7rem 1rem; }
   .dawn-scene { background-position: center, center, 65% center; }
 }
