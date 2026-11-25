@@ -265,6 +265,9 @@ h1 span { color: var(--signal); }
   .video-open:hover { transform: translateY(-3px); }
 }
 .app-showcase { width: min(100%, 22svh, 17rem); margin: 0; }
+@media (min-width: 1360px) and (min-aspect-ratio: 3/2) {
+  .app-showcase { width: min(100%, 24svh, 17rem); }
+}
 .showcase-phone {
   padding: 0.3rem;
   border: 1px solid #566072;
