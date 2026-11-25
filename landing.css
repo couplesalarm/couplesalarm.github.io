@@ -269,7 +269,7 @@ h1 span { color: var(--signal); }
   box-shadow: 0 2rem 3rem rgb(0 0 0 / 45%), 0 0 0 0.2rem rgb(255 255 255 / 3%);
   transform: rotate(5deg);
 }
-.showcase-phone img { display: block; width: 100%; height: auto; border-radius: 1.7rem; }
+.showcase-phone video { display: block; width: 100%; height: auto; border-radius: 1.7rem; }
 
 .page-bottom { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; border-top: 1px solid var(--line); padding-block: clamp(0.5rem, 1.8svh, 1.35rem); }
 .footer-links { display: flex; flex-wrap: wrap; max-width: 100%; align-items: center; gap: 0.65rem; }
@@ -310,7 +310,7 @@ h1 span { color: var(--signal); }
   .product-preview, .app-showcase { width: 100%; }
   .video-open { border-radius: 1.05rem; }
   .showcase-phone { border-radius: 1.3rem; padding: 0.2rem; }
-  .showcase-phone img { border-radius: 1.1rem; }
+  .showcase-phone video { border-radius: 1.1rem; }
   .video-play-icon { width: 3.6rem; }
   .video-play-icon img { width: 1.5rem; height: 1.5rem; }
   .page-bottom { padding-block: 1.7rem 1rem; }
