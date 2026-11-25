@@ -28,6 +28,7 @@
   let currentScreen = "listen";
   let sweepTimer;
   let readoutTimer;
+  let startPointer;
 
   // Mirrors the app's live "Current frequency" readout during a listening
   // trial. A slow interval is enough for a number and keeps the script free of
@@ -247,8 +248,11 @@
     setReadout(startFrequency);
   };
 
-  const startTone = async () => {
+  const startTone = async (event) => {
     if (currentScreen !== "listen" || ["starting", "playing"].includes(phase)) return;
+    startPointer = event.detail > 0
+      ? { x: event.clientX, y: event.clientY, time: event.timeStamp }
+      : undefined;
     stopTone();
     const run = toneRun;
     errorMessage.hidden = true;
@@ -446,6 +450,13 @@
   document.querySelector("[data-start-tone]").addEventListener("click", startTone);
   document.querySelector("[data-retry-turn]").addEventListener("click", startTone);
   document.querySelector("[data-pause-tone]").addEventListener("click", () => pauseTurn());
+  const downloads = document.querySelector(".test-downloads");
+  downloads.addEventListener("click", event => {
+    if (event.target.closest("a")) pauseTurn(false);
+  });
+  downloads.addEventListener("auxclick", event => {
+    if (event.button === 1 && event.target.closest("a")) pauseTurn(false);
+  });
 
   for (const selector of ["[data-heard]", "[data-not-heard]"]) {
     document.querySelector(selector).addEventListener("keydown", event => {
@@ -455,7 +466,9 @@
   }
 
   document.querySelector("[data-heard]").addEventListener("click", event => {
-    if (event.detail > 1) return;
+    // Touch browsers can report the second tap as a new click when Start becomes the answer.
+    if (event.detail > 0 && startPointer && event.timeStamp - startPointer.time < 300 &&
+        Math.hypot(event.clientX - startPointer.x, event.clientY - startPointer.y) < 24) return;
     if (currentScreen !== "listen" || !sweepPlaying || audioContext.state !== "running") return;
     const progress = ((audioContext.currentTime - sweepStartedAt) * 1000) / sweepDuration;
     if (progress > 1) {
@@ -471,12 +484,12 @@
     finishTurn(null);
   });
 
-  document.querySelector("[data-next-turn]").addEventListener("click", () => {
+  document.querySelector("[data-next-turn]").addEventListener("click", event => {
     if (currentScreen !== "handoff") return;
     turn = 1;
     prepareTurn();
     showScreen("listen");
-    startTone();
+    startTone(event);
   });
 
   document.querySelector("[data-restart]").addEventListener("click", () => {

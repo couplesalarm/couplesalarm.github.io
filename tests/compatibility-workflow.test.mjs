@@ -48,6 +48,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     nodes.set(`[${match[1]}]`, new Element());
   }
   nodes.set(".listening-stage", new Element());
+  nodes.set(".test-downloads", new Element());
   const screens = ["listen", "handoff", "result"].map((name) => {
     const element = new Element(); element.dataset.screen = name; element.hidden = name !== "listen"; return element;
   });
@@ -107,7 +108,7 @@ function preview({ pendingResume = false, failResume = false, unsupported = fals
     get context() { return context; },
     get focused() { return focused; },
     get screen() { return screens.find((screen) => !screen.hidden).dataset.screen; },
-    async click(selector, detail = 1) { void el(selector).emit("click", { detail }); await flush(); },
+    async click(selector, event = {}) { void el(selector).emit("click", event); await flush(); },
     async resolve() { pendingResume = false; resolveResume(); await flush(); },
     async allowAudio() { failResume = false; window.AudioContext = AudioContext; },
     async hide() { document.hidden = true; await document.emit("visibilitychange"); },
@@ -304,9 +305,23 @@ test("blocks repeated Enter on listening answers and permits a fresh press", asy
 });
 
 test("a repeat tap from Start does not count as hearing a tone", async () => {
-  const p = preview(); await start(p);
-  await p.click("[data-heard]", 2);
+  const p = preview();
+  const point = { detail: 1, clientX: 160, clientY: 400 };
+  await p.click("[data-start-tone]", { ...point, timeStamp: 100 });
+  await p.click("[data-heard]", { ...point, timeStamp: 180 });
   assert.equal(p.screen, "listen");
-  await heard(p);
+  await p.click("[data-heard]", { ...point, timeStamp: 450 });
   assert.equal(p.screen, "handoff");
+});
+
+test("opening a store interrupts the current tone without recording a response", async () => {
+  const p = preview(); await start(p); p.advance(2); await heard(p);
+  const first = p.el("[data-first-result]").textContent;
+  await next(p);
+  await p.click(".test-downloads", { target: { closest: () => true } });
+  assert.equal(p.el("[data-audio-status]").textContent, "Paused");
+  assert.equal(p.voices[1].disconnected, true);
+  await start(p); p.advance(8); await heard(p);
+  assert.equal(p.el("[data-result-partner-one]").textContent, first);
+  assert.equal(p.screen, "result");
 });
