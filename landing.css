@@ -164,7 +164,7 @@ h1 span { color: var(--signal); }
 .hero-media {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.23fr) minmax(0, 0.77fr);
+  grid-template-columns: minmax(0, 1.36fr) minmax(0, .64fr);
   align-items: center;
   gap: clamp(1.2rem, 2.5vw, 2.6rem);
   isolation: isolate;
@@ -180,7 +180,7 @@ h1 span { color: var(--signal); }
 }
 .hero-media::after { inset: 17% 6%; border-color: rgb(255 193 154 / 14%); }
 .product-preview {
-  width: min(100%, 35svh, 26rem);
+  width: min(100%, 42svh, 30rem);
   margin: 0 0 0 auto;
 }
 .video-open {
@@ -287,7 +287,7 @@ h1 span { color: var(--signal); }
 
 @media (max-width: 1100px) {
   .site-shell { width: calc(100% - 4rem); }
-  .hero { gap: 2rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hero { gap: 2rem; grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr); }
   .hero-media { gap: 1.1rem; }
   .page-bottom { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
 }
@@ -311,10 +311,10 @@ h1 span { color: var(--signal); }
   .android-badge-copy strong { font-size: 1.2rem; }
   .android-app-link img { width: 2rem; }
   .hero-media {
-    width: min(100%, 32rem);
+    width: min(100%, 36rem);
     margin-inline: auto;
-    gap: .9rem;
-    grid-template-columns: minmax(0, 1.32fr) minmax(0, .68fr);
+    gap: .75rem;
+    grid-template-columns: minmax(0, 1.46fr) minmax(0, .54fr);
   }
   .product-preview, .app-showcase { width: 100%; }
   .video-open { border-radius: 1.05rem; }
